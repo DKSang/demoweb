@@ -479,7 +479,7 @@ export default function AISpeakingLab() {
   }, [chatHistory, isLlamaLoading]);
 
   const getSystemPrompt = (week: number) => {
-    const vocabList = selectedLesson.vocab.map(v => v.word).join(", ");
+    const vocabList = selectedLesson?.vocab?.map(v => v.word).join(", ") || "";
     
     const baseRules = `You are a patient, friendly local British English Coach. We are using the 30-day spoken English method.
     The learner is at A2/B1 level. Use simple vocabulary. Always keep your conversational responses short (maximum 2 sentences).
@@ -513,7 +513,7 @@ export default function AISpeakingLab() {
     setChatHistory([]);
     setIsLlamaLoading(true);
 
-    const welcomeMsg = `Hello! Welcome to Week ${currentWeek} of your English Coach. Let's practice speaking. I will ask you simple questions. Try to use today's words like: ${selectedLesson.vocab.map(v => v.word).slice(0, 3).join(", ")}. Ready?`;
+    const welcomeMsg = `Hello! Welcome to Week ${currentWeek} of your English Coach. Let's practice speaking. I will ask you simple questions. Try to use today's words like: ${selectedLesson?.vocab?.map(v => v.word).slice(0, 3).join(", ") || "useful idioms"}. Ready?`;
     
     const initialMessage: ChatMessage = {
       id: `bot-${Date.now()}`,
@@ -850,7 +850,7 @@ export default function AISpeakingLab() {
                   
                   <div className="min-h-[60px] flex items-center justify-center">
                     <p className="text-sm font-medium leading-relaxed italic text-white">
-                      "{selectedLesson.lines[currentLineIndex]?.text}"
+                      "{selectedLesson?.lines?.[currentLineIndex]?.text || "No active line selected."}"
                     </p>
                   </div>
 
@@ -904,11 +904,11 @@ export default function AISpeakingLab() {
                 <div className="rounded-[2rem] liquid-glass p-6 flex flex-col gap-4">
                   <div className="flex justify-between items-center">
                     <span className="text-[10px] font-mono tracking-widest text-white/40 uppercase">Lesson Vocabulary</span>
-                    <span className="text-[10px] text-white/30">{selectedLesson.vocab.length} items</span>
+                    <span className="text-[10px] text-white/30">{selectedLesson?.vocab?.length || 0} items</span>
                   </div>
 
                   <div className="flex flex-col gap-3.5 max-h-[400px] overflow-y-auto pr-1">
-                    {selectedLesson.vocab.map((item, idx) => (
+                    {(selectedLesson?.vocab || []).map((item, idx) => (
                       <div key={idx} className="p-3.5 rounded-2xl bg-black/40 border border-white/5 flex flex-col gap-1.5 relative group">
                         <div className="flex justify-between items-center">
                           <span className="text-xs font-semibold text-white">{item.word}</span>
