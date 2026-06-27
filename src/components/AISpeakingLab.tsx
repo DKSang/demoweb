@@ -138,11 +138,17 @@ export default function AISpeakingLab() {
 
   // Load local state
   useEffect(() => {
-    const vocab = localStorage.getItem("bloom_vocab");
-    if (vocab) setSavedVocab(JSON.parse(vocab));
+    // Fetch vocabulary from backend
+    fetch("/api/vocabulary")
+      .then(res => res.json())
+      .then(data => setSavedVocab(data))
+      .catch(err => console.error("Failed to fetch vocabulary:", err));
 
-    const streak = localStorage.getItem("bloom_streak");
-    if (streak) setStreakDays(JSON.parse(streak));
+    // Fetch streaks from backend
+    fetch("/api/streaks")
+      .then(res => res.json())
+      .then(data => setStreakDays(data))
+      .catch(err => console.error("Failed to fetch streaks:", err));
 
     // Initialize TTS voices
     const loadVoices = () => {
@@ -181,18 +187,18 @@ export default function AISpeakingLab() {
     }
   }, []);
 
-  // Update localStorage helper
-  const saveVocabToStorage = (newVocab: SavedWord[]) => {
-    setSavedVocab(newVocab);
-    localStorage.setItem("bloom_vocab", JSON.stringify(newVocab));
-  };
-
-  const markDayPracticed = () => {
-    const todayStr = new Date().toISOString().split("T")[0];
-    if (!streakDays.includes(todayStr)) {
-      const newStreak = [...streakDays, todayStr];
-      setStreakDays(newStreak);
-      localStorage.setItem("bloom_streak", JSON.stringify(newStreak));
+  // Update backend stats triggers
+  const markDayPracticed = async () => {
+    try {
+      const res = await fetch("/api/streaks", {
+        method: "POST"
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setStreakDays(data);
+      }
+    } catch (err) {
+      console.error("Failed to log streak:", err);
     }
   };
 
@@ -319,14 +325,42 @@ export default function AISpeakingLab() {
     }
   }, [recognitionText]);
 
-  // Save word to local notebook
-  const handleSaveWord = (wordObj: VocabWord) => {
+  // Save word to backend database
+  const handleSaveWord = async (wordObj: VocabWord) => {
     if (savedVocab.some(w => w.word.toLowerCase() === wordObj.word.toLowerCase())) return;
-    const newWord: SavedWord = {
+    const newWord = {
       ...wordObj,
       dateSaved: new Date().toLocaleDateString()
     };
-    saveVocabToStorage([...savedVocab, newWord]);
+
+    try {
+      const res = await fetch("/api/vocabulary", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newWord)
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setSavedVocab(data);
+      }
+    } catch (err) {
+      console.error("Failed to save vocab word:", err);
+    }
+  };
+
+  // Delete word from backend database
+  const handleDeleteWord = async (word: string) => {
+    try {
+      const res = await fetch(`/api/vocabulary/${encodeURIComponent(word)}`, {
+        method: "DELETE"
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setSavedVocab(data);
+      }
+    } catch (err) {
+      console.error("Failed to delete word:", err);
+    }
   };
 
   // Import custom YT transcripts parser
@@ -503,7 +537,7 @@ export default function AISpeakingLab() {
         ...updatedHistory.map(h => ({ role: h.role, content: h.content }))
       ];
 
-      const response = await fetch("/api/ollama/api/chat", {
+      const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -1030,10 +1064,7 @@ export default function AISpeakingLab() {
                         </div>
                         
                         <button
-                          onClick={() => {
-                            const newVocab = savedVocab.filter((_, i) => i !== idx);
-                            saveVocabToStorage(newVocab);
-                          }}
+                          onClick={() => handleDeleteWord(item.word)}
                           className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/15 flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 cursor-pointer shrink-0"
                           title="Delete word"
                         >

@@ -18,10 +18,9 @@ export default defineConfig(() => {
       // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
       proxy: {
-        '/api/ollama': {
-          target: 'http://127.0.0.1:11434',
+        '/api': {
+          target: 'http://127.0.0.1:3001',
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api\/ollama/, ''),
         },
       },
     },
