@@ -34,6 +34,69 @@ interface ShadowLine {
   text: string;
 }
 
+const StreakSprout = ({ streak }: { streak: number }) => {
+  // 0: seed, 1-2: sprout, 3-4: plant, 5+: flower
+  const stage = streak === 0 ? "seed" : streak <= 2 ? "sprout" : streak <= 4 ? "plant" : "flower";
+  
+  return (
+    <div className="flex flex-col items-center gap-3 py-4">
+      <svg width="100" height="120" viewBox="0 0 120 150" className="text-white fill-none stroke-white" strokeWidth="2.5" strokeLinecap="round">
+        {/* Pot */}
+        <path d="M 40 120 L 80 120 L 85 145 L 35 145 Z" className="stroke-white/30 fill-white/5" />
+        <line x1="30" y1="120" x2="90" y2="120" className="stroke-white/30" />
+        
+        {/* Seed Stage */}
+        {stage === "seed" && (
+          <circle cx="60" cy="112" r="4.5" className="fill-white/30 stroke-none animate-pulse" />
+        )}
+        
+        {/* Sprout Stage */}
+        {(stage === "sprout" || stage === "plant" || stage === "flower") && (
+          <>
+            {/* Stem */}
+            <path d="M 60 120 Q 60 90 55 75" className="stroke-white/70" strokeWidth="3" />
+            {/* First pair of leaves */}
+            <path d="M 58 100 Q 40 95 45 85 Q 55 90 58 100" className="fill-white/10 stroke-white/60" />
+            <path d="M 59 95 Q 75 90 70 80 Q 62 85 59 95" className="fill-white/10 stroke-white/60" />
+          </>
+        )}
+
+        {/* Plant Stage */}
+        {(stage === "plant" || stage === "flower") && (
+          <>
+            {/* Upper stem */}
+            <path d="M 55 75 Q 50 50 60 35" className="stroke-white/90" />
+            {/* Second pair of leaves */}
+            <path d="M 53 70 Q 35 60 42 50 Q 50 60 53 70" className="fill-white/20 stroke-white/80" />
+            <path d="M 54 62 Q 70 52 68 42 Q 58 50 54 62" className="fill-white/20 stroke-white/80" />
+          </>
+        )}
+
+        {/* Flower Stage */}
+        {stage === "flower" && (
+          <>
+            {/* Flower head */}
+            <circle cx="60" cy="35" r="8" className="fill-white/10 stroke-white animate-pulse" />
+            {/* Petals */}
+            <path d="M 60 27 Q 60 15 65 25 Z" className="fill-white/20 stroke-white/90" />
+            <path d="M 60 43 Q 60 55 55 45 Z" className="fill-white/20 stroke-white/90" />
+            <path d="M 68 35 Q 80 35 70 40 Z" className="fill-white/20 stroke-white/90" />
+            <path d="M 52 35 Q 40 35 50 30 Z" className="fill-white/20 stroke-white/90" />
+          </>
+        )}
+      </svg>
+      <div className="text-center">
+        <span className="text-[9px] font-mono uppercase tracking-widest text-white/40 block">Botanical Growth Stage</span>
+        <span className="text-xs font-semibold text-white mt-0.5 block">
+          {stage === "seed" ? "Dormant Seed" :
+           stage === "sprout" ? "Fresh Sprout" :
+           stage === "plant" ? "Growing Leafy Stem" : "Blossoming Bloom!"}
+        </span>
+      </div>
+    </div>
+  );
+};
+
 interface Lesson {
   id: string;
   title: string;
@@ -129,6 +192,52 @@ export default function AISpeakingLab() {
   const [streakDays, setStreakDays] = useState<string[]>([]);
   const [lessonsList, setLessonsList] = useState<Lesson[]>([]);
   const [isInitializingLesson, setIsInitializingLesson] = useState(false);
+
+  // Notebook/Review Game states
+  const [vocabViewMode, setVocabViewMode] = useState<"list" | "review">("list");
+  const [reviewIndex, setReviewIndex] = useState(0);
+  const [isCardFlipped, setIsCardFlipped] = useState(false);
+  const [reviewScores, setReviewScores] = useState({ correct: 0, total: 0 });
+
+  const getConsecutiveStreak = (days: string[]): number => {
+    if (days.length === 0) return 0;
+    
+    // Sort descending by day timestamp
+    const sorted = [...days]
+      .map(d => {
+        const date = new Date(d);
+        date.setHours(0, 0, 0, 0);
+        return date.getTime();
+      })
+      .sort((a, b) => b - a);
+      
+    const oneDayMs = 24 * 60 * 60 * 1000;
+    let today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const todayMs = today.getTime();
+    
+    let latestPracticed = sorted[0];
+    if (latestPracticed < todayMs - oneDayMs) {
+      return 0; // Streak broken
+    }
+    
+    let expected = latestPracticed;
+    let streak = 0;
+    
+    for (let i = 0; i < sorted.length; i++) {
+      if (i > 0 && sorted[i] === sorted[i - 1]) continue;
+      
+      const diff = expected - sorted[i];
+      if (diff === 0) {
+        streak++;
+        expected -= oneDayMs;
+      } else if (diff > 0) {
+        break;
+      }
+    }
+    
+    return streak;
+  };
 
   // Speech Web API instances
   const [isRecording, setIsRecording] = useState(false);
@@ -1114,18 +1223,33 @@ export default function AISpeakingLab() {
           {/* ======================================= */}
           {activeTab === "vocab" && (
             <>
-              {/* Left Column: Streak calendar */}
+              {/* Left Column: Streak calendar & growth sprout */}
               <div className="lg:col-span-5 rounded-[2.5rem] liquid-glass p-6 lg:p-8 flex flex-col gap-6">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-sm font-semibold tracking-wide text-white/90 uppercase">Streak Tracker</h3>
+                <div className="flex justify-between items-center border-b border-white/5 pb-4">
+                  <h3 className="text-sm font-semibold tracking-wide text-white/90 uppercase">Progress Dashboard</h3>
                   <div className="flex items-center gap-1.5 text-xs font-mono">
                     <Calendar className="w-3.5 h-3.5 text-white/50" />
-                    <span>{streakDays.length} days active</span>
+                    <span>{streakDays.length} active days</span>
+                  </div>
+                </div>
+
+                {/* Animated Botanical Sprout Growth Sprout */}
+                <div className="bg-black/20 rounded-2xl border border-white/5 p-4 flex flex-col items-center">
+                  <StreakSprout streak={getConsecutiveStreak(streakDays)} />
+                  <div className="grid grid-cols-2 gap-4 w-full mt-4 border-t border-white/5 pt-4 text-center">
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-[10px] font-mono text-white/40 uppercase">Consecutive Streak</span>
+                      <span className="text-lg font-bold text-white">{getConsecutiveStreak(streakDays)} Days</span>
+                    </div>
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-[10px] font-mono text-white/40 uppercase">Total Words Saved</span>
+                      <span className="text-lg font-bold text-white">{savedVocab.length} Words</span>
+                    </div>
                   </div>
                 </div>
 
                 <p className="text-xs text-white/60 leading-relaxed">
-                  Completing shadowing or conversation coach sessions marks the day practiced on your local calendar. Practice daily to reinforce learning!
+                  Practice daily by completing shadowing or conversation coach sessions to maintain your streak and blossom your generative plant!
                 </p>
 
                 {/* Minimal calendar grid */}
@@ -1154,44 +1278,216 @@ export default function AISpeakingLab() {
                 </div>
               </div>
 
-              {/* Right Column: Vocabulary notebooks list */}
+              {/* Right Column: Vocabulary notebooks list or Review game */}
               <div className="lg:col-span-7 rounded-[2.5rem] liquid-glass p-6 lg:p-8 flex flex-col gap-6 w-full">
+                <style>{`
+                  .perspective-1000 {
+                    perspective: 1000px;
+                  }
+                  .preserve-3d {
+                    transform-style: preserve-3d;
+                  }
+                  .backface-hidden {
+                    backface-visibility: hidden;
+                  }
+                  .rotate-y-180 {
+                    transform: rotateY(180deg);
+                  }
+                `}</style>
+
                 <div className="flex justify-between items-center border-b border-white/5 pb-4">
-                  <h3 className="text-sm font-semibold tracking-wide text-white/90 uppercase">Saved Vocabulary Notebook</h3>
+                  <div className="flex gap-6">
+                    <button
+                      onClick={() => setVocabViewMode("list")}
+                      className={`text-xs font-semibold tracking-wide uppercase pb-2 border-b-2 transition-all cursor-pointer ${
+                        vocabViewMode === "list" ? "text-white border-white" : "text-white/40 border-transparent hover:text-white/70"
+                      }`}
+                    >
+                      My Notebook
+                    </button>
+                    <button
+                      onClick={() => {
+                        setVocabViewMode("review");
+                        setReviewIndex(0);
+                        setIsCardFlipped(false);
+                        setReviewScores({ correct: 0, total: 0 });
+                      }}
+                      className={`text-xs font-semibold tracking-wide uppercase pb-2 border-b-2 transition-all cursor-pointer ${
+                        vocabViewMode === "review" ? "text-white border-white" : "text-white/40 border-transparent hover:text-white/70"
+                      }`}
+                    >
+                      Review Game
+                    </button>
+                  </div>
                   <span className="text-[10px] font-mono text-white/40">{savedVocab.length} words saved</span>
                 </div>
 
-                {savedVocab.length === 0 ? (
-                  <div className="py-20 text-center flex flex-col items-center gap-3">
-                    <BookOpen className="w-8 h-8 text-white/10" />
-                    <p className="text-xs text-white/40">Your saved words list is currently empty. Add words while shadowing!</p>
-                  </div>
-                ) : (
-                  <div className="flex flex-col gap-3.5 max-h-[480px] overflow-y-auto pr-1">
-                    {savedVocab.map((item, idx) => (
-                      <div key={idx} className="p-4 rounded-2xl bg-black/40 border border-white/5 flex justify-between items-start gap-4 relative group">
-                        <div className="flex flex-col gap-1.5">
-                          <div className="flex items-center gap-3">
-                            <span className="text-sm font-semibold text-white">{item.word}</span>
-                            <span className="text-[10px] font-mono text-white/50">{item.ipa}</span>
-                            <span className="text-[8px] font-mono text-white/30 bg-white/5 px-1.5 py-0.5 rounded">
-                              {item.dateSaved}
-                            </span>
+                {vocabViewMode === "list" ? (
+                  savedVocab.length === 0 ? (
+                    <div className="py-20 text-center flex flex-col items-center gap-3">
+                      <BookOpen className="w-8 h-8 text-white/10" />
+                      <p className="text-xs text-white/40">Your saved words list is currently empty. Add words while shadowing!</p>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-3.5 max-h-[480px] overflow-y-auto pr-1">
+                      {savedVocab.map((item, idx) => (
+                        <div key={idx} className="p-4 rounded-2xl bg-black/40 border border-white/5 flex justify-between items-start gap-4 relative group">
+                          <div className="flex flex-col gap-1.5">
+                            <div className="flex items-center gap-3">
+                              <span className="text-sm font-semibold text-white">{item.word}</span>
+                              <span className="text-[10px] font-mono text-white/50">{item.ipa}</span>
+                              <span className="text-[8px] font-mono text-white/30 bg-white/5 px-1.5 py-0.5 rounded">
+                                {item.dateSaved}
+                              </span>
+                            </div>
+                            <p className="text-xs text-white/70 leading-normal">{item.definition}</p>
+                            <p className="text-xs text-white/45 italic leading-normal">"{item.example}"</p>
                           </div>
-                          <p className="text-xs text-white/70 leading-normal">{item.definition}</p>
-                          <p className="text-xs text-white/45 italic leading-normal">"{item.example}"</p>
+                          
+                          <button
+                            onClick={() => handleDeleteWord(item.word)}
+                            className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/15 flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 cursor-pointer shrink-0"
+                            title="Delete word"
+                          >
+                            <Trash2 className="w-3.5 h-3.5 text-white/60 hover:text-white" />
+                          </button>
                         </div>
-                        
+                      ))}
+                    </div>
+                  )
+                ) : (
+                  // Review flashcard game mode
+                  savedVocab.length === 0 ? (
+                    <div className="py-20 text-center flex flex-col items-center gap-3">
+                      <BookOpen className="w-8 h-8 text-white/10" />
+                      <p className="text-xs text-white/40">Your saved words list is empty. Add words while shadowing to play!</p>
+                    </div>
+                  ) : reviewIndex >= savedVocab.length ? (
+                    // Game completion state
+                    <div className="py-16 text-center flex flex-col items-center gap-6">
+                      <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center animate-bounce">
+                        <Sparkles className="w-8 h-8 text-white" />
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <h4 className="text-base font-semibold text-white uppercase tracking-wider">Review Complete!</h4>
+                        <p className="text-xs text-white/60">You reviewed all the vocabulary saved in your notebook.</p>
+                      </div>
+                      <div className="px-8 py-4 rounded-2xl bg-black/45 border border-white/5 flex gap-8 text-left">
+                        <div className="flex flex-col">
+                          <span className="text-[10px] font-mono text-white/40 uppercase">Reviewed</span>
+                          <span className="text-lg font-bold text-white">{savedVocab.length} Words</span>
+                        </div>
+                        <div className="w-[1px] bg-white/10" />
+                        <div className="flex flex-col">
+                          <span className="text-[10px] font-mono text-white/40 uppercase">Mastered</span>
+                          <span className="text-lg font-bold text-white">{reviewScores.correct} Words</span>
+                        </div>
+                      </div>
+                      <div className="flex gap-4 mt-2">
                         <button
-                          onClick={() => handleDeleteWord(item.word)}
-                          className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/15 flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 cursor-pointer shrink-0"
-                          title="Delete word"
+                          onClick={() => {
+                            setReviewIndex(0);
+                            setIsCardFlipped(false);
+                            setReviewScores({ correct: 0, total: 0 });
+                          }}
+                          className="px-6 py-2.5 rounded-full bg-white text-black hover:bg-white/90 text-xs font-semibold hover:scale-105 active:scale-95 transition-all cursor-pointer"
                         >
-                          <Trash2 className="w-3.5 h-3.5 text-white/60 hover:text-white" />
+                          Restart Game
+                        </button>
+                        <button
+                          onClick={() => setVocabViewMode("list")}
+                          className="px-6 py-2.5 rounded-full bg-white/5 text-white/80 hover:text-white hover:bg-white/10 text-xs font-semibold hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                        >
+                          Back to List
                         </button>
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ) : (
+                    // Active card game view
+                    <div className="flex flex-col gap-6 items-center">
+                      <div className="w-full flex justify-between items-center text-[10px] font-mono text-white/40">
+                        <span>CARD {reviewIndex + 1} OF {savedVocab.length}</span>
+                        <span>SCORE: {reviewScores.correct} / {reviewIndex}</span>
+                      </div>
+
+                      {/* 3D Flippable card */}
+                      <div 
+                        className="w-full max-w-md aspect-[1.7/1] perspective-1000 cursor-pointer"
+                        onClick={() => setIsCardFlipped(!isCardFlipped)}
+                      >
+                        <div className={`relative w-full h-full duration-500 preserve-3d transition-transform ${isCardFlipped ? "rotate-y-180" : ""}`}>
+                          
+                          {/* Front Side */}
+                          <div className="absolute inset-0 w-full h-full backface-hidden rounded-2xl border border-white/10 bg-black/40 flex flex-col items-center justify-center p-6 text-center select-none shadow-xl">
+                            <span className="text-2xl font-bold tracking-tight text-white mb-2">{savedVocab[reviewIndex].word}</span>
+                            <span className="text-xs font-mono text-white/50">{savedVocab[reviewIndex].ipa}</span>
+                            <span className="text-[9px] font-mono text-white/30 uppercase tracking-widest mt-6 bg-white/5 px-2.5 py-1 rounded-full animate-pulse">
+                              Click card to reveal definition
+                            </span>
+                          </div>
+
+                          {/* Back Side */}
+                          <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-2xl border border-white/10 bg-black/50 flex flex-col justify-between p-6 select-none shadow-xl">
+                            <div className="flex flex-col gap-2">
+                              <div className="flex items-baseline gap-2">
+                                <span className="text-lg font-bold text-white">{savedVocab[reviewIndex].word}</span>
+                                <span className="text-xs font-mono text-white/40">{savedVocab[reviewIndex].ipa}</span>
+                              </div>
+                              <p className="text-xs text-white/80 leading-normal">{savedVocab[reviewIndex].definition}</p>
+                              <p className="text-xs text-white/45 italic leading-normal font-serif">"{savedVocab[reviewIndex].example}"</p>
+                            </div>
+                            <span className="text-[8px] font-mono text-white/30 text-right uppercase tracking-wider block border-t border-white/5 pt-2">
+                              Click card to flip back
+                            </span>
+                          </div>
+
+                        </div>
+                      </div>
+
+                      {/* Card Action controls */}
+                      <div className="flex gap-4 w-full max-w-xs mt-4">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsCardFlipped(false);
+                            setTimeout(() => {
+                              setReviewIndex((prev) => prev + 1);
+                              setReviewScores((prev) => ({ ...prev, total: prev.total + 1 }));
+                            }, 20000000000); // Trigger transition delay
+                            // Wait for flip back to complete
+                            setTimeout(() => {
+                              setReviewIndex((prev) => prev + 1);
+                              setReviewScores((prev) => ({ ...prev, total: prev.total + 1 }));
+                            }, 200);
+                          }}
+                          className="flex-1 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-xs font-semibold text-white/80 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                        >
+                          Review Again
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsCardFlipped(false);
+                            setTimeout(() => {
+                              setReviewIndex((prev) => prev + 1);
+                              setReviewScores((prev) => ({ correct: prev.correct + 1, total: prev.total + 1 }));
+                            }, 200);
+                          }}
+                          className="flex-1 py-3 rounded-full bg-white text-black hover:bg-white/95 text-xs font-semibold transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                        >
+                          I Know It!
+                        </button>
+                      </div>
+
+                      {/* Mini progress line */}
+                      <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden mt-2">
+                        <div 
+                          className="bg-white h-full transition-all duration-300"
+                          style={{ width: `${((reviewIndex) / savedVocab.length) * 100}%` }}
+                        />
+                      </div>
+                    </div>
+                  )
                 )}
               </div>
             </>
