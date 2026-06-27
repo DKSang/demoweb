@@ -35,6 +35,15 @@ initializeFile(HISTORY_FILE, "[]");
 
 app.use(express.json());
 
+// Root & Health check routes
+app.get("/", (req: Request, res: Response) => {
+  res.send("<h1>Bloom Backend Gateway is Running</h1><p>Navigate to http://localhost:3000 to use the web application.</p>");
+});
+
+app.get("/api", (req: Request, res: Response) => {
+  res.json({ status: "ok", message: "Bloom API is online" });
+});
+
 // 1. Ollama Chat Gateway Proxy Route
 app.post("/api/chat", async (req: Request, res: Response) => {
   try {
