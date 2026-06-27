@@ -21,6 +21,7 @@ import {
 import Expertise from "./components/Expertise";
 import Portfolio from "./components/Portfolio";
 import InteractiveLab from "./components/InteractiveLab";
+import AISpeakingLab from "./components/AISpeakingLab.tsx";
 import Philosophy from "./components/Philosophy";
 import Pricing from "./components/Pricing";
 import Contact from "./components/Contact";
@@ -89,6 +90,7 @@ export default function App() {
           <a href="#expertise" className="hover:text-white transition-colors">CAPABILITIES</a>
           <a href="#portfolio" className="hover:text-white transition-colors">PORTFOLIO</a>
           <a href="#interactive-lab" className="hover:text-white transition-colors">GROWTH LAB</a>
+          <a href="#ai-speaking-lab" className="hover:text-white transition-colors font-semibold text-white">AI COACH</a>
           <a href="#philosophy" className="hover:text-white transition-colors">PHILOSOPHY</a>
           <a href="#pricing" className="hover:text-white transition-colors">SPONSORSHIP</a>
           <a href="#contact-faq" className="hover:text-white transition-colors">FAQ</a>
@@ -368,6 +370,11 @@ export default function App() {
       <InteractiveLab onTriggerNotification={triggerNotification} />
 
       {/* ======================================= */}
+      {/* SECTION 4.5: AI SPEAKING LAB            */}
+      {/* ======================================= */}
+      <AISpeakingLab />
+
+      {/* ======================================= */}
       {/* SECTION 5: STUDIO METAPHYSICAL STORY   */}
       {/* ======================================= */}
       <Philosophy />
@@ -410,9 +417,10 @@ export default function App() {
 
               <nav className="flex flex-col gap-6 text-3xl font-medium tracking-tight">
                 {[
-                  { name: "Design Canvas", hash: "#expertise", note: "Procedural studio workspace" },
+                  { name: "Design Canvas", hash: "#expertise", note: "procedural studio workspace" },
                   { name: "Neural Registry", hash: "#portfolio", note: "specimen storage" },
                   { name: "Growth Sandbox", hash: "#interactive-lab", note: "interactive simulator" },
+                  { name: "AI Speaking Lab", hash: "#ai-speaking-lab", note: "Llama3 conversational coach" },
                   { name: "Sponsorships", hash: "#pricing", note: "Ecosystem project calculations" }
                 ].map((item, index) => (
                   <a
