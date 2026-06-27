@@ -57,33 +57,6 @@ interface ChatMessage {
   };
 }
 
-// Sprout English Playlist Preloaded Lesson
-const PRELOADED_LESSONS: Lesson[] = [
-  {
-    id: "sprout-time-expressions",
-    title: "British Time Expressions You Need Every Day",
-    videoId: "BCDXweG6CLc",
-    vocab: [
-      { word: "crack on", ipa: "/kræk ɒn/", definition: "to start or continue doing something quickly and with energy", example: "Let's crack on with the lesson." },
-      { word: "stupid o'clock", ipa: "/ˈstjuːpɪd əˈklɒk/", definition: "an unreasonably early or late hour of the day", example: "I woke up at stupid o'clock this morning." },
-      { word: "yonks", ipa: "/jɒŋks/", definition: "a very long time", example: "I haven't seen you in yonks!" },
-      { word: "faff", ipa: "/fæf/", definition: "to spend time doing things that are not important without achieving much", example: "Stop faffing around and get ready." },
-      { word: "now and then", ipa: "/naʊ ænd ðen/", definition: "occasionally; from time to time", example: "We go out for dinner now and then." },
-      { word: "getting on for", ipa: "/ˈɡetɪŋ ɒn fɔːr/", definition: "approaching a certain age, time, or number", example: "It is getting on for midnight." }
-    ],
-    lines: [
-      { start: 0, end: 5, text: "Hello everyone and welcome back to Sprout English." },
-      { start: 6, end: 12, text: "Today we are looking at British time expressions that you will hear every day." },
-      { start: 13, end: 18, text: "Let's crack on with the first phrase before we run out of time." },
-      { start: 19, end: 25, text: "I had to wake up at stupid o'clock this morning to catch my train." },
-      { start: 26, end: 32, text: "Honestly, I haven't been to this part of the city in absolute yonks." },
-      { start: 33, end: 39, text: "If you stop faffing around, we might actually finish this work early." },
-      { start: 40, end: 46, text: "We go down to the local pub now and then just to catch up." },
-      { start: 47, end: 53, text: "Look at the clock, it is getting on for ten already, we should go." }
-    ]
-  }
-];
-
 // Helper to clean punctuation and normalize for matching
 const normalizeText = (text: string): string => {
   return text
@@ -125,6 +98,8 @@ export default function AISpeakingLab() {
   // Local state persistence keys
   const [savedVocab, setSavedVocab] = useState<SavedWord[]>([]);
   const [streakDays, setStreakDays] = useState<string[]>([]);
+  const [lessonsList, setLessonsList] = useState<Lesson[]>([]);
+  const [isInitializingLesson, setIsInitializingLesson] = useState(false);
 
   // Speech Web API instances
   const [isRecording, setIsRecording] = useState(false);
@@ -149,6 +124,17 @@ export default function AISpeakingLab() {
       .then(res => res.json())
       .then(data => setStreakDays(data))
       .catch(err => console.error("Failed to fetch streaks:", err));
+
+    // Fetch lessons list from backend
+    fetch("/api/lessons")
+      .then(res => res.json())
+      .then(data => {
+        setLessonsList(data);
+        if (data.length > 0) {
+          setSelectedLesson(data[0]);
+        }
+      })
+      .catch(err => console.error("Failed to fetch lessons list:", err));
 
     // Initialize TTS voices
     const loadVoices = () => {
@@ -215,7 +201,7 @@ export default function AISpeakingLab() {
   };
 
   // --- TAB 1: SHADOWING HUB ---
-  const [selectedLesson, setSelectedLesson] = useState<Lesson>(PRELOADED_LESSONS[0]);
+  const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
   const [isPlayingSegment, setIsPlayingSegment] = useState(false);
   const [shadowScore, setShadowScore] = useState<number | null>(null);
@@ -231,6 +217,8 @@ export default function AISpeakingLab() {
 
   // YouTube API loading script
   useEffect(() => {
+    if (!selectedLesson || !selectedLesson.isInitialized || !selectedLesson.videoId) return;
+
     if (!(window as any).YT) {
       const tag = document.createElement("script");
       tag.src = "https://www.youtube.com/iframe_api";
@@ -239,7 +227,7 @@ export default function AISpeakingLab() {
     }
 
     (window as any).onYouTubeIframeAPIReady = () => {
-      initPlayer(selectedLesson.videoId);
+      if (selectedLesson) initPlayer(selectedLesson.videoId);
     };
 
     if ((window as any).YT && (window as any).YT.Player) {
@@ -276,6 +264,7 @@ export default function AISpeakingLab() {
 
   const playSegment = (lineIndex: number) => {
     if (!playerRef.current || !playerRef.current.seekTo) return;
+    if (!selectedLesson || !selectedLesson.isInitialized || !selectedLesson.lines[lineIndex]) return;
     const line = selectedLesson.lines[lineIndex];
     setCurrentLineIndex(lineIndex);
     setRecognitionText("");
@@ -299,6 +288,11 @@ export default function AISpeakingLab() {
   };
 
   const toggleRecordShadow = () => {
+    if (!selectedLesson || !selectedLesson.isInitialized) {
+      alert("Please load and initialize the lesson captions first.");
+      return;
+    }
+
     if (!recognitionRef.current) {
       alert("Speech Recognition not supported on this browser. Try Google Chrome.");
       return;
@@ -317,7 +311,7 @@ export default function AISpeakingLab() {
 
   // Compare shadow transcript
   useEffect(() => {
-    if (recognitionText && activeTab === "shadow") {
+    if (recognitionText && activeTab === "shadow" && selectedLesson?.lines?.[currentLineIndex]) {
       const target = selectedLesson.lines[currentLineIndex].text;
       const score = getSimilarity(target, recognitionText);
       setShadowScore(score);
@@ -360,6 +354,29 @@ export default function AISpeakingLab() {
       }
     } catch (err) {
       console.error("Failed to delete word:", err);
+    }
+  };
+
+  const handleInitializeLesson = async () => {
+    if (!selectedLesson) return;
+    setIsInitializingLesson(true);
+    try {
+      const res = await fetch(`/api/lessons/${selectedLesson.id}/initialize`, {
+        method: "POST"
+      });
+      if (res.ok) {
+        const updatedLesson = await res.json();
+        setLessonsList(prev => prev.map(l => l.id === updatedLesson.id ? updatedLesson : l));
+        setSelectedLesson(updatedLesson);
+      } else {
+        const errData = await res.json();
+        alert(`Failed to initialize: ${errData.error || "Unknown error"}`);
+      }
+    } catch (err) {
+      console.error("Initialization error:", err);
+      alert("Failed to connect to server for initialization.");
+    } finally {
+      setIsInitializingLesson(false);
     }
   };
 
@@ -710,38 +727,89 @@ export default function AISpeakingLab() {
               {/* Left Column: Player & Subtitles */}
               <div className="lg:col-span-8 flex flex-col gap-6">
                 <div className="rounded-[2rem] liquid-glass p-6 flex flex-col gap-5">
-                  <div className="flex justify-between items-center px-1">
-                    <h3 className="text-sm font-semibold tracking-wide text-white/90 uppercase">Shadowing Interactive Player</h3>
-                    <span className="text-[10px] font-mono text-white/40">lesson: {selectedLesson.title}</span>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-4 mb-2">
+                    <div>
+                      <h3 className="text-sm font-semibold tracking-wide text-white/90 uppercase">Shadowing Interactive Player</h3>
+                      <p className="text-[10px] font-mono text-white/40 mt-1">Select a video from Jay's Sprout English playlist (36 lessons)</p>
+                    </div>
+
+                    <select
+                      value={selectedLesson?.id || ""}
+                      onChange={(e) => {
+                        const target = lessonsList.find(l => l.id === e.target.value);
+                        if (target) {
+                          setSelectedLesson(target);
+                          setCurrentLineIndex(0);
+                          setShadowScore(null);
+                        }
+                      }}
+                      className="bg-black/60 border border-white/10 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-white/30 cursor-pointer max-w-xs"
+                    >
+                      {lessonsList.map(l => (
+                        <option key={l.id} value={l.id} className="bg-zinc-950 text-white text-xs">
+                          {l.title.replace("🇬🇧", "").replace("⏰", "").trim()}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
-                  {/* YouTube Player Container */}
-                  <div className="relative aspect-video w-full bg-black rounded-2xl overflow-hidden border border-white/5">
-                    <div id="youtube-player" className="absolute inset-0 w-full h-full" />
-                  </div>
-
-                  {/* Subtitles & Timed Lines list */}
-                  <div className="flex flex-col gap-2.5 max-h-[300px] overflow-y-auto pr-2">
-                    {selectedLesson.lines.map((line, idx) => (
+                  {!selectedLesson ? (
+                    <div className="py-20 text-center text-xs text-white/40">Loading playlist lessons...</div>
+                  ) : !selectedLesson.isInitialized ? (
+                    <div className="py-12 px-6 rounded-2xl bg-black/40 border border-white/5 flex flex-col items-center text-center gap-4">
+                      <Sparkles className="w-10 h-10 text-white/20 animate-pulse" />
+                      <div className="max-w-md">
+                        <h4 className="text-xs font-semibold text-white tracking-wide uppercase mb-1">Lesson Captions Not Loaded</h4>
+                        <p className="text-[11px] text-white/50 leading-relaxed">
+                          This lesson hasn't been initialized yet. We need to fetch real English subtitles from YouTube and run Llama-3 locally to extract key vocabulary.
+                        </p>
+                      </div>
                       <button
-                        key={idx}
-                        onClick={() => playSegment(idx)}
-                        className={`p-4 rounded-xl text-left transition-all flex justify-between items-center gap-4 ${
-                          currentLineIndex === idx 
-                            ? "bg-white/10 border border-white/20 text-white font-medium" 
-                            : "bg-transparent border border-white/5 text-white/50 hover:text-white/80"
-                        }`}
+                        onClick={handleInitializeLesson}
+                        disabled={isInitializingLesson}
+                        className="px-6 py-2.5 rounded-full bg-white text-black text-xs font-semibold hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50 disabled:scale-100"
                       >
-                        <div className="flex flex-col gap-0.5">
-                          <span className="text-xs">{line.text}</span>
-                          <span className="text-[9px] font-mono opacity-50">
-                            Time: {Math.floor(line.start / 60)}:{String(line.start % 60).padStart(2, "0")} - {Math.floor(line.end / 60)}:{String(line.end % 60).padStart(2, "0")}
-                          </span>
-                        </div>
-                        <Play className="w-3.5 h-3.5 opacity-60 shrink-0" />
+                        {isInitializingLesson ? (
+                          <>
+                            <span className="w-3 h-3 rounded-full border border-black border-t-transparent animate-spin inline-block mr-1" />
+                            Running Llama-3 Lexicographer...
+                          </>
+                        ) : (
+                          "Load Captions & Vocabulary"
+                        )}
                       </button>
-                    ))}
-                  </div>
+                    </div>
+                  ) : (
+                    <>
+                      {/* YouTube Player Container */}
+                      <div className="relative aspect-video w-full bg-black rounded-2xl overflow-hidden border border-white/5">
+                        <div id="youtube-player" className="absolute inset-0 w-full h-full" />
+                      </div>
+
+                      {/* Subtitles & Timed Lines list */}
+                      <div className="flex flex-col gap-2.5 max-h-[300px] overflow-y-auto pr-2">
+                        {selectedLesson.lines.map((line, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => playSegment(idx)}
+                            className={`p-4 rounded-xl text-left transition-all flex justify-between items-center gap-4 ${
+                              currentLineIndex === idx 
+                                ? "bg-white/10 border border-white/20 text-white font-medium" 
+                                : "bg-transparent border border-white/5 text-white/50 hover:text-white/80"
+                            }`}
+                          >
+                            <div className="flex flex-col gap-0.5">
+                              <span className="text-xs">{line.text}</span>
+                              <span className="text-[9px] font-mono opacity-50">
+                                Time: {Math.floor(line.start / 60)}:{String(line.start % 60).padStart(2, "0")} - {Math.floor(line.end / 60)}:{String(line.end % 60).padStart(2, "0")}
+                              </span>
+                            </div>
+                            <Play className="w-3.5 h-3.5 opacity-60 shrink-0" />
+                          </button>
+                        ))}
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 {/* Custom Sandbox Import Card */}

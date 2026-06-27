@@ -25,6 +25,7 @@ The backend operates as a lightweight, single-user Express service running local
 - **Database Schema**:
   - `data/vocabulary.json`: Array of saved words (word, IPA, definition, example sentence, date saved).
   - `data/streaks.json`: Array of ISO dates when the user practiced.
+  - `data/lessons.json`: Array of 36 playlist lessons (id, title, videoId, vocab, lines, isInitialized).
   - `data/chat_history.json`: Structured logs of user-AI conversations, useful for pattern diagnostics in later stages.
 
 # State Mutation Invariants
@@ -41,3 +42,5 @@ The Express server exposes the following API routes:
 - `DELETE /api/vocabulary/:word` -- Removes a word.
 - `GET /api/streaks` -- Retrieves streaks array.
 - `POST /api/streaks` -- Logs today as practiced.
+- `GET /api/lessons` -- Retrieves available playlist lessons.
+- `POST /api/lessons/:id/initialize` -- Fetches video subtitles from YouTube, extracts vocabulary using Llama-3, and updates database.
