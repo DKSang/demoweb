@@ -95,6 +95,35 @@ const getSimilarity = (s1: string, s2: string): number => {
 export default function AISpeakingLab() {
   const [activeTab, setActiveTab] = useState<"shadow" | "coach" | "vocab">("shadow");
 
+  // Synchronize tab active state with URL hash routing
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash === "#shadowing-lab") {
+        setActiveTab("shadow");
+      } else if (hash === "#ai-coach") {
+        setActiveTab("coach");
+      } else if (hash === "#vocab-notebook") {
+        setActiveTab("vocab");
+      }
+    };
+
+    handleHashChange();
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  const changeTab = (tabId: "shadow" | "coach" | "vocab") => {
+    setActiveTab(tabId);
+    if (tabId === "shadow") {
+      window.location.hash = "#shadowing-lab";
+    } else if (tabId === "coach") {
+      window.location.hash = "#ai-coach";
+    } else if (tabId === "vocab") {
+      window.location.hash = "#vocab-notebook";
+    }
+  };
+
   // Local state persistence keys
   const [savedVocab, setSavedVocab] = useState<SavedWord[]>([]);
   const [streakDays, setStreakDays] = useState<string[]>([]);
@@ -662,6 +691,10 @@ export default function AISpeakingLab() {
 
   return (
     <section id="ai-speaking-lab" className="py-24 px-4 lg:px-8 relative z-10 max-w-7xl mx-auto border-t border-white/5">
+      {/* Target scroll anchors for sticky navbar navigation */}
+      <div id="shadowing-lab" className="absolute -top-24" />
+      <div id="ai-coach" className="absolute -top-24" />
+      <div id="vocab-notebook" className="absolute -top-24" />
       <div className="flex flex-col gap-6">
         
         {/* Navigation & Header */}
@@ -720,7 +753,7 @@ export default function AISpeakingLab() {
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => changeTab(tab.id as any)}
                 className={`px-5 py-3 rounded-full flex items-center gap-2.5 text-xs font-medium tracking-wide transition-all ${
                   activeTab === tab.id 
                     ? "bg-white text-black font-semibold shadow-lg" 

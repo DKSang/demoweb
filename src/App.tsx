@@ -90,7 +90,9 @@ export default function App() {
           <a href="#expertise" className="hover:text-white transition-colors">CAPABILITIES</a>
           <a href="#portfolio" className="hover:text-white transition-colors">PORTFOLIO</a>
           <a href="#interactive-lab" className="hover:text-white transition-colors">GROWTH LAB</a>
-          <a href="#ai-speaking-lab" className="hover:text-white transition-colors font-semibold text-white">AI COACH</a>
+          <a href="#shadowing-lab" className="hover:text-white transition-colors">SHADOWING</a>
+          <a href="#ai-coach" className="hover:text-white transition-colors font-semibold text-white">AI COACH</a>
+          <a href="#vocab-notebook" className="hover:text-white transition-colors">NOTEBOOK</a>
           <a href="#philosophy" className="hover:text-white transition-colors">PHILOSOPHY</a>
           <a href="#pricing" className="hover:text-white transition-colors">SPONSORSHIP</a>
           <a href="#contact-faq" className="hover:text-white transition-colors">FAQ</a>
@@ -420,7 +422,9 @@ export default function App() {
                   { name: "Design Canvas", hash: "#expertise", note: "procedural studio workspace" },
                   { name: "Neural Registry", hash: "#portfolio", note: "specimen storage" },
                   { name: "Growth Sandbox", hash: "#interactive-lab", note: "interactive simulator" },
-                  { name: "AI Speaking Lab", hash: "#ai-speaking-lab", note: "Llama3 conversational coach" },
+                  { name: "Shadowing Hub", hash: "#shadowing-lab", note: "YouTube accent shadowing" },
+                  { name: "AI Coach", hash: "#ai-coach", note: "Llama3 conversational practice" },
+                  { name: "Vocab Notebook", hash: "#vocab-notebook", note: "your personal notebook" },
                   { name: "Sponsorships", hash: "#pricing", note: "Ecosystem project calculations" }
                 ].map((item, index) => (
                   <a
