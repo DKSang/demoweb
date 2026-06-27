@@ -240,9 +240,23 @@ export default function AISpeakingLab() {
   }, [selectedLesson]);
 
   const initPlayer = (videoId: string) => {
+    const container = document.getElementById("youtube-player");
+    if (playerRef.current && container && container.tagName === "IFRAME") {
+      try {
+        playerRef.current.loadVideoById(videoId);
+        return;
+      } catch (err) {
+        console.warn("Failed to load video on existing player iframe, recreating...", err);
+      }
+    }
+
+    // If container was unmounted (reverted to a DIV), the old player iframe is dead.
+    // We clean up the old instance and construct a new YT player.
     if (playerRef.current) {
-      playerRef.current.loadVideoById(videoId);
-      return;
+      try {
+        playerRef.current.destroy();
+      } catch (e) {}
+      playerRef.current = null;
     }
 
     playerRef.current = new (window as any).YT.Player("youtube-player", {
