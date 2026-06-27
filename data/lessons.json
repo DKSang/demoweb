@@ -8025,9 +8025,2986 @@
     "id": "8pNMP3K9J3o",
     "title": "Learn English while I explore Singapore | B1-B2 level",
     "videoId": "8pNMP3K9J3o",
-    "isInitialized": false,
-    "vocab": [],
-    "lines": []
+    "isInitialized": true,
+    "vocab": [
+      {
+        "word": "mate",
+        "ipa": "",
+        "definition": "a friendly term used to address a man",
+        "example": "Thank you, man."
+      },
+      {
+        "word": "catch-up",
+        "ipa": "",
+        "definition": "a conversation to see what's been going on in someone's life",
+        "example": "We've been having a catch-up, which is the next word."
+      },
+      {
+        "word": "hawker center",
+        "ipa": "",
+        "definition": "a market or food court where street vendors sell food",
+        "example": "Let's go to a hawker center. We have arrived. Maxwell Food Centre."
+      },
+      {
+        "word": "stall",
+        "ipa": "",
+        "definition": "a small shop that sells different types of food",
+        "example": "All right, let's find a seat. We found a table and um yeah, we're about to toast to good friends in Singapore. Cheers."
+      },
+      {
+        "word": "into it",
+        "ipa": "",
+        "definition": "to really like something",
+        "example": "I'm into this. I really like it."
+      }
+    ],
+    "lines": [
+      {
+        "start": 0,
+        "end": 1,
+        "text": "Hello."
+      },
+      {
+        "start": 1,
+        "end": 3,
+        "text": "I've just arrived at Singapore Airport"
+      },
+      {
+        "start": 3,
+        "end": 5,
+        "text": "and I'm heading to meet my friend"
+      },
+      {
+        "start": 5,
+        "end": 7,
+        "text": "[music] Jared."
+      },
+      {
+        "start": 7,
+        "end": 9,
+        "text": "You might remember Jared from"
+      },
+      {
+        "start": 9,
+        "end": 11,
+        "text": "the last episode. We're going to travel"
+      },
+      {
+        "start": 11,
+        "end": 13,
+        "text": "around Singapore, explore, and [music]"
+      },
+      {
+        "start": 13,
+        "end": 15,
+        "text": "if you like learning English and"
+      },
+      {
+        "start": 15,
+        "end": 17,
+        "text": "watching travel content, then you're in"
+      },
+      {
+        "start": 17,
+        "end": 20,
+        "text": "the right place. Now to get my suitcase."
+      },
+      {
+        "start": 20,
+        "end": 22,
+        "text": "So, I am waiting for my suitcase and"
+      },
+      {
+        "start": 22,
+        "end": 26,
+        "text": "this is a conveyor belt."
+      },
+      {
+        "start": 26,
+        "end": 29,
+        "text": "The conveyor belt is moving around and"
+      },
+      {
+        "start": 29,
+        "end": 31,
+        "text": "taking people's suitcases."
+      },
+      {
+        "start": 31,
+        "end": 33,
+        "text": "What time is it?"
+      },
+      {
+        "start": 33,
+        "end": 34,
+        "text": "Mhm."
+      },
+      {
+        "start": 34,
+        "end": 37,
+        "text": "Suitcase time."
+      },
+      {
+        "start": 37,
+        "end": 38,
+        "text": "Taxi stand."
+      },
+      {
+        "start": 38,
+        "end": 41,
+        "text": "This is a sign for the taxis. The taxi"
+      },
+      {
+        "start": 41,
+        "end": 43,
+        "text": "stand is a place where you wait for your"
+      },
+      {
+        "start": 43,
+        "end": 44,
+        "text": "taxi."
+      },
+      {
+        "start": 44,
+        "end": 48,
+        "text": "And now in Singapore, they use Grab Taxi"
+      },
+      {
+        "start": 48,
+        "end": 49,
+        "text": "just like in Vietnam, so"
+      },
+      {
+        "start": 49,
+        "end": 51,
+        "text": "I'm going to"
+      },
+      {
+        "start": 51,
+        "end": 52,
+        "text": "find"
+      },
+      {
+        "start": 52,
+        "end": 57,
+        "text": "the taxi stand and I'll order my Grab."
+      },
+      {
+        "start": 57,
+        "end": 59,
+        "text": "Here, the taxi is here."
+      },
+      {
+        "start": 59,
+        "end": 62,
+        "text": "I'm putting my suitcase in the car boot."
+      },
+      {
+        "start": 62,
+        "end": 80,
+        "text": "Thank you."
+      },
+      {
+        "start": 80,
+        "end": 83,
+        "text": "There he is."
+      },
+      {
+        "start": 83,
+        "end": 83,
+        "text": ">> [laughter]"
+      },
+      {
+        "start": 83,
+        "end": 87,
+        "text": ">> Hello, mate."
+      },
+      {
+        "start": 87,
+        "end": 91,
+        "text": "For a watch. Thank you, man."
+      },
+      {
+        "start": 91,
+        "end": 93,
+        "text": "Well, hello guys. Look who we have here."
+      },
+      {
+        "start": 93,
+        "end": 94,
+        "text": "Hello."
+      },
+      {
+        "start": 94,
+        "end": 95,
+        "text": "It's Jared."
+      },
+      {
+        "start": 95,
+        "end": 97,
+        "text": "Um for some context for those who don't"
+      },
+      {
+        "start": 97,
+        "end": 99,
+        "text": "know, Jared and I have been friends for"
+      },
+      {
+        "start": 99,
+        "end": 103,
+        "text": "26 years now, since we were 4 years old."
+      },
+      {
+        "start": 103,
+        "end": 105,
+        "text": "And yeah, what a ride."
+      },
+      {
+        "start": 105,
+        "end": 106,
+        "text": ">> [laughter]"
+      },
+      {
+        "start": 106,
+        "end": 108,
+        "text": ">> Many ups and downs. Many ups and downs."
+      },
+      {
+        "start": 108,
+        "end": 110,
+        "text": "Mostly ups, yeah, a few downs. Um we've"
+      },
+      {
+        "start": 110,
+        "end": 112,
+        "text": "been having a catch-up, which is the"
+      },
+      {
+        "start": 112,
+        "end": 114,
+        "text": "next word. A catch-up is when you"
+      },
+      {
+        "start": 114,
+        "end": 116,
+        "text": "haven't seen somebody in a long time"
+      },
+      {
+        "start": 116,
+        "end": 118,
+        "text": "and you have a conversation and see"
+      },
+      {
+        "start": 118,
+        "end": 121,
+        "text": "what's been going on in their lives. Now"
+      },
+      {
+        "start": 121,
+        "end": 123,
+        "text": "the plan is to go get some food because"
+      },
+      {
+        "start": 123,
+        "end": 124,
+        "text": "I've been flying for a while. I'm"
+      },
+      {
+        "start": 124,
+        "end": 126,
+        "text": "hungry, so we're going to go to a hawker"
+      },
+      {
+        "start": 126,
+        "end": 129,
+        "text": "center. We have arrived. Maxwell Food"
+      },
+      {
+        "start": 129,
+        "end": 131,
+        "text": "Centre."
+      },
+      {
+        "start": 131,
+        "end": 134,
+        "text": "Let's go."
+      },
+      {
+        "start": 134,
+        "end": 137,
+        "text": "Okay, and we call this a stall."
+      },
+      {
+        "start": 137,
+        "end": 140,
+        "text": "There are two people in red cooking some"
+      },
+      {
+        "start": 140,
+        "end": 143,
+        "text": "food."
+      },
+      {
+        "start": 143,
+        "end": 146,
+        "text": "All right, let's find a seat."
+      },
+      {
+        "start": 146,
+        "end": 148,
+        "text": "We found a table and um"
+      },
+      {
+        "start": 148,
+        "end": 152,
+        "text": "yeah, we're about to toast to"
+      },
+      {
+        "start": 152,
+        "end": 154,
+        "text": "good friends in Singapore."
+      },
+      {
+        "start": 154,
+        "end": 156,
+        "text": "Cheers. Where are they? Yeah, [laughter]"
+      },
+      {
+        "start": 156,
+        "end": 157,
+        "text": "yeah, I don't know, somewhere around"
+      },
+      {
+        "start": 157,
+        "end": 158,
+        "text": "here."
+      },
+      {
+        "start": 158,
+        "end": 160,
+        "text": "It's good."
+      },
+      {
+        "start": 160,
+        "end": 161,
+        "text": "That is good. Cheers, man."
+      },
+      {
+        "start": 161,
+        "end": 164,
+        "text": "So, we are in a hawker center"
+      },
+      {
+        "start": 164,
+        "end": 165,
+        "text": "and in this hawker center, there are"
+      },
+      {
+        "start": 165,
+        "end": 167,
+        "text": "lots of different stalls."
+      },
+      {
+        "start": 167,
+        "end": 167,
+        "text": ">> [music]"
+      },
+      {
+        "start": 167,
+        "end": 169,
+        "text": ">> A stall is like a small shop"
+      },
+      {
+        "start": 169,
+        "end": 171,
+        "text": "that sells different types of food."
+      },
+      {
+        "start": 171,
+        "end": 173,
+        "text": "Cool. The beeper is beeping."
+      },
+      {
+        "start": 173,
+        "end": 174,
+        "text": "Are you going to go get that? I'll"
+      },
+      {
+        "start": 174,
+        "end": 176,
+        "text": "[laughter] go get that."
+      },
+      {
+        "start": 176,
+        "end": 177,
+        "text": "All right, see you soon. Jared's going"
+      },
+      {
+        "start": 177,
+        "end": 179,
+        "text": "to come back with some food, so I'll see"
+      },
+      {
+        "start": 179,
+        "end": 181,
+        "text": "you in 3 2 1."
+      },
+      {
+        "start": 181,
+        "end": 182,
+        "text": "Chopsticks"
+      },
+      {
+        "start": 182,
+        "end": 185,
+        "text": "and dumplings. So, this is a carrot"
+      },
+      {
+        "start": 185,
+        "end": 187,
+        "text": "cake. Carrot cake is Not normal carrot"
+      },
+      {
+        "start": 187,
+        "end": 188,
+        "text": "cake."
+      },
+      {
+        "start": 188,
+        "end": 191,
+        "text": "No, carrot cake for us would be a sweet"
+      },
+      {
+        "start": 191,
+        "end": 193,
+        "text": "baked good. I'm I'm really into this."
+      },
+      {
+        "start": 193,
+        "end": 194,
+        "text": "Yeah. Okay, there's a good word. If you"
+      },
+      {
+        "start": 194,
+        "end": 197,
+        "text": "really like something, you're into it."
+      },
+      {
+        "start": 197,
+        "end": 199,
+        "text": "Say, \"I'm into it.\" Um"
+      },
+      {
+        "start": 199,
+        "end": 202,
+        "text": "I'm into this. I really like it."
+      },
+      {
+        "start": 202,
+        "end": 205,
+        "text": "I get I'm not really doing very well"
+      },
+      {
+        "start": 205,
+        "end": 207,
+        "text": "This is an escalator and we [music] are"
+      },
+      {
+        "start": 207,
+        "end": 210,
+        "text": "going down the escalator."
+      },
+      {
+        "start": 210,
+        "end": 211,
+        "text": "Hello, YouTube."
+      },
+      {
+        "start": 211,
+        "end": 213,
+        "text": ">> Hello, YouTube."
+      },
+      {
+        "start": 213,
+        "end": 215,
+        "text": "We're on our way to the Where are we"
+      },
+      {
+        "start": 215,
+        "end": 217,
+        "text": "going, Jared? Gardens by the Bay."
+      },
+      {
+        "start": 217,
+        "end": 218,
+        "text": "Anyway, we're going on the metro now. On"
+      },
+      {
+        "start": 218,
+        "end": 220,
+        "text": "the metro. You can also call it an"
+      },
+      {
+        "start": 220,
+        "end": 222,
+        "text": "underground or a subway."
+      },
+      {
+        "start": 222,
+        "end": 224,
+        "text": "What do they call it in London?"
+      },
+      {
+        "start": 224,
+        "end": 225,
+        "text": "Uh the underground."
+      },
+      {
+        "start": 225,
+        "end": 228,
+        "text": ">> The underground. London underground."
+      },
+      {
+        "start": 228,
+        "end": 230,
+        "text": "Cheers."
+      },
+      {
+        "start": 230,
+        "end": 234,
+        "text": "What is this? Scissors. Okay."
+      },
+      {
+        "start": 234,
+        "end": 235,
+        "text": "Me and Jared are having a conversation"
+      },
+      {
+        "start": 235,
+        "end": 237,
+        "text": "on the metro. On the left, there is a"
+      },
+      {
+        "start": 237,
+        "end": 240,
+        "text": "mother with a pushchair."
+      },
+      {
+        "start": 240,
+        "end": 242,
+        "text": "In the middle, there is a muscular man"
+      },
+      {
+        "start": 242,
+        "end": 244,
+        "text": "with a vest and [music] on the right,"
+      },
+      {
+        "start": 244,
+        "end": 250,
+        "text": "there is a guy looking at my camera."
+      },
+      {
+        "start": 250,
+        "end": 252,
+        "text": "I'm tapping my card and walking through"
+      },
+      {
+        "start": 252,
+        "end": 255,
+        "text": "the barriers."
+      },
+      {
+        "start": 255,
+        "end": 258,
+        "text": ">> [music]"
+      },
+      {
+        "start": 258,
+        "end": 260,
+        "text": ">> All right, we've arrived at the Gardens"
+      },
+      {
+        "start": 260,
+        "end": 262,
+        "text": "by the Bay."
+      },
+      {
+        "start": 262,
+        "end": 264,
+        "text": "These are spectacular and we're right"
+      },
+      {
+        "start": 264,
+        "end": 267,
+        "text": "here in time for a light show. Over"
+      },
+      {
+        "start": 267,
+        "end": 270,
+        "text": "there, you have giant structures with"
+      },
+      {
+        "start": 270,
+        "end": 272,
+        "text": "plants crawling up them"
+      },
+      {
+        "start": 272,
+        "end": 278,
+        "text": "and there is a bridge with a neon light"
+      },
+      {
+        "start": 278,
+        "end": 279,
+        "text": "underneath it."
+      },
+      {
+        "start": 279,
+        "end": 280,
+        "text": "Very soon, there's going to be a light"
+      },
+      {
+        "start": 280,
+        "end": 282,
+        "text": "show. It's nice and cool as well."
+      },
+      {
+        "start": 282,
+        "end": 283,
+        "text": "There's a breeze."
+      },
+      {
+        "start": 283,
+        "end": 284,
+        "text": "There's a good word for you guys, a"
+      },
+      {
+        "start": 284,
+        "end": 287,
+        "text": "breeze, a light wind. It's called a"
+      },
+      {
+        "start": 287,
+        "end": 289,
+        "text": "breeze."
+      },
+      {
+        "start": 289,
+        "end": 290,
+        "text": "Ah, that breeze is nice."
+      },
+      {
+        "start": 290,
+        "end": 294,
+        "text": "So, we need to go find a seat"
+      },
+      {
+        "start": 294,
+        "end": 295,
+        "text": "and"
+      },
+      {
+        "start": 295,
+        "end": 303,
+        "text": "get ready to watch this light show."
+      },
+      {
+        "start": 303,
+        "end": 305,
+        "text": "So, in this environment, you can see"
+      },
+      {
+        "start": 305,
+        "end": 308,
+        "text": "giant structures that look like trees"
+      },
+      {
+        "start": 308,
+        "end": 311,
+        "text": "and the lights are flashing in time with"
+      },
+      {
+        "start": 311,
+        "end": 312,
+        "text": "the music."
+      },
+      {
+        "start": 312,
+        "end": 313,
+        "text": "There are lots of people gathered around"
+      },
+      {
+        "start": 313,
+        "end": 316,
+        "text": "and we call this crowd. This area is"
+      },
+      {
+        "start": 316,
+        "end": 317,
+        "text": "crowded."
+      },
+      {
+        "start": 317,
+        "end": 340,
+        "text": ">> [music]"
+      },
+      {
+        "start": 340,
+        "end": 341,
+        "text": ">> Woo!"
+      },
+      {
+        "start": 341,
+        "end": 341,
+        "text": ">> [cheering]"
+      },
+      {
+        "start": 341,
+        "end": 343,
+        "text": ">> Everyone is clapping or applauding the"
+      },
+      {
+        "start": 343,
+        "end": 347,
+        "text": "spectacular light show."
+      },
+      {
+        "start": 347,
+        "end": 349,
+        "text": "Now we're going to go to the top of MBS,"
+      },
+      {
+        "start": 349,
+        "end": 352,
+        "text": "which is a large building up there"
+      },
+      {
+        "start": 352,
+        "end": 355,
+        "text": "and we're navigating our way through the"
+      },
+      {
+        "start": 355,
+        "end": 356,
+        "text": "crowd."
+      },
+      {
+        "start": 356,
+        "end": 358,
+        "text": "Busy crowd. You can say it's very"
+      },
+      {
+        "start": 358,
+        "end": 362,
+        "text": "hectic, very busy here."
+      },
+      {
+        "start": 362,
+        "end": 364,
+        "text": ">> [music]"
+      },
+      {
+        "start": 364,
+        "end": 366,
+        "text": ">> Okay, now we're in the MBS, Marina Bay"
+      },
+      {
+        "start": 366,
+        "end": 371,
+        "text": "Sands Hotel and this is massive."
+      },
+      {
+        "start": 371,
+        "end": 372,
+        "text": "This is just one of the pillars. There's"
+      },
+      {
+        "start": 372,
+        "end": 374,
+        "text": "three of these."
+      },
+      {
+        "start": 374,
+        "end": 375,
+        "text": "Three of these?"
+      },
+      {
+        "start": 375,
+        "end": 377,
+        "text": "Holy moly."
+      },
+      {
+        "start": 377,
+        "end": 382,
+        "text": ">> [music]"
+      },
+      {
+        "start": 382,
+        "end": 385,
+        "text": ">> Yo, you come here often?"
+      },
+      {
+        "start": 385,
+        "end": 389,
+        "text": ">> [music]"
+      },
+      {
+        "start": 389,
+        "end": 392,
+        "text": ">> We just arrived on the rooftop and"
+      },
+      {
+        "start": 392,
+        "end": 396,
+        "text": "check this view out."
+      },
+      {
+        "start": 396,
+        "end": 399,
+        "text": "Madness. We are on the 57th floor. Let's"
+      },
+      {
+        "start": 399,
+        "end": 401,
+        "text": "get a cocktail."
+      },
+      {
+        "start": 401,
+        "end": 404,
+        "text": "This is called the bar."
+      },
+      {
+        "start": 404,
+        "end": 407,
+        "text": "We are looking at the menu"
+      },
+      {
+        "start": 407,
+        "end": 408,
+        "text": "and now Jared is talking to the"
+      },
+      {
+        "start": 408,
+        "end": 411,
+        "text": "bartender."
+      },
+      {
+        "start": 411,
+        "end": 411,
+        "text": ">> [music]"
+      },
+      {
+        "start": 411,
+        "end": 414,
+        "text": ">> All right, cheers, Jared."
+      },
+      {
+        "start": 414,
+        "end": 417,
+        "text": "Cheers, amigo."
+      },
+      {
+        "start": 417,
+        "end": 419,
+        "text": "I cheers to you behind the screen."
+      },
+      {
+        "start": 419,
+        "end": 432,
+        "text": "I'll see you tomorrow in day two."
+      },
+      {
+        "start": 432,
+        "end": 433,
+        "text": ">> [music]"
+      },
+      {
+        "start": 433,
+        "end": 436,
+        "text": ">> Good morning, guys. I'm standing on"
+      },
+      {
+        "start": 436,
+        "end": 438,
+        "text": "Jared's balcony"
+      },
+      {
+        "start": 438,
+        "end": 440,
+        "text": "and enjoying"
+      },
+      {
+        "start": 440,
+        "end": 442,
+        "text": "my morning"
+      },
+      {
+        "start": 442,
+        "end": 445,
+        "text": "cuppa."
+      },
+      {
+        "start": 445,
+        "end": 447,
+        "text": "A cuppa is a cup of tea and it's a very"
+      },
+      {
+        "start": 447,
+        "end": 450,
+        "text": "British thing to drink on a morning."
+      },
+      {
+        "start": 450,
+        "end": 454,
+        "text": "And the plan for today is to take a"
+      },
+      {
+        "start": 454,
+        "end": 456,
+        "text": "walk. We're going to get some breakfast"
+      },
+      {
+        "start": 456,
+        "end": 458,
+        "text": "and then we're going to go to the"
+      },
+      {
+        "start": 458,
+        "end": 461,
+        "text": "botanical gardens and Jared's going to"
+      },
+      {
+        "start": 461,
+        "end": 464,
+        "text": "show me more of Singapore. So, I'm"
+      },
+      {
+        "start": 464,
+        "end": 466,
+        "text": "excited for the day ahead. I'm going to"
+      },
+      {
+        "start": 466,
+        "end": 469,
+        "text": "try film as much as I can and"
+      },
+      {
+        "start": 469,
+        "end": 471,
+        "text": "bring you guys along, teach you some"
+      },
+      {
+        "start": 471,
+        "end": 474,
+        "text": "English and have fun. One word"
+      },
+      {
+        "start": 474,
+        "end": 477,
+        "text": "well, two words, actually. The first one"
+      },
+      {
+        "start": 477,
+        "end": 480,
+        "text": "is I am here on a balcony."
+      },
+      {
+        "start": 480,
+        "end": 482,
+        "text": "And the balcony is the"
+      },
+      {
+        "start": 482,
+        "end": 484,
+        "text": "outside part of the house that looks out"
+      },
+      {
+        "start": 484,
+        "end": 488,
+        "text": "onto the view. And over there,"
+      },
+      {
+        "start": 488,
+        "end": 491,
+        "text": "this is a construction site. You can see"
+      },
+      {
+        "start": 491,
+        "end": 493,
+        "text": "two cranes"
+      },
+      {
+        "start": 493,
+        "end": 495,
+        "text": "towering above."
+      },
+      {
+        "start": 495,
+        "end": 497,
+        "text": "And a construction site is where they"
+      },
+      {
+        "start": 497,
+        "end": 499,
+        "text": "are building a new building. For all my"
+      },
+      {
+        "start": 499,
+        "end": 502,
+        "text": "English learners out there, if you want"
+      },
+      {
+        "start": 502,
+        "end": 504,
+        "text": "to become [music] fluent, then check out"
+      },
+      {
+        "start": 504,
+        "end": 506,
+        "text": "the Sprout website."
+      },
+      {
+        "start": 506,
+        "end": 508,
+        "text": "The method is simple."
+      },
+      {
+        "start": 508,
+        "end": 511,
+        "text": "You watch a video. [music]"
+      },
+      {
+        "start": 511,
+        "end": 513,
+        "text": "You learn new vocabulary related to a"
+      },
+      {
+        "start": 513,
+        "end": 517,
+        "text": "topic like winter and snow in my newest"
+      },
+      {
+        "start": 517,
+        "end": 521,
+        "text": "Korea skiing video. Then you speak with"
+      },
+      {
+        "start": 521,
+        "end": 523,
+        "text": "[music] Jared to practice the vocabulary"
+      },
+      {
+        "start": 523,
+        "end": 526,
+        "text": "and use the words that you learned in"
+      },
+      {
+        "start": 526,
+        "end": 530,
+        "text": "the video. Watch, learn, speak."
+      },
+      {
+        "start": 530,
+        "end": 532,
+        "text": "It's as [music] simple as that. And if"
+      },
+      {
+        "start": 532,
+        "end": 534,
+        "text": "you do want to become fluent in English,"
+      },
+      {
+        "start": 534,
+        "end": 537,
+        "text": "then Sprout is the way."
+      },
+      {
+        "start": 537,
+        "end": 539,
+        "text": "We are walking"
+      },
+      {
+        "start": 539,
+        "end": 542,
+        "text": "to have breakfast and on the streets,"
+      },
+      {
+        "start": 542,
+        "end": 544,
+        "text": "you can see a stop sign"
+      },
+      {
+        "start": 544,
+        "end": 546,
+        "text": "for cars to stop."
+      },
+      {
+        "start": 546,
+        "end": 549,
+        "text": "Over there is some wall art or we can"
+      },
+      {
+        "start": 549,
+        "end": 551,
+        "text": "say a mural."
+      },
+      {
+        "start": 551,
+        "end": 561,
+        "text": "This is called a crossroads."
+      },
+      {
+        "start": 561,
+        "end": 563,
+        "text": "Dog paw."
+      },
+      {
+        "start": 563,
+        "end": 565,
+        "text": "A paw print"
+      },
+      {
+        "start": 565,
+        "end": 567,
+        "text": "from a dog."
+      },
+      {
+        "start": 567,
+        "end": 569,
+        "text": "Good dog. A mat"
+      },
+      {
+        "start": 569,
+        "end": 572,
+        "text": "with two fat cats. Jared is wearing a"
+      },
+      {
+        "start": 572,
+        "end": 576,
+        "text": "green shirt with an orange back."
+      },
+      {
+        "start": 576,
+        "end": 578,
+        "text": "Look at this tree, guys."
+      },
+      {
+        "start": 578,
+        "end": 580,
+        "text": "Wow, what do you think of that, Jared?"
+      },
+      {
+        "start": 580,
+        "end": 581,
+        "text": "Mad."
+      },
+      {
+        "start": 581,
+        "end": 582,
+        "text": ">> [laughter]"
+      },
+      {
+        "start": 582,
+        "end": 584,
+        "text": ">> Yeah, these trees are really cool. Their"
+      },
+      {
+        "start": 584,
+        "end": 585,
+        "text": "branches and their limbs stretch"
+      },
+      {
+        "start": 585,
+        "end": 587,
+        "text": "[snorts] out like veins in the human"
+      },
+      {
+        "start": 587,
+        "end": 588,
+        "text": "body"
+      },
+      {
+        "start": 588,
+        "end": 590,
+        "text": "or like uh roots in the ground."
+      },
+      {
+        "start": 590,
+        "end": 594,
+        "text": "Create a really interesting pattern."
+      },
+      {
+        "start": 594,
+        "end": 595,
+        "text": "Very cool."
+      },
+      {
+        "start": 595,
+        "end": 596,
+        "text": "I love on trees here."
+      },
+      {
+        "start": 596,
+        "end": 605,
+        "text": "Feels like Jungle Book."
+      },
+      {
+        "start": 605,
+        "end": 607,
+        "text": "We're waiting in a queue to eat"
+      },
+      {
+        "start": 607,
+        "end": 610,
+        "text": "breakfast at Ya Kun Kaya Toast."
+      },
+      {
+        "start": 610,
+        "end": 613,
+        "text": "A super famous Singapore place for kaya"
+      },
+      {
+        "start": 613,
+        "end": 618,
+        "text": "toast, butter, and soft boiled eggs."
+      },
+      {
+        "start": 618,
+        "end": 619,
+        "text": "Jared is bringing me here for the first"
+      },
+      {
+        "start": 619,
+        "end": 621,
+        "text": "time."
+      },
+      {
+        "start": 621,
+        "end": 623,
+        "text": "I'm excited because I'm trying a classic"
+      },
+      {
+        "start": 623,
+        "end": 625,
+        "text": "local Singaporean breakfast, and I'm"
+      },
+      {
+        "start": 625,
+        "end": 628,
+        "text": "curious if it tastes as good as everyone"
+      },
+      {
+        "start": 628,
+        "end": 630,
+        "text": "says."
+      },
+      {
+        "start": 630,
+        "end": 631,
+        "text": "The steam from the boiling eggs is"
+      },
+      {
+        "start": 631,
+        "end": 632,
+        "text": "rising."
+      },
+      {
+        "start": 632,
+        "end": 634,
+        "text": ">> [music]"
+      },
+      {
+        "start": 634,
+        "end": 636,
+        "text": ">> The numbers in red tell you when your"
+      },
+      {
+        "start": 636,
+        "end": 637,
+        "text": "order is ready."
+      },
+      {
+        "start": 637,
+        "end": 637,
+        "text": ">> [music]"
+      },
+      {
+        "start": 637,
+        "end": 639,
+        "text": ">> Ours is coming now."
+      },
+      {
+        "start": 639,
+        "end": 642,
+        "text": "Jared is arriving with the coffees. Best"
+      },
+      {
+        "start": 642,
+        "end": 648,
+        "text": "time of the day."
+      },
+      {
+        "start": 648,
+        "end": 650,
+        "text": "Lovely."
+      },
+      {
+        "start": 650,
+        "end": 652,
+        "text": "Jared's got a hot coffee."
+      },
+      {
+        "start": 652,
+        "end": 655,
+        "text": "I've got iced coffee."
+      },
+      {
+        "start": 655,
+        "end": 659,
+        "text": "Cheers."
+      },
+      {
+        "start": 659,
+        "end": 661,
+        "text": "Good."
+      },
+      {
+        "start": 661,
+        "end": 663,
+        "text": "The man with the food."
+      },
+      {
+        "start": 663,
+        "end": 664,
+        "text": "This is"
+      },
+      {
+        "start": 664,
+        "end": 666,
+        "text": "toast,"
+      },
+      {
+        "start": 666,
+        "end": 668,
+        "text": "toasted bread, and some"
+      },
+      {
+        "start": 668,
+        "end": 671,
+        "text": "wet and runny eggs."
+      },
+      {
+        "start": 671,
+        "end": 673,
+        "text": "Good word, runny. They are wet and"
+      },
+      {
+        "start": 673,
+        "end": 675,
+        "text": "runny. Jared is pouring the soy sauce on"
+      },
+      {
+        "start": 675,
+        "end": 678,
+        "text": "the eggs. Can you put it on mine, too?"
+      },
+      {
+        "start": 678,
+        "end": 680,
+        "text": "Thanks."
+      },
+      {
+        "start": 680,
+        "end": 681,
+        "text": "Nice one."
+      },
+      {
+        "start": 681,
+        "end": 683,
+        "text": "All right, let's dig in."
+      },
+      {
+        "start": 683,
+        "end": 685,
+        "text": "Jared is breaking breaking it in half,"
+      },
+      {
+        "start": 685,
+        "end": 689,
+        "text": "and good word, good verb, dipping it."
+      },
+      {
+        "start": 689,
+        "end": 691,
+        "text": "So, I am"
+      },
+      {
+        "start": 691,
+        "end": 693,
+        "text": "dipping the egg, and look at that. That"
+      },
+      {
+        "start": 693,
+        "end": 697,
+        "text": "is an egg yolk. Excellent."
+      },
+      {
+        "start": 697,
+        "end": 698,
+        "text": "So, this is really good. Um, you have"
+      },
+      {
+        "start": 698,
+        "end": 702,
+        "text": "these like thin, crispy toasts"
+      },
+      {
+        "start": 702,
+        "end": 705,
+        "text": "with butter and kaya spread inside. It's"
+      },
+      {
+        "start": 705,
+        "end": 708,
+        "text": "like a honey, sweet thing, and you dip"
+      },
+      {
+        "start": 708,
+        "end": 709,
+        "text": "it"
+      },
+      {
+        "start": 709,
+        "end": 712,
+        "text": "in the eggs."
+      },
+      {
+        "start": 712,
+        "end": 713,
+        "text": "You dip it in the yolk, in the runny"
+      },
+      {
+        "start": 713,
+        "end": 715,
+        "text": "eggs."
+      },
+      {
+        "start": 715,
+        "end": 717,
+        "text": "And"
+      },
+      {
+        "start": 717,
+        "end": 719,
+        "text": "Mhm."
+      },
+      {
+        "start": 719,
+        "end": 721,
+        "text": "It's sweet. It's"
+      },
+      {
+        "start": 721,
+        "end": 722,
+        "text": "salty."
+      },
+      {
+        "start": 722,
+        "end": 725,
+        "text": "It's really good."
+      },
+      {
+        "start": 725,
+        "end": 734,
+        "text": "Unique breakfast."
+      },
+      {
+        "start": 734,
+        "end": 735,
+        "text": ">> [laughter]"
+      },
+      {
+        "start": 735,
+        "end": 736,
+        "text": ">> There he is."
+      },
+      {
+        "start": 736,
+        "end": 738,
+        "text": "We have just finished breakfast. Full"
+      },
+      {
+        "start": 738,
+        "end": 739,
+        "text": "bellies."
+      },
+      {
+        "start": 739,
+        "end": 742,
+        "text": "And now we're going to go to"
+      },
+      {
+        "start": 742,
+        "end": 744,
+        "text": "the Botanical Gardens."
+      },
+      {
+        "start": 744,
+        "end": 746,
+        "text": "Let's go."
+      },
+      {
+        "start": 746,
+        "end": 747,
+        "text": "Can we go up here?"
+      },
+      {
+        "start": 747,
+        "end": 751,
+        "text": "All right. After you, sir."
+      },
+      {
+        "start": 751,
+        "end": 760,
+        "text": "I'm going to take the metro, the metro."
+      },
+      {
+        "start": 760,
+        "end": 762,
+        "text": "Look at that. A chessboard in a metro"
+      },
+      {
+        "start": 762,
+        "end": 763,
+        "text": "station. So, now we're getting an eye"
+      },
+      {
+        "start": 763,
+        "end": 765,
+        "text": "juice, which is a"
+      },
+      {
+        "start": 765,
+        "end": 768,
+        "text": "orange juice in a vending machine."
+      },
+      {
+        "start": 768,
+        "end": 770,
+        "text": "Freshly squeezed"
+      },
+      {
+        "start": 770,
+        "end": 771,
+        "text": "orange juice."
+      },
+      {
+        "start": 771,
+        "end": 774,
+        "text": "And we are going to quench"
+      },
+      {
+        "start": 774,
+        "end": 776,
+        "text": "our thirst. To quench your thirst is to"
+      },
+      {
+        "start": 776,
+        "end": 789,
+        "text": "go from thirsty to not thirsty."
+      },
+      {
+        "start": 789,
+        "end": 793,
+        "text": ">> [singing]"
+      },
+      {
+        "start": 793,
+        "end": 797,
+        "text": ">> Here we go. Coming out of the metro."
+      },
+      {
+        "start": 797,
+        "end": 798,
+        "text": "Jared's putting on his sunglasses. It's"
+      },
+      {
+        "start": 798,
+        "end": 800,
+        "text": "a bit bright."
+      },
+      {
+        "start": 800,
+        "end": 803,
+        "text": "Let's go. See some gardens."
+      },
+      {
+        "start": 803,
+        "end": 804,
+        "text": "All right, guys. We are on a quest, a"
+      },
+      {
+        "start": 804,
+        "end": 808,
+        "text": "mission to find a monitor lizard, which"
+      },
+      {
+        "start": 808,
+        "end": 810,
+        "text": "is like a Komodo dragon, but without the"
+      },
+      {
+        "start": 810,
+        "end": 812,
+        "text": "poisonous tongue. And apparently there"
+      },
+      {
+        "start": 812,
+        "end": 814,
+        "text": "are monitor lizards here."
+      },
+      {
+        "start": 814,
+        "end": 816,
+        "text": "I hope so. We will find them by hook or"
+      },
+      {
+        "start": 816,
+        "end": 817,
+        "text": "by crook."
+      },
+      {
+        "start": 817,
+        "end": 817,
+        "text": ">> [laughter]"
+      },
+      {
+        "start": 817,
+        "end": 819,
+        "text": ">> Let's go find them."
+      },
+      {
+        "start": 819,
+        "end": 821,
+        "text": "All right. First spot of the wildlife."
+      },
+      {
+        "start": 821,
+        "end": 823,
+        "text": "We have a rooster"
+      },
+      {
+        "start": 823,
+        "end": 826,
+        "text": "on the floor."
+      },
+      {
+        "start": 826,
+        "end": 829,
+        "text": "So, we are in the Botanical Gardens."
+      },
+      {
+        "start": 829,
+        "end": 831,
+        "text": "And botany"
+      },
+      {
+        "start": 831,
+        "end": 835,
+        "text": "is the word for the study of plants."
+      },
+      {
+        "start": 835,
+        "end": 836,
+        "text": "And in here we are surrounded by"
+      },
+      {
+        "start": 836,
+        "end": 838,
+        "text": "foliage,"
+      },
+      {
+        "start": 838,
+        "end": 840,
+        "text": "or greenery."
+      },
+      {
+        "start": 840,
+        "end": 843,
+        "text": "And we're looking for the orchids."
+      },
+      {
+        "start": 843,
+        "end": 845,
+        "text": "An orchid is a type of plant."
+      },
+      {
+        "start": 845,
+        "end": 847,
+        "text": "This type of plant."
+      },
+      {
+        "start": 847,
+        "end": 850,
+        "text": "This is an orchid."
+      },
+      {
+        "start": 850,
+        "end": 852,
+        "text": "And this is a"
+      },
+      {
+        "start": 852,
+        "end": 853,
+        "text": "fountain."
+      },
+      {
+        "start": 853,
+        "end": 855,
+        "text": "There is a man watering the plants. Of"
+      },
+      {
+        "start": 855,
+        "end": 858,
+        "text": "course, the most attractive thing in Oh,"
+      },
+      {
+        "start": 858,
+        "end": 860,
+        "text": "not you. In the Botanical Gardens is a"
+      },
+      {
+        "start": 860,
+        "end": 863,
+        "text": "traffic cone and a hose pipe. Yes. Look"
+      },
+      {
+        "start": 863,
+        "end": 865,
+        "text": "how beautiful this is. And Jared just"
+      },
+      {
+        "start": 865,
+        "end": 866,
+        "text": "said a good word there. What did you"
+      },
+      {
+        "start": 866,
+        "end": 868,
+        "text": "say, Jared?"
+      },
+      {
+        "start": 868,
+        "end": 870,
+        "text": "Stunning. Stunning. Stunning can"
+      },
+      {
+        "start": 870,
+        "end": 872,
+        "text": "describe a beautiful view,"
+      },
+      {
+        "start": 872,
+        "end": 874,
+        "text": "nice scenery, or"
+      },
+      {
+        "start": 874,
+        "end": 877,
+        "text": "a fit person."
+      },
+      {
+        "start": 877,
+        "end": 879,
+        "text": "I just said a fit person. If someone is"
+      },
+      {
+        "start": 879,
+        "end": 881,
+        "text": "fit in British slang, it means they are"
+      },
+      {
+        "start": 881,
+        "end": 883,
+        "text": "attractive."
+      },
+      {
+        "start": 883,
+        "end": 885,
+        "text": "A man or a woman can be fit."
+      },
+      {
+        "start": 885,
+        "end": 887,
+        "text": "Different to physically fit."
+      },
+      {
+        "start": 887,
+        "end": 887,
+        "text": ">> [snorts]"
+      },
+      {
+        "start": 887,
+        "end": 890,
+        "text": ">> It might be used in a sentence such as"
+      },
+      {
+        "start": 890,
+        "end": 892,
+        "text": "He's well fit."
+      },
+      {
+        "start": 892,
+        "end": 893,
+        "text": "Or she's well fit."
+      },
+      {
+        "start": 893,
+        "end": 896,
+        "text": "Fit equals attractive. Hot. So, we are"
+      },
+      {
+        "start": 896,
+        "end": 899,
+        "text": "wandering, which means we're walking"
+      },
+      {
+        "start": 899,
+        "end": 902,
+        "text": "gently, casually, with no real aim of"
+      },
+      {
+        "start": 902,
+        "end": 904,
+        "text": "any destination. A good spot. All right,"
+      },
+      {
+        "start": 904,
+        "end": 905,
+        "text": "guys."
+      },
+      {
+        "start": 905,
+        "end": 908,
+        "text": "In this little pond here,"
+      },
+      {
+        "start": 908,
+        "end": 910,
+        "text": "we have some turtles."
+      },
+      {
+        "start": 910,
+        "end": 913,
+        "text": "You can just see them"
+      },
+      {
+        "start": 913,
+        "end": 916,
+        "text": "on the left-hand side there. It's a"
+      },
+      {
+        "start": 916,
+        "end": 917,
+        "text": "You can see the turtle shell. And"
+      },
+      {
+        "start": 917,
+        "end": 920,
+        "text": "everyone gets this wrong, even natives,"
+      },
+      {
+        "start": 920,
+        "end": 923,
+        "text": "but a tortoise is the one that walks on"
+      },
+      {
+        "start": 923,
+        "end": 926,
+        "text": "land, a tortoise. And a turtle is the"
+      },
+      {
+        "start": 926,
+        "end": 929,
+        "text": "one that swims in the water. Tortoise"
+      },
+      {
+        "start": 929,
+        "end": 930,
+        "text": "walks on land."
+      },
+      {
+        "start": 930,
+        "end": 932,
+        "text": "Turtle swims in the water."
+      },
+      {
+        "start": 932,
+        "end": 934,
+        "text": "Me and Jared have just been devising a"
+      },
+      {
+        "start": 934,
+        "end": 936,
+        "text": "way for you to remember a tortoise on"
+      },
+      {
+        "start": 936,
+        "end": 938,
+        "text": "land, and we came up with a tortoise"
+      },
+      {
+        "start": 938,
+        "end": 940,
+        "text": "likes to walk us."
+      },
+      {
+        "start": 940,
+        "end": 943,
+        "text": "And a turtle is like Squirtle. If you've"
+      },
+      {
+        "start": 943,
+        "end": 944,
+        "text": "seen Pokémon,"
+      },
+      {
+        "start": 944,
+        "end": 946,
+        "text": "Squirtle swims in the water."
+      },
+      {
+        "start": 946,
+        "end": 947,
+        "text": "It's not very good, is it? But a"
+      },
+      {
+        "start": 947,
+        "end": 951,
+        "text": "tortoise likes to walk us."
+      },
+      {
+        "start": 951,
+        "end": 952,
+        "text": "So, we are here"
+      },
+      {
+        "start": 952,
+        "end": 955,
+        "text": "in the Botanical Gardens,"
+      },
+      {
+        "start": 955,
+        "end": 956,
+        "text": "looking"
+      },
+      {
+        "start": 956,
+        "end": 957,
+        "text": "at the beautiful scenery,"
+      },
+      {
+        "start": 957,
+        "end": 959,
+        "text": "the grass, the trees, the ponds, the"
+      },
+      {
+        "start": 959,
+        "end": 961,
+        "text": "water, the birds, the frogs, the"
+      },
+      {
+        "start": 961,
+        "end": 964,
+        "text": "butterflies, and the dragonflies."
+      },
+      {
+        "start": 964,
+        "end": 966,
+        "text": "And it's really rather beautiful."
+      },
+      {
+        "start": 966,
+        "end": 967,
+        "text": ">> [music]"
+      },
+      {
+        "start": 967,
+        "end": 969,
+        "text": ">> So, right now Jared is looking at the"
+      },
+      {
+        "start": 969,
+        "end": 970,
+        "text": "map"
+      },
+      {
+        "start": 970,
+        "end": 972,
+        "text": "to find out"
+      },
+      {
+        "start": 972,
+        "end": 975,
+        "text": "where we are. Did you find it out? This"
+      },
+      {
+        "start": 975,
+        "end": 977,
+        "text": "way. This way. Come with me. So, we're"
+      },
+      {
+        "start": 977,
+        "end": 978,
+        "text": "walking along this path, [music]"
+      },
+      {
+        "start": 978,
+        "end": 981,
+        "text": "and there are butterflies,"
+      },
+      {
+        "start": 981,
+        "end": 983,
+        "text": "but it's hard to capture them because"
+      },
+      {
+        "start": 983,
+        "end": 985,
+        "text": "they"
+      },
+      {
+        "start": 985,
+        "end": 989,
+        "text": "they keep flying everywhere."
+      },
+      {
+        "start": 989,
+        "end": 991,
+        "text": "All right, guys. We are in the foliage"
+      },
+      {
+        "start": 991,
+        "end": 992,
+        "text": "garden."
+      },
+      {
+        "start": 992,
+        "end": 994,
+        "text": "Foliage"
+      },
+      {
+        "start": 994,
+        "end": 997,
+        "text": "is the term for plant leaves"
+      },
+      {
+        "start": 997,
+        "end": 998,
+        "text": "collectively."
+      },
+      {
+        "start": 998,
+        "end": 1000,
+        "text": "Lots of leaves."
+      },
+      {
+        "start": 1000,
+        "end": 1001,
+        "text": "That looks like something from Jurassic"
+      },
+      {
+        "start": 1001,
+        "end": 1003,
+        "text": "Park. Look at these trees. They're"
+      },
+      {
+        "start": 1003,
+        "end": 1005,
+        "text": "ancient."
+      },
+      {
+        "start": 1005,
+        "end": 1007,
+        "text": "Mad that that's well older than us."
+      },
+      {
+        "start": 1007,
+        "end": 1010,
+        "text": "They're at least 10 years old."
+      },
+      {
+        "start": 1010,
+        "end": 1013,
+        "text": "We are in a UNESCO World Heritage Site."
+      },
+      {
+        "start": 1013,
+        "end": 1017,
+        "text": "Cool."
+      },
+      {
+        "start": 1017,
+        "end": 1020,
+        "text": "Jared doing his wood pigeon."
+      },
+      {
+        "start": 1020,
+        "end": 1022,
+        "text": "Yeah, that's good."
+      },
+      {
+        "start": 1022,
+        "end": 1024,
+        "text": "These plants to our left are called"
+      },
+      {
+        "start": 1024,
+        "end": 1026,
+        "text": "ferns."
+      },
+      {
+        "start": 1026,
+        "end": 1029,
+        "text": "A palm leaf."
+      },
+      {
+        "start": 1029,
+        "end": 1031,
+        "text": "Look at the roots on this tree."
+      },
+      {
+        "start": 1031,
+        "end": 1033,
+        "text": "Instead of growing into the ground, they"
+      },
+      {
+        "start": 1033,
+        "end": 1035,
+        "text": "are kind of sprawled out like a spider's"
+      },
+      {
+        "start": 1035,
+        "end": 1037,
+        "text": "legs."
+      },
+      {
+        "start": 1037,
+        "end": 1039,
+        "text": "Very cool. And look at this tree."
+      },
+      {
+        "start": 1039,
+        "end": 1041,
+        "text": "The roots are growing down from the"
+      },
+      {
+        "start": 1041,
+        "end": 1043,
+        "text": "trunk."
+      },
+      {
+        "start": 1043,
+        "end": 1044,
+        "text": "There's the trunk, and the roots are"
+      },
+      {
+        "start": 1044,
+        "end": 1047,
+        "text": "growing down into the ground. This is a"
+      },
+      {
+        "start": 1047,
+        "end": 1050,
+        "text": "beautiful world, guys. Not planable."
+      },
+      {
+        "start": 1050,
+        "end": 1051,
+        "text": "Plethora."
+      },
+      {
+        "start": 1051,
+        "end": 1053,
+        "text": "Plethora means there are lots of"
+      },
+      {
+        "start": 1053,
+        "end": 1054,
+        "text": "something."
+      },
+      {
+        "start": 1054,
+        "end": 1056,
+        "text": "They are abundant."
+      },
+      {
+        "start": 1056,
+        "end": 1057,
+        "text": "Should I give the people the slang term"
+      },
+      {
+        "start": 1057,
+        "end": 1058,
+        "text": "of a plethora?"
+      },
+      {
+        "start": 1058,
+        "end": 1062,
+        "text": ">> [laughter]"
+      },
+      {
+        "start": 1062,
+        "end": 1063,
+        "text": ">> So, you can see the"
+      },
+      {
+        "start": 1063,
+        "end": 1063,
+        "text": ">> [music]"
+      },
+      {
+        "start": 1063,
+        "end": 1066,
+        "text": ">> turtle, guys. Remember,"
+      },
+      {
+        "start": 1066,
+        "end": 1068,
+        "text": "the turtle"
+      },
+      {
+        "start": 1068,
+        "end": 1069,
+        "text": "is the one that swims in the water."
+      },
+      {
+        "start": 1069,
+        "end": 1072,
+        "text": "[music]"
+      },
+      {
+        "start": 1072,
+        "end": 1074,
+        "text": "Tortoise likes to walk us."
+      },
+      {
+        "start": 1074,
+        "end": 1076,
+        "text": "And a turtle has a hard shell."
+      },
+      {
+        "start": 1076,
+        "end": 1079,
+        "text": "The same shell that you find on an egg,"
+      },
+      {
+        "start": 1079,
+        "end": 1086,
+        "text": "or a snail."
+      },
+      {
+        "start": 1086,
+        "end": 1089,
+        "text": "It's quite hot. Sweating. It's humid."
+      },
+      {
+        "start": 1089,
+        "end": 1091,
+        "text": "The air is wet."
+      },
+      {
+        "start": 1091,
+        "end": 1093,
+        "text": "This is a lake,"
+      },
+      {
+        "start": 1093,
+        "end": 1099,
+        "text": "or a big pond."
+      },
+      {
+        "start": 1099,
+        "end": 1101,
+        "text": "So, the weather is very hot, and when"
+      },
+      {
+        "start": 1101,
+        "end": 1103,
+        "text": "it's hot and wet together, we say it's"
+      },
+      {
+        "start": 1103,
+        "end": 1104,
+        "text": "humid."
+      },
+      {
+        "start": 1104,
+        "end": 1107,
+        "text": "But, there is a breeze, and that breeze"
+      },
+      {
+        "start": 1107,
+        "end": 1108,
+        "text": "is really nice. [music]"
+      },
+      {
+        "start": 1108,
+        "end": 1110,
+        "text": "A breeze is a light wind."
+      },
+      {
+        "start": 1110,
+        "end": 1112,
+        "text": "And that's refreshing."
+      },
+      {
+        "start": 1112,
+        "end": 1113,
+        "text": "Look at these guys."
+      },
+      {
+        "start": 1113,
+        "end": 1114,
+        "text": "These are"
+      },
+      {
+        "start": 1114,
+        "end": 1114,
+        "text": ">> [music]"
+      },
+      {
+        "start": 1114,
+        "end": 1116,
+        "text": ">> giant"
+      },
+      {
+        "start": 1116,
+        "end": 1118,
+        "text": "lily pads."
+      },
+      {
+        "start": 1118,
+        "end": 1120,
+        "text": "And people have thrown coins onto the"
+      },
+      {
+        "start": 1120,
+        "end": 1125,
+        "text": "[music] lily pads."
+      },
+      {
+        "start": 1125,
+        "end": 1126,
+        "text": ">> [laughter]"
+      },
+      {
+        "start": 1126,
+        "end": 1128,
+        "text": ">> Nice. Make a wish. I already have. What"
+      },
+      {
+        "start": 1128,
+        "end": 1131,
+        "text": "did you wish for? For you to fall in."
+      },
+      {
+        "start": 1131,
+        "end": 1131,
+        "text": ">> [laughter]"
+      },
+      {
+        "start": 1131,
+        "end": 1133,
+        "text": ">> Good."
+      },
+      {
+        "start": 1133,
+        "end": 1134,
+        "text": "This is really cool."
+      },
+      {
+        "start": 1134,
+        "end": 1136,
+        "text": "So, here is a"
+      },
+      {
+        "start": 1136,
+        "end": 1137,
+        "text": "giant pond"
+      },
+      {
+        "start": 1137,
+        "end": 1152,
+        "text": "with lily pads on, and that is a stage."
+      },
+      {
+        "start": 1152,
+        "end": 1158,
+        "text": ">> [music]"
+      },
+      {
+        "start": 1158,
+        "end": 1164,
+        "text": "[music]"
+      },
+      {
+        "start": 1164,
+        "end": 1169,
+        "text": "[music]"
+      },
+      {
+        "start": 1169,
+        "end": 1175,
+        "text": "[music]"
+      },
+      {
+        "start": 1175,
+        "end": 1187,
+        "text": "[music]"
+      },
+      {
+        "start": 1187,
+        "end": 1189,
+        "text": ">> Wow. This is gorgeous in here."
+      },
+      {
+        "start": 1189,
+        "end": 1191,
+        "text": "Good word for here, guys."
+      },
+      {
+        "start": 1191,
+        "end": 1194,
+        "text": "Trickling. The water is trickling down"
+      },
+      {
+        "start": 1194,
+        "end": 1196,
+        "text": "the stream."
+      },
+      {
+        "start": 1196,
+        "end": 1200,
+        "text": "I have some more orchids and"
+      },
+      {
+        "start": 1200,
+        "end": 1201,
+        "text": "Look at this."
+      },
+      {
+        "start": 1201,
+        "end": 1203,
+        "text": "This"
+      },
+      {
+        "start": 1203,
+        "end": 1205,
+        "text": "green stuff on the rocks"
+      },
+      {
+        "start": 1205,
+        "end": 1208,
+        "text": "is called moss."
+      },
+      {
+        "start": 1208,
+        "end": 1209,
+        "text": "This is moss."
+      },
+      {
+        "start": 1209,
+        "end": 1212,
+        "text": "Two good words, guys. This is spongy."
+      },
+      {
+        "start": 1212,
+        "end": 1215,
+        "text": "The texture is soft like a sponge cake."
+      },
+      {
+        "start": 1215,
+        "end": 1217,
+        "text": "These leaves are spiky. They are sharp"
+      },
+      {
+        "start": 1217,
+        "end": 1218,
+        "text": "and pointy."
+      },
+      {
+        "start": 1218,
+        "end": 1221,
+        "text": "Spongy, spiky."
+      },
+      {
+        "start": 1221,
+        "end": 1233,
+        "text": "These orchids are beautiful."
+      },
+      {
+        "start": 1233,
+        "end": 1234,
+        "text": "All right, guys."
+      },
+      {
+        "start": 1234,
+        "end": 1236,
+        "text": "We just found [music] a monitor lizard."
+      },
+      {
+        "start": 1236,
+        "end": 1239,
+        "text": "Check this out."
+      },
+      {
+        "start": 1239,
+        "end": 1241,
+        "text": "We did it, guys. We found the monitor"
+      },
+      {
+        "start": 1241,
+        "end": 1241,
+        "text": "lizard."
+      },
+      {
+        "start": 1241,
+        "end": 1244,
+        "text": ">> [music]"
+      },
+      {
+        "start": 1244,
+        "end": 1246,
+        "text": ">> Look at how it crawls."
+      },
+      {
+        "start": 1246,
+        "end": 1249,
+        "text": "It's got a forked tongue."
+      },
+      {
+        "start": 1249,
+        "end": 1252,
+        "text": "And the monitor lizard is a crawling"
+      },
+      {
+        "start": 1252,
+        "end": 1254,
+        "text": "across the grass."
+      },
+      {
+        "start": 1254,
+        "end": 1256,
+        "text": "He's sticking his tongue out. And I"
+      },
+      {
+        "start": 1256,
+        "end": 1258,
+        "text": "think that's to sense his environment."
+      },
+      {
+        "start": 1258,
+        "end": 1265,
+        "text": "[music]"
+      },
+      {
+        "start": 1265,
+        "end": 1270,
+        "text": ">> [music]"
+      },
+      {
+        "start": 1270,
+        "end": 1273,
+        "text": "[music]"
+      },
+      {
+        "start": 1273,
+        "end": 1275,
+        "text": ">> We just left the botanical gardens and"
+      },
+      {
+        "start": 1275,
+        "end": 1278,
+        "text": "chilled out, had a rest. Now we're going"
+      },
+      {
+        "start": 1278,
+        "end": 1281,
+        "text": "to head out for some drinks and some"
+      },
+      {
+        "start": 1281,
+        "end": 1284,
+        "text": "food."
+      },
+      {
+        "start": 1284,
+        "end": 1285,
+        "text": "We are crossing the road and there are"
+      },
+      {
+        "start": 1285,
+        "end": 1289,
+        "text": "people passing on our left."
+      },
+      {
+        "start": 1289,
+        "end": 1294,
+        "text": ">> [music]"
+      },
+      {
+        "start": 1294,
+        "end": 1295,
+        "text": ">> So, we have just arrived at the famous"
+      },
+      {
+        "start": 1295,
+        "end": 1297,
+        "text": "Raffles."
+      },
+      {
+        "start": 1297,
+        "end": 1301,
+        "text": "And these houses are very fancy."
+      },
+      {
+        "start": 1301,
+        "end": 1303,
+        "text": "That's the next word, fancy."
+      },
+      {
+        "start": 1303,
+        "end": 1306,
+        "text": "This is a large hotel and the front of"
+      },
+      {
+        "start": 1306,
+        "end": 1310,
+        "text": "the building is lit up with warm light."
+      },
+      {
+        "start": 1310,
+        "end": 1312,
+        "text": "This is a courtyard with a fountain in"
+      },
+      {
+        "start": 1312,
+        "end": 1317,
+        "text": "the background."
+      },
+      {
+        "start": 1317,
+        "end": 1321,
+        "text": ">> [music]"
+      },
+      {
+        "start": 1321,
+        "end": 1327,
+        "text": ">> Jared is dishing up the food."
+      },
+      {
+        "start": 1327,
+        "end": 1330,
+        "text": "We have some sweet breads."
+      },
+      {
+        "start": 1330,
+        "end": 1330,
+        "text": ">> [music]"
+      },
+      {
+        "start": 1330,
+        "end": 1332,
+        "text": ">> Which is noodles with the stir-fried"
+      },
+      {
+        "start": 1332,
+        "end": 1334,
+        "text": "seafood."
+      },
+      {
+        "start": 1334,
+        "end": 1336,
+        "text": "Some side salad."
+      },
+      {
+        "start": 1336,
+        "end": 1337,
+        "text": "Sweet chili sauce, vegetable spring"
+      },
+      {
+        "start": 1337,
+        "end": 1340,
+        "text": "rolls. And"
+      },
+      {
+        "start": 1340,
+        "end": 1343,
+        "text": "we beef rendang, which is like a curry."
+      },
+      {
+        "start": 1343,
+        "end": 1344,
+        "text": ">> [music]"
+      },
+      {
+        "start": 1344,
+        "end": 1350,
+        "text": ">> How's it taste?"
+      },
+      {
+        "start": 1350,
+        "end": 1351,
+        "text": "It was bloody lovely. Yeah, it was"
+      },
+      {
+        "start": 1351,
+        "end": 1353,
+        "text": "bloody lovely."
+      },
+      {
+        "start": 1353,
+        "end": 1355,
+        "text": "Dinner was bloody lovely. Now we're"
+      },
+      {
+        "start": 1355,
+        "end": 1357,
+        "text": "walking through a tunnel. There are red"
+      },
+      {
+        "start": 1357,
+        "end": 1359,
+        "text": "lights on either side of the tunnel and"
+      },
+      {
+        "start": 1359,
+        "end": 1362,
+        "text": "funky artwork painted on the walls."
+      },
+      {
+        "start": 1362,
+        "end": 1364,
+        "text": "Right now we're heading to an arcade"
+      },
+      {
+        "start": 1364,
+        "end": 1368,
+        "text": "bar."
+      },
+      {
+        "start": 1368,
+        "end": 1369,
+        "text": ">> [music]"
+      },
+      {
+        "start": 1369,
+        "end": 1371,
+        "text": ">> We are in an arcade bar and I am"
+      },
+      {
+        "start": 1371,
+        "end": 1372,
+        "text": "drinking a pint."
+      },
+      {
+        "start": 1372,
+        "end": 1373,
+        "text": ">> [music]"
+      },
+      {
+        "start": 1373,
+        "end": 1375,
+        "text": ">> Cheers."
+      },
+      {
+        "start": 1375,
+        "end": 1377,
+        "text": "The neon lights are flashing on the"
+      },
+      {
+        "start": 1377,
+        "end": 1378,
+        "text": "ceiling."
+      },
+      {
+        "start": 1378,
+        "end": 1380,
+        "text": "This is the bar"
+      },
+      {
+        "start": 1380,
+        "end": 1383,
+        "text": "where the bartenders make your drinks."
+      },
+      {
+        "start": 1383,
+        "end": 1387,
+        "text": "This is called [music] a joystick."
+      },
+      {
+        "start": 1387,
+        "end": 1390,
+        "text": "And this is a coin slot where you insert"
+      },
+      {
+        "start": 1390,
+        "end": 1397,
+        "text": "your coins into."
+      },
+      {
+        "start": 1397,
+        "end": 1399,
+        "text": "The buttons are flashing."
+      },
+      {
+        "start": 1399,
+        "end": 1400,
+        "text": "It's time to play."
+      },
+      {
+        "start": 1400,
+        "end": 1403,
+        "text": "This game is called Master Sniper. A"
+      },
+      {
+        "start": 1403,
+        "end": 1405,
+        "text": "sniper rifle is a gun that can shoot"
+      },
+      {
+        "start": 1405,
+        "end": 1407,
+        "text": "bullets from a long range."
+      },
+      {
+        "start": 1407,
+        "end": 1410,
+        "text": "Or shoot Jared from a short range."
+      },
+      {
+        "start": 1410,
+        "end": 1413,
+        "text": "This is a basketball game. You throw the"
+      },
+      {
+        "start": 1413,
+        "end": 1416,
+        "text": "basketballs into the hoop."
+      },
+      {
+        "start": 1416,
+        "end": 1418,
+        "text": "Now we're playing darts. I am throwing"
+      },
+      {
+        "start": 1418,
+        "end": 1426,
+        "text": "the dart [music] at the dartboard."
+      },
+      {
+        "start": 1426,
+        "end": 1427,
+        "text": "I'm taking the darts out of the"
+      },
+      {
+        "start": 1427,
+        "end": 1429,
+        "text": "dartboard"
+      },
+      {
+        "start": 1429,
+        "end": 1432,
+        "text": "and handing them to Jared. It's his"
+      },
+      {
+        "start": 1432,
+        "end": 1436,
+        "text": "turn."
+      },
+      {
+        "start": 1436,
+        "end": 1437,
+        "text": "We won a fish."
+      },
+      {
+        "start": 1437,
+        "end": 1444,
+        "text": "The night has been a success."
+      },
+      {
+        "start": 1444,
+        "end": 1447,
+        "text": "We are here at the famous Merlion in"
+      },
+      {
+        "start": 1447,
+        "end": 1448,
+        "text": "Singapore, which is a combination of a"
+      },
+      {
+        "start": 1448,
+        "end": 1451,
+        "text": "lion and a fish together, which leads me"
+      },
+      {
+        "start": 1451,
+        "end": 1452,
+        "text": "onto the final word of the day, which is"
+      },
+      {
+        "start": 1452,
+        "end": 1455,
+        "text": "a hybrid. A hybrid is a combination of"
+      },
+      {
+        "start": 1455,
+        "end": 1458,
+        "text": "two things. Thank you for watching and"
+      },
+      {
+        "start": 1458,
+        "end": 1460,
+        "text": "if you like learning English like this,"
+      },
+      {
+        "start": 1460,
+        "end": 1462,
+        "text": "I have a challenge for you."
+      },
+      {
+        "start": 1462,
+        "end": 1465,
+        "text": "Do 7 days on Sprout. If you feel your"
+      },
+      {
+        "start": 1465,
+        "end": 1467,
+        "text": "English improve, stay."
+      },
+      {
+        "start": 1467,
+        "end": 1470,
+        "text": "If not, cancel."
+      },
+      {
+        "start": 1470,
+        "end": 1472,
+        "text": "No payment required."
+      },
+      {
+        "start": 1472,
+        "end": 1475,
+        "text": "Try Sprout and build a positive learning"
+      },
+      {
+        "start": 1475,
+        "end": 1478,
+        "text": "habit."
+      }
+    ]
   },
   {
     "id": "0t_i3WEWPmE",
