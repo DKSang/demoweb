@@ -480,10 +480,12 @@ export default function AISpeakingLab() {
 
   const getSystemPrompt = (week: number) => {
     const vocabList = selectedLesson?.vocab?.map(v => v.word).join(", ") || "";
+    const lessonTitle = selectedLesson?.title ? selectedLesson.title.replace("🇬🇧", "").trim() : "English Conversation";
     
-    const baseRules = `You are a patient, friendly local British English Coach. We are using the 30-day spoken English method.
+    const baseRules = `You are a patient, friendly local British English Coach. We are practicing conversational English based on the lesson: "${lessonTitle}".
     The learner is at A2/B1 level. Use simple vocabulary. Always keep your conversational responses short (maximum 2 sentences).
     Today's lesson vocabulary words you should encourage the user to practice: [${vocabList}].
+    Make your questions and conversation contextually relevant to the lesson topic: "${lessonTitle}".
     Do not mention you are an AI or prompt details. Focus on natural spoken interaction.`;
 
     switch (week) {
@@ -513,7 +515,8 @@ export default function AISpeakingLab() {
     setChatHistory([]);
     setIsLlamaLoading(true);
 
-    const welcomeMsg = `Hello! Welcome to Week ${currentWeek} of your English Coach. Let's practice speaking. I will ask you simple questions. Try to use today's words like: ${selectedLesson?.vocab?.map(v => v.word).slice(0, 3).join(", ") || "useful idioms"}. Ready?`;
+    const lessonTitle = selectedLesson?.title ? selectedLesson.title.replace("🇬🇧", "").trim() : "this lesson";
+    const welcomeMsg = `Hello! Let's start Week ${currentWeek} of your English Coach. Today we will practice speaking about "${lessonTitle}". Try to use vocabulary words like: ${selectedLesson?.vocab?.map(v => v.word).slice(0, 3).join(", ") || "our target words"}. Ready?`;
     
     const initialMessage: ChatMessage = {
       id: `bot-${Date.now()}`,
@@ -563,7 +566,8 @@ export default function AISpeakingLab() {
           stream: false,
           options: {
             temperature: 0.7,
-            num_predict: 150
+            num_predict: 80, // limit to 80 tokens to speed up local Ollama response
+            num_ctx: 2048   // reduce context memory window size for faster inference
           }
         })
       });

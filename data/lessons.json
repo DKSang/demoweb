@@ -89,41 +89,7937 @@
     "id": "cjJLqjjuOs4",
     "title": "Can You Understand British Money Slang? 🇬🇧",
     "videoId": "cjJLqjjuOs4",
-    "isInitialized": false,
-    "vocab": [],
-    "lines": []
+    "isInitialized": true,
+    "vocab": [
+      {
+        "word": "quid",
+        "ipa": "",
+        "definition": "a unit of currency equal to £1",
+        "example": "One quid equals £1."
+      },
+      {
+        "word": "fiver",
+        "ipa": "",
+        "definition": "£5 note",
+        "example": "A meal deal, a tuna sandwich, a can of Coke, and a bag of crisps."
+      },
+      {
+        "word": "tenner",
+        "ipa": "",
+        "definition": "£10 note",
+        "example": "Hey, man. Have you got a tenner on you?"
+      },
+      {
+        "word": "grand",
+        "ipa": "",
+        "definition": "£1,000",
+        "example": "It's a grand and a half for a tiny flat."
+      },
+      {
+        "word": "P",
+        "ipa": "",
+        "definition": "pence (smaller unit of currency)",
+        "example": "10 P, 20 P, or 50 P"
+      },
+      {
+        "word": "skint",
+        "ipa": "",
+        "definition": "having little money",
+        "example": "I'm skint. Can't afford a beard trim."
+      },
+      {
+        "word": "loaded",
+        "ipa": "",
+        "definition": "having a lot of money",
+        "example": "I am loaded. It means I've got a lot of money."
+      }
+    ],
+    "lines": [
+      {
+        "start": 0,
+        "end": 4,
+        "text": "In England, we don't say 50 pounds. We"
+      },
+      {
+        "start": 4,
+        "end": 7,
+        "text": "call this 50 quid."
+      },
+      {
+        "start": 7,
+        "end": 10,
+        "text": "Money appears all the time in daily"
+      },
+      {
+        "start": 10,
+        "end": 11,
+        "text": "conversation."
+      },
+      {
+        "start": 11,
+        "end": 13,
+        "text": "For example,"
+      },
+      {
+        "start": 13,
+        "end": 14,
+        "text": "Hey, man."
+      },
+      {
+        "start": 14,
+        "end": 15,
+        "text": "Have you got a tenner on you? Sorry,"
+      },
+      {
+        "start": 15,
+        "end": 18,
+        "text": "lad. I've only got a fiver."
+      },
+      {
+        "start": 18,
+        "end": 19,
+        "text": "If you don't understand that, then you"
+      },
+      {
+        "start": 19,
+        "end": 23,
+        "text": "are missing a very big chunk of British"
+      },
+      {
+        "start": 23,
+        "end": 24,
+        "text": "life."
+      },
+      {
+        "start": 24,
+        "end": 27,
+        "text": "In this video, I'll teach you what"
+      },
+      {
+        "start": 27,
+        "end": 29,
+        "text": "nobody teaches you"
+      },
+      {
+        "start": 29,
+        "end": 37,
+        "text": "about money."
+      },
+      {
+        "start": 37,
+        "end": 41,
+        "text": "This is a £1 coin. But, what do British"
+      },
+      {
+        "start": 41,
+        "end": 43,
+        "text": "people call it?"
+      },
+      {
+        "start": 43,
+        "end": 45,
+        "text": "We call it a quid."
+      },
+      {
+        "start": 45,
+        "end": 48,
+        "text": "One quid equals £1."
+      },
+      {
+        "start": 48,
+        "end": 51,
+        "text": "But, what if there are two?"
+      },
+      {
+        "start": 51,
+        "end": 54,
+        "text": "We don't say quids. There is no S. So,"
+      },
+      {
+        "start": 54,
+        "end": 57,
+        "text": "it's just one quid, two quid, three"
+      },
+      {
+        "start": 57,
+        "end": 59,
+        "text": "quid, four quid."
+      },
+      {
+        "start": 59,
+        "end": 60,
+        "text": "But, what about"
+      },
+      {
+        "start": 60,
+        "end": 63,
+        "text": "five quid?"
+      },
+      {
+        "start": 63,
+        "end": 68,
+        "text": "Five quid is a fiver. This is a £5 note."
+      },
+      {
+        "start": 68,
+        "end": 70,
+        "text": "What can you buy with a fiver in"
+      },
+      {
+        "start": 70,
+        "end": 72,
+        "text": "England?"
+      },
+      {
+        "start": 72,
+        "end": 75,
+        "text": "A meal deal, a tuna sandwich,"
+      },
+      {
+        "start": 75,
+        "end": 76,
+        "text": "a can of Coke,"
+      },
+      {
+        "start": 76,
+        "end": 80,
+        "text": "and a bag of crisps."
+      },
+      {
+        "start": 80,
+        "end": 83,
+        "text": "Meal deals are a huge cultural"
+      },
+      {
+        "start": 83,
+        "end": 85,
+        "text": "phenomenon in England. They are very"
+      },
+      {
+        "start": 85,
+        "end": 86,
+        "text": "popular."
+      },
+      {
+        "start": 86,
+        "end": 89,
+        "text": "Every day, millions of people walk into"
+      },
+      {
+        "start": 89,
+        "end": 92,
+        "text": "a Tesco and pick up a sad little"
+      },
+      {
+        "start": 92,
+        "end": 96,
+        "text": "sandwich, a bag of crisps, and a drink."
+      },
+      {
+        "start": 96,
+        "end": 99,
+        "text": "And they feel genuinely good about it."
+      },
+      {
+        "start": 99,
+        "end": 101,
+        "text": "I was one of those people."
+      },
+      {
+        "start": 101,
+        "end": 106,
+        "text": "I regret nothing."
+      },
+      {
+        "start": 106,
+        "end": 109,
+        "text": "This is a tenner."
+      },
+      {
+        "start": 109,
+        "end": 112,
+        "text": "A £10 note. And at the beginning of this"
+      },
+      {
+        "start": 112,
+        "end": 113,
+        "text": "video,"
+      },
+      {
+        "start": 113,
+        "end": 115,
+        "text": "I gave the example,"
+      },
+      {
+        "start": 115,
+        "end": 116,
+        "text": "Hey, man."
+      },
+      {
+        "start": 116,
+        "end": 118,
+        "text": "Have you got a tenner on you?"
+      },
+      {
+        "start": 118,
+        "end": 121,
+        "text": "Sorry lad, I've only got a fiver."
+      },
+      {
+        "start": 121,
+        "end": 123,
+        "text": "Now, do you know what it means?"
+      },
+      {
+        "start": 123,
+        "end": 128,
+        "text": "So, if we call 5 pounds a fiver"
+      },
+      {
+        "start": 128,
+        "end": 130,
+        "text": "and 10 pounds a tenner,"
+      },
+      {
+        "start": 130,
+        "end": 134,
+        "text": "what do we call 20 quid?"
+      },
+      {
+        "start": 134,
+        "end": 136,
+        "text": "A twentier?"
+      },
+      {
+        "start": 136,
+        "end": 137,
+        "text": "Nope."
+      },
+      {
+        "start": 137,
+        "end": 143,
+        "text": "We just call it 20 quid."
+      },
+      {
+        "start": 143,
+        "end": 146,
+        "text": "The most common term for 1,000 pounds is"
+      },
+      {
+        "start": 146,
+        "end": 148,
+        "text": "a grand. And you might hear it in a"
+      },
+      {
+        "start": 148,
+        "end": 150,
+        "text": "conversation like,"
+      },
+      {
+        "start": 150,
+        "end": 151,
+        "text": "Hey Rock,"
+      },
+      {
+        "start": 151,
+        "end": 153,
+        "text": "how much is your rent in London? It's a"
+      },
+      {
+        "start": 153,
+        "end": 155,
+        "text": "rip-off. It's a grand and a half for a"
+      },
+      {
+        "start": 155,
+        "end": 159,
+        "text": "tiny flat. How about yours? Bloody hell."
+      },
+      {
+        "start": 159,
+        "end": 163,
+        "text": "Yeah, mine's a rip-off, too. I pay 2 and"
+      },
+      {
+        "start": 163,
+        "end": 166,
+        "text": "1/2 grand."
+      },
+      {
+        "start": 166,
+        "end": 169,
+        "text": "Note that there is no S on grands, just"
+      },
+      {
+        "start": 169,
+        "end": 173,
+        "text": "like quid. 1 grand and 2 grand."
+      },
+      {
+        "start": 173,
+        "end": 176,
+        "text": "The smallest currency in Britain is"
+      },
+      {
+        "start": 176,
+        "end": 179,
+        "text": "called pence, but we call it P."
+      },
+      {
+        "start": 179,
+        "end": 183,
+        "text": "So, we say 10 P, 20 P,"
+      },
+      {
+        "start": 183,
+        "end": 186,
+        "text": "or 50 P."
+      },
+      {
+        "start": 186,
+        "end": 190,
+        "text": "Lots of coins together, we call change,"
+      },
+      {
+        "start": 190,
+        "end": 192,
+        "text": "loose change."
+      },
+      {
+        "start": 192,
+        "end": 194,
+        "text": "Now,"
+      },
+      {
+        "start": 194,
+        "end": 195,
+        "text": "Mario, do you have any change, mate?"
+      },
+      {
+        "start": 195,
+        "end": 198,
+        "text": "Sorry, my friend, I don't."
+      },
+      {
+        "start": 198,
+        "end": 200,
+        "text": "Fair enough."
+      },
+      {
+        "start": 200,
+        "end": 201,
+        "text": "Do you fancy a pint, then?"
+      },
+      {
+        "start": 201,
+        "end": 209,
+        "text": "Mate, I'm skint."
+      },
+      {
+        "start": 209,
+        "end": 211,
+        "text": "You might know the word broke, which is"
+      },
+      {
+        "start": 211,
+        "end": 214,
+        "text": "the standard universal term for having"
+      },
+      {
+        "start": 214,
+        "end": 216,
+        "text": "little money."
+      },
+      {
+        "start": 216,
+        "end": 219,
+        "text": "But, in Britain, we like to do things"
+      },
+      {
+        "start": 219,
+        "end": 223,
+        "text": "differently. We say, skint. I'm skint."
+      },
+      {
+        "start": 223,
+        "end": 225,
+        "text": "It means I've got very little money."
+      },
+      {
+        "start": 225,
+        "end": 230,
+        "text": "Skint is a top slang word in the UK."
+      },
+      {
+        "start": 230,
+        "end": 232,
+        "text": "All right, mate."
+      },
+      {
+        "start": 232,
+        "end": 233,
+        "text": "You look a bit rough."
+      },
+      {
+        "start": 233,
+        "end": 235,
+        "text": ">> I'm skint, mate. Can't afford a beard"
+      },
+      {
+        "start": 235,
+        "end": 235,
+        "text": "trim."
+      },
+      {
+        "start": 235,
+        "end": 238,
+        "text": ">> Fair enough."
+      },
+      {
+        "start": 238,
+        "end": 241,
+        "text": "If you started saying skint, I guarantee"
+      },
+      {
+        "start": 241,
+        "end": 243,
+        "text": "you natives would be very impressed with"
+      },
+      {
+        "start": 243,
+        "end": 244,
+        "text": "your English."
+      },
+      {
+        "start": 244,
+        "end": 248,
+        "text": "But, what is the opposite of skint?"
+      },
+      {
+        "start": 248,
+        "end": 250,
+        "text": "So, if skint means having little money,"
+      },
+      {
+        "start": 250,
+        "end": 252,
+        "text": "then loaded"
+      },
+      {
+        "start": 252,
+        "end": 254,
+        "text": "is the opposite. I am loaded. It means"
+      },
+      {
+        "start": 254,
+        "end": 264,
+        "text": "I've got a lot of money."
+      },
+      {
+        "start": 264,
+        "end": 266,
+        "text": "Recently, I read the book Rich Dad, Poor"
+      },
+      {
+        "start": 266,
+        "end": 269,
+        "text": "Dad on my Kindle."
+      },
+      {
+        "start": 269,
+        "end": 272,
+        "text": "And the author, Robert Kiyosaki, wrote"
+      },
+      {
+        "start": 272,
+        "end": 274,
+        "text": "that a lot of people say, \"I can't"
+      },
+      {
+        "start": 274,
+        "end": 275,
+        "text": "afford this.\""
+      },
+      {
+        "start": 275,
+        "end": 278,
+        "text": "And he urges us to flip that to a"
+      },
+      {
+        "start": 278,
+        "end": 281,
+        "text": "question and say, \"How can I afford"
+      },
+      {
+        "start": 281,
+        "end": 282,
+        "text": "this?\""
+      },
+      {
+        "start": 282,
+        "end": 284,
+        "text": "The question opens up the mind to"
+      },
+      {
+        "start": 284,
+        "end": 287,
+        "text": "possibility."
+      },
+      {
+        "start": 287,
+        "end": 289,
+        "text": "Now, I had the idea, how can you guys"
+      },
+      {
+        "start": 289,
+        "end": 291,
+        "text": "apply this to your English?"
+      },
+      {
+        "start": 291,
+        "end": 293,
+        "text": "A lot of my students say, \"I'm not good"
+      },
+      {
+        "start": 293,
+        "end": 295,
+        "text": "at English.\""
+      },
+      {
+        "start": 295,
+        "end": 297,
+        "text": "So, I would encourage you to flip that"
+      },
+      {
+        "start": 297,
+        "end": 300,
+        "text": "to a question and ask yourself, \"How can"
+      },
+      {
+        "start": 300,
+        "end": 302,
+        "text": "I improve my English? How can I get"
+      },
+      {
+        "start": 302,
+        "end": 305,
+        "text": "better at English?\" I'm sure your brain"
+      },
+      {
+        "start": 305,
+        "end": 308,
+        "text": "will find the answer."
+      },
+      {
+        "start": 308,
+        "end": 309,
+        "text": "Now,"
+      },
+      {
+        "start": 309,
+        "end": 312,
+        "text": "it's about time to go for, I think, a"
+      },
+      {
+        "start": 312,
+        "end": 315,
+        "text": "lovely coffee at the cafe. But, before I"
+      },
+      {
+        "start": 315,
+        "end": 316,
+        "text": "do,"
+      },
+      {
+        "start": 316,
+        "end": 317,
+        "text": "let's have a quick scan of our"
+      },
+      {
+        "start": 317,
+        "end": 319,
+        "text": "environment."
+      },
+      {
+        "start": 319,
+        "end": 322,
+        "text": "I am sitting on a boulder."
+      },
+      {
+        "start": 322,
+        "end": 325,
+        "text": "A boulder is a very large rock. And the"
+      },
+      {
+        "start": 325,
+        "end": 329,
+        "text": "boulder is sitting in the ocean."
+      },
+      {
+        "start": 329,
+        "end": 330,
+        "text": "Now,"
+      },
+      {
+        "start": 330,
+        "end": 333,
+        "text": "let's get up and"
+      },
+      {
+        "start": 333,
+        "end": 349,
+        "text": "go to the cafe."
+      },
+      {
+        "start": 349,
+        "end": 350,
+        "text": "Ah."
+      },
+      {
+        "start": 350,
+        "end": 353,
+        "text": "This coffee is like two quid."
+      },
+      {
+        "start": 353,
+        "end": 356,
+        "text": "That's pretty cheap."
+      },
+      {
+        "start": 356,
+        "end": 358,
+        "text": ">> By the way, be careful with the word"
+      },
+      {
+        "start": 358,
+        "end": 361,
+        "text": "cheap. It can just mean low price, but"
+      },
+      {
+        "start": 361,
+        "end": 364,
+        "text": "it can also mean low quality. So, here"
+      },
+      {
+        "start": 364,
+        "end": 366,
+        "text": "are some more natural ways British"
+      },
+      {
+        "start": 366,
+        "end": 368,
+        "text": "people like to talk about price."
+      },
+      {
+        "start": 368,
+        "end": 373,
+        "text": "Come on. Thank you."
+      },
+      {
+        "start": 373,
+        "end": 376,
+        "text": ">> The coffee has arrived. And the price of"
+      },
+      {
+        "start": 376,
+        "end": 379,
+        "text": "these coffees was"
+      },
+      {
+        "start": 379,
+        "end": 380,
+        "text": "reasonable."
+      },
+      {
+        "start": 380,
+        "end": 383,
+        "text": "It was quite affordable."
+      },
+      {
+        "start": 383,
+        "end": 386,
+        "text": "In fact, these coffees were a bargain."
+      },
+      {
+        "start": 386,
+        "end": 388,
+        "text": "A bargain is my favorite way to say"
+      },
+      {
+        "start": 388,
+        "end": 391,
+        "text": "something that is cheap in a positive"
+      },
+      {
+        "start": 391,
+        "end": 392,
+        "text": "way."
+      },
+      {
+        "start": 392,
+        "end": 395,
+        "text": "That's a bargain."
+      },
+      {
+        "start": 395,
+        "end": 398,
+        "text": "And for some context for you guys,"
+      },
+      {
+        "start": 398,
+        "end": 401,
+        "text": "we are on an island."
+      },
+      {
+        "start": 401,
+        "end": 404,
+        "text": "And again, you know S. We don't say"
+      },
+      {
+        "start": 404,
+        "end": 407,
+        "text": "\"island\" or \"is-land\". You say island."
+      },
+      {
+        "start": 407,
+        "end": 412,
+        "text": "It's a silent S."
+      },
+      {
+        "start": 412,
+        "end": 413,
+        "text": "This is my stick."
+      },
+      {
+        "start": 413,
+        "end": 414,
+        "text": ">> [laughter]"
+      },
+      {
+        "start": 414,
+        "end": 417,
+        "text": ">> They gave me this to scare the monkeys"
+      },
+      {
+        "start": 417,
+        "end": 419,
+        "text": "away. It's very common for monkeys to be"
+      },
+      {
+        "start": 419,
+        "end": 421,
+        "text": "coming through this cafe and stealing"
+      },
+      {
+        "start": 421,
+        "end": 423,
+        "text": "your food. Some extra verbs for steal,"
+      },
+      {
+        "start": 423,
+        "end": 427,
+        "text": "we would say pinch or nab. They are"
+      },
+      {
+        "start": 427,
+        "end": 430,
+        "text": "slang words in British for steal."
+      },
+      {
+        "start": 430,
+        "end": 431,
+        "text": "Where are you in the world right now?"
+      },
+      {
+        "start": 431,
+        "end": 433,
+        "text": "Let me know in the comments. I am"
+      },
+      {
+        "start": 433,
+        "end": 434,
+        "text": "curious."
+      },
+      {
+        "start": 434,
+        "end": 438,
+        "text": "So, if a bargain is a positive way of"
+      },
+      {
+        "start": 438,
+        "end": 440,
+        "text": "saying something is cheap, then the"
+      },
+      {
+        "start": 440,
+        "end": 443,
+        "text": "opposite of that is a rip-off. A bloody"
+      },
+      {
+        "start": 443,
+        "end": 447,
+        "text": "rip-off. Now, a rip-off"
+      },
+      {
+        "start": 447,
+        "end": 449,
+        "text": "is when something is expensive"
+      },
+      {
+        "start": 449,
+        "end": 451,
+        "text": "and you're a little bit annoyed about it"
+      },
+      {
+        "start": 451,
+        "end": 453,
+        "text": "as well. That's a rip-off."
+      },
+      {
+        "start": 453,
+        "end": 456,
+        "text": "Now, some alternatives to rip-off are"
+      },
+      {
+        "start": 456,
+        "end": 459,
+        "text": "pricey or steep."
+      },
+      {
+        "start": 459,
+        "end": 461,
+        "text": "That's a bit steep."
+      },
+      {
+        "start": 461,
+        "end": 463,
+        "text": "Now,"
+      },
+      {
+        "start": 463,
+        "end": 464,
+        "text": "I don't want the monkeys to steal my"
+      },
+      {
+        "start": 464,
+        "end": 467,
+        "text": "food, so let's dig in. Let's start"
+      },
+      {
+        "start": 467,
+        "end": 471,
+        "text": "eating."
+      },
+      {
+        "start": 471,
+        "end": 473,
+        "text": "After eating,"
+      },
+      {
+        "start": 473,
+        "end": 474,
+        "text": "you can ask,"
+      },
+      {
+        "start": 474,
+        "end": 476,
+        "text": "\"Excuse me, can I have the bill,"
+      },
+      {
+        "start": 476,
+        "end": 478,
+        "text": "please?\""
+      },
+      {
+        "start": 478,
+        "end": 480,
+        "text": "After that, you might want to split the"
+      },
+      {
+        "start": 480,
+        "end": 482,
+        "text": "bill with your friends."
+      },
+      {
+        "start": 482,
+        "end": 485,
+        "text": "Now, I've seen a lot of English teachers"
+      },
+      {
+        "start": 485,
+        "end": 488,
+        "text": "teaching \"let's go Dutch\", the English"
+      },
+      {
+        "start": 488,
+        "end": 489,
+        "text": "idiom."
+      },
+      {
+        "start": 489,
+        "end": 491,
+        "text": "But, honestly, no one says that. No one"
+      },
+      {
+        "start": 491,
+        "end": 493,
+        "text": "says \"let's go Dutch\". So, here are some"
+      },
+      {
+        "start": 493,
+        "end": 495,
+        "text": "more natural phrases that English"
+      },
+      {
+        "start": 495,
+        "end": 501,
+        "text": "speakers use."
+      },
+      {
+        "start": 501,
+        "end": 502,
+        "text": ">> Shall we go halves?"
+      },
+      {
+        "start": 502,
+        "end": 503,
+        "text": ">> Nah."
+      },
+      {
+        "start": 503,
+        "end": 504,
+        "text": "I'll get this one."
+      },
+      {
+        "start": 504,
+        "end": 506,
+        "text": ">> No, no, no. Let's split it."
+      },
+      {
+        "start": 506,
+        "end": 509,
+        "text": ">> Peach, honestly, don't be silly."
+      },
+      {
+        "start": 509,
+        "end": 511,
+        "text": "It's my treat. It's on me."
+      },
+      {
+        "start": 511,
+        "end": 516,
+        "text": ">> Oh, Jay, you're such a gentleman."
+      },
+      {
+        "start": 516,
+        "end": 517,
+        "text": ">> Right. Now,"
+      },
+      {
+        "start": 517,
+        "end": 522,
+        "text": "let's play a little game."
+      },
+      {
+        "start": 522,
+        "end": 525,
+        "text": "I'm going to flip this coin."
+      },
+      {
+        "start": 525,
+        "end": 528,
+        "text": "You can choose heads or tails."
+      },
+      {
+        "start": 528,
+        "end": 529,
+        "text": "Heads, I win."
+      },
+      {
+        "start": 529,
+        "end": 535,
+        "text": "Tails, you lose."
+      },
+      {
+        "start": 535,
+        "end": 536,
+        "text": "Heads."
+      },
+      {
+        "start": 536,
+        "end": 539,
+        "text": "I win."
+      },
+      {
+        "start": 539,
+        "end": 541,
+        "text": "If you want to win and succeed at"
+      },
+      {
+        "start": 541,
+        "end": 544,
+        "text": "English, on sprowlanguage.com,"
+      },
+      {
+        "start": 544,
+        "end": 546,
+        "text": "you can now do real-life role-play"
+      },
+      {
+        "start": 546,
+        "end": 549,
+        "text": "conversations with Jay and Ai. You can"
+      },
+      {
+        "start": 549,
+        "end": 552,
+        "text": "practice in a restaurant, in a cafe, in"
+      },
+      {
+        "start": 552,
+        "end": 555,
+        "text": "a hotel, and many more."
+      },
+      {
+        "start": 555,
+        "end": 558,
+        "text": "Try it now for 7 days [music] free."
+      },
+      {
+        "start": 558,
+        "end": 560,
+        "text": "And invest in your greatest asset, which"
+      },
+      {
+        "start": 560,
+        "end": 562,
+        "text": "is"
+      },
+      {
+        "start": 562,
+        "end": 564,
+        "text": "your mind."
+      },
+      {
+        "start": 564,
+        "end": 566,
+        "text": "Thank you for watching. Hope you have a"
+      },
+      {
+        "start": 566,
+        "end": 570,
+        "text": "beautiful day. We'll see you next time."
+      }
+    ]
   },
   {
     "id": "IXuJSwk1gck",
     "title": "The English words you don't learn unless you go to England.",
     "videoId": "IXuJSwk1gck",
-    "isInitialized": false,
-    "vocab": [],
-    "lines": []
+    "isInitialized": true,
+    "vocab": [
+      {
+        "word": "cuppa",
+        "ipa": "",
+        "definition": "a cup of tea or coffee",
+        "example": "I fancy a cuppa."
+      },
+      {
+        "word": "cheeky",
+        "ipa": "",
+        "definition": "doing something slightly indulgent that maybe you shouldn't do",
+        "example": "fancy a cheeky pint?"
+      },
+      {
+        "word": "gutted",
+        "ipa": "",
+        "definition": "deeply disappointed, devastated",
+        "example": "I am gutted. My screen has just cracked."
+      }
+    ],
+    "lines": [
+      {
+        "start": 0,
+        "end": 2,
+        "text": "There are certain British words that"
+      },
+      {
+        "start": 2,
+        "end": 6,
+        "text": "every British person uses every day."
+      },
+      {
+        "start": 6,
+        "end": 8,
+        "text": "But"
+      },
+      {
+        "start": 8,
+        "end": 10,
+        "text": "what are they?"
+      },
+      {
+        "start": 10,
+        "end": 12,
+        "text": "In this video, I'm going to show you"
+      },
+      {
+        "start": 12,
+        "end": 14,
+        "text": "seven proper British words that you"
+      },
+      {
+        "start": 14,
+        "end": 17,
+        "text": "don't learn unless you go to England."
+      },
+      {
+        "start": 17,
+        "end": 19,
+        "text": "I'm also going to show you the world"
+      },
+      {
+        "start": 19,
+        "end": 21,
+        "text": "around me and teach you English using"
+      },
+      {
+        "start": 21,
+        "end": 22,
+        "text": "it."
+      },
+      {
+        "start": 22,
+        "end": 25,
+        "text": "For example, this is a cat."
+      },
+      {
+        "start": 25,
+        "end": 28,
+        "text": "I'm stroking the cat."
+      },
+      {
+        "start": 28,
+        "end": 32,
+        "text": "On top of that, I'm going to hide a"
+      },
+      {
+        "start": 32,
+        "end": 35,
+        "text": "secret British word within this video."
+      },
+      {
+        "start": 35,
+        "end": 36,
+        "text": "And it's going to appear in many"
+      },
+      {
+        "start": 36,
+        "end": 38,
+        "text": "different contexts. So, see if you can"
+      },
+      {
+        "start": 38,
+        "end": 43,
+        "text": "spot it before I tell you at the end."
+      },
+      {
+        "start": 43,
+        "end": 45,
+        "text": "Oops."
+      },
+      {
+        "start": 45,
+        "end": 46,
+        "text": "Drop my tea."
+      },
+      {
+        "start": 46,
+        "end": 49,
+        "text": "Speaking of tea, another very common"
+      },
+      {
+        "start": 49,
+        "end": 52,
+        "text": "British thing is a cup of tea, which we"
+      },
+      {
+        "start": 52,
+        "end": 54,
+        "text": "would commonly call"
+      },
+      {
+        "start": 54,
+        "end": 56,
+        "text": "a cuppa."
+      },
+      {
+        "start": 56,
+        "end": 60,
+        "text": "Now, a cuppa can be coffee or tea, but"
+      },
+      {
+        "start": 60,
+        "end": 62,
+        "text": "it's more common that it's tea. And it"
+      },
+      {
+        "start": 62,
+        "end": 65,
+        "text": "comes from a cup of tea, which got"
+      },
+      {
+        "start": 65,
+        "end": 69,
+        "text": "shortened to cup of tea, which now got"
+      },
+      {
+        "start": 69,
+        "end": 71,
+        "text": "shortened even more to cuppa."
+      },
+      {
+        "start": 71,
+        "end": 75,
+        "text": "A cuppa, a proper British cuppa. Now,"
+      },
+      {
+        "start": 75,
+        "end": 76,
+        "text": "let's make one."
+      },
+      {
+        "start": 76,
+        "end": 79,
+        "text": "But first, I need to ask my friends"
+      },
+      {
+        "start": 79,
+        "end": 81,
+        "text": "because it's good to be polite in"
+      },
+      {
+        "start": 81,
+        "end": 82,
+        "text": "England."
+      },
+      {
+        "start": 82,
+        "end": 84,
+        "text": "All right, tree?"
+      },
+      {
+        "start": 84,
+        "end": 86,
+        "text": "All right, Jay. Fancy a cuppa? Two"
+      },
+      {
+        "start": 86,
+        "end": 89,
+        "text": "sugars. No, three. Actually, I'm a tree."
+      },
+      {
+        "start": 89,
+        "end": 93,
+        "text": "I don't care."
+      },
+      {
+        "start": 93,
+        "end": 95,
+        "text": "Hey up, tree? Hey up, Jay. Shall I pop"
+      },
+      {
+        "start": 95,
+        "end": 97,
+        "text": "the kettle on? Do birds live in my"
+      },
+      {
+        "start": 97,
+        "end": 102,
+        "text": "branches? Yes. Pop that kettle on."
+      },
+      {
+        "start": 102,
+        "end": 102,
+        "text": "Pop."
+      },
+      {
+        "start": 102,
+        "end": 105,
+        "text": "Now, I'm going to brew the tea, which is"
+      },
+      {
+        "start": 105,
+        "end": 108,
+        "text": "to pour the boiling water from the"
+      },
+      {
+        "start": 108,
+        "end": 109,
+        "text": "kettle"
+      },
+      {
+        "start": 109,
+        "end": 112,
+        "text": "into the mug. And to brew is to let that"
+      },
+      {
+        "start": 112,
+        "end": 115,
+        "text": "tea bag infuse"
+      },
+      {
+        "start": 115,
+        "end": 116,
+        "text": "inside the mug for the flavors to"
+      },
+      {
+        "start": 116,
+        "end": 118,
+        "text": "develop. Now,"
+      },
+      {
+        "start": 118,
+        "end": 120,
+        "text": "I'll tell you what I fancy. While I wait"
+      },
+      {
+        "start": 120,
+        "end": 123,
+        "text": "for this tea to brew,"
+      },
+      {
+        "start": 123,
+        "end": 125,
+        "text": "I fancy"
+      },
+      {
+        "start": 125,
+        "end": 127,
+        "text": "a cheeky biscuit."
+      },
+      {
+        "start": 127,
+        "end": 131,
+        "text": "Bickies. These are McVities digestive"
+      },
+      {
+        "start": 131,
+        "end": 134,
+        "text": "biscuits and they are very British."
+      },
+      {
+        "start": 134,
+        "end": 138,
+        "text": "McVities were invented in 1892"
+      },
+      {
+        "start": 138,
+        "end": 139,
+        "text": "because apparently they helped with"
+      },
+      {
+        "start": 139,
+        "end": 141,
+        "text": "digestion."
+      },
+      {
+        "start": 141,
+        "end": 142,
+        "text": "Turns out that they don't help with"
+      },
+      {
+        "start": 142,
+        "end": 145,
+        "text": "digestion, but the name stuck and now"
+      },
+      {
+        "start": 145,
+        "end": 146,
+        "text": "nobody cares."
+      },
+      {
+        "start": 146,
+        "end": 148,
+        "text": "The next step when having a cup of tea"
+      },
+      {
+        "start": 148,
+        "end": 151,
+        "text": "in England is to dunk your biscuit."
+      },
+      {
+        "start": 151,
+        "end": 153,
+        "text": "A cheeky dunk."
+      },
+      {
+        "start": 153,
+        "end": 155,
+        "text": "Now, I've been using the word cheeky a"
+      },
+      {
+        "start": 155,
+        "end": 156,
+        "text": "lot."
+      },
+      {
+        "start": 156,
+        "end": 160,
+        "text": "What does it mean?"
+      },
+      {
+        "start": 160,
+        "end": 163,
+        "text": "Cheeky means doing something slightly"
+      },
+      {
+        "start": 163,
+        "end": 166,
+        "text": "indulgent that maybe you shouldn't do."
+      },
+      {
+        "start": 166,
+        "end": 169,
+        "text": "Perhaps you would use it with food, a"
+      },
+      {
+        "start": 169,
+        "end": 171,
+        "text": "cheeky biscuit. You might use it with a"
+      },
+      {
+        "start": 171,
+        "end": 174,
+        "text": "drink, a cheeky coke. Or you might use"
+      },
+      {
+        "start": 174,
+        "end": 177,
+        "text": "it with a spontaneous decision, a cheeky"
+      },
+      {
+        "start": 177,
+        "end": 179,
+        "text": "detour."
+      },
+      {
+        "start": 179,
+        "end": 180,
+        "text": "I might say to my friend,"
+      },
+      {
+        "start": 180,
+        "end": 183,
+        "text": "fancy a cheeky pint?"
+      },
+      {
+        "start": 183,
+        "end": 185,
+        "text": "And my friend might say, go on then,"
+      },
+      {
+        "start": 185,
+        "end": 188,
+        "text": "just a cheeky one. Now guys, later on in"
+      },
+      {
+        "start": 188,
+        "end": 192,
+        "text": "about 1 hour, I'm going on a boat ride"
+      },
+      {
+        "start": 192,
+        "end": 194,
+        "text": "to the place where King Kong the movie"
+      },
+      {
+        "start": 194,
+        "end": 197,
+        "text": "was filmed. And"
+      },
+      {
+        "start": 197,
+        "end": 203,
+        "text": "I need to book my tickets. So,"
+      },
+      {
+        "start": 203,
+        "end": 205,
+        "text": "Ah,"
+      },
+      {
+        "start": 205,
+        "end": 206,
+        "text": "sugar."
+      },
+      {
+        "start": 206,
+        "end": 207,
+        "text": "Gutted, man."
+      },
+      {
+        "start": 207,
+        "end": 209,
+        "text": "My screen has just cracked. You can see"
+      },
+      {
+        "start": 209,
+        "end": 212,
+        "text": "the crack across the screen."
+      },
+      {
+        "start": 212,
+        "end": 215,
+        "text": "Gutted."
+      },
+      {
+        "start": 215,
+        "end": 216,
+        "text": "Ah,"
+      },
+      {
+        "start": 216,
+        "end": 218,
+        "text": "gutted."
+      },
+      {
+        "start": 218,
+        "end": 221,
+        "text": "Gutted means deeply disappointed,"
+      },
+      {
+        "start": 221,
+        "end": 224,
+        "text": "devastated. It's that gut feeling you"
+      },
+      {
+        "start": 224,
+        "end": 228,
+        "text": "get when something goes wrong. Oh, man."
+      },
+      {
+        "start": 228,
+        "end": 229,
+        "text": "Tree,"
+      },
+      {
+        "start": 229,
+        "end": 232,
+        "text": "I am gutted. Don't worry, Jay. Every"
+      },
+      {
+        "start": 232,
+        "end": 235,
+        "text": "cloud has a silver lining."
+      },
+      {
+        "start": 235,
+        "end": 236,
+        "text": "Yeah."
+      },
+      {
+        "start": 236,
+        "end": 239,
+        "text": "I suppose you're right. In every bad"
+      },
+      {
+        "start": 239,
+        "end": 241,
+        "text": "situation, there's a positive side."
+      },
+      {
+        "start": 241,
+        "end": 244,
+        "text": "That's a nice way of looking at it."
+      },
+      {
+        "start": 244,
+        "end": 248,
+        "text": "Speaking of that, let's look for some"
+      },
+      {
+        "start": 248,
+        "end": 262,
+        "text": "new words."
+      },
+      {
+        "start": 262,
+        "end": 264,
+        "text": "She's licking her kitten."
+      },
+      {
+        "start": 264,
+        "end": 266,
+        "text": "She's licking them"
+      },
+      {
+        "start": 266,
+        "end": 268,
+        "text": "to clean them."
+      },
+      {
+        "start": 268,
+        "end": 270,
+        "text": "And we have here a cat"
+      },
+      {
+        "start": 270,
+        "end": 274,
+        "text": "and two kittens. Kittens are baby cats."
+      },
+      {
+        "start": 274,
+        "end": 276,
+        "text": "Early this morning, these two kittens"
+      },
+      {
+        "start": 276,
+        "end": 278,
+        "text": "were playing with each other. They were"
+      },
+      {
+        "start": 278,
+        "end": 282,
+        "text": "play fighting, pouncing on one another."
+      },
+      {
+        "start": 282,
+        "end": 286,
+        "text": "It was very funny, very cute, and"
+      },
+      {
+        "start": 286,
+        "end": 290,
+        "text": "a very good way to start the morning."
+      },
+      {
+        "start": 290,
+        "end": 291,
+        "text": "I'm not gutted anymore. Now I've played"
+      },
+      {
+        "start": 291,
+        "end": 294,
+        "text": "with this kitten. I'm sweaty, but I'm"
+      },
+      {
+        "start": 294,
+        "end": 297,
+        "text": "feeling much better. In fact, I'm"
+      },
+      {
+        "start": 297,
+        "end": 298,
+        "text": "starting to"
+      },
+      {
+        "start": 298,
+        "end": 300,
+        "text": "feel tingly. I'm starting to feel"
+      },
+      {
+        "start": 300,
+        "end": 301,
+        "text": "excited."
+      },
+      {
+        "start": 301,
+        "end": 304,
+        "text": "I'm very excited. I am"
+      },
+      {
+        "start": 304,
+        "end": 307,
+        "text": "buzzing."
+      },
+      {
+        "start": 307,
+        "end": 309,
+        "text": "Why am I buzzing? Because later, I'm"
+      },
+      {
+        "start": 309,
+        "end": 312,
+        "text": "going on a boat ride. In fact,"
+      },
+      {
+        "start": 312,
+        "end": 315,
+        "text": "very soon I'm going on a boat ride."
+      },
+      {
+        "start": 315,
+        "end": 325,
+        "text": "I'm buzzing. I'm excited."
+      },
+      {
+        "start": 325,
+        "end": 327,
+        "text": "All right, we're ready. Take off the"
+      },
+      {
+        "start": 327,
+        "end": 329,
+        "text": "tote bag. That's a tote bag. I'm putting"
+      },
+      {
+        "start": 329,
+        "end": 332,
+        "text": "on my very fashionable life jacket. This"
+      },
+      {
+        "start": 332,
+        "end": 335,
+        "text": "is neon orange. Neon is like a bright"
+      },
+      {
+        "start": 335,
+        "end": 336,
+        "text": "version of a color."
+      },
+      {
+        "start": 336,
+        "end": 339,
+        "text": "And this is going to help me stay afloat"
+      },
+      {
+        "start": 339,
+        "end": 341,
+        "text": "if I fall in the water, which hopefully"
+      },
+      {
+        "start": 341,
+        "end": 343,
+        "text": "I don't because Chang behind the camera"
+      },
+      {
+        "start": 343,
+        "end": 344,
+        "text": "is holding a very expensive camera."
+      },
+      {
+        "start": 344,
+        "end": 347,
+        "text": "These are the straps or the buckles and"
+      },
+      {
+        "start": 347,
+        "end": 348,
+        "text": "I'm"
+      },
+      {
+        "start": 348,
+        "end": 349,
+        "text": "clipping them."
+      },
+      {
+        "start": 349,
+        "end": 351,
+        "text": "It's very hot. It's very sweaty,"
+      },
+      {
+        "start": 351,
+        "end": 353,
+        "text": "but I'm buzzing."
+      },
+      {
+        "start": 353,
+        "end": 355,
+        "text": "Say hello."
+      },
+      {
+        "start": 355,
+        "end": 359,
+        "text": "It's Uncle Lee from London."
+      },
+      {
+        "start": 359,
+        "end": 362,
+        "text": "Remember me?"
+      },
+      {
+        "start": 362,
+        "end": 363,
+        "text": "This is very peaceful."
+      },
+      {
+        "start": 363,
+        "end": 367,
+        "text": "So, we're traveling again through the"
+      },
+      {
+        "start": 367,
+        "end": 370,
+        "text": "rivers, the rice fields, the mountains"
+      },
+      {
+        "start": 370,
+        "end": 372,
+        "text": "in Ninh Binh, in Vietnam, northern"
+      },
+      {
+        "start": 372,
+        "end": 376,
+        "text": "Vietnam. And this is where they filmed"
+      },
+      {
+        "start": 376,
+        "end": 378,
+        "text": "King Kong, the film with the big"
+      },
+      {
+        "start": 378,
+        "end": 379,
+        "text": "gorilla,"
+      },
+      {
+        "start": 379,
+        "end": 381,
+        "text": "Peter Jackson's film. They filmed that"
+      },
+      {
+        "start": 381,
+        "end": 383,
+        "text": "here, or at least a part of that. And"
+      },
+      {
+        "start": 383,
+        "end": 385,
+        "text": "you can see why cuz it looks"
+      },
+      {
+        "start": 385,
+        "end": 388,
+        "text": "other-worldly. Other-worldly meaning of"
+      },
+      {
+        "start": 388,
+        "end": 389,
+        "text": "another world."
+      },
+      {
+        "start": 389,
+        "end": 392,
+        "text": "It looks alien. Looks like a landscape"
+      },
+      {
+        "start": 392,
+        "end": 395,
+        "text": "that could be on another planet. Now,"
+      },
+      {
+        "start": 395,
+        "end": 397,
+        "text": "I have a question for you."
+      },
+      {
+        "start": 397,
+        "end": 399,
+        "text": "Have you ever seen any landscapes like"
+      },
+      {
+        "start": 399,
+        "end": 402,
+        "text": "this? What is the most phenomenal,"
+      },
+      {
+        "start": 402,
+        "end": 404,
+        "text": "spectacular, other-worldly landscape"
+      },
+      {
+        "start": 404,
+        "end": 407,
+        "text": "that you have witnessed in your lives?"
+      },
+      {
+        "start": 407,
+        "end": 415,
+        "text": "Let me know in the comments."
+      },
+      {
+        "start": 415,
+        "end": 418,
+        "text": "So, we are moving forward on the water."
+      },
+      {
+        "start": 418,
+        "end": 421,
+        "text": "We are rowing on the water and this is"
+      },
+      {
+        "start": 421,
+        "end": 423,
+        "text": "an oar."
+      },
+      {
+        "start": 423,
+        "end": 426,
+        "text": "She is using the oar to row. And the"
+      },
+      {
+        "start": 426,
+        "end": 429,
+        "text": "texture of this rock is"
+      },
+      {
+        "start": 429,
+        "end": 432,
+        "text": "a bit sharp. We might say jagged or"
+      },
+      {
+        "start": 432,
+        "end": 434,
+        "text": "rugged."
+      },
+      {
+        "start": 434,
+        "end": 437,
+        "text": "There is a lady wearing a non la riding"
+      },
+      {
+        "start": 437,
+        "end": 440,
+        "text": "a bicycle along the edge of the river."
+      },
+      {
+        "start": 440,
+        "end": 442,
+        "text": "Around me there are giant limestone"
+      },
+      {
+        "start": 442,
+        "end": 446,
+        "text": "mountains with trees on the edge of"
+      },
+      {
+        "start": 446,
+        "end": 447,
+        "text": "them."
+      },
+      {
+        "start": 447,
+        "end": 448,
+        "text": "It's beautiful, isn't it? It is"
+      },
+      {
+        "start": 448,
+        "end": 453,
+        "text": "gorgeous, isn't it? It's hot, isn't it?"
+      },
+      {
+        "start": 453,
+        "end": 455,
+        "text": "I just used the word innit, which you"
+      },
+      {
+        "start": 455,
+        "end": 457,
+        "text": "might hear British people use all the"
+      },
+      {
+        "start": 457,
+        "end": 460,
+        "text": "time. And innit is a combination of"
+      },
+      {
+        "start": 460,
+        "end": 463,
+        "text": "isn't it? Innit. And we use it as like a"
+      },
+      {
+        "start": 463,
+        "end": 466,
+        "text": "a tag question. So, it's nice, innit?"
+      },
+      {
+        "start": 466,
+        "end": 470,
+        "text": "Means it's nice, wouldn't you agree?"
+      },
+      {
+        "start": 470,
+        "end": 472,
+        "text": "I would also use innit to agree with"
+      },
+      {
+        "start": 472,
+        "end": 473,
+        "text": "someone. If someone says this is"
+      },
+      {
+        "start": 473,
+        "end": 477,
+        "text": "gorgeous, I would say innit. Like, isn't"
+      },
+      {
+        "start": 477,
+        "end": 479,
+        "text": "it? Yes, it is, basically. I agree with"
+      },
+      {
+        "start": 479,
+        "end": 482,
+        "text": "you. That is proper British, innit?"
+      },
+      {
+        "start": 482,
+        "end": 483,
+        "text": "Okay, now"
+      },
+      {
+        "start": 483,
+        "end": 486,
+        "text": "we are heading into"
+      },
+      {
+        "start": 486,
+        "end": 487,
+        "text": "a cave."
+      },
+      {
+        "start": 487,
+        "end": 489,
+        "text": "All right, guys. It's about to get dark."
+      },
+      {
+        "start": 489,
+        "end": 491,
+        "text": "Now we're going into a cave. Flip you"
+      },
+      {
+        "start": 491,
+        "end": 496,
+        "text": "around so you can see."
+      },
+      {
+        "start": 496,
+        "end": 501,
+        "text": "Have you ever been in a cave before?"
+      },
+      {
+        "start": 501,
+        "end": 503,
+        "text": "Nice, isn't it?"
+      },
+      {
+        "start": 503,
+        "end": 504,
+        "text": "That was good."
+      },
+      {
+        "start": 504,
+        "end": 506,
+        "text": "So, in this inside this cave, there is a"
+      },
+      {
+        "start": 506,
+        "end": 508,
+        "text": "cool breeze."
+      },
+      {
+        "start": 508,
+        "end": 511,
+        "text": "A breeze is a light wind and cool"
+      },
+      {
+        "start": 511,
+        "end": 513,
+        "text": "is the opposite of warm."
+      },
+      {
+        "start": 513,
+        "end": 516,
+        "text": "So, cool can also mean good, nice, but"
+      },
+      {
+        "start": 516,
+        "end": 517,
+        "text": "in the context of weather and"
+      },
+      {
+        "start": 517,
+        "end": 521,
+        "text": "temperature, cool means"
+      },
+      {
+        "start": 521,
+        "end": 524,
+        "text": "quite cold, nicely cold. It feels like a"
+      },
+      {
+        "start": 524,
+        "end": 526,
+        "text": "pleasant adjective."
+      },
+      {
+        "start": 526,
+        "end": 528,
+        "text": "It's a cool breeze."
+      },
+      {
+        "start": 528,
+        "end": 529,
+        "text": "Now I need to watch I don't bang my"
+      },
+      {
+        "start": 529,
+        "end": 533,
+        "text": "head."
+      },
+      {
+        "start": 533,
+        "end": 535,
+        "text": "Right, now we're getting out of the boat"
+      },
+      {
+        "start": 535,
+        "end": 540,
+        "text": "and going on to the land."
+      },
+      {
+        "start": 540,
+        "end": 542,
+        "text": "We're just taking a short rest, a"
+      },
+      {
+        "start": 542,
+        "end": 544,
+        "text": "5-minute break before we get back on the"
+      },
+      {
+        "start": 544,
+        "end": 546,
+        "text": "boat."
+      },
+      {
+        "start": 546,
+        "end": 549,
+        "text": "And we're walking around these"
+      },
+      {
+        "start": 549,
+        "end": 551,
+        "text": "gardens. There are flowers either side"
+      },
+      {
+        "start": 551,
+        "end": 552,
+        "text": "of the path."
+      },
+      {
+        "start": 552,
+        "end": 554,
+        "text": "And"
+      },
+      {
+        "start": 554,
+        "end": 557,
+        "text": "giant mountains surrounding us."
+      },
+      {
+        "start": 557,
+        "end": 559,
+        "text": "I actually feel very small in this"
+      },
+      {
+        "start": 559,
+        "end": 560,
+        "text": "landscape."
+      },
+      {
+        "start": 560,
+        "end": 563,
+        "text": "It's pretty colossal, pretty huge,"
+      },
+      {
+        "start": 563,
+        "end": 565,
+        "text": "pretty giant."
+      },
+      {
+        "start": 565,
+        "end": 568,
+        "text": "So, now we're walking over a creaky"
+      },
+      {
+        "start": 568,
+        "end": 570,
+        "text": "bridge."
+      },
+      {
+        "start": 570,
+        "end": 572,
+        "text": "Can you hear the creak?"
+      },
+      {
+        "start": 572,
+        "end": 574,
+        "text": "That sound is called creaking."
+      },
+      {
+        "start": 574,
+        "end": 577,
+        "text": "And it's associated with horror films, a"
+      },
+      {
+        "start": 577,
+        "end": 580,
+        "text": "creaking wooden bridge. Hopefully, it"
+      },
+      {
+        "start": 580,
+        "end": 582,
+        "text": "doesn't collapse before"
+      },
+      {
+        "start": 582,
+        "end": 585,
+        "text": "Ah, my goodness."
+      },
+      {
+        "start": 585,
+        "end": 587,
+        "text": "I'm lost for words, honestly."
+      },
+      {
+        "start": 587,
+        "end": 591,
+        "text": "So, the final English word of the day is"
+      },
+      {
+        "start": 591,
+        "end": 595,
+        "text": "cheers."
+      },
+      {
+        "start": 595,
+        "end": 598,
+        "text": "Now, normally you might know cheers as"
+      },
+      {
+        "start": 598,
+        "end": 599,
+        "text": "the word that you use when you clink the"
+      },
+      {
+        "start": 599,
+        "end": 602,
+        "text": "glasses together. That's one use."
+      },
+      {
+        "start": 602,
+        "end": 605,
+        "text": "Another use is to say thank you."
+      },
+      {
+        "start": 605,
+        "end": 607,
+        "text": "Cheers, mate, means thanks, my friend."
+      },
+      {
+        "start": 607,
+        "end": 611,
+        "text": "And the final lesser-known use is saying"
+      },
+      {
+        "start": 611,
+        "end": 613,
+        "text": "goodbye. Cheers."
+      },
+      {
+        "start": 613,
+        "end": 615,
+        "text": "Cheers. See you later."
+      },
+      {
+        "start": 615,
+        "end": 617,
+        "text": "Now,"
+      },
+      {
+        "start": 617,
+        "end": 619,
+        "text": "it's not goodbye. It's just cheers, see"
+      },
+      {
+        "start": 619,
+        "end": 620,
+        "text": "you later. I'm going to get back on this"
+      },
+      {
+        "start": 620,
+        "end": 623,
+        "text": "boat. We're going to get back to land,"
+      },
+      {
+        "start": 623,
+        "end": 625,
+        "text": "and after that, I'm going to reveal the"
+      },
+      {
+        "start": 625,
+        "end": 627,
+        "text": "hidden word that I've been sprinkling"
+      },
+      {
+        "start": 627,
+        "end": 633,
+        "text": "throughout this video. So, stick around."
+      },
+      {
+        "start": 633,
+        "end": 635,
+        "text": "Oh."
+      },
+      {
+        "start": 635,
+        "end": 639,
+        "text": "Proper British day."
+      },
+      {
+        "start": 639,
+        "end": 642,
+        "text": "Proper good day, isn't it?"
+      },
+      {
+        "start": 642,
+        "end": 644,
+        "text": "That is the secret word that I've been"
+      },
+      {
+        "start": 644,
+        "end": 645,
+        "text": "sprinkling throughout this video, the"
+      },
+      {
+        "start": 645,
+        "end": 649,
+        "text": "word proper."
+      },
+      {
+        "start": 649,
+        "end": 651,
+        "text": "And it's an intensifier. It can be"
+      },
+      {
+        "start": 651,
+        "end": 654,
+        "text": "substituted with very, really, or"
+      },
+      {
+        "start": 654,
+        "end": 658,
+        "text": "incredibly. That is proper British."
+      },
+      {
+        "start": 658,
+        "end": 661,
+        "text": "Now, if you want to practice with all"
+      },
+      {
+        "start": 661,
+        "end": 662,
+        "text": "the words you learned in this video,"
+      },
+      {
+        "start": 662,
+        "end": 663,
+        "text": "then you can do that on"
+      },
+      {
+        "start": 663,
+        "end": 665,
+        "text": "sproutlanguage.com."
+      },
+      {
+        "start": 665,
+        "end": 668,
+        "text": "You can practice speaking with JI, which"
+      },
+      {
+        "start": 668,
+        "end": 670,
+        "text": "is an AI version of me, and he"
+      },
+      {
+        "start": 670,
+        "end": 672,
+        "text": "understands all of the context in this"
+      },
+      {
+        "start": 672,
+        "end": 675,
+        "text": "video. So, you can speak with him to put"
+      },
+      {
+        "start": 675,
+        "end": 678,
+        "text": "what you learned into practice. That is"
+      },
+      {
+        "start": 678,
+        "end": 680,
+        "text": "proper good."
+      },
+      {
+        "start": 680,
+        "end": 685,
+        "text": "I'll see you there."
+      },
+      {
+        "start": 685,
+        "end": 688,
+        "text": "Nice, isn't it?"
+      }
+    ]
   },
   {
     "id": "K9pY8Or7-GA",
     "title": "If you want to be good at English... Don't go to school.",
     "videoId": "K9pY8Or7-GA",
-    "isInitialized": false,
-    "vocab": [],
-    "lines": []
+    "isInitialized": true,
+    "vocab": [
+      {
+        "word": "fancy",
+        "ipa": "/ˈfænsi/",
+        "definition": "to have a liking for something; to think something is attractive or appealing",
+        "example": "Do you fancy an iced coffee?"
+      },
+      {
+        "word": "grab",
+        "ipa": "/ɡræb/",
+        "definition": "to take hold of something quickly and easily",
+        "example": "We grab a seat."
+      },
+      {
+        "word": "pop",
+        "ipa": "/pɒp/",
+        "definition": "to go somewhere quickly or casually; to make a small explosive sound",
+        "example": "Should we pop to the pool?"
+      },
+      {
+        "word": "loo",
+        "ipa": "/luː/",
+        "definition": "a toilet, especially in British English",
+        "example": "I'll see you in two. I'm going to pop to the loo."
+      },
+      {
+        "word": "condiments",
+        "ipa": "/kɒnˈdɪmənt/",
+        "definition": "small containers of food or drink that are added to something else to give it extra flavor or taste",
+        "example": null
+      },
+      {
+        "word": "cutlery",
+        "ipa": "/ˈkʌtərɪ/",
+        "definition": "plates, cups, knives, forks, and spoons used for eating",
+        "example": null
+      }
+    ],
+    "lines": [
+      {
+        "start": 0,
+        "end": 3,
+        "text": "If you want to be good at English,"
+      },
+      {
+        "start": 3,
+        "end": 6,
+        "text": "don't go to school."
+      },
+      {
+        "start": 6,
+        "end": 9,
+        "text": "I know that's a big thing to say, but I"
+      },
+      {
+        "start": 9,
+        "end": 11,
+        "text": "went to school and studied Spanish for 5"
+      },
+      {
+        "start": 11,
+        "end": 14,
+        "text": "years, but the most useful words I ever"
+      },
+      {
+        "start": 14,
+        "end": 16,
+        "text": "learned,"
+      },
+      {
+        "start": 16,
+        "end": 17,
+        "text": "I learned them out here, not in the"
+      },
+      {
+        "start": 17,
+        "end": 20,
+        "text": "classroom, not in a textbook,"
+      },
+      {
+        "start": 20,
+        "end": 23,
+        "text": "out here. Everything you can see"
+      },
+      {
+        "start": 23,
+        "end": 25,
+        "text": "is a word."
+      },
+      {
+        "start": 25,
+        "end": 27,
+        "text": "This is a coconut"
+      },
+      {
+        "start": 27,
+        "end": 29,
+        "text": "on a plate"
+      },
+      {
+        "start": 29,
+        "end": 31,
+        "text": "with a straw."
+      },
+      {
+        "start": 31,
+        "end": 34,
+        "text": "We're on the coastline. It's summer, and"
+      },
+      {
+        "start": 34,
+        "end": 36,
+        "text": "today I'm going to show you seven words"
+      },
+      {
+        "start": 36,
+        "end": 38,
+        "text": "that will help you sound like a native"
+      },
+      {
+        "start": 38,
+        "end": 41,
+        "text": "speaker. And along the way, I'm going to"
+      },
+      {
+        "start": 41,
+        "end": 44,
+        "text": "show you everything around us. So,"
+      },
+      {
+        "start": 44,
+        "end": 46,
+        "text": "you're not just learning the words, but"
+      },
+      {
+        "start": 46,
+        "end": 50,
+        "text": "you're seeing them in real life."
+      },
+      {
+        "start": 50,
+        "end": 57,
+        "text": "None of this is in a textbook."
+      },
+      {
+        "start": 57,
+        "end": 59,
+        "text": "Textbooks teach you, \"I would like to"
+      },
+      {
+        "start": 59,
+        "end": 62,
+        "text": "order a coffee, please.\""
+      },
+      {
+        "start": 62,
+        "end": 64,
+        "text": "But, here's what I would say more"
+      },
+      {
+        "start": 64,
+        "end": 66,
+        "text": "naturally."
+      },
+      {
+        "start": 66,
+        "end": 69,
+        "text": "Could I have one coconut coffee and one"
+      },
+      {
+        "start": 69,
+        "end": 71,
+        "text": "salted coffee, please?"
+      },
+      {
+        "start": 71,
+        "end": 73,
+        "text": "Thank you."
+      },
+      {
+        "start": 73,
+        "end": 76,
+        "text": "So, that's how to order."
+      },
+      {
+        "start": 76,
+        "end": 78,
+        "text": "But, if we're talking to our friends,"
+      },
+      {
+        "start": 78,
+        "end": 79,
+        "text": "then we might say, \"Shall we get a"
+      },
+      {
+        "start": 79,
+        "end": 81,
+        "text": "drink?"
+      },
+      {
+        "start": 81,
+        "end": 83,
+        "text": "Do you fancy an iced coffee?"
+      },
+      {
+        "start": 83,
+        "end": 88,
+        "text": "Or, let's grab a coffee.\""
+      },
+      {
+        "start": 88,
+        "end": 92,
+        "text": "In fact, the word grab alone deserves"
+      },
+      {
+        "start": 92,
+        "end": 95,
+        "text": "its own lesson. Schools might teach you"
+      },
+      {
+        "start": 95,
+        "end": 98,
+        "text": "to buy, to take, to have, but grab is"
+      },
+      {
+        "start": 98,
+        "end": 101,
+        "text": "super common in spoken English. For"
+      },
+      {
+        "start": 101,
+        "end": 104,
+        "text": "example, we grab a seat."
+      },
+      {
+        "start": 104,
+        "end": 106,
+        "text": "We grab the menu."
+      },
+      {
+        "start": 106,
+        "end": 118,
+        "text": "And now I'm going to go grab my drink."
+      },
+      {
+        "start": 118,
+        "end": 119,
+        "text": "All right."
+      },
+      {
+        "start": 119,
+        "end": 122,
+        "text": "I just grabbed the two coffees and now"
+      },
+      {
+        "start": 122,
+        "end": 124,
+        "text": "let's learn some English using the world"
+      },
+      {
+        "start": 124,
+        "end": 127,
+        "text": "around us. So, this is a salted coffee"
+      },
+      {
+        "start": 127,
+        "end": 129,
+        "text": "in a glass"
+      },
+      {
+        "start": 129,
+        "end": 132,
+        "text": "and it has a straw"
+      },
+      {
+        "start": 132,
+        "end": 134,
+        "text": "and a spoon."
+      },
+      {
+        "start": 134,
+        "end": 136,
+        "text": "There is salted cream on top of the"
+      },
+      {
+        "start": 136,
+        "end": 138,
+        "text": "coffee."
+      },
+      {
+        "start": 138,
+        "end": 140,
+        "text": "In here"
+      },
+      {
+        "start": 140,
+        "end": 144,
+        "text": "we have the condiments, the sauces. This"
+      },
+      {
+        "start": 144,
+        "end": 147,
+        "text": "is a squeeze bottle of ketchup because"
+      },
+      {
+        "start": 147,
+        "end": 148,
+        "text": "you can"
+      },
+      {
+        "start": 148,
+        "end": 149,
+        "text": "squeeze it."
+      },
+      {
+        "start": 149,
+        "end": 152,
+        "text": "This is a bottle of soy sauce and at the"
+      },
+      {
+        "start": 152,
+        "end": 155,
+        "text": "top, this is the lid."
+      },
+      {
+        "start": 155,
+        "end": 159,
+        "text": "The lid. A knife, a fork, and a spoon"
+      },
+      {
+        "start": 159,
+        "end": 161,
+        "text": "are called cutlery. These are the"
+      },
+      {
+        "start": 161,
+        "end": 163,
+        "text": "chopsticks."
+      },
+      {
+        "start": 163,
+        "end": 167,
+        "text": "And finally, to dab your mouth"
+      },
+      {
+        "start": 167,
+        "end": 171,
+        "text": "this is a napkin."
+      },
+      {
+        "start": 171,
+        "end": 173,
+        "text": "From here in my seat, you can also see a"
+      },
+      {
+        "start": 173,
+        "end": 175,
+        "text": "parasol."
+      },
+      {
+        "start": 175,
+        "end": 177,
+        "text": "These are parasols that shade you from"
+      },
+      {
+        "start": 177,
+        "end": 179,
+        "text": "the sun."
+      },
+      {
+        "start": 179,
+        "end": 181,
+        "text": "These are sun loungers and they are on"
+      },
+      {
+        "start": 181,
+        "end": 183,
+        "text": "the sand."
+      },
+      {
+        "start": 183,
+        "end": 185,
+        "text": "In the distance, that line that you can"
+      },
+      {
+        "start": 185,
+        "end": 188,
+        "text": "see between the ocean and the sky is"
+      },
+      {
+        "start": 188,
+        "end": 190,
+        "text": "called the horizon."
+      },
+      {
+        "start": 190,
+        "end": 192,
+        "text": "You can learn all of these words in a"
+      },
+      {
+        "start": 192,
+        "end": 194,
+        "text": "textbook"
+      },
+      {
+        "start": 194,
+        "end": 196,
+        "text": "but the problem is you're just reading"
+      },
+      {
+        "start": 196,
+        "end": 199,
+        "text": "words on a page and repeating them."
+      },
+      {
+        "start": 199,
+        "end": 202,
+        "text": "The best way to make the language stick"
+      },
+      {
+        "start": 202,
+        "end": 205,
+        "text": "is to hear it in context and see it at"
+      },
+      {
+        "start": 205,
+        "end": 207,
+        "text": "the same time."
+      },
+      {
+        "start": 207,
+        "end": 209,
+        "text": "Your visual memory is strong. You know"
+      },
+      {
+        "start": 209,
+        "end": 212,
+        "text": "that this is a glass."
+      },
+      {
+        "start": 212,
+        "end": 214,
+        "text": "This is the best way to learn English."
+      },
+      {
+        "start": 214,
+        "end": 218,
+        "text": "It's immersion and it helps the words to"
+      },
+      {
+        "start": 218,
+        "end": 219,
+        "text": "stick."
+      },
+      {
+        "start": 219,
+        "end": 221,
+        "text": "If you want a platform to immerse"
+      },
+      {
+        "start": 221,
+        "end": 223,
+        "text": "yourself in natural native English, then"
+      },
+      {
+        "start": 223,
+        "end": 232,
+        "text": "check out sproutlanguage.com."
+      },
+      {
+        "start": 232,
+        "end": 235,
+        "text": "Pop."
+      },
+      {
+        "start": 235,
+        "end": 237,
+        "text": "Pop is one of the most British verbs to"
+      },
+      {
+        "start": 237,
+        "end": 240,
+        "text": "exist, and you won't find it in"
+      },
+      {
+        "start": 240,
+        "end": 241,
+        "text": "textbooks."
+      },
+      {
+        "start": 241,
+        "end": 244,
+        "text": "It means to go somewhere"
+      },
+      {
+        "start": 244,
+        "end": 246,
+        "text": "quickly"
+      },
+      {
+        "start": 246,
+        "end": 248,
+        "text": "or casually."
+      },
+      {
+        "start": 248,
+        "end": 253,
+        "text": "Should we pop to the pool?"
+      },
+      {
+        "start": 253,
+        "end": 255,
+        "text": "Ah."
+      },
+      {
+        "start": 255,
+        "end": 258,
+        "text": "Nice pool."
+      },
+      {
+        "start": 258,
+        "end": 260,
+        "text": "Okay, now I'm going to"
+      },
+      {
+        "start": 260,
+        "end": 261,
+        "text": "pop to the loo."
+      },
+      {
+        "start": 261,
+        "end": 262,
+        "text": "I'll see you"
+      },
+      {
+        "start": 262,
+        "end": 265,
+        "text": "in two."
+      },
+      {
+        "start": 265,
+        "end": 266,
+        "text": "Oh."
+      },
+      {
+        "start": 266,
+        "end": 269,
+        "text": "By the way, the loo is the toilets in"
+      },
+      {
+        "start": 269,
+        "end": 285,
+        "text": "British English."
+      },
+      {
+        "start": 285,
+        "end": 286,
+        "text": "Now,"
+      },
+      {
+        "start": 286,
+        "end": 287,
+        "text": "let's pop out"
+      },
+      {
+        "start": 287,
+        "end": 293,
+        "text": "for a walk."
+      },
+      {
+        "start": 293,
+        "end": 296,
+        "text": "Now, we are taking a stroll."
+      },
+      {
+        "start": 296,
+        "end": 298,
+        "text": "A gentle walk."
+      },
+      {
+        "start": 298,
+        "end": 302,
+        "text": "Not a fast walk, but a stroll."
+      },
+      {
+        "start": 302,
+        "end": 304,
+        "text": "And to my right,"
+      },
+      {
+        "start": 304,
+        "end": 308,
+        "text": "this is a fence."
+      },
+      {
+        "start": 308,
+        "end": 310,
+        "text": "These are bougainvillea, which I taught"
+      },
+      {
+        "start": 310,
+        "end": 312,
+        "text": "in the last video."
+      },
+      {
+        "start": 312,
+        "end": 315,
+        "text": "And this is a coconut tree."
+      },
+      {
+        "start": 315,
+        "end": 316,
+        "text": "Now,"
+      },
+      {
+        "start": 316,
+        "end": 318,
+        "text": "coming down from the bougainvillea,"
+      },
+      {
+        "start": 318,
+        "end": 319,
+        "text": "these"
+      },
+      {
+        "start": 319,
+        "end": 323,
+        "text": "are called leaves. And the cool thing"
+      },
+      {
+        "start": 323,
+        "end": 323,
+        "text": "about lea-"
+      },
+      {
+        "start": 323,
+        "end": 324,
+        "text": ">> Hey,"
+      },
+      {
+        "start": 324,
+        "end": 327,
+        "text": "get off my leaves. Oops."
+      },
+      {
+        "start": 327,
+        "end": 329,
+        "text": "Sorry, tree. That is not cool, man."
+      },
+      {
+        "start": 329,
+        "end": 333,
+        "text": "Anyway, I'm bored. Do you fancy going"
+      },
+      {
+        "start": 333,
+        "end": 335,
+        "text": "for a walk? Nah, I don't really fancy it"
+      },
+      {
+        "start": 335,
+        "end": 339,
+        "text": "right now. It's too hot. Fair enough."
+      },
+      {
+        "start": 339,
+        "end": 342,
+        "text": "Fair enough."
+      },
+      {
+        "start": 342,
+        "end": 344,
+        "text": "If someone says something and you say,"
+      },
+      {
+        "start": 344,
+        "end": 347,
+        "text": "\"Fair enough,\" it means that"
+      },
+      {
+        "start": 347,
+        "end": 350,
+        "text": "I see your point. I accept it. I'm not"
+      },
+      {
+        "start": 350,
+        "end": 351,
+        "text": "going to argue."
+      },
+      {
+        "start": 351,
+        "end": 355,
+        "text": "We can also say fair dues or fairs."
+      },
+      {
+        "start": 355,
+        "end": 357,
+        "text": "These are also very common in British"
+      },
+      {
+        "start": 357,
+        "end": 359,
+        "text": "English. And fair enough is"
+      },
+      {
+        "start": 359,
+        "end": 362,
+        "text": "one of the most used two-word"
+      },
+      {
+        "start": 362,
+        "end": 364,
+        "text": "expressions in British English and they"
+      },
+      {
+        "start": 364,
+        "end": 366,
+        "text": "do not teach that in textbooks, my"
+      },
+      {
+        "start": 366,
+        "end": 370,
+        "text": "friends."
+      },
+      {
+        "start": 370,
+        "end": 373,
+        "text": "Okay, guys."
+      },
+      {
+        "start": 373,
+        "end": 375,
+        "text": "This is"
+      },
+      {
+        "start": 375,
+        "end": 378,
+        "text": "a wooden sign and it says \"An Bang"
+      },
+      {
+        "start": 378,
+        "end": 380,
+        "text": "Seaside Boutique\". Boutique refers to a"
+      },
+      {
+        "start": 380,
+        "end": 384,
+        "text": "boutique hotel, which is like a small,"
+      },
+      {
+        "start": 384,
+        "end": 388,
+        "text": "fashionable hotel that is not part of a"
+      },
+      {
+        "start": 388,
+        "end": 391,
+        "text": "larger chain."
+      },
+      {
+        "start": 391,
+        "end": 392,
+        "text": "This"
+      },
+      {
+        "start": 392,
+        "end": 394,
+        "text": "is a light bulb"
+      },
+      {
+        "start": 394,
+        "end": 397,
+        "text": "and it's reminded me of a fun fact."
+      },
+      {
+        "start": 397,
+        "end": 400,
+        "text": "These plants are called ferns and they"
+      },
+      {
+        "start": 400,
+        "end": 403,
+        "text": "are ancient, prehistoric survivors. In"
+      },
+      {
+        "start": 403,
+        "end": 407,
+        "text": "fact, these ferns are 100 million years"
+      },
+      {
+        "start": 407,
+        "end": 411,
+        "text": "older than the dinosaurs. They are 360"
+      },
+      {
+        "start": 411,
+        "end": 414,
+        "text": "million years old."
+      },
+      {
+        "start": 414,
+        "end": 417,
+        "text": "That's ancient."
+      },
+      {
+        "start": 417,
+        "end": 419,
+        "text": "I wonder if the dinosaurs ever knew what"
+      },
+      {
+        "start": 419,
+        "end": 421,
+        "text": "bunting was."
+      },
+      {
+        "start": 421,
+        "end": 423,
+        "text": "Probably not, but"
+      },
+      {
+        "start": 423,
+        "end": 424,
+        "text": "now you do."
+      },
+      {
+        "start": 424,
+        "end": 427,
+        "text": "This is bunting and we hang it up when"
+      },
+      {
+        "start": 427,
+        "end": 430,
+        "text": "we are celebrating."
+      },
+      {
+        "start": 430,
+        "end": 432,
+        "text": "So, I'm walking past an abandoned area,"
+      },
+      {
+        "start": 432,
+        "end": 435,
+        "text": "an area that has been left and this is"
+      },
+      {
+        "start": 435,
+        "end": 438,
+        "text": "an old motorbike. It's out of use and"
+      },
+      {
+        "start": 438,
+        "end": 439,
+        "text": "the metal"
+      },
+      {
+        "start": 439,
+        "end": 441,
+        "text": "is rusty."
+      },
+      {
+        "start": 441,
+        "end": 443,
+        "text": "It's decaying."
+      },
+      {
+        "start": 443,
+        "end": 445,
+        "text": "The color of the motorbike's body is"
+      },
+      {
+        "start": 445,
+        "end": 448,
+        "text": "turquoise, the same color that you find"
+      },
+      {
+        "start": 448,
+        "end": 450,
+        "text": "in the ocean."
+      },
+      {
+        "start": 450,
+        "end": 452,
+        "text": "When the water is nice and light blue,"
+      },
+      {
+        "start": 452,
+        "end": 455,
+        "text": "it's turquoise. This is turquoise."
+      },
+      {
+        "start": 455,
+        "end": 457,
+        "text": "Let's keep going."
+      },
+      {
+        "start": 457,
+        "end": 460,
+        "text": "Jay, what's the next language point?"
+      },
+      {
+        "start": 460,
+        "end": 461,
+        "text": "Woof."
+      },
+      {
+        "start": 461,
+        "end": 464,
+        "text": "Mhm."
+      },
+      {
+        "start": 464,
+        "end": 465,
+        "text": "This lantern"
+      },
+      {
+        "start": 465,
+        "end": 469,
+        "text": "is kind of blue,"
+      },
+      {
+        "start": 469,
+        "end": 472,
+        "text": "sort of purple."
+      },
+      {
+        "start": 472,
+        "end": 476,
+        "text": "And these flowers"
+      },
+      {
+        "start": 476,
+        "end": 477,
+        "text": "is kind of"
+      },
+      {
+        "start": 477,
+        "end": 479,
+        "text": "reddish,"
+      },
+      {
+        "start": 479,
+        "end": 483,
+        "text": "pinkish."
+      },
+      {
+        "start": 483,
+        "end": 488,
+        "text": "I just used kind of, sort of, and ish."
+      },
+      {
+        "start": 488,
+        "end": 492,
+        "text": "This is known as vague language. And"
+      },
+      {
+        "start": 492,
+        "end": 495,
+        "text": "native speakers, like me, use it all the"
+      },
+      {
+        "start": 495,
+        "end": 496,
+        "text": "time."
+      },
+      {
+        "start": 496,
+        "end": 499,
+        "text": "Hey Jay, what time is it?"
+      },
+      {
+        "start": 499,
+        "end": 504,
+        "text": "It's about 11-ish. Okay, cheers. I just"
+      },
+      {
+        "start": 504,
+        "end": 506,
+        "text": "said 11-ish."
+      },
+      {
+        "start": 506,
+        "end": 509,
+        "text": "That means around 11. And British people"
+      },
+      {
+        "start": 509,
+        "end": 512,
+        "text": "use ish all the time when it comes to"
+      },
+      {
+        "start": 512,
+        "end": 515,
+        "text": "telling the time. It's 11-ish, it's"
+      },
+      {
+        "start": 515,
+        "end": 520,
+        "text": "12-ish. It means it's around that time."
+      },
+      {
+        "start": 520,
+        "end": 522,
+        "text": "But now, my favorite way to use the word"
+      },
+      {
+        "start": 522,
+        "end": 524,
+        "text": "ish is"
+      },
+      {
+        "start": 524,
+        "end": 526,
+        "text": "Moorish."
+      },
+      {
+        "start": 526,
+        "end": 530,
+        "text": "This banh mi is really Moorish. In"
+      },
+      {
+        "start": 530,
+        "end": 532,
+        "text": "school, you probably learned"
+      },
+      {
+        "start": 532,
+        "end": 535,
+        "text": "oh, it's delicious, or it's yummy. But a"
+      },
+      {
+        "start": 535,
+        "end": 537,
+        "text": "more natural way to describe that you"
+      },
+      {
+        "start": 537,
+        "end": 539,
+        "text": "like to eat something and you want more"
+      },
+      {
+        "start": 539,
+        "end": 542,
+        "text": "of it is to use the word Moorish. This"
+      },
+      {
+        "start": 542,
+        "end": 545,
+        "text": "banh mi is really Moorish. I want more"
+      },
+      {
+        "start": 545,
+        "end": 546,
+        "text": "of it."
+      },
+      {
+        "start": 546,
+        "end": 547,
+        "text": "Other things that are Moorish are"
+      },
+      {
+        "start": 547,
+        "end": 551,
+        "text": "peanuts, crisps, and chocolates."
+      },
+      {
+        "start": 551,
+        "end": 553,
+        "text": "It means that you want to consume more"
+      },
+      {
+        "start": 553,
+        "end": 554,
+        "text": "of them."
+      },
+      {
+        "start": 554,
+        "end": 557,
+        "text": "A drink can also be Moorish."
+      },
+      {
+        "start": 557,
+        "end": 561,
+        "text": "Speaking of Moorish,"
+      },
+      {
+        "start": 561,
+        "end": 562,
+        "text": "Hmm."
+      },
+      {
+        "start": 562,
+        "end": 564,
+        "text": "That is Moorish."
+      },
+      {
+        "start": 564,
+        "end": 565,
+        "text": "Hmm."
+      },
+      {
+        "start": 565,
+        "end": 568,
+        "text": "Lovely."
+      },
+      {
+        "start": 568,
+        "end": 572,
+        "text": "Lovely jubbly."
+      },
+      {
+        "start": 572,
+        "end": 575,
+        "text": "Lovely. The next and probably the most"
+      },
+      {
+        "start": 575,
+        "end": 578,
+        "text": "British word is one that I use all the"
+      },
+      {
+        "start": 578,
+        "end": 579,
+        "text": "time."
+      },
+      {
+        "start": 579,
+        "end": 581,
+        "text": "The weather is lovely."
+      },
+      {
+        "start": 581,
+        "end": 583,
+        "text": "The coffee"
+      },
+      {
+        "start": 583,
+        "end": 584,
+        "text": "is lovely."
+      },
+      {
+        "start": 584,
+        "end": 587,
+        "text": "This pool is lovely."
+      },
+      {
+        "start": 587,
+        "end": 589,
+        "text": "I just met somebody yesterday and she"
+      },
+      {
+        "start": 589,
+        "end": 592,
+        "text": "was lovely. Let's go. We can use the"
+      },
+      {
+        "start": 592,
+        "end": 595,
+        "text": "word lovely to talk about food, weather,"
+      },
+      {
+        "start": 595,
+        "end": 598,
+        "text": "people, places, or"
+      },
+      {
+        "start": 598,
+        "end": 602,
+        "text": "moments. And if you add it into your"
+      },
+      {
+        "start": 602,
+        "end": 605,
+        "text": "English vocabulary today, right now,"
+      },
+      {
+        "start": 605,
+        "end": 607,
+        "text": "then I promise you you will sound so"
+      },
+      {
+        "start": 607,
+        "end": 608,
+        "text": "native."
+      },
+      {
+        "start": 608,
+        "end": 612,
+        "text": "Lovely jubly."
+      },
+      {
+        "start": 612,
+        "end": 614,
+        "text": "Hey Jay, what's the plan for this"
+      },
+      {
+        "start": 614,
+        "end": 616,
+        "text": "evening? Hey Peach,"
+      },
+      {
+        "start": 616,
+        "end": 618,
+        "text": "I reckon we should"
+      },
+      {
+        "start": 618,
+        "end": 619,
+        "text": "go grab some dinner"
+      },
+      {
+        "start": 619,
+        "end": 621,
+        "text": "and then"
+      },
+      {
+        "start": 621,
+        "end": 625,
+        "text": "come back home for an early night."
+      },
+      {
+        "start": 625,
+        "end": 626,
+        "text": "I reckon."
+      },
+      {
+        "start": 626,
+        "end": 629,
+        "text": "I just used the words I reckon."
+      },
+      {
+        "start": 629,
+        "end": 632,
+        "text": "I reckon you might not know what those"
+      },
+      {
+        "start": 632,
+        "end": 633,
+        "text": "mean."
+      },
+      {
+        "start": 633,
+        "end": 636,
+        "text": "In school, you might have learned I"
+      },
+      {
+        "start": 636,
+        "end": 637,
+        "text": "think,"
+      },
+      {
+        "start": 637,
+        "end": 641,
+        "text": "but in England and in Britain, we tend"
+      },
+      {
+        "start": 641,
+        "end": 644,
+        "text": "to use the words I reckon."
+      },
+      {
+        "start": 644,
+        "end": 647,
+        "text": "And it's more casual and more of a gut"
+      },
+      {
+        "start": 647,
+        "end": 650,
+        "text": "feeling for what you think."
+      },
+      {
+        "start": 650,
+        "end": 653,
+        "text": "I reckon it will be useful."
+      },
+      {
+        "start": 653,
+        "end": 657,
+        "text": "Hey Peach, what do you reckon we eat"
+      },
+      {
+        "start": 657,
+        "end": 658,
+        "text": "tonight?"
+      },
+      {
+        "start": 658,
+        "end": 660,
+        "text": "Ooh, I reckon we should try that little"
+      },
+      {
+        "start": 660,
+        "end": 662,
+        "text": "place by the river."
+      },
+      {
+        "start": 662,
+        "end": 665,
+        "text": "The one with the lanterns outside? Yeah,"
+      },
+      {
+        "start": 665,
+        "end": 667,
+        "text": "I reckon it'll be rammed though."
+      },
+      {
+        "start": 667,
+        "end": 669,
+        "text": "Yeah, I reckon you're right. We should"
+      },
+      {
+        "start": 669,
+        "end": 670,
+        "text": "still try though."
+      },
+      {
+        "start": 670,
+        "end": 672,
+        "text": "I reckon."
+      },
+      {
+        "start": 672,
+        "end": 673,
+        "text": "I reckon"
+      },
+      {
+        "start": 673,
+        "end": 675,
+        "text": "that's a word that will help you sound a"
+      },
+      {
+        "start": 675,
+        "end": 677,
+        "text": "lot more native."
+      },
+      {
+        "start": 677,
+        "end": 681,
+        "text": "I reckon."
+      },
+      {
+        "start": 681,
+        "end": 684,
+        "text": "Now, here's a test for what we learned"
+      },
+      {
+        "start": 684,
+        "end": 685,
+        "text": "today."
+      },
+      {
+        "start": 685,
+        "end": 687,
+        "text": "Can you understand"
+      },
+      {
+        "start": 687,
+        "end": 688,
+        "text": "this?"
+      },
+      {
+        "start": 688,
+        "end": 691,
+        "text": "I reckon the best way to sound like a"
+      },
+      {
+        "start": 691,
+        "end": 694,
+        "text": "native is to speak like a native. So,"
+      },
+      {
+        "start": 694,
+        "end": 696,
+        "text": "pop over"
+      },
+      {
+        "start": 696,
+        "end": 699,
+        "text": "to sproutlanguage.com,"
+      },
+      {
+        "start": 699,
+        "end": 701,
+        "text": "grab a free trial,"
+      },
+      {
+        "start": 701,
+        "end": 704,
+        "text": "and start having real conversations with"
+      },
+      {
+        "start": 704,
+        "end": 706,
+        "text": "the lovely JI."
+      },
+      {
+        "start": 706,
+        "end": 709,
+        "text": "And if you don't,"
+      },
+      {
+        "start": 709,
+        "end": 711,
+        "text": "fair enough."
+      }
+    ]
   },
   {
     "id": "-i7ixwtCsfI",
     "title": "British Small Talk for English Learners (easier than you think)",
     "videoId": "-i7ixwtCsfI",
-    "isInitialized": false,
-    "vocab": [],
-    "lines": []
+    "isInitialized": true,
+    "vocab": [
+      {
+        "word": "all right",
+        "ipa": "",
+        "definition": "used to ask how someone is doing, but not necessarily seeking a detailed answer",
+        "example": "You all right?"
+      },
+      {
+        "word": "I'm good",
+        "ipa": "",
+        "definition": "a common response to 'how are you?' that implies everything is fine, even if it's not",
+        "example": "How are you? I'm good."
+      },
+      {
+        "word": "fine",
+        "ipa": "",
+        "definition": "can be perceived as a little bit negative when used in response to 'how are you?'",
+        "example": "I'm fine."
+      },
+      {
+        "word": "Sherlock",
+        "ipa": "",
+        "definition": "a reference to the fictional detective Sherlock Holmes, known for being curious and observant",
+        "example": "Act like Sherlock Holmes. Ask questions."
+      },
+      {
+        "word": "sproutlanguage.com",
+        "ipa": "",
+        "definition": "the website where the speaker offers weekly group classes on British small talk",
+        "example": ""
+      }
+    ],
+    "lines": [
+      {
+        "start": 0,
+        "end": 3,
+        "text": "In England, we don't say hello."
+      },
+      {
+        "start": 3,
+        "end": 5,
+        "text": "We might ask if you're all right. You"
+      },
+      {
+        "start": 5,
+        "end": 6,
+        "text": "all right?"
+      },
+      {
+        "start": 6,
+        "end": 9,
+        "text": "We might say, \"I'm good.\" when life is"
+      },
+      {
+        "start": 9,
+        "end": 10,
+        "text": "actually"
+      },
+      {
+        "start": 10,
+        "end": 11,
+        "text": "bad."
+      },
+      {
+        "start": 11,
+        "end": 15,
+        "text": "Welcome to British small talk."
+      },
+      {
+        "start": 15,
+        "end": 18,
+        "text": "3 years ago, I was terrible at small"
+      },
+      {
+        "start": 18,
+        "end": 19,
+        "text": "talk."
+      },
+      {
+        "start": 19,
+        "end": 21,
+        "text": "Why is that?"
+      },
+      {
+        "start": 21,
+        "end": 23,
+        "text": "Nobody teaches you this stuff."
+      },
+      {
+        "start": 23,
+        "end": 26,
+        "text": "So, in this video, I will teach you the"
+      },
+      {
+        "start": 26,
+        "end": 29,
+        "text": "secrets of British small talk so you can"
+      },
+      {
+        "start": 29,
+        "end": 32,
+        "text": "walk into any conversation and feel"
+      },
+      {
+        "start": 32,
+        "end": 35,
+        "text": "confident. And at the end of the video,"
+      },
+      {
+        "start": 35,
+        "end": 37,
+        "text": "I'm going to share a special memory"
+      },
+      {
+        "start": 37,
+        "end": 39,
+        "text": "trick so you can remember everything you"
+      },
+      {
+        "start": 39,
+        "end": 45,
+        "text": "learn."
+      },
+      {
+        "start": 45,
+        "end": 47,
+        "text": "Small talk is like glue."
+      },
+      {
+        "start": 47,
+        "end": 49,
+        "text": "Social glue."
+      },
+      {
+        "start": 49,
+        "end": 50,
+        "text": "It's about making the other person feel"
+      },
+      {
+        "start": 50,
+        "end": 52,
+        "text": "comfortable."
+      },
+      {
+        "start": 52,
+        "end": 54,
+        "text": "Showing them that you care."
+      },
+      {
+        "start": 54,
+        "end": 56,
+        "text": "In the beginning, the goal isn't to talk"
+      },
+      {
+        "start": 56,
+        "end": 59,
+        "text": "too deeply. It's about keeping it light,"
+      },
+      {
+        "start": 59,
+        "end": 61,
+        "text": "keeping it fun. You could talk about the"
+      },
+      {
+        "start": 61,
+        "end": 62,
+        "text": "weather,"
+      },
+      {
+        "start": 62,
+        "end": 64,
+        "text": "the food, the coffee."
+      },
+      {
+        "start": 64,
+        "end": 66,
+        "text": "Keep it light-hearted."
+      },
+      {
+        "start": 66,
+        "end": 68,
+        "text": "In British English, when someone asks,"
+      },
+      {
+        "start": 68,
+        "end": 70,
+        "text": "\"How are you?\" they probably don't want"
+      },
+      {
+        "start": 70,
+        "end": 73,
+        "text": "to hear about your problems. So, you can"
+      },
+      {
+        "start": 73,
+        "end": 74,
+        "text": "respond,"
+      },
+      {
+        "start": 74,
+        "end": 75,
+        "text": "\"I'm good."
+      },
+      {
+        "start": 75,
+        "end": 77,
+        "text": "How are you?\""
+      },
+      {
+        "start": 77,
+        "end": 79,
+        "text": "Another note is that I hear a lot of"
+      },
+      {
+        "start": 79,
+        "end": 82,
+        "text": "people say, \"I'm fine.\" But \"I'm fine.\""
+      },
+      {
+        "start": 82,
+        "end": 83,
+        "text": "can be perceived as a little bit"
+      },
+      {
+        "start": 83,
+        "end": 87,
+        "text": "negative. So, it's better to just say,"
+      },
+      {
+        "start": 87,
+        "end": 88,
+        "text": "\"I'm good.\""
+      },
+      {
+        "start": 88,
+        "end": 90,
+        "text": "That always works."
+      },
+      {
+        "start": 90,
+        "end": 91,
+        "text": "How are you?"
+      },
+      {
+        "start": 91,
+        "end": 94,
+        "text": "I'm good."
+      },
+      {
+        "start": 94,
+        "end": 96,
+        "text": "The biggest problem with small talk is"
+      },
+      {
+        "start": 96,
+        "end": 100,
+        "text": "that we focus too much on ourselves."
+      },
+      {
+        "start": 100,
+        "end": 102,
+        "text": "Instead, focus on the other person. Ask"
+      },
+      {
+        "start": 102,
+        "end": 105,
+        "text": "questions. Be curious."
+      },
+      {
+        "start": 105,
+        "end": 107,
+        "text": "The person who asks the best questions"
+      },
+      {
+        "start": 107,
+        "end": 110,
+        "text": "is always the most interesting person in"
+      },
+      {
+        "start": 110,
+        "end": 112,
+        "text": "the room."
+      },
+      {
+        "start": 112,
+        "end": 114,
+        "text": "If you want to be interesting,"
+      },
+      {
+        "start": 114,
+        "end": 121,
+        "text": "be interested."
+      },
+      {
+        "start": 121,
+        "end": 124,
+        "text": "Act like Sherlock Holmes."
+      },
+      {
+        "start": 124,
+        "end": 126,
+        "text": "Sherlock wouldn't walk into a room and"
+      },
+      {
+        "start": 126,
+        "end": 128,
+        "text": "talk about himself."
+      },
+      {
+        "start": 128,
+        "end": 131,
+        "text": "He's curious. He observes."
+      },
+      {
+        "start": 131,
+        "end": 133,
+        "text": "He looks for clues."
+      },
+      {
+        "start": 133,
+        "end": 135,
+        "text": "In small talk, you have to look for"
+      },
+      {
+        "start": 135,
+        "end": 138,
+        "text": "clues and"
+      },
+      {
+        "start": 138,
+        "end": 139,
+        "text": "ask questions."
+      },
+      {
+        "start": 139,
+        "end": 142,
+        "text": "For example, if somebody talks about"
+      },
+      {
+        "start": 142,
+        "end": 145,
+        "text": "their love for dancing and you love"
+      },
+      {
+        "start": 145,
+        "end": 146,
+        "text": "dancing, too."
+      },
+      {
+        "start": 146,
+        "end": 148,
+        "text": "Don't just say,"
+      },
+      {
+        "start": 148,
+        "end": 149,
+        "text": "\"Oh,"
+      },
+      {
+        "start": 149,
+        "end": 151,
+        "text": "me, too.\""
+      },
+      {
+        "start": 151,
+        "end": 152,
+        "text": "Dig in."
+      },
+      {
+        "start": 152,
+        "end": 155,
+        "text": "How long have you been dancing?"
+      },
+      {
+        "start": 155,
+        "end": 157,
+        "text": "What style of dance do you like?"
+      },
+      {
+        "start": 157,
+        "end": 159,
+        "text": "Where do you dance?"
+      },
+      {
+        "start": 159,
+        "end": 162,
+        "text": "Classes or just going out?"
+      },
+      {
+        "start": 162,
+        "end": 164,
+        "text": "How often do you practice?"
+      },
+      {
+        "start": 164,
+        "end": 167,
+        "text": "But what if you don't know the topic"
+      },
+      {
+        "start": 167,
+        "end": 169,
+        "text": "they are talking about? Well,"
+      },
+      {
+        "start": 169,
+        "end": 171,
+        "text": "be Sherlock."
+      },
+      {
+        "start": 171,
+        "end": 173,
+        "text": "Ask questions. Be curious. So, you can"
+      },
+      {
+        "start": 173,
+        "end": 176,
+        "text": "say something like, \"Ah, interesting."
+      },
+      {
+        "start": 176,
+        "end": 178,
+        "text": "Can you tell me a little bit more about"
+      },
+      {
+        "start": 178,
+        "end": 179,
+        "text": "that?\""
+      },
+      {
+        "start": 179,
+        "end": 181,
+        "text": "Or you could say, \"I'm curious. I don't"
+      },
+      {
+        "start": 181,
+        "end": 183,
+        "text": "know much about that, but can you tell"
+      },
+      {
+        "start": 183,
+        "end": 184,
+        "text": "me?\""
+      },
+      {
+        "start": 184,
+        "end": 186,
+        "text": "This just gets the other person talking"
+      },
+      {
+        "start": 186,
+        "end": 190,
+        "text": "and keeps the conversation flowing."
+      },
+      {
+        "start": 190,
+        "end": 192,
+        "text": "Recently, actually, I had a student in"
+      },
+      {
+        "start": 192,
+        "end": 195,
+        "text": "my group classes who was talking about"
+      },
+      {
+        "start": 195,
+        "end": 196,
+        "text": "Ramadan."
+      },
+      {
+        "start": 196,
+        "end": 198,
+        "text": "I didn't know much about Ramadan. So, I"
+      },
+      {
+        "start": 198,
+        "end": 200,
+        "text": "asked him. I said,"
+      },
+      {
+        "start": 200,
+        "end": 202,
+        "text": "\"I don't know much about it, but I am"
+      },
+      {
+        "start": 202,
+        "end": 204,
+        "text": "curious. Can you Can you tell me more"
+      },
+      {
+        "start": 204,
+        "end": 205,
+        "text": "about Ramadan?\""
+      },
+      {
+        "start": 205,
+        "end": 208,
+        "text": "And he obliged. He was very happy to"
+      },
+      {
+        "start": 208,
+        "end": 210,
+        "text": "talk about Ramadan with me. And I was"
+      },
+      {
+        "start": 210,
+        "end": 211,
+        "text": "happy to listen."
+      },
+      {
+        "start": 211,
+        "end": 213,
+        "text": "And by the way, if you want to join the"
+      },
+      {
+        "start": 213,
+        "end": 216,
+        "text": "weekly group classes with me, then you"
+      },
+      {
+        "start": 216,
+        "end": 218,
+        "text": "can. I have a weekly group class on"
+      },
+      {
+        "start": 218,
+        "end": 220,
+        "text": "sproutlanguage.com. You can check the"
+      },
+      {
+        "start": 220,
+        "end": 222,
+        "text": "link in the description. It's super fun"
+      },
+      {
+        "start": 222,
+        "end": 225,
+        "text": "and I would love to see you there."
+      },
+      {
+        "start": 225,
+        "end": 229,
+        "text": "Speaking of curiosity, I'm curious about"
+      },
+      {
+        "start": 229,
+        "end": 231,
+        "text": "what's around me right now."
+      },
+      {
+        "start": 231,
+        "end": 234,
+        "text": "This is a plant pot."
+      },
+      {
+        "start": 234,
+        "end": 236,
+        "text": "These beautiful pink flowers are called"
+      },
+      {
+        "start": 236,
+        "end": 238,
+        "text": "bougainvillea."
+      },
+      {
+        "start": 238,
+        "end": 241,
+        "text": "Let's keep looking."
+      },
+      {
+        "start": 241,
+        "end": 242,
+        "text": "Ooh."
+      },
+      {
+        "start": 242,
+        "end": 246,
+        "text": "A petal."
+      },
+      {
+        "start": 246,
+        "end": 247,
+        "text": "This petal"
+      },
+      {
+        "start": 247,
+        "end": 248,
+        "text": "fell"
+      },
+      {
+        "start": 248,
+        "end": 252,
+        "text": "from that tree."
+      },
+      {
+        "start": 252,
+        "end": 256,
+        "text": "And behind me, there is a large pond"
+      },
+      {
+        "start": 256,
+        "end": 266,
+        "text": "with koi fish inside."
+      },
+      {
+        "start": 266,
+        "end": 268,
+        "text": "Small talk is like a game of ping pong."
+      },
+      {
+        "start": 268,
+        "end": 270,
+        "text": "You answer"
+      },
+      {
+        "start": 270,
+        "end": 273,
+        "text": "and then you return. Don't hold the"
+      },
+      {
+        "start": 273,
+        "end": 275,
+        "text": "paddle for 5 minutes"
+      },
+      {
+        "start": 275,
+        "end": 278,
+        "text": "and talk. For example, if someone asks,"
+      },
+      {
+        "start": 278,
+        "end": 280,
+        "text": "\"How was your trip?\""
+      },
+      {
+        "start": 280,
+        "end": 283,
+        "text": "It was good, thank you. I went to Hue. I"
+      },
+      {
+        "start": 283,
+        "end": 286,
+        "text": "fed the koi fish and I took lots of nice"
+      },
+      {
+        "start": 286,
+        "end": 287,
+        "text": "photos."
+      },
+      {
+        "start": 287,
+        "end": 289,
+        "text": "How about you? Meh, I'm just stuck in"
+      },
+      {
+        "start": 289,
+        "end": 291,
+        "text": "the ground. Or,"
+      },
+      {
+        "start": 291,
+        "end": 294,
+        "text": "\"Are you enjoying your holiday so far?\""
+      },
+      {
+        "start": 294,
+        "end": 295,
+        "text": "Yeah, I'm having a lovely time, thank"
+      },
+      {
+        "start": 295,
+        "end": 297,
+        "text": "you very much."
+      },
+      {
+        "start": 297,
+        "end": 299,
+        "text": "It's been a blast."
+      },
+      {
+        "start": 299,
+        "end": 300,
+        "text": "How about you? Are you going anywhere"
+      },
+      {
+        "start": 300,
+        "end": 303,
+        "text": "nice this year? Actually, yes. I want to"
+      },
+      {
+        "start": 303,
+        "end": 305,
+        "text": "go to the UK, but I'm still waiting on"
+      },
+      {
+        "start": 305,
+        "end": 308,
+        "text": "my visa. Anyway, I need to shoot off, so"
+      },
+      {
+        "start": 308,
+        "end": 311,
+        "text": "I'll see you later. Bye-bye."
+      },
+      {
+        "start": 311,
+        "end": 314,
+        "text": "While the other person is still talking,"
+      },
+      {
+        "start": 314,
+        "end": 317,
+        "text": "these small words will help you to let"
+      },
+      {
+        "start": 317,
+        "end": 320,
+        "text": "them keep talking. I'm a tree. Ah. Yep,"
+      },
+      {
+        "start": 320,
+        "end": 321,
+        "text": "I'm a tree."
+      },
+      {
+        "start": 321,
+        "end": 325,
+        "text": ">> Ah. Interesting. Yep, I've got roots."
+      },
+      {
+        "start": 325,
+        "end": 325,
+        "text": "Cool."
+      },
+      {
+        "start": 325,
+        "end": 327,
+        "text": ">> I've also got branches and leaves."
+      },
+      {
+        "start": 327,
+        "end": 329,
+        "text": ">> Nice. I can dance."
+      },
+      {
+        "start": 329,
+        "end": 332,
+        "text": "All right. I can dance. Did you not hear"
+      },
+      {
+        "start": 332,
+        "end": 333,
+        "text": "me? Wow."
+      },
+      {
+        "start": 333,
+        "end": 337,
+        "text": "Seriously? Nah, just kidding. Mhm."
+      },
+      {
+        "start": 337,
+        "end": 339,
+        "text": "I wish someone told me these small"
+      },
+      {
+        "start": 339,
+        "end": 341,
+        "text": "little words when I was living in France"
+      },
+      {
+        "start": 341,
+        "end": 342,
+        "text": "because"
+      },
+      {
+        "start": 342,
+        "end": 347,
+        "text": "I would just look at people like this."
+      },
+      {
+        "start": 347,
+        "end": 348,
+        "text": "I wanted to give them expression. I"
+      },
+      {
+        "start": 348,
+        "end": 350,
+        "text": "wanted to show them that I was listening"
+      },
+      {
+        "start": 350,
+        "end": 352,
+        "text": "and that I care. So, you can use these"
+      },
+      {
+        "start": 352,
+        "end": 355,
+        "text": "small little words to really help you"
+      },
+      {
+        "start": 355,
+        "end": 357,
+        "text": "have a better conversation and be a"
+      },
+      {
+        "start": 357,
+        "end": 359,
+        "text": "better listener."
+      },
+      {
+        "start": 359,
+        "end": 369,
+        "text": "Imagine yourself as a time traveler."
+      },
+      {
+        "start": 369,
+        "end": 371,
+        "text": "We all have a past,"
+      },
+      {
+        "start": 371,
+        "end": 373,
+        "text": "a present,"
+      },
+      {
+        "start": 373,
+        "end": 379,
+        "text": "and a future."
+      },
+      {
+        "start": 379,
+        "end": 381,
+        "text": "If you use these in your conversation,"
+      },
+      {
+        "start": 381,
+        "end": 385,
+        "text": "then it will always continue flowing."
+      },
+      {
+        "start": 385,
+        "end": 388,
+        "text": "What did you get up to last weekend?"
+      },
+      {
+        "start": 388,
+        "end": 390,
+        "text": "Have you ever tried"
+      },
+      {
+        "start": 390,
+        "end": 392,
+        "text": "What's something you've learned"
+      },
+      {
+        "start": 392,
+        "end": 393,
+        "text": "recently?"
+      },
+      {
+        "start": 393,
+        "end": 395,
+        "text": "Now for you behind the camera."
+      },
+      {
+        "start": 395,
+        "end": 397,
+        "text": "What's something that you have learned"
+      },
+      {
+        "start": 397,
+        "end": 398,
+        "text": "in this video? Let me know in the"
+      },
+      {
+        "start": 398,
+        "end": 401,
+        "text": "comments."
+      },
+      {
+        "start": 401,
+        "end": 404,
+        "text": "A great tip to spark small talk is to"
+      },
+      {
+        "start": 404,
+        "end": 406,
+        "text": "use your environment to spark up a"
+      },
+      {
+        "start": 406,
+        "end": 408,
+        "text": "conversation."
+      },
+      {
+        "start": 408,
+        "end": 410,
+        "text": "For example, we're on holiday."
+      },
+      {
+        "start": 410,
+        "end": 411,
+        "text": "I might say,"
+      },
+      {
+        "start": 411,
+        "end": 413,
+        "text": "\"Do you come here often?\""
+      },
+      {
+        "start": 413,
+        "end": 415,
+        "text": "I have literally never left. Would you"
+      },
+      {
+        "start": 415,
+        "end": 418,
+        "text": "recommend anything nice to do around"
+      },
+      {
+        "start": 418,
+        "end": 421,
+        "text": "this area? Sorry, I just stand here. You"
+      },
+      {
+        "start": 421,
+        "end": 423,
+        "text": "can use this in any location. If you're"
+      },
+      {
+        "start": 423,
+        "end": 425,
+        "text": "in a coffee shop and someone is standing"
+      },
+      {
+        "start": 425,
+        "end": 428,
+        "text": "in the queue behind you,"
+      },
+      {
+        "start": 428,
+        "end": 429,
+        "text": "you can smile,"
+      },
+      {
+        "start": 429,
+        "end": 432,
+        "text": "say hi, and ask them, \"Do you come here"
+      },
+      {
+        "start": 432,
+        "end": 433,
+        "text": "often?"
+      },
+      {
+        "start": 433,
+        "end": 434,
+        "text": "I'm new here."
+      },
+      {
+        "start": 434,
+        "end": 436,
+        "text": "Can you recommend anything on the menu?"
+      },
+      {
+        "start": 436,
+        "end": 439,
+        "text": "What's your favorite food?\" Using your"
+      },
+      {
+        "start": 439,
+        "end": 441,
+        "text": "environment is a fantastic way to spark"
+      },
+      {
+        "start": 441,
+        "end": 444,
+        "text": "small talk."
+      },
+      {
+        "start": 444,
+        "end": 447,
+        "text": "Using the future tense in small talk is"
+      },
+      {
+        "start": 447,
+        "end": 450,
+        "text": "an excellent way to connect with people"
+      },
+      {
+        "start": 450,
+        "end": 457,
+        "text": "by discussing plans, hopes, or events."
+      },
+      {
+        "start": 457,
+        "end": 459,
+        "text": "For example,"
+      },
+      {
+        "start": 459,
+        "end": 461,
+        "text": "\"Have you got any holidays lined up this"
+      },
+      {
+        "start": 461,
+        "end": 462,
+        "text": "year?\""
+      },
+      {
+        "start": 462,
+        "end": 464,
+        "text": "I'm thinking of going to the North Pole."
+      },
+      {
+        "start": 464,
+        "end": 466,
+        "text": "\"What are you doing this weekend?\" I'm"
+      },
+      {
+        "start": 466,
+        "end": 469,
+        "text": "seeing my friends. By the way, I just"
+      },
+      {
+        "start": 469,
+        "end": 471,
+        "text": "said, \"What are you doing this weekend?\""
+      },
+      {
+        "start": 471,
+        "end": 474,
+        "text": "I'm using the present continuous for a"
+      },
+      {
+        "start": 474,
+        "end": 477,
+        "text": "future event. This is way more natural"
+      },
+      {
+        "start": 477,
+        "end": 481,
+        "text": "to use than will or are going to. An"
+      },
+      {
+        "start": 481,
+        "end": 483,
+        "text": "even more natural way to say that in"
+      },
+      {
+        "start": 483,
+        "end": 485,
+        "text": "British English is, \"What are you up"
+      },
+      {
+        "start": 485,
+        "end": 486,
+        "text": "to?\""
+      },
+      {
+        "start": 486,
+        "end": 488,
+        "text": "\"What are you up to this weekend?\" Just"
+      },
+      {
+        "start": 488,
+        "end": 489,
+        "text": "chilling. Huh."
+      },
+      {
+        "start": 489,
+        "end": 491,
+        "text": "Nice."
+      },
+      {
+        "start": 491,
+        "end": 492,
+        "text": "See you."
+      },
+      {
+        "start": 492,
+        "end": 494,
+        "text": "Bye, Dave."
+      },
+      {
+        "start": 494,
+        "end": 495,
+        "text": "Now,"
+      },
+      {
+        "start": 495,
+        "end": 498,
+        "text": "I want to share a secret with you."
+      },
+      {
+        "start": 498,
+        "end": 500,
+        "text": "Something that goes way beyond English."
+      },
+      {
+        "start": 500,
+        "end": 503,
+        "text": "And it's useful for communication in all"
+      },
+      {
+        "start": 503,
+        "end": 505,
+        "text": "aspects of life."
+      },
+      {
+        "start": 505,
+        "end": 506,
+        "text": "But before that,"
+      },
+      {
+        "start": 506,
+        "end": 508,
+        "text": "let's go for a walk"
+      },
+      {
+        "start": 508,
+        "end": 511,
+        "text": "and get the body moving."
+      },
+      {
+        "start": 511,
+        "end": 514,
+        "text": "So, now I'm walking by the river and"
+      },
+      {
+        "start": 514,
+        "end": 516,
+        "text": "looking out at the boats. Ooh, a man"
+      },
+      {
+        "start": 516,
+        "end": 519,
+        "text": "just cycled past."
+      },
+      {
+        "start": 519,
+        "end": 520,
+        "text": "Now I'm walking through a pine [music]"
+      },
+      {
+        "start": 520,
+        "end": 522,
+        "text": "forest."
+      },
+      {
+        "start": 522,
+        "end": 527,
+        "text": "Forests are my favorite place on Earth."
+      },
+      {
+        "start": 527,
+        "end": 528,
+        "text": "Ooh."
+      },
+      {
+        "start": 528,
+        "end": 535,
+        "text": "A rabbit."
+      },
+      {
+        "start": 535,
+        "end": 537,
+        "text": "A toad."
+      },
+      {
+        "start": 537,
+        "end": 541,
+        "text": "Ribbit."
+      },
+      {
+        "start": 541,
+        "end": 543,
+        "text": "I'm back at the river and [music] now"
+      },
+      {
+        "start": 543,
+        "end": 545,
+        "text": "it's time for the most important part of"
+      },
+      {
+        "start": 545,
+        "end": 548,
+        "text": "communication."
+      },
+      {
+        "start": 548,
+        "end": 551,
+        "text": "The most important form of nonverbal"
+      },
+      {
+        "start": 551,
+        "end": 553,
+        "text": "communication which affects how people"
+      },
+      {
+        "start": 553,
+        "end": 557,
+        "text": "see you, how confident you seem, is your"
+      },
+      {
+        "start": 557,
+        "end": 559,
+        "text": "body language."
+      },
+      {
+        "start": 559,
+        "end": 561,
+        "text": "Remember, open."
+      },
+      {
+        "start": 561,
+        "end": 563,
+        "text": "Open shoulders, open chest. Imagine a"
+      },
+      {
+        "start": 563,
+        "end": 565,
+        "text": "string is pulling your head up to the"
+      },
+      {
+        "start": 565,
+        "end": 569,
+        "text": "sky so you have a nice upright posture."
+      },
+      {
+        "start": 569,
+        "end": 571,
+        "text": "You're relaxed, but you're standing"
+      },
+      {
+        "start": 571,
+        "end": 573,
+        "text": "tall, standing straight."
+      },
+      {
+        "start": 573,
+        "end": 575,
+        "text": "Compare that to"
+      },
+      {
+        "start": 575,
+        "end": 577,
+        "text": "closed shoulders,"
+      },
+      {
+        "start": 577,
+        "end": 578,
+        "text": "crossed arms."
+      },
+      {
+        "start": 578,
+        "end": 581,
+        "text": "And now all of a sudden, I seem less"
+      },
+      {
+        "start": 581,
+        "end": 582,
+        "text": "approachable. I seem less confident in"
+      },
+      {
+        "start": 582,
+        "end": 585,
+        "text": "myself. If I remember to take"
+      },
+      {
+        "start": 585,
+        "end": 587,
+        "text": "a deep breath,"
+      },
+      {
+        "start": 587,
+        "end": 590,
+        "text": "stand up straight, and smile, then I"
+      },
+      {
+        "start": 590,
+        "end": 592,
+        "text": "appear way more confident and it's going"
+      },
+      {
+        "start": 592,
+        "end": 597,
+        "text": "to help you in every social situation."
+      },
+      {
+        "start": 597,
+        "end": 600,
+        "text": "The next nonverbal communication tip is"
+      },
+      {
+        "start": 600,
+        "end": 602,
+        "text": "all about eye contact. In British"
+      },
+      {
+        "start": 602,
+        "end": 604,
+        "text": "culture, it's"
+      },
+      {
+        "start": 604,
+        "end": 606,
+        "text": "very polite to give eye contact. A"
+      },
+      {
+        "start": 606,
+        "end": 608,
+        "text": "wonderful tip that somebody shared with"
+      },
+      {
+        "start": 608,
+        "end": 611,
+        "text": "me many years ago is to focus on the"
+      },
+      {
+        "start": 611,
+        "end": 614,
+        "text": "left eye. Now you have a focal point and"
+      },
+      {
+        "start": 614,
+        "end": 616,
+        "text": "it helps you to maintain better eye"
+      },
+      {
+        "start": 616,
+        "end": 619,
+        "text": "contact. It helps me to maintain better"
+      },
+      {
+        "start": 619,
+        "end": 622,
+        "text": "eye contact. Beyond that, you've got"
+      },
+      {
+        "start": 622,
+        "end": 623,
+        "text": "smiling,"
+      },
+      {
+        "start": 623,
+        "end": 624,
+        "text": "nodding,"
+      },
+      {
+        "start": 624,
+        "end": 626,
+        "text": "and showing the other person that you're"
+      },
+      {
+        "start": 626,
+        "end": 628,
+        "text": "listening when they are talking."
+      },
+      {
+        "start": 628,
+        "end": 630,
+        "text": "Matching their energy, matching their"
+      },
+      {
+        "start": 630,
+        "end": 632,
+        "text": "facial expression makes you a better"
+      },
+      {
+        "start": 632,
+        "end": 634,
+        "text": "listener and it makes you seem more"
+      },
+      {
+        "start": 634,
+        "end": 636,
+        "text": "polite."
+      },
+      {
+        "start": 636,
+        "end": 638,
+        "text": "The final tip of the day is to practice"
+      },
+      {
+        "start": 638,
+        "end": 640,
+        "text": "everything that you've learned in this"
+      },
+      {
+        "start": 640,
+        "end": 643,
+        "text": "video and you can do that with JI, which"
+      },
+      {
+        "start": 643,
+        "end": 645,
+        "text": "is an AI version of me. You can practice"
+      },
+      {
+        "start": 645,
+        "end": 648,
+        "text": "for 5 minutes per day with him in a"
+      },
+      {
+        "start": 648,
+        "end": 651,
+        "text": "stress-free environment. You can relax,"
+      },
+      {
+        "start": 651,
+        "end": 653,
+        "text": "there's no anxiety about talking with a"
+      },
+      {
+        "start": 653,
+        "end": 655,
+        "text": "real native speaker and it will prepare"
+      },
+      {
+        "start": 655,
+        "end": 658,
+        "text": "you for real-world conversations."
+      },
+      {
+        "start": 658,
+        "end": 661,
+        "text": "Try it now for 7 days free. Click the"
+      },
+      {
+        "start": 661,
+        "end": 662,
+        "text": "link in the description. I hope you like"
+      },
+      {
+        "start": 662,
+        "end": 664,
+        "text": "it and now to summarize, be Sherlock"
+      },
+      {
+        "start": 664,
+        "end": 667,
+        "text": "Holmes. Be curious and ask questions."
+      },
+      {
+        "start": 667,
+        "end": 669,
+        "text": "Play verbal ping pong. Answer their"
+      },
+      {
+        "start": 669,
+        "end": 671,
+        "text": "question and then return with your"
+      },
+      {
+        "start": 671,
+        "end": 674,
+        "text": "question. Ask questions about the past,"
+      },
+      {
+        "start": 674,
+        "end": 676,
+        "text": "the present and the future."
+      },
+      {
+        "start": 676,
+        "end": 679,
+        "text": "Moving your body. Practice good body"
+      },
+      {
+        "start": 679,
+        "end": 681,
+        "text": "language. And finally, practice speaking"
+      },
+      {
+        "start": 681,
+        "end": 684,
+        "text": "with JI on Sprout."
+      },
+      {
+        "start": 684,
+        "end": 686,
+        "text": "And now as promised, here's the weird"
+      },
+      {
+        "start": 686,
+        "end": 687,
+        "text": "memory trick which will help you"
+      },
+      {
+        "start": 687,
+        "end": 689,
+        "text": "remember everything from this video."
+      },
+      {
+        "start": 689,
+        "end": 691,
+        "text": "Imagine Sherlock Holmes playing ping"
+      },
+      {
+        "start": 691,
+        "end": 692,
+        "text": "pong."
+      },
+      {
+        "start": 692,
+        "end": 694,
+        "text": "Flying through a wormhole, traveling"
+      },
+      {
+        "start": 694,
+        "end": 696,
+        "text": "through time. And look at that body"
+      },
+      {
+        "start": 696,
+        "end": 698,
+        "text": "language, he's dancing. [music]"
+      },
+      {
+        "start": 698,
+        "end": 700,
+        "text": "And on the other side of the net, JI"
+      },
+      {
+        "start": 700,
+        "end": 702,
+        "text": "helping him improve his English."
+      },
+      {
+        "start": 702,
+        "end": 704,
+        "text": "And that's is how you small talk, my"
+      },
+      {
+        "start": 704,
+        "end": 706,
+        "text": "friend."
+      }
+    ]
   },
   {
     "id": "v-xAFgWxD_U",
     "title": "Learn English: Good Habits vs Bad habits",
     "videoId": "v-xAFgWxD_U",
-    "isInitialized": false,
-    "vocab": [],
-    "lines": []
+    "isInitialized": true,
+    "vocab": [
+      {
+        "word": "brisk",
+        "ipa": "/brɪsk/",
+        "definition": "moving quickly and energetically",
+        "example": "I'm going for a brisk walk this morning."
+      },
+      {
+        "word": "stroll",
+        "ipa": "/straul/",
+        "definition": "walk slowly and leisurely",
+        "example": "Let's take a stroll around the park."
+      },
+      {
+        "word": "shore",
+        "ipa": "/ʃɔr/",
+        "definition": "the land along the edge of a sea or lake",
+        "example": "We're going to the shore for a picnic."
+      },
+      {
+        "word": "trunk",
+        "ipa": "/tɹʌŋk/",
+        "definition": "the main stem of a tree",
+        "example": "The trunk of this tree is very large."
+      },
+      {
+        "word": "anchor",
+        "ipa": "/ˈæn.kər/",
+        "definition": "to fix or secure something in place",
+        "example": "I'll anchor my boat to the dock."
+      }
+    ],
+    "lines": [
+      {
+        "start": 0,
+        "end": 3,
+        "text": "Today is all about"
+      },
+      {
+        "start": 3,
+        "end": 5,
+        "text": "good habits"
+      },
+      {
+        "start": 5,
+        "end": 7,
+        "text": "and bad habits."
+      },
+      {
+        "start": 7,
+        "end": 9,
+        "text": "These are my habit socks. I'll be"
+      },
+      {
+        "start": 9,
+        "end": 11,
+        "text": "putting good habits and bad habits"
+      },
+      {
+        "start": 11,
+        "end": 14,
+        "text": "inside these socks. And throughout this"
+      },
+      {
+        "start": 14,
+        "end": 17,
+        "text": "video, I'll be sharing my top tips with"
+      },
+      {
+        "start": 17,
+        "end": 19,
+        "text": "you guys to help you speak about habits"
+      },
+      {
+        "start": 19,
+        "end": 22,
+        "text": "in real natural English conversation."
+      },
+      {
+        "start": 22,
+        "end": 24,
+        "text": "Let's go."
+      },
+      {
+        "start": 24,
+        "end": 26,
+        "text": "First habit of the day, I am taking a"
+      },
+      {
+        "start": 26,
+        "end": 29,
+        "text": "brisk walk on the beach. A brisk walk is"
+      },
+      {
+        "start": 29,
+        "end": 33,
+        "text": "a quick walk. Unlike taking a stroll. A"
+      },
+      {
+        "start": 33,
+        "end": 36,
+        "text": "stroll is a gentle walk. Oh, what a"
+      },
+      {
+        "start": 36,
+        "end": 39,
+        "text": "beautiful morning to stroll."
+      },
+      {
+        "start": 39,
+        "end": 40,
+        "text": "So,"
+      },
+      {
+        "start": 40,
+        "end": 43,
+        "text": "is taking a walk a"
+      },
+      {
+        "start": 43,
+        "end": 47,
+        "text": "good habit or a bad habit?"
+      },
+      {
+        "start": 47,
+        "end": 49,
+        "text": "For me, it's a logical choice."
+      },
+      {
+        "start": 49,
+        "end": 51,
+        "text": "It's a good habit."
+      },
+      {
+        "start": 51,
+        "end": 58,
+        "text": ">> [music]"
+      },
+      {
+        "start": 58,
+        "end": 61,
+        "text": ">> Right now, it's 8:05 in the morning."
+      },
+      {
+        "start": 61,
+        "end": 63,
+        "text": "It's 5:08 [music]"
+      },
+      {
+        "start": 63,
+        "end": 66,
+        "text": "and I'm taking a walk along the shore."
+      },
+      {
+        "start": 66,
+        "end": 69,
+        "text": "The shore is the place where the ocean"
+      },
+      {
+        "start": 69,
+        "end": 71,
+        "text": "meets the sands."
+      },
+      {
+        "start": 71,
+        "end": 73,
+        "text": "But, I'm not just here for a walk. I am"
+      },
+      {
+        "start": 73,
+        "end": 81,
+        "text": "collecting shells."
+      },
+      {
+        "start": 81,
+        "end": 91,
+        "text": ">> [music]"
+      },
+      {
+        "start": 91,
+        "end": 92,
+        "text": ">> Wow."
+      },
+      {
+        "start": 92,
+        "end": 96,
+        "text": "What a shell that is."
+      },
+      {
+        "start": 96,
+        "end": 98,
+        "text": "And it looks like a unicorn horn."
+      },
+      {
+        "start": 98,
+        "end": 100,
+        "text": "Very cool."
+      },
+      {
+        "start": 100,
+        "end": 101,
+        "text": ">> [music]"
+      },
+      {
+        "start": 101,
+        "end": 102,
+        "text": ">> Hmm."
+      },
+      {
+        "start": 102,
+        "end": 104,
+        "text": "Nope."
+      },
+      {
+        "start": 104,
+        "end": 107,
+        "text": "Nope."
+      },
+      {
+        "start": 107,
+        "end": 109,
+        "text": "Great."
+      },
+      {
+        "start": 109,
+        "end": 110,
+        "text": "We've got our shells."
+      },
+      {
+        "start": 110,
+        "end": 113,
+        "text": "Now, we're going to head home. And to do"
+      },
+      {
+        "start": 113,
+        "end": 115,
+        "text": "that, I need to cross the road. But,"
+      },
+      {
+        "start": 115,
+        "end": 119,
+        "text": "before we do, this is white paint on the"
+      },
+      {
+        "start": 119,
+        "end": 122,
+        "text": "trunk of a tree and that is to protect"
+      },
+      {
+        "start": 122,
+        "end": 125,
+        "text": "the trunk from the midday sun."
+      },
+      {
+        "start": 125,
+        "end": 127,
+        "text": "Now, very carefully I'm crossing the"
+      },
+      {
+        "start": 127,
+        "end": 130,
+        "text": "road."
+      },
+      {
+        "start": 130,
+        "end": 137,
+        "text": "And I made it safely."
+      },
+      {
+        "start": 137,
+        "end": 145,
+        "text": ">> [music]"
+      },
+      {
+        "start": 145,
+        "end": 151,
+        "text": ">> Now, it's time to make coffee."
+      },
+      {
+        "start": 151,
+        "end": 154,
+        "text": "Ah, my favorite time of the day."
+      },
+      {
+        "start": 154,
+        "end": 157,
+        "text": "Now, I've got my coffee. It's time for"
+      },
+      {
+        "start": 157,
+        "end": 161,
+        "text": "today's top tip."
+      },
+      {
+        "start": 161,
+        "end": 165,
+        "text": "Anchor your habits with time words such"
+      },
+      {
+        "start": 165,
+        "end": 168,
+        "text": "as in the morning, every day or around"
+      },
+      {
+        "start": 168,
+        "end": 172,
+        "text": "7:00. Make your sentences sound complete"
+      },
+      {
+        "start": 172,
+        "end": 175,
+        "text": "even if your grammar is simple. For"
+      },
+      {
+        "start": 175,
+        "end": 178,
+        "text": "example, every morning I drink a nice"
+      },
+      {
+        "start": 178,
+        "end": 183,
+        "text": "hot coffee and this is my favorite time"
+      },
+      {
+        "start": 183,
+        "end": 187,
+        "text": "of the day. But, is drinking coffee a"
+      },
+      {
+        "start": 187,
+        "end": 190,
+        "text": "good habit or is it a bad habit? Well,"
+      },
+      {
+        "start": 190,
+        "end": 193,
+        "text": "it is a hot topic."
+      },
+      {
+        "start": 193,
+        "end": 197,
+        "text": "It's debated. Personally,"
+      },
+      {
+        "start": 197,
+        "end": 198,
+        "text": "drinking coffee"
+      },
+      {
+        "start": 198,
+        "end": 201,
+        "text": "has to be a good habit."
+      },
+      {
+        "start": 201,
+        "end": 202,
+        "text": "Yeah."
+      },
+      {
+        "start": 202,
+        "end": 205,
+        "text": "The next habit of the day is to make"
+      },
+      {
+        "start": 205,
+        "end": 208,
+        "text": "breakfast and seeing as today is a"
+      },
+      {
+        "start": 208,
+        "end": 209,
+        "text": "Sunday,"
+      },
+      {
+        "start": 209,
+        "end": 213,
+        "text": "I want to make a special breakfast."
+      },
+      {
+        "start": 213,
+        "end": 214,
+        "text": "Hmm."
+      },
+      {
+        "start": 214,
+        "end": 219,
+        "text": "What do I need?"
+      },
+      {
+        "start": 219,
+        "end": 223,
+        "text": "Milk."
+      },
+      {
+        "start": 223,
+        "end": 225,
+        "text": "Eggs."
+      },
+      {
+        "start": 225,
+        "end": 226,
+        "text": ">> [music]"
+      },
+      {
+        "start": 226,
+        "end": 229,
+        "text": ">> A box of eggs"
+      },
+      {
+        "start": 229,
+        "end": 231,
+        "text": "and some mayonnaise."
+      },
+      {
+        "start": 231,
+        "end": 234,
+        "text": "No."
+      },
+      {
+        "start": 234,
+        "end": 237,
+        "text": "Flour."
+      },
+      {
+        "start": 237,
+        "end": 240,
+        "text": "The cupboard."
+      },
+      {
+        "start": 240,
+        "end": 243,
+        "text": "Flour."
+      },
+      {
+        "start": 243,
+        "end": 245,
+        "text": "There we go."
+      },
+      {
+        "start": 245,
+        "end": 249,
+        "text": "Flour."
+      },
+      {
+        "start": 249,
+        "end": 252,
+        "text": "I am cracking the egg into the metal"
+      },
+      {
+        "start": 252,
+        "end": 253,
+        "text": "bowl."
+      },
+      {
+        "start": 253,
+        "end": 256,
+        "text": "I am pouring 100 ml of milk into the"
+      },
+      {
+        "start": 256,
+        "end": 260,
+        "text": "plastic measuring jug."
+      },
+      {
+        "start": 260,
+        "end": 265,
+        "text": "Yes, this is a whisk."
+      },
+      {
+        "start": 265,
+        "end": 268,
+        "text": "I am sieving the flour into the bowl."
+      },
+      {
+        "start": 268,
+        "end": 271,
+        "text": "And this is a sieve."
+      },
+      {
+        "start": 271,
+        "end": 274,
+        "text": "Whisk whisk whisk whisk whisk."
+      },
+      {
+        "start": 274,
+        "end": 276,
+        "text": "Okay."
+      },
+      {
+        "start": 276,
+        "end": 278,
+        "text": "My pancake batter is ready."
+      },
+      {
+        "start": 278,
+        "end": 282,
+        "text": "This is pancake batter and I'm about to"
+      },
+      {
+        "start": 282,
+        "end": 287,
+        "text": "fry it in the frying pan."
+      },
+      {
+        "start": 287,
+        "end": 289,
+        "text": "The butter is sizzling in the frying"
+      },
+      {
+        "start": 289,
+        "end": 293,
+        "text": "pan."
+      },
+      {
+        "start": 293,
+        "end": 295,
+        "text": "I am pouring the pancake batter into the"
+      },
+      {
+        "start": 295,
+        "end": 298,
+        "text": "frying pan."
+      },
+      {
+        "start": 298,
+        "end": 300,
+        "text": "While the pancake is cooking in the"
+      },
+      {
+        "start": 300,
+        "end": 303,
+        "text": "frying pan, the next good habit"
+      },
+      {
+        "start": 303,
+        "end": 306,
+        "text": "of the day is to clean as you go. Is to"
+      },
+      {
+        "start": 306,
+        "end": 308,
+        "text": "do the washing up"
+      },
+      {
+        "start": 308,
+        "end": 311,
+        "text": "as you cook."
+      },
+      {
+        "start": 311,
+        "end": 313,
+        "text": "I used to work in a kitchen"
+      },
+      {
+        "start": 313,
+        "end": 315,
+        "text": "and the one good habit that I got from"
+      },
+      {
+        "start": 315,
+        "end": 317,
+        "text": "that was to"
+      },
+      {
+        "start": 317,
+        "end": 319,
+        "text": "clean as you go. All chefs know, if you"
+      },
+      {
+        "start": 319,
+        "end": 321,
+        "text": "clean as you go, your work station's"
+      },
+      {
+        "start": 321,
+        "end": 322,
+        "text": "clean,"
+      },
+      {
+        "start": 322,
+        "end": 324,
+        "text": "you don't have to clean it up afterwards"
+      },
+      {
+        "start": 324,
+        "end": 326,
+        "text": "and"
+      },
+      {
+        "start": 326,
+        "end": 328,
+        "text": "it feels better."
+      },
+      {
+        "start": 328,
+        "end": 330,
+        "text": "So, the water is coming out of the tap."
+      },
+      {
+        "start": 330,
+        "end": 332,
+        "text": "This is the tap."
+      },
+      {
+        "start": 332,
+        "end": 334,
+        "text": "And I am doing the washing up. I am"
+      },
+      {
+        "start": 334,
+        "end": 335,
+        "text": "washing up"
+      },
+      {
+        "start": 335,
+        "end": 337,
+        "text": "the metal bowl."
+      },
+      {
+        "start": 337,
+        "end": 341,
+        "text": "This is a cloth"
+      },
+      {
+        "start": 341,
+        "end": 345,
+        "text": "which is different to a scourer."
+      },
+      {
+        "start": 345,
+        "end": 346,
+        "text": "I've told you you this before. This is"
+      },
+      {
+        "start": 346,
+        "end": 349,
+        "text": "the scourer, the rough part, and this is"
+      },
+      {
+        "start": 349,
+        "end": 353,
+        "text": "the sponge, the smooth part."
+      },
+      {
+        "start": 353,
+        "end": 356,
+        "text": "Wiping the sink."
+      },
+      {
+        "start": 356,
+        "end": 358,
+        "text": "Okay, and I'm going to rinse off"
+      },
+      {
+        "start": 358,
+        "end": 359,
+        "text": "those"
+      },
+      {
+        "start": 359,
+        "end": 362,
+        "text": "suds, the soap suds."
+      },
+      {
+        "start": 362,
+        "end": 364,
+        "text": "To rinse off is to remove the soap from"
+      },
+      {
+        "start": 364,
+        "end": 366,
+        "text": "something,"
+      },
+      {
+        "start": 366,
+        "end": 368,
+        "text": "to wash it away."
+      },
+      {
+        "start": 368,
+        "end": 370,
+        "text": "Okay, let's check the pancake. Right,"
+      },
+      {
+        "start": 370,
+        "end": 373,
+        "text": "this pancake is ready to flip. The next"
+      },
+      {
+        "start": 373,
+        "end": 375,
+        "text": "verb for you guys, flip. And I hope I"
+      },
+      {
+        "start": 375,
+        "end": 380,
+        "text": "can do it right."
+      },
+      {
+        "start": 380,
+        "end": 382,
+        "text": "Gosh, she won't release."
+      },
+      {
+        "start": 382,
+        "end": 385,
+        "text": "Let's turn that turn you off."
+      },
+      {
+        "start": 385,
+        "end": 387,
+        "text": "All right, let's pretend that that"
+      },
+      {
+        "start": 387,
+        "end": 388,
+        "text": "didn't happen."
+      },
+      {
+        "start": 388,
+        "end": 390,
+        "text": "It's too st-"
+      },
+      {
+        "start": 390,
+        "end": 391,
+        "text": "It's too [ __ ] sticky. Ah,"
+      },
+      {
+        "start": 391,
+        "end": 393,
+        "text": "[ __ ]"
+      },
+      {
+        "start": 393,
+        "end": 396,
+        "text": "Burned myself."
+      },
+      {
+        "start": 396,
+        "end": 398,
+        "text": "Come on, baby."
+      },
+      {
+        "start": 398,
+        "end": 400,
+        "text": "Hey."
+      },
+      {
+        "start": 400,
+        "end": 402,
+        "text": "I just flipped the pancake."
+      },
+      {
+        "start": 402,
+        "end": 404,
+        "text": "Now I've flipped the pancake, it's time"
+      },
+      {
+        "start": 404,
+        "end": 407,
+        "text": "to slice the banana."
+      },
+      {
+        "start": 407,
+        "end": 410,
+        "text": "First, I will peel"
+      },
+      {
+        "start": 410,
+        "end": 412,
+        "text": "the banana. Oops."
+      },
+      {
+        "start": 412,
+        "end": 414,
+        "text": "I'm peeling the banana."
+      },
+      {
+        "start": 414,
+        "end": 417,
+        "text": "And these bananas are very ripe,"
+      },
+      {
+        "start": 417,
+        "end": 419,
+        "text": "which means they're ready to eat."
+      },
+      {
+        "start": 419,
+        "end": 421,
+        "text": "When they are green, we say they are not"
+      },
+      {
+        "start": 421,
+        "end": 423,
+        "text": "ripe or they are unripe."
+      },
+      {
+        "start": 423,
+        "end": 425,
+        "text": "Look at that, it's a bit mushy. The"
+      },
+      {
+        "start": 425,
+        "end": 428,
+        "text": "texture is kind of mushy, so it's ready"
+      },
+      {
+        "start": 428,
+        "end": 430,
+        "text": "to eat. Perfect for a pancake."
+      },
+      {
+        "start": 430,
+        "end": 433,
+        "text": "Now I'm slicing"
+      },
+      {
+        "start": 433,
+        "end": 435,
+        "text": "the banana."
+      },
+      {
+        "start": 435,
+        "end": 437,
+        "text": "Pressing the bin,"
+      },
+      {
+        "start": 437,
+        "end": 439,
+        "text": "opening the lid,"
+      },
+      {
+        "start": 439,
+        "end": 440,
+        "text": "and putting in"
+      },
+      {
+        "start": 440,
+        "end": 443,
+        "text": "the banana skin."
+      },
+      {
+        "start": 443,
+        "end": 447,
+        "text": "So, the final step is the chocolate. And"
+      },
+      {
+        "start": 447,
+        "end": 450,
+        "text": "this is Cadbury's Dairy Milk."
+      },
+      {
+        "start": 450,
+        "end": 454,
+        "text": "Cadbury's is around 120 years old, and"
+      },
+      {
+        "start": 454,
+        "end": 456,
+        "text": "it is a British chocolate."
+      },
+      {
+        "start": 456,
+        "end": 457,
+        "text": "It's a very common chocolate to eat in"
+      },
+      {
+        "start": 457,
+        "end": 459,
+        "text": "the UK."
+      },
+      {
+        "start": 459,
+        "end": 461,
+        "text": "Uh it's not too fancy, but everyone"
+      },
+      {
+        "start": 461,
+        "end": 463,
+        "text": "loves it. It's a classic."
+      },
+      {
+        "start": 463,
+        "end": 466,
+        "text": "I'm going to slice this Cadbury's"
+      },
+      {
+        "start": 466,
+        "end": 470,
+        "text": "into chunks."
+      },
+      {
+        "start": 470,
+        "end": 472,
+        "text": "These are chunks of chocolates."
+      },
+      {
+        "start": 472,
+        "end": 475,
+        "text": "Three chunks of chocolates."
+      },
+      {
+        "start": 475,
+        "end": 477,
+        "text": "And I'm going to put them on the pancake"
+      },
+      {
+        "start": 477,
+        "end": 481,
+        "text": "so that it melts. And"
+      },
+      {
+        "start": 481,
+        "end": 483,
+        "text": "folding the pancake."
+      },
+      {
+        "start": 483,
+        "end": 487,
+        "text": "Ah, breakfast is served."
+      },
+      {
+        "start": 487,
+        "end": 490,
+        "text": "I have my fork,"
+      },
+      {
+        "start": 490,
+        "end": 491,
+        "text": "my knife,"
+      },
+      {
+        "start": 491,
+        "end": 494,
+        "text": "and I'm going to dig in. To dig in is to"
+      },
+      {
+        "start": 494,
+        "end": 498,
+        "text": "begin eating."
+      },
+      {
+        "start": 498,
+        "end": 501,
+        "text": "Mhm."
+      },
+      {
+        "start": 501,
+        "end": 502,
+        "text": "That's good. But,"
+      },
+      {
+        "start": 502,
+        "end": 505,
+        "text": "is eating chocolate banana pancakes"
+      },
+      {
+        "start": 505,
+        "end": 506,
+        "text": "a good habit"
+      },
+      {
+        "start": 506,
+        "end": 509,
+        "text": "or a bad habit? If you ate chocolate"
+      },
+      {
+        "start": 509,
+        "end": 511,
+        "text": "banana pancakes every day,"
+      },
+      {
+        "start": 511,
+        "end": 513,
+        "text": "then"
+      },
+      {
+        "start": 513,
+        "end": 515,
+        "text": "it's not great."
+      },
+      {
+        "start": 515,
+        "end": 516,
+        "text": "I'm going to say"
+      },
+      {
+        "start": 516,
+        "end": 518,
+        "text": "it's a bad habit. When talking about bad"
+      },
+      {
+        "start": 518,
+        "end": 521,
+        "text": "habits or negative habits, I have"
+      },
+      {
+        "start": 521,
+        "end": 526,
+        "text": "another top tip."
+      },
+      {
+        "start": 526,
+        "end": 529,
+        "text": "Instead of framing it in a negative way,"
+      },
+      {
+        "start": 529,
+        "end": 532,
+        "text": "instead of saying I eat unhealthily, you"
+      },
+      {
+        "start": 532,
+        "end": 534,
+        "text": "can say, \"I don't usually eat"
+      },
+      {
+        "start": 534,
+        "end": 537,
+        "text": "unhealthily, but this morning is an"
+      },
+      {
+        "start": 537,
+        "end": 539,
+        "text": "exception.\" Instead of saying I don't"
+      },
+      {
+        "start": 539,
+        "end": 542,
+        "text": "drink enough water, instead you can say,"
+      },
+      {
+        "start": 542,
+        "end": 545,
+        "text": "\"I'm trying to drink more water.\""
+      },
+      {
+        "start": 545,
+        "end": 547,
+        "text": "If we relate this to English, instead of"
+      },
+      {
+        "start": 547,
+        "end": 548,
+        "text": "saying"
+      },
+      {
+        "start": 548,
+        "end": 551,
+        "text": "\"I'm bad at pronunciation,\""
+      },
+      {
+        "start": 551,
+        "end": 553,
+        "text": "you could say, \"I'm working to get"
+      },
+      {
+        "start": 553,
+        "end": 556,
+        "text": "better at pronunciation. I'm working to"
+      },
+      {
+        "start": 556,
+        "end": 558,
+        "text": "improve my pronunciation.\" Just by"
+      },
+      {
+        "start": 558,
+        "end": 561,
+        "text": "changing that phrasing from a negative"
+      },
+      {
+        "start": 561,
+        "end": 563,
+        "text": "to a positive,"
+      },
+      {
+        "start": 563,
+        "end": 565,
+        "text": "it changes the energy and it changes how"
+      },
+      {
+        "start": 565,
+        "end": 571,
+        "text": "you see yourself."
+      },
+      {
+        "start": 571,
+        "end": 573,
+        "text": "The next habit is"
+      },
+      {
+        "start": 573,
+        "end": 575,
+        "text": "reading."
+      },
+      {
+        "start": 575,
+        "end": 579,
+        "text": "And for me, reading is a good habit. I"
+      },
+      {
+        "start": 579,
+        "end": 581,
+        "text": "like to read for around 10 minutes on a"
+      },
+      {
+        "start": 581,
+        "end": 583,
+        "text": "morning while my mind is fresh."
+      },
+      {
+        "start": 583,
+        "end": 584,
+        "text": "I was just talking about improving your"
+      },
+      {
+        "start": 584,
+        "end": 587,
+        "text": "pronunciation as an English learner, and"
+      },
+      {
+        "start": 587,
+        "end": 590,
+        "text": "my next top tip to do that is to read"
+      },
+      {
+        "start": 590,
+        "end": 593,
+        "text": "out loud for 1 minute a day. Here's how"
+      },
+      {
+        "start": 593,
+        "end": 594,
+        "text": "it works."
+      },
+      {
+        "start": 594,
+        "end": 596,
+        "text": "Take a book, any book,"
+      },
+      {
+        "start": 596,
+        "end": 602,
+        "text": "and read out loud. But, when you read, I"
+      },
+      {
+        "start": 602,
+        "end": 605,
+        "text": "want you to overdo your mouth movements."
+      },
+      {
+        "start": 605,
+        "end": 607,
+        "text": "Exaggerate"
+      },
+      {
+        "start": 607,
+        "end": 608,
+        "text": "your mouth."
+      },
+      {
+        "start": 608,
+        "end": 611,
+        "text": "This is going to strengthen your mouth"
+      },
+      {
+        "start": 611,
+        "end": 614,
+        "text": "muscles, your tongue muscles, and it's"
+      },
+      {
+        "start": 614,
+        "end": 616,
+        "text": "going to improve your pronunciation and"
+      },
+      {
+        "start": 616,
+        "end": 618,
+        "text": "your articulation, which will help you"
+      },
+      {
+        "start": 618,
+        "end": 622,
+        "text": "sound more clear, more natural, and more"
+      },
+      {
+        "start": 622,
+        "end": 624,
+        "text": "confident when you speak."
+      },
+      {
+        "start": 624,
+        "end": 625,
+        "text": "Coffee."
+      },
+      {
+        "start": 625,
+        "end": 637,
+        "text": "Now, back to reading in my head."
+      },
+      {
+        "start": 637,
+        "end": 638,
+        "text": "Oops."
+      },
+      {
+        "start": 638,
+        "end": 641,
+        "text": "I just got distracted by my phone."
+      },
+      {
+        "start": 641,
+        "end": 643,
+        "text": "I stopped reading, I started using my"
+      },
+      {
+        "start": 643,
+        "end": 645,
+        "text": "phone, and it turned into mindless"
+      },
+      {
+        "start": 645,
+        "end": 649,
+        "text": "scrolling, which is my next bad habit."
+      },
+      {
+        "start": 649,
+        "end": 651,
+        "text": "Checking our phones too much or"
+      },
+      {
+        "start": 651,
+        "end": 655,
+        "text": "scrolling mindlessly unaware."
+      },
+      {
+        "start": 655,
+        "end": 656,
+        "text": "This is something that I used to have a"
+      },
+      {
+        "start": 656,
+        "end": 659,
+        "text": "big problem with. I would sit and scroll"
+      },
+      {
+        "start": 659,
+        "end": 661,
+        "text": "for hours every day."
+      },
+      {
+        "start": 661,
+        "end": 664,
+        "text": "But then, I replaced it with reading."
+      },
+      {
+        "start": 664,
+        "end": 666,
+        "text": "They say that you can't just stop a bad"
+      },
+      {
+        "start": 666,
+        "end": 668,
+        "text": "habit. You have to replace it with a new"
+      },
+      {
+        "start": 668,
+        "end": 670,
+        "text": "habit. Otherwise, you'll fall back into"
+      },
+      {
+        "start": 670,
+        "end": 672,
+        "text": "the same routine."
+      },
+      {
+        "start": 672,
+        "end": 673,
+        "text": "So, if you also use your phone a bit too"
+      },
+      {
+        "start": 673,
+        "end": 676,
+        "text": "much, then starting to spend some time"
+      },
+      {
+        "start": 676,
+        "end": 678,
+        "text": "each day picking up a book might be a"
+      },
+      {
+        "start": 678,
+        "end": 680,
+        "text": "lot more beneficial for you in the long"
+      },
+      {
+        "start": 680,
+        "end": 681,
+        "text": "run."
+      },
+      {
+        "start": 681,
+        "end": 684,
+        "text": "The next good habit of the day is to"
+      },
+      {
+        "start": 684,
+        "end": 686,
+        "text": "brush my teeth."
+      },
+      {
+        "start": 686,
+        "end": 689,
+        "text": "This is my electric toothbrush."
+      },
+      {
+        "start": 689,
+        "end": 692,
+        "text": "And this is a tube of toothpaste."
+      },
+      {
+        "start": 692,
+        "end": 695,
+        "text": "I'm unscrewing the lid"
+      },
+      {
+        "start": 695,
+        "end": 698,
+        "text": "and squeezing the toothpaste"
+      },
+      {
+        "start": 698,
+        "end": 703,
+        "text": "onto the bristles of the toothbrush."
+      },
+      {
+        "start": 703,
+        "end": 705,
+        "text": "These are the bristles."
+      },
+      {
+        "start": 705,
+        "end": 706,
+        "text": "Now,"
+      },
+      {
+        "start": 706,
+        "end": 710,
+        "text": "in me gob."
+      },
+      {
+        "start": 710,
+        "end": 714,
+        "text": "After I've washed my face, I usually do"
+      },
+      {
+        "start": 714,
+        "end": 715,
+        "text": "some skin care."
+      },
+      {
+        "start": 715,
+        "end": 718,
+        "text": "And there I just said I usually do."
+      },
+      {
+        "start": 718,
+        "end": 721,
+        "text": "Usually is a time phrase, like normally,"
+      },
+      {
+        "start": 721,
+        "end": 724,
+        "text": "often, or sometimes. So, you can use"
+      },
+      {
+        "start": 724,
+        "end": 727,
+        "text": "these time phrases to talk about our"
+      },
+      {
+        "start": 727,
+        "end": 730,
+        "text": "habits and how often we do those habits."
+      },
+      {
+        "start": 730,
+        "end": 733,
+        "text": "I usually"
+      },
+      {
+        "start": 733,
+        "end": 735,
+        "text": "take care of my skin."
+      },
+      {
+        "start": 735,
+        "end": 737,
+        "text": "I didn't use to. In the past, I didn't"
+      },
+      {
+        "start": 737,
+        "end": 739,
+        "text": "use to."
+      },
+      {
+        "start": 739,
+        "end": 741,
+        "text": "But, now I do because"
+      },
+      {
+        "start": 741,
+        "end": 744,
+        "text": "Chang, the one behind the camera, has"
+      },
+      {
+        "start": 744,
+        "end": 746,
+        "text": "taught me that our skin is important."
+      },
+      {
+        "start": 746,
+        "end": 748,
+        "text": "And so, we should take care of it, just"
+      },
+      {
+        "start": 748,
+        "end": 750,
+        "text": "like we take care of our diets and our"
+      },
+      {
+        "start": 750,
+        "end": 753,
+        "text": "sleep."
+      },
+      {
+        "start": 753,
+        "end": 755,
+        "text": "I'm tapping on my face."
+      },
+      {
+        "start": 755,
+        "end": 757,
+        "text": "Apparently, this is good for the"
+      },
+      {
+        "start": 757,
+        "end": 760,
+        "text": "moisturizer to go inside your pores."
+      },
+      {
+        "start": 760,
+        "end": 763,
+        "text": "Your pores are the little holes in your"
+      },
+      {
+        "start": 763,
+        "end": 766,
+        "text": "skin."
+      },
+      {
+        "start": 766,
+        "end": 768,
+        "text": "Next is some serum, and this is in a"
+      },
+      {
+        "start": 768,
+        "end": 771,
+        "text": "glass pipette."
+      },
+      {
+        "start": 771,
+        "end": 771,
+        "text": "Um"
+      },
+      {
+        "start": 771,
+        "end": 774,
+        "text": "now I'm massaging my cheeks."
+      },
+      {
+        "start": 774,
+        "end": 776,
+        "text": "These are my cheeks."
+      },
+      {
+        "start": 776,
+        "end": 777,
+        "text": "My cheekbones."
+      },
+      {
+        "start": 777,
+        "end": 779,
+        "text": "We call this moisturizing. Um"
+      },
+      {
+        "start": 779,
+        "end": 782,
+        "text": "moisturizing my skin. The next good"
+      },
+      {
+        "start": 782,
+        "end": 784,
+        "text": "habits of the day is to"
+      },
+      {
+        "start": 784,
+        "end": 787,
+        "text": "exercise. This is a pull-up bar."
+      },
+      {
+        "start": 787,
+        "end": 791,
+        "text": "And these are my gymnastics rings. They"
+      },
+      {
+        "start": 791,
+        "end": 795,
+        "text": "are adjustable, meaning I can adjust the"
+      },
+      {
+        "start": 795,
+        "end": 797,
+        "text": "height up"
+      },
+      {
+        "start": 797,
+        "end": 798,
+        "text": "and down."
+      },
+      {
+        "start": 798,
+        "end": 800,
+        "text": "They are wooden."
+      },
+      {
+        "start": 800,
+        "end": 803,
+        "text": "They are made of wood."
+      },
+      {
+        "start": 803,
+        "end": 806,
+        "text": "You can hear it when I knock."
+      },
+      {
+        "start": 806,
+        "end": 810,
+        "text": "And they are circular. They are round."
+      },
+      {
+        "start": 810,
+        "end": 812,
+        "text": "I grip them"
+      },
+      {
+        "start": 812,
+        "end": 813,
+        "text": "like this."
+      },
+      {
+        "start": 813,
+        "end": 815,
+        "text": "And"
+      },
+      {
+        "start": 815,
+        "end": 818,
+        "text": "I can either hang or"
+      },
+      {
+        "start": 818,
+        "end": 821,
+        "text": "do pull-ups."
+      },
+      {
+        "start": 821,
+        "end": 822,
+        "text": ">> [snorts]"
+      },
+      {
+        "start": 822,
+        "end": 826,
+        "text": ">> This is skin the cat."
+      },
+      {
+        "start": 826,
+        "end": 829,
+        "text": "And you go through"
+      },
+      {
+        "start": 829,
+        "end": 833,
+        "text": "to the floor."
+      },
+      {
+        "start": 833,
+        "end": 834,
+        "text": "Upside down."
+      },
+      {
+        "start": 834,
+        "end": 837,
+        "text": "Right now, I'm hanging upside down"
+      },
+      {
+        "start": 837,
+        "end": 839,
+        "text": "and all the blood is rushing to my head."
+      },
+      {
+        "start": 839,
+        "end": 844,
+        "text": "And I feel like I'm going to pass out."
+      },
+      {
+        "start": 844,
+        "end": 846,
+        "text": "Front lever."
+      },
+      {
+        "start": 846,
+        "end": 850,
+        "text": ">> [snorts]"
+      },
+      {
+        "start": 850,
+        "end": 852,
+        "text": ">> Exercise done."
+      },
+      {
+        "start": 852,
+        "end": 856,
+        "text": "Time to work."
+      },
+      {
+        "start": 856,
+        "end": 859,
+        "text": "My favorite place to work is outside"
+      },
+      {
+        "start": 859,
+        "end": 860,
+        "text": "here on the terrace."
+      },
+      {
+        "start": 860,
+        "end": 864,
+        "text": "I've got my laptop, my computer mouse,"
+      },
+      {
+        "start": 864,
+        "end": 866,
+        "text": "my Van Gogh mouse pad,"
+      },
+      {
+        "start": 866,
+        "end": 869,
+        "text": "and I like to work out here because I"
+      },
+      {
+        "start": 869,
+        "end": 872,
+        "text": "have a view of the ocean."
+      },
+      {
+        "start": 872,
+        "end": 873,
+        "text": "To be able to see the ocean when I'm"
+      },
+      {
+        "start": 873,
+        "end": 876,
+        "text": "working is an absolute pleasure and I'm"
+      },
+      {
+        "start": 876,
+        "end": 878,
+        "text": "very fortunate, I'm very lucky, and I'm"
+      },
+      {
+        "start": 878,
+        "end": 879,
+        "text": "grateful."
+      },
+      {
+        "start": 879,
+        "end": 881,
+        "text": "What am I working on? Well, as some of"
+      },
+      {
+        "start": 881,
+        "end": 883,
+        "text": "you may know, for the past 5 months I"
+      },
+      {
+        "start": 883,
+        "end": 885,
+        "text": "have been building a business, an"
+      },
+      {
+        "start": 885,
+        "end": 887,
+        "text": "English platform called Sprouts. And"
+      },
+      {
+        "start": 887,
+        "end": 890,
+        "text": "I've been working on that with a guy"
+      },
+      {
+        "start": 890,
+        "end": 892,
+        "text": "called Blake, my business partner. We"
+      },
+      {
+        "start": 892,
+        "end": 894,
+        "text": "have been working on this together and"
+      },
+      {
+        "start": 894,
+        "end": 896,
+        "text": "he is responsible for all the beautiful"
+      },
+      {
+        "start": 896,
+        "end": 900,
+        "text": "websites and very soon a brand new app."
+      },
+      {
+        "start": 900,
+        "end": 901,
+        "text": "We're going to have an app that's going"
+      },
+      {
+        "start": 901,
+        "end": 903,
+        "text": "to be launched on Apple"
+      },
+      {
+        "start": 903,
+        "end": 906,
+        "text": "and Google Play. So, I'll let you guys"
+      },
+      {
+        "start": 906,
+        "end": 908,
+        "text": "know when the app is going to drop so"
+      },
+      {
+        "start": 908,
+        "end": 910,
+        "text": "you can check it out. It's exciting."
+      },
+      {
+        "start": 910,
+        "end": 911,
+        "text": "It's a dream that I've always had since"
+      },
+      {
+        "start": 911,
+        "end": 914,
+        "text": "I was young to create my own app. If you"
+      },
+      {
+        "start": 914,
+        "end": 915,
+        "text": "want to check out Sprouts, then I'll"
+      },
+      {
+        "start": 915,
+        "end": 916,
+        "text": "leave a link in the description for you"
+      },
+      {
+        "start": 916,
+        "end": 918,
+        "text": "guys to immerse yourself in English and"
+      },
+      {
+        "start": 918,
+        "end": 922,
+        "text": "build a positive habit. Now, for me,"
+      },
+      {
+        "start": 922,
+        "end": 926,
+        "text": "it's time to get back to work."
+      },
+      {
+        "start": 926,
+        "end": 933,
+        "text": "A few moments later."
+      },
+      {
+        "start": 933,
+        "end": 935,
+        "text": "I've exercised and I've worked, and I"
+      },
+      {
+        "start": 935,
+        "end": 938,
+        "text": "think these are good habits"
+      },
+      {
+        "start": 938,
+        "end": 942,
+        "text": "as long as we take regular breaks."
+      },
+      {
+        "start": 942,
+        "end": 946,
+        "text": "Speaking of taking breaks,"
+      },
+      {
+        "start": 946,
+        "end": 948,
+        "text": "in between my working sessions, I like"
+      },
+      {
+        "start": 948,
+        "end": 951,
+        "text": "to take a short break, sit down for 2"
+      },
+      {
+        "start": 951,
+        "end": 954,
+        "text": "minutes, and I set a timer on my phone"
+      },
+      {
+        "start": 954,
+        "end": 957,
+        "text": "just to make it even easier."
+      },
+      {
+        "start": 957,
+        "end": 959,
+        "text": "Now, set a timer for 2 minutes, and in"
+      },
+      {
+        "start": 959,
+        "end": 961,
+        "text": "this time I like to close my eyes and"
+      },
+      {
+        "start": 961,
+        "end": 962,
+        "text": "hum."
+      },
+      {
+        "start": 962,
+        "end": 965,
+        "text": "Hum."
+      },
+      {
+        "start": 965,
+        "end": 967,
+        "text": "I hum because that stimulates my"
+      },
+      {
+        "start": 967,
+        "end": 969,
+        "text": "parasympathetic nervous system, which is"
+      },
+      {
+        "start": 969,
+        "end": 971,
+        "text": "basically a fancy way of saying that it"
+      },
+      {
+        "start": 971,
+        "end": 973,
+        "text": "reduces stress, anxiety, it lowers your"
+      },
+      {
+        "start": 973,
+        "end": 975,
+        "text": "heart rate, lowers your blood pressure,"
+      },
+      {
+        "start": 975,
+        "end": 978,
+        "text": "and generally enhances your focus, and"
+      },
+      {
+        "start": 978,
+        "end": 981,
+        "text": "improves your emotional well-being."
+      },
+      {
+        "start": 981,
+        "end": 987,
+        "text": "2 minutes of humming, very easy."
+      },
+      {
+        "start": 987,
+        "end": 992,
+        "text": ">> [music]"
+      },
+      {
+        "start": 992,
+        "end": 993,
+        "text": ">> Time is up."
+      },
+      {
+        "start": 993,
+        "end": 996,
+        "text": "I feel good. Feel relaxed. By the way,"
+      },
+      {
+        "start": 996,
+        "end": 999,
+        "text": "I'm sitting cross-legged. My legs are"
+      },
+      {
+        "start": 999,
+        "end": 1002,
+        "text": "crossed. I'm sitting cross-legged on a"
+      },
+      {
+        "start": 1002,
+        "end": 1003,
+        "text": "rug."
+      },
+      {
+        "start": 1003,
+        "end": 1005,
+        "text": "This is a rug,"
+      },
+      {
+        "start": 1005,
+        "end": 1009,
+        "text": "not a carpet."
+      },
+      {
+        "start": 1009,
+        "end": 1011,
+        "text": "So, now we've looked at my daily"
+      },
+      {
+        "start": 1011,
+        "end": 1014,
+        "text": "routine, my habits."
+      },
+      {
+        "start": 1014,
+        "end": 1016,
+        "text": "I want to go outside, take an evening"
+      },
+      {
+        "start": 1016,
+        "end": 1020,
+        "text": "walk, and look at people around us. What"
+      },
+      {
+        "start": 1020,
+        "end": 1022,
+        "text": "do Vietnamese people do on a daily"
+      },
+      {
+        "start": 1022,
+        "end": 1025,
+        "text": "basis? What are other people's habits?"
+      },
+      {
+        "start": 1025,
+        "end": 1027,
+        "text": "I'm curious. Don't know about you."
+      },
+      {
+        "start": 1027,
+        "end": 1030,
+        "text": "On the other side of the road,"
+      },
+      {
+        "start": 1030,
+        "end": 1033,
+        "text": "you can see people exercising."
+      },
+      {
+        "start": 1033,
+        "end": 1035,
+        "text": "That man is swinging his arms on the"
+      },
+      {
+        "start": 1035,
+        "end": 1037,
+        "text": "beach. That's a habit I see a lot of"
+      },
+      {
+        "start": 1037,
+        "end": 1039,
+        "text": "Vietnamese people do. They swing their"
+      },
+      {
+        "start": 1039,
+        "end": 1042,
+        "text": "arms to get the blood flow and some"
+      },
+      {
+        "start": 1042,
+        "end": 1043,
+        "text": "exercise."
+      },
+      {
+        "start": 1043,
+        "end": 1045,
+        "text": "It's a very common sight I see in"
+      },
+      {
+        "start": 1045,
+        "end": 1048,
+        "text": "Vietnam. People love to exercise on the"
+      },
+      {
+        "start": 1048,
+        "end": 1051,
+        "text": "exercise equipments. They rotate their"
+      },
+      {
+        "start": 1051,
+        "end": 1053,
+        "text": "arms around like that, do pull-ups,"
+      },
+      {
+        "start": 1053,
+        "end": 1055,
+        "text": "sit-ups, that kind of thing. And it's"
+      },
+      {
+        "start": 1055,
+        "end": 1057,
+        "text": "usually at sunrise and sunset because in"
+      },
+      {
+        "start": 1057,
+        "end": 1059,
+        "text": "the day it's very hot. Here again, you"
+      },
+      {
+        "start": 1059,
+        "end": 1061,
+        "text": "can see the man exercising. He's"
+      },
+      {
+        "start": 1061,
+        "end": 1064,
+        "text": "spinning the wheels round and round."
+      },
+      {
+        "start": 1064,
+        "end": 1066,
+        "text": "Riding the boat."
+      },
+      {
+        "start": 1066,
+        "end": 1067,
+        "text": "He's riding a"
+      },
+      {
+        "start": 1067,
+        "end": 1070,
+        "text": "He's practicing riding a boat."
+      },
+      {
+        "start": 1070,
+        "end": 1073,
+        "text": "Coming past now is a man on a bicycle."
+      },
+      {
+        "start": 1073,
+        "end": 1076,
+        "text": "He's on a mountain bike and"
+      },
+      {
+        "start": 1076,
+        "end": 1078,
+        "text": "he's riding his bicycle"
+      },
+      {
+        "start": 1078,
+        "end": 1080,
+        "text": "along the road"
+      },
+      {
+        "start": 1080,
+        "end": 1081,
+        "text": "towards"
+      },
+      {
+        "start": 1081,
+        "end": 1085,
+        "text": "Sơn Trà Mountain."
+      },
+      {
+        "start": 1085,
+        "end": 1087,
+        "text": "This lady"
+      },
+      {
+        "start": 1087,
+        "end": 1089,
+        "text": "is sitting down on the bench looking out"
+      },
+      {
+        "start": 1089,
+        "end": 1093,
+        "text": "to sea."
+      },
+      {
+        "start": 1093,
+        "end": 1095,
+        "text": "And look at the light, guys. It's a"
+      },
+      {
+        "start": 1095,
+        "end": 1097,
+        "text": "beautiful sunset. This area is really"
+      },
+      {
+        "start": 1097,
+        "end": 1098,
+        "text": "lively."
+      },
+      {
+        "start": 1098,
+        "end": 1099,
+        "text": "Over there, you have the people"
+      },
+      {
+        "start": 1099,
+        "end": 1101,
+        "text": "exercising"
+      },
+      {
+        "start": 1101,
+        "end": 1104,
+        "text": "doing dips and pull-ups."
+      },
+      {
+        "start": 1104,
+        "end": 1106,
+        "text": "Here we have Chang resting, looking at"
+      },
+      {
+        "start": 1106,
+        "end": 1107,
+        "text": "the sea."
+      },
+      {
+        "start": 1107,
+        "end": 1110,
+        "text": "In the distance or the background,"
+      },
+      {
+        "start": 1110,
+        "end": 1112,
+        "text": "there is an old man and an old woman"
+      },
+      {
+        "start": 1112,
+        "end": 1115,
+        "text": "exercising on the exercise machines."
+      },
+      {
+        "start": 1115,
+        "end": 1116,
+        "text": "And"
+      },
+      {
+        "start": 1116,
+        "end": 1119,
+        "text": "here in front of us you have families"
+      },
+      {
+        "start": 1119,
+        "end": 1121,
+        "text": "with kids playing in the sea."
+      },
+      {
+        "start": 1121,
+        "end": 1123,
+        "text": "Everyone is having a good time."
+      },
+      {
+        "start": 1123,
+        "end": 1127,
+        "text": "Hello. Hello."
+      },
+      {
+        "start": 1127,
+        "end": 1131,
+        "text": "In the distance, there is a speedboat"
+      },
+      {
+        "start": 1131,
+        "end": 1135,
+        "text": "zooming across the water."
+      },
+      {
+        "start": 1135,
+        "end": 1137,
+        "text": "The kid is playing in the sea while the"
+      },
+      {
+        "start": 1137,
+        "end": 1139,
+        "text": "parents are on their phones, [music]"
+      },
+      {
+        "start": 1139,
+        "end": 1143,
+        "text": "chilling, taking a break from parenting."
+      },
+      {
+        "start": 1143,
+        "end": 1145,
+        "text": "All right, we've checked out some"
+      },
+      {
+        "start": 1145,
+        "end": 1147,
+        "text": "interesting people at the beach. It's"
+      },
+      {
+        "start": 1147,
+        "end": 1149,
+        "text": "always fun. Now, let's go"
+      },
+      {
+        "start": 1149,
+        "end": 1153,
+        "text": "do a habit that is probably a bad habit,"
+      },
+      {
+        "start": 1153,
+        "end": 1156,
+        "text": "but I like it."
+      },
+      {
+        "start": 1156,
+        "end": 1163,
+        "text": "Ice cream."
+      },
+      {
+        "start": 1163,
+        "end": 1164,
+        "text": "Snacking."
+      },
+      {
+        "start": 1164,
+        "end": 1167,
+        "text": "Meep. Snacking is the next bad habit of"
+      },
+      {
+        "start": 1167,
+        "end": 1169,
+        "text": "the day. To snack is to eat little bits"
+      },
+      {
+        "start": 1169,
+        "end": 1172,
+        "text": "of food in between meals, and it's all"
+      },
+      {
+        "start": 1172,
+        "end": 1174,
+        "text": "right if you snack healthily,"
+      },
+      {
+        "start": 1174,
+        "end": 1175,
+        "text": "but"
+      },
+      {
+        "start": 1175,
+        "end": 1178,
+        "text": "ice creams are not so healthy."
+      },
+      {
+        "start": 1178,
+        "end": 1180,
+        "text": "So, right now, I'm snacking on this ice"
+      },
+      {
+        "start": 1180,
+        "end": 1182,
+        "text": "cream, and that is a bad habit."
+      },
+      {
+        "start": 1182,
+        "end": 1184,
+        "text": "Those kids behind me, they're also"
+      },
+      {
+        "start": 1184,
+        "end": 1187,
+        "text": "snacking on some crisps after school."
+      },
+      {
+        "start": 1187,
+        "end": 1189,
+        "text": "Snacking is a universal habit. It might"
+      },
+      {
+        "start": 1189,
+        "end": 1191,
+        "text": "be bad, but you know, you got to do some"
+      },
+      {
+        "start": 1191,
+        "end": 1193,
+        "text": "things that are bad for you to feed the"
+      },
+      {
+        "start": 1193,
+        "end": 1195,
+        "text": "soul."
+      },
+      {
+        "start": 1195,
+        "end": 1197,
+        "text": "After snacking on the ice cream, I want"
+      },
+      {
+        "start": 1197,
+        "end": 1199,
+        "text": "to balance that with a good habit, and"
+      },
+      {
+        "start": 1199,
+        "end": 1202,
+        "text": "that is staying hydrated. Drinking"
+      },
+      {
+        "start": 1202,
+        "end": 1204,
+        "text": "plenty of water to keep my brain active,"
+      },
+      {
+        "start": 1204,
+        "end": 1207,
+        "text": "keeps me alive. I'm thankful for that."
+      },
+      {
+        "start": 1207,
+        "end": 1209,
+        "text": "And yeah, water is refreshing. There's"
+      },
+      {
+        "start": 1209,
+        "end": 1212,
+        "text": "one final idea I want to leave you guys"
+      },
+      {
+        "start": 1212,
+        "end": 1213,
+        "text": "with"
+      },
+      {
+        "start": 1213,
+        "end": 1217,
+        "text": "is that habits are like ice cubes."
+      },
+      {
+        "start": 1217,
+        "end": 1220,
+        "text": "Imagine an ice cube in a cold room. You"
+      },
+      {
+        "start": 1220,
+        "end": 1223,
+        "text": "start heating it up. -3°."
+      },
+      {
+        "start": 1223,
+        "end": 1224,
+        "text": "No change."
+      },
+      {
+        "start": 1224,
+        "end": 1227,
+        "text": "-2, -1,"
+      },
+      {
+        "start": 1227,
+        "end": 1228,
+        "text": "still nothing."
+      },
+      {
+        "start": 1228,
+        "end": 1231,
+        "text": "But, at 0°,"
+      },
+      {
+        "start": 1231,
+        "end": 1235,
+        "text": "the melting begins."
+      },
+      {
+        "start": 1235,
+        "end": 1237,
+        "text": "Your English is the same."
+      },
+      {
+        "start": 1237,
+        "end": 1240,
+        "text": "You might not see the change today"
+      },
+      {
+        "start": 1240,
+        "end": 1242,
+        "text": "or tomorrow,"
+      },
+      {
+        "start": 1242,
+        "end": 1245,
+        "text": "but every step you take is adding up to"
+      },
+      {
+        "start": 1245,
+        "end": 1247,
+        "text": "a big difference. If you're ready to see"
+      },
+      {
+        "start": 1247,
+        "end": 1250,
+        "text": "that change, join us today on Sprout. 15"
+      },
+      {
+        "start": 1250,
+        "end": 1253,
+        "text": "minutes a day to watch, learn, and"
+      },
+      {
+        "start": 1253,
+        "end": 1254,
+        "text": "speak."
+      },
+      {
+        "start": 1254,
+        "end": 1256,
+        "text": "Because small things make a big"
+      },
+      {
+        "start": 1256,
+        "end": 1258,
+        "text": "difference."
+      },
+      {
+        "start": 1258,
+        "end": 1261,
+        "text": "Oh, the Sprout is here to stay."
+      },
+      {
+        "start": 1261,
+        "end": 1263,
+        "text": "[singing]"
+      },
+      {
+        "start": 1263,
+        "end": 1265,
+        "text": "Sprout is here"
+      },
+      {
+        "start": 1265,
+        "end": 1266,
+        "text": "to stay."
+      },
+      {
+        "start": 1266,
+        "end": 1269,
+        "text": "A new beginning starts"
+      },
+      {
+        "start": 1269,
+        "end": 1273,
+        "text": "A new beginning starts today."
+      }
+    ]
   },
   {
     "id": "8pNMP3K9J3o",
