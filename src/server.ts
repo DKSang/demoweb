@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+// @ts-ignore
+import { YoutubeTranscript } from "youtube-transcript";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -109,44 +111,23 @@ app.get("/api", (req: Request, res: Response) => {
   res.json({ status: "ok", message: "Bloom API is online" });
 });
 
-// Helper: Scrape YouTube Timed Transcript
+// Helper: Fetch YouTube Timed Transcript using youtube-transcript package
 async function getYoutubeTranscript(videoId: string) {
-  const response = await fetch(`https://www.youtube.com/watch?v=${videoId}`);
-  const html = await response.text();
-  const regex = /"captions":\s*({.*?}),\s*"videoDetails"/;
-  const match = html.match(regex);
-  if (!match) throw new Error("Captions config not found for this video.");
+  const transcript = await YoutubeTranscript.fetchTranscript(videoId);
+  if (!transcript || transcript.length === 0) {
+    throw new Error("Empty transcript fetched from video.");
+  }
   
-  const captions = JSON.parse(match[1]);
-  const captionTracks = captions.playerCaptionsTracklistRenderer?.captionTracks;
-  if (!captionTracks || captionTracks.length === 0) throw new Error("No caption tracks found.");
-  
-  // Find English or default track
-  const englishTrack = captionTracks.find((t: any) => t.languageCode === "en" || t.languageCode.startsWith("en")) || captionTracks[0];
-  const trackUrl = englishTrack.baseUrl;
-  
-  const trackResponse = await fetch(trackUrl);
-  const trackXml = await trackResponse.text();
-  
-  // Parse XML lines <text start="12.3" dur="4.5">Text</text>
-  const textRegex = /<text start="([\d.]+)" dur="([\d.]+)".*?>(.*?)<\/text>/g;
-  const lines: { start: number; end: number; text: string }[] = [];
-  let m;
-  while ((m = textRegex.exec(trackXml)) !== null) {
-    const start = parseFloat(m[1]);
-    const duration = parseFloat(m[2]);
-    const text = m[3]
+  const lines = transcript.map(t => ({
+    start: Math.round(t.offset / 1000), // convert offset from ms to seconds
+    end: Math.round((t.offset + t.duration) / 1000), // convert from ms to seconds
+    text: t.text
       .replace(/&amp;/g, "&")
       .replace(/&lt;/g, "<")
       .replace(/&gt;/g, ">")
       .replace(/&#39;/g, "'")
-      .replace(/&quot;/g, '"');
-    lines.push({
-      start: Math.round(start),
-      end: Math.round(start + duration),
-      text: text
-    });
-  }
+      .replace(/&quot;/g, '"')
+  }));
   
   // Smooth end boundaries to prevent overlaps
   for (let i = 0; i < lines.length - 1; i++) {
