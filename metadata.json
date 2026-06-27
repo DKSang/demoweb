@@ -1,0 +1,6 @@
+{
+  "name": "Bloom Design Studio",
+  "description": "A high-contrast, premium computational botany design agency featuring liquid glass layouts and real-time recursive growth simulations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
