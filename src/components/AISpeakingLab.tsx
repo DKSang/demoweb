@@ -407,7 +407,7 @@ export default function AISpeakingLab() {
   const [ttsSpeed, setTtsSpeed] = useState(0.95);
   const [selectedVoice, setSelectedVoice] = useState<string>("");
   const [voicesList, setVoicesList] = useState<SpeechSynthesisVoice[]>([]);
-  const [ollamaModel, setOllamaModel] = useState<string>("llama3");
+  const [ollamaModel, setOllamaModel] = useState<string>("gemma2:2b");
 
   // Daily Progression and Tasks State
   const [userProgress, setUserProgress] = useState<any>({
@@ -1515,7 +1515,7 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
         <div className="flex gap-2">
           {[
             { id: "shadow", label: "YouTube Shadowing", icon: Video },
-            { id: "coach", label: "Ollama Llama3 Coach", icon: Sparkles },
+            { id: "coach", label: "Ollama AI Coach", icon: Sparkles },
             { id: "vocab", label: "Vocabulary & Streak", icon: BookOpen }
           ].map((tab) => {
             const Icon = tab.icon;
