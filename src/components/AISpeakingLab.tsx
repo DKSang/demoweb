@@ -250,7 +250,7 @@ export default function AISpeakingLab() {
 
       let hasSpoken = false;
       let silenceStart = Date.now();
-      const SILENCE_THRESHOLD = 8; // threshold for voice vs ambient noise
+      const SILENCE_THRESHOLD = 15; // threshold for voice vs ambient noise
       const MAX_SILENCE_DURATION = 1500; // 1.5 seconds of silence to stop
       const INITIAL_SILENCE_DURATION = 4000; // 4 seconds of initial silence
 
@@ -760,9 +760,10 @@ export default function AISpeakingLab() {
       if (score >= 80) {
         setHasShadowedToday(true);
         updateProgressTask("shadow", true);
+        stopRecording();
       }
     }
-  }, [recognitionText]);
+  }, [recognitionText, activeTab, selectedLesson, currentLineIndex]);
 
   // Save word to backend database
   const handleSaveWord = async (wordObj: VocabWord) => {
