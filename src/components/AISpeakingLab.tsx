@@ -177,10 +177,131 @@ export default function AISpeakingLab() {
   const [chatInput, setChatInput] = useState("");
   const [isLlamaLoading, setIsLlamaLoading] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
+
+  // Speech Web API and Audio Silence Detection
+  const [isRecording, setIsRecording] = useState(false);
+  const [recognitionText, setRecognitionText] = useState("");
+  const recognitionRef = useRef<any>(null);
+  const [volumeLevel, setVolumeLevel] = useState(0);
+  const audioStreamRef = useRef<MediaStream | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const checkVolumeIntervalRef = useRef<any>(null);
+
+  const stopSilenceDetection = () => {
+    if (checkVolumeIntervalRef.current) {
+      cancelAnimationFrame(checkVolumeIntervalRef.current);
+      checkVolumeIntervalRef.current = null;
+    }
+    if (audioStreamRef.current) {
+      audioStreamRef.current.getTracks().forEach(track => track.stop());
+      audioStreamRef.current = null;
+    }
+    if (audioContextRef.current) {
+      if (audioContextRef.current.state !== "closed") {
+        audioContextRef.current.close();
+      }
+      audioContextRef.current = null;
+    }
+    analyserRef.current = null;
+    setVolumeLevel(0);
+  };
+
+  const stopRecording = () => {
+    if (!recognitionRef.current) return;
+    
+    recognitionRef.current.stop();
+    setIsRecording(false);
+    stopSilenceDetection();
+
+    if (activeTabRef.current === "coach") {
+      setTimeout(() => {
+        setChatInput(prev => {
+          const finalVal = prev.trim();
+          if (finalVal) {
+            handleSendChat(finalVal);
+          }
+          return "";
+        });
+      }, 400);
+    }
+  };
+
+  const startSilenceDetection = async () => {
+    stopSilenceDetection();
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      audioStreamRef.current = stream;
+
+      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioContextClass) return;
+
+      const audioContext = new AudioContextClass();
+      audioContextRef.current = audioContext;
+
+      const source = audioContext.createMediaStreamSource(stream);
+      const analyser = audioContext.createAnalyser();
+      analyser.fftSize = 256;
+      source.connect(analyser);
+      analyserRef.current = analyser;
+
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+
+      let hasSpoken = false;
+      let silenceStart = Date.now();
+      const SILENCE_THRESHOLD = 8; // threshold for voice vs ambient noise
+      const MAX_SILENCE_DURATION = 1500; // 1.5 seconds of silence to stop
+      const INITIAL_SILENCE_DURATION = 4000; // 4 seconds of initial silence
+
+      const checkVolume = () => {
+        if (!analyserRef.current) return;
+        analyser.getByteFrequencyData(dataArray);
+
+        let sum = 0;
+        for (let i = 0; i < bufferLength; i++) {
+          sum += dataArray[i];
+        }
+        const averageVolume = sum / bufferLength;
+
+        // Visual volume level (0 to 100)
+        const scaledVolume = Math.min(100, Math.round((averageVolume / 64) * 100));
+        setVolumeLevel(scaledVolume);
+
+        if (averageVolume > SILENCE_THRESHOLD) {
+          if (!hasSpoken) {
+            hasSpoken = true;
+          }
+          silenceStart = Date.now();
+        } else {
+          const silentFor = Date.now() - silenceStart;
+          const limit = hasSpoken ? MAX_SILENCE_DURATION : INITIAL_SILENCE_DURATION;
+          if (silentFor > limit) {
+            stopRecording();
+            return;
+          }
+        }
+
+        checkVolumeIntervalRef.current = requestAnimationFrame(checkVolume);
+      };
+
+      checkVolumeIntervalRef.current = requestAnimationFrame(checkVolume);
+    } catch (err) {
+      console.warn("Could not start silence detection:", err);
+    }
+  };
+
   const activeTabRef = useRef(activeTab);
+  const prevTabRef = useRef(activeTab);
   useEffect(() => {
     activeTabRef.current = activeTab;
-  }, [activeTab]);
+    if (prevTabRef.current !== activeTab) {
+      prevTabRef.current = activeTab;
+      if (isRecording) {
+        stopRecording();
+      }
+    }
+  }, [activeTab, isRecording]);
 
   // Synchronize tab active state with URL hash routing
   useEffect(() => {
@@ -295,10 +416,7 @@ export default function AISpeakingLab() {
     return streak;
   };
 
-  // Speech Web API instances
-  const [isRecording, setIsRecording] = useState(false);
-  const [recognitionText, setRecognitionText] = useState("");
-  const recognitionRef = useRef<any>(null);
+
 
   // Text-To-Speech (TTS) Settings
   const [ttsSpeed, setTtsSpeed] = useState(0.95);
@@ -405,14 +523,20 @@ export default function AISpeakingLab() {
       rec.onerror = (event: any) => {
         console.error("Speech Recognition Error: ", event.error);
         setIsRecording(false);
+        stopSilenceDetection();
       };
 
       rec.onend = () => {
         setIsRecording(false);
+        stopSilenceDetection();
       };
 
       recognitionRef.current = rec;
     }
+
+    return () => {
+      stopSilenceDetection();
+    };
   }, []);
 
   // Sync selectedProgressDay with active day from progress on initial load or progression unlock
@@ -619,13 +743,13 @@ export default function AISpeakingLab() {
     }
 
     if (isRecording) {
-      recognitionRef.current.stop();
-      setIsRecording(false);
+      stopRecording();
     } else {
       setRecognitionText("");
       setShadowScore(null);
       setIsRecording(true);
       recognitionRef.current.start();
+      startSilenceDetection();
     }
   };
 
@@ -1160,23 +1284,13 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
     }
 
     if (isRecording) {
-      recognitionRef.current.stop();
-      setIsRecording(false);
-      // Wait briefly for final recognition results to flush and populate chatInput
-      setTimeout(() => {
-        setChatInput(prev => {
-          const finalVal = prev.trim();
-          if (finalVal) {
-            handleSendChat(finalVal);
-          }
-          return "";
-        });
-      }, 400);
+      stopRecording();
     } else {
       setChatInput("");
       setRecognitionText("");
       setIsRecording(true);
       recognitionRef.current.start();
+      startSilenceDetection();
     }
   };
 
@@ -1580,13 +1694,13 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
                     onClick={toggleRecordShadow}
                     className={`py-4 rounded-full flex items-center justify-center gap-3 transition-all hover:scale-[1.03] active:scale-95 cursor-pointer ${
                       isRecording 
-                        ? "bg-white text-black font-semibold animate-pulse" 
+                        ? "bg-white text-black font-semibold" 
                         : "bg-white/10 text-white hover:bg-white/20 border border-white/10"
                     }`}
                   >
                     {isRecording ? (
                       <>
-                        <MicOff className="w-4 h-4 text-black animate-spin" />
+                        <MicOff className="w-4 h-4 text-black" />
                         <span className="text-xs font-semibold text-black uppercase">Recording... (Speak Now)</span>
                       </>
                     ) : (
@@ -1596,6 +1710,29 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
                       </>
                     )}
                   </button>
+
+                  {isRecording && (
+                    <div className="flex flex-col items-center gap-1.5 mt-2 bg-black/30 py-3 rounded-2xl border border-white/5">
+                      <div className="flex items-center gap-0.5 h-6">
+                        {Array.from({ length: 15 }).map((_, i) => {
+                          const active = volumeLevel > (i * 6.5);
+                          const distanceFromCenter = Math.abs(i - 7);
+                          const maxHeight = 24 - distanceFromCenter * 2;
+                          const height = active ? Math.max(4, Math.round((volumeLevel / 100) * maxHeight)) : 4;
+                          return (
+                            <div
+                              key={i}
+                              className={`w-1 rounded-full transition-all duration-75 ${
+                                active ? "bg-white" : "bg-white/10"
+                              }`}
+                              style={{ height: `${height}px` }}
+                            />
+                          );
+                        })}
+                      </div>
+                      <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest animate-pulse">Voice Level (Auto-stop on silence)</span>
+                    </div>
+                  )}
 
                   {/* Task transition guidance card */}
                   {userProgress.todayTasks.listen && userProgress.todayTasks.shadow && (
@@ -1746,39 +1883,62 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
               </div>
 
               {/* Speaking Coach Chat Inputs Row */}
-              <div className="flex items-center gap-3 mt-6 border-t border-white/5 pt-4">
-                
-                {/* Hold to speak walkie talkie */}
-                <button
-                  onClick={handleRecordChatInput}
-                  className={`px-5 py-3 rounded-full flex items-center justify-center gap-2 border transition-all hover:scale-105 active:scale-95 cursor-pointer ${
-                    isRecording 
-                      ? "bg-white text-black border-white animate-pulse" 
-                      : "bg-white/5 text-white/80 hover:text-white border-white/10"
-                  }`}
-                >
-                  {isRecording ? <MicOff className="w-4 h-4 text-black animate-spin" /> : <Mic className="w-4 h-4" />}
-                  <span className="text-xs font-semibold uppercase">{isRecording ? "Listening..." : "Speak Input"}</span>
-                </button>
+              <div className="flex flex-col gap-3 mt-6 border-t border-white/5 pt-4">
+                {isRecording && (
+                  <div className="flex items-center justify-center gap-3 py-1 bg-black/20 rounded-2xl border border-white/5 max-w-xs mx-auto px-4">
+                    <div className="flex items-center gap-0.5 h-6">
+                      {Array.from({ length: 15 }).map((_, i) => {
+                        const active = volumeLevel > (i * 6.5);
+                        const distanceFromCenter = Math.abs(i - 7);
+                        const maxHeight = 24 - distanceFromCenter * 2;
+                        const height = active ? Math.max(4, Math.round((volumeLevel / 100) * maxHeight)) : 4;
+                        return (
+                          <div
+                            key={i}
+                            className={`w-1 rounded-full transition-all duration-75 ${
+                              active ? "bg-white" : "bg-white/10"
+                            }`}
+                            style={{ height: `${height}px` }}
+                          />
+                        );
+                      })}
+                    </div>
+                    <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest animate-pulse">Voice Level</span>
+                  </div>
+                )}
 
-                <input
-                  type="text"
-                  placeholder="Type your reply here..."
-                  value={chatInput}
-                  onChange={(e) => setChatInput(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleSendChat()}
-                  disabled={isLlamaLoading}
-                  className="flex-1 bg-black/60 border border-white/10 rounded-full px-5 py-3 text-xs text-white placeholder-white/30 focus:outline-none focus:border-white/30"
-                />
+                <div className="flex items-center gap-3">
+                  {/* Hold to speak walkie talkie */}
+                  <button
+                    onClick={handleRecordChatInput}
+                    className={`px-5 py-3 rounded-full flex items-center justify-center gap-2 border transition-all hover:scale-105 active:scale-95 cursor-pointer ${
+                      isRecording 
+                        ? "bg-white text-black border-white" 
+                        : "bg-white/5 text-white/80 hover:text-white border-white/10"
+                    }`}
+                  >
+                    {isRecording ? <MicOff className="w-4 h-4 text-black" /> : <Mic className="w-4 h-4" />}
+                    <span className="text-xs font-semibold uppercase">{isRecording ? "Listening..." : "Speak Input"}</span>
+                  </button>
 
-                <button
-                  onClick={() => handleSendChat()}
-                  disabled={isLlamaLoading || !chatInput.trim()}
-                  className="w-10 h-10 rounded-full bg-white text-black hover:bg-white/90 flex items-center justify-center transition-all hover:scale-105 active:scale-95 disabled:opacity-40 disabled:scale-100 cursor-pointer"
-                >
-                  <Send className="w-4 h-4" />
-                </button>
+                  <input
+                    type="text"
+                    placeholder="Type your reply here..."
+                    value={chatInput}
+                    onChange={(e) => setChatInput(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleSendChat()}
+                    disabled={isLlamaLoading}
+                    className="flex-1 bg-black/60 border border-white/10 rounded-full px-5 py-3 text-xs text-white placeholder-white/30 focus:outline-none focus:border-white/30"
+                  />
 
+                  <button
+                    onClick={() => handleSendChat()}
+                    disabled={isLlamaLoading || !chatInput.trim()}
+                    className="w-10 h-10 rounded-full bg-white text-black hover:bg-white/90 flex items-center justify-center transition-all hover:scale-105 active:scale-95 disabled:opacity-40 disabled:scale-100 cursor-pointer"
+                  >
+                    <Send className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
 
               {/* Task transition guidance card for Speak */}

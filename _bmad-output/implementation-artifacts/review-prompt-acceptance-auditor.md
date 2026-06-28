@@ -1,15 +1,132 @@
 # Acceptance Auditor Review Prompt
 
-You are the **Acceptance Auditor**. Your job is to verify that the implementation is compliant with the specifications, context rules, and styling principles defined in:
-- The specification file: `_bmad-output/implementation-artifacts/spec-llama3-english-coach.md`
-- The project context file: `_bmad-output/project-context.md`
-- The UX DESIGN.md and EXPERIENCE.md files in `_bmad-output/planning-artifacts/ux-designs/ux-demoweb-2026-06-27/`
+You are an acceptance testing auditor. Your job is to verify that the changes in the git diff satisfy the requirements of the spec and do not violate any project rules or standards.
 
-Please check if:
-1.  The layout of the "AI Speaking Lab" complies with the dark-grayscale liquid-glass theme and has no color accents except green/red for pronunciation scores.
-2.  The Ollama requests are routed via `/api/ollama` (Vite proxy config) and never hardcode localhost URLs.
-3.  The 4-week progression chat with Llama-3 works as specified.
-4.  No changes break existing sections of the Bloom Studio site.
-5.  Type safety is fully respected with zero compilation errors.
+## Spec Requirements (spec-silence-auto-stop.md)
+- **Initial Silence**: Auto-stops recording if no speech is detected within 4s.
+- **Speech Silence**: Auto-stops recording when user stops speaking for 1.5s.
+- **Visual Feedback**: Real-time volume level indicators next to/around recording buttons.
+- **Resource Management**: Automatically close AudioContext and stop mic tracks.
 
-Report any failures or misalignments with the acceptance criteria.
+## Git Diff
+
+```diff
+diff --git a/src/components/AISpeakingLab.tsx b/src/components/AISpeakingLab.tsx
+index d3f2a89..e398ad3 100644
+--- a/src/components/AISpeakingLab.tsx
++++ b/src/components/AISpeakingLab.tsx
+@@ -299,6 +299,114 @@ export default function AISpeakingLab() {
+   const [isRecording, setIsRecording] = useState(false);
+   const [recognitionText, setRecognitionText] = useState("");
+   const recognitionRef = useRef<any>(null);
++  const [volumeLevel, setVolumeLevel] = useState(0);
++  const audioStreamRef = useRef<MediaStream | null>(null);
++  const audioContextRef = useRef<AudioContext | null>(null);
++  const analyserRef = useRef<AnalyserNode | null>(null);
++  const checkVolumeIntervalRef = useRef<any>(null);
++
++  const stopSilenceDetection = () => {
++    if (checkVolumeIntervalRef.current) {
++      cancelAnimationFrame(checkVolumeIntervalRef.current);
++      checkVolumeIntervalRef.current = null;
++    }
++    if (audioStreamRef.current) {
++      audioStreamRef.current.getTracks().forEach(track => track.stop());
++      audioStreamRef.current = null;
++    }
++    if (audioContextRef.current) {
++      if (audioContextRef.current.state !== "closed") {
++        audioContextRef.current.close();
++      }
++      audioContextRef.current = null;
++    }
++    analyserRef.current = null;
++    setVolumeLevel(0);
++  };
++
++  const stopRecording = () => {
++    if (!recognitionRef.current) return;
++    
++    recognitionRef.current.stop();
++    setIsRecording(false);
++    stopSilenceDetection();
++
++    if (activeTabRef.current === "coach") {
++      setTimeout(() => {
++        setChatInput(prev => {
++          const finalVal = prev.trim();
++          if (finalVal) {
++            handleSendChat(finalVal);
++          }
++          return "";
++        });
++      }, 400);
++    }
++  };
++
++  const startSilenceDetection = async () => {
++    stopSilenceDetection();
++    try {
++      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
++      audioStreamRef.current = stream;
++
++      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
++      if (!AudioContextClass) return;
++
++      const audioContext = new AudioContextClass();
++      audioContextRef.current = audioContext;
++
++      const source = audioContext.createMediaStreamSource(stream);
++      const analyser = audioContext.createAnalyser();
++      analyser.fftSize = 256;
++      source.connect(analyser);
++      analyserRef.current = analyser;
++
++      const bufferLength = analyser.frequencyBinCount;
++      const dataArray = new Uint8Array(bufferLength);
++
++      let hasSpoken = false;
++      let silenceStart = Date.now();
++      const SILENCE_THRESHOLD = 8; // threshold for voice vs ambient noise
++      const MAX_SILENCE_DURATION = 1500; // 1.5 seconds of silence to stop
++      const INITIAL_SILENCE_DURATION = 4000; // 4 seconds of initial silence
++
++      const checkVolume = () => {
++        if (!analyserRef.current) return;
++        analyser.getByteFrequencyData(dataArray);
++
++        let sum = 0;
++        for (let i = 0; i < bufferLength; i++) {
++          sum += dataArray[i];
++        }
++        const averageVolume = sum / bufferLength;
++
++        // Visual volume level (0 to 100)
++        const scaledVolume = Math.min(100, Math.round((averageVolume / 64) * 100));
++        setVolumeLevel(scaledVolume);Tag
++
++        if (averageVolume > SILENCE_THRESHOLD) {
++          if (!hasSpoken) {
++            hasSpoken = true;
++          }
++          silenceStart = Date.now();
++        } else {
++          const silentFor = Date.now() - silenceStart;
++          const limit = hasSpoken ? MAX_SILENCE_DURATION : INITIAL_SILENCE_DURATION;
++          if (silentFor > limit) {
++            stopRecording();
++            return;
++          }
++        }
++
++        checkVolumeIntervalRef.current = requestAnimationFrame(checkVolume);
++      };
++
++      checkVolumeIntervalRef.current = requestAnimationFrame(checkVolume);
++    } catch (err) {
++      console.warn("Could not start silence detection:", err);
++    }
++  };
+```
+
+Please audit these changes and verify all acceptance criteria and rules are satisfied.
