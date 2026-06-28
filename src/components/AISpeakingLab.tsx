@@ -27,6 +27,7 @@ interface VocabWord {
   ipa: string;
   definition: string;
   example: string;
+  day?: number;
 }
 
 interface ShadowLine {
@@ -312,6 +313,8 @@ export default function AISpeakingLab() {
     todayTasks: { listen: false, shadow: false, speak: false, quiz: false }
   });
 
+  const [selectedProgressDay, setSelectedProgressDay] = useState<number>(1);
+
   const [quizState, setQuizState] = useState<{
     questions: { word: string; question: string; correctAnswer: string; options: string[] }[];
     currentQuestionIndex: number;
@@ -412,10 +415,17 @@ export default function AISpeakingLab() {
     }
   }, []);
 
-  // Automatically select/lock lesson based on active day progression
+  // Sync selectedProgressDay with active day from progress on initial load or progression unlock
   useEffect(() => {
-    if (lessonsList.length > 0 && userProgress?.currentDay) {
-      const activeDay = userProgress.currentDay;
+    if (userProgress?.currentDay) {
+      setSelectedProgressDay(userProgress.currentDay);
+    }
+  }, [userProgress?.currentDay]);
+
+  // Automatically select/lock lesson based on selected progression Day
+  useEffect(() => {
+    if (lessonsList.length > 0 && selectedProgressDay) {
+      const activeDay = selectedProgressDay;
       let targetLesson = lessonsList.find(l => l.id === "RJbUtcaoNCY" || l.title.toLowerCase().includes("haircut"));
       
       if (activeDay > 1) {
@@ -428,7 +438,7 @@ export default function AISpeakingLab() {
         setSelectedLesson(targetLesson);
       }
     }
-  }, [userProgress?.currentDay, lessonsList]);
+  }, [selectedProgressDay, lessonsList]);
 
   // Generate quiz when subtab is quiz or selectedLesson changes
   useEffect(() => {
@@ -625,7 +635,7 @@ export default function AISpeakingLab() {
       const target = selectedLesson.lines[currentLineIndex].text;
       const score = getSimilarity(target, recognitionText);
       setShadowScore(score);
-      if (score >= 50) {
+      if (score >= 80) {
         setHasShadowedToday(true);
         updateProgressTask("shadow", true);
       }
@@ -637,6 +647,7 @@ export default function AISpeakingLab() {
     if (savedVocab.some(w => w.word.toLowerCase() === wordObj.word.toLowerCase())) return;
     const newWord = {
       ...wordObj,
+      day: wordObj.day || selectedProgressDay,
       dateSaved: getLocalDateString()
     };
 
@@ -683,7 +694,8 @@ export default function AISpeakingLab() {
       word: newWordForm.word.trim(),
       ipa: newWordForm.ipa.trim() || "",
       definition: newWordForm.definition.trim() || "",
-      example: newWordForm.example.trim() || ""
+      example: newWordForm.example.trim() || "",
+      day: selectedProgressDay
     };
 
     await handleSaveWord(wordObj);
@@ -775,6 +787,14 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
     } catch (err) {
       console.error("Failed to update progress task:", err);
     }
+  };
+
+  const getTaskCompleted = (taskName: "listen" | "shadow" | "speak" | "quiz") => {
+    if (!userProgress) return false;
+    if (selectedProgressDay < userProgress.currentDay) {
+      return userProgress.completedDays?.[selectedProgressDay]?.[taskName] ?? true;
+    }
+    return userProgress.todayTasks?.[taskName] ?? false;
   };
 
   const generateQuiz = () => {
@@ -1233,102 +1253,155 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
         </div>
 
         {/* Progression Status Bar Card */}
-        <div className="w-full rounded-2xl bg-white/5 border border-white/5 p-5 mt-6 mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-xs">
-          <div className="flex flex-col gap-1.5">
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded-full bg-white text-black font-bold font-mono text-[10px]">
-                DAY {userProgress.currentDay}
-              </span>
-              <span className="text-white font-medium text-sm">
-                Active Lesson: <span className="font-serif italic text-white/95">{selectedLesson?.title.replace("🇬🇧", "").trim() || "Loading..."}</span>
-              </span>
+        <div className="w-full rounded-[2rem] liquid-glass p-6 mt-6 mb-6 flex flex-col gap-5 border border-white/5">
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+            <div className="flex flex-col gap-2 max-w-xl">
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="px-3 py-1 rounded-full bg-white text-black font-semibold text-[10px] tracking-wider uppercase font-mono shadow-sm">
+                  DAY {selectedProgressDay} {selectedProgressDay < userProgress.currentDay ? "REVIEW" : "ACTIVE"}
+                </span>
+                <span className="text-white font-medium text-base tracking-tight leading-none font-sans">
+                  Active Lesson: <span className="font-serif italic text-white/95 font-medium">{selectedLesson?.title.replace("🇬🇧", "").trim() || "Loading..."}</span>
+                </span>
+              </div>
+              <p className="text-white/40 text-xs font-sans tracking-wide">
+                {selectedProgressDay < userProgress.currentDay 
+                  ? "You are reviewing a completed day's lesson. Task completion is locked."
+                  : "Complete the 4 tasks below to unlock the next day's lesson."}
+              </p>
             </div>
-            <p className="text-white/40 text-[10px] font-mono">
-              Complete the 4 tasks below to unlock the next day's lesson.
-            </p>
-          </div>
 
-          <div className="flex flex-wrap items-center gap-4">
-            {/* Task 1: Listen */}
-            <button
-              onClick={() => changeTab("shadow")}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/35 hover:bg-black/60 border border-white/5 hover:border-white/20 transition-all cursor-pointer text-left"
-            >
-              <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center border ${
-                userProgress.todayTasks.listen 
-                  ? "bg-green-500 border-green-500 text-black" 
-                  : "border-white/20 text-transparent"
-              }`}>
-                {userProgress.todayTasks.listen && <Check className="w-2.5 h-2.5" />}
-              </div>
-              <span className={userProgress.todayTasks.listen ? "text-green-300 font-semibold" : "text-white/60"}>1. Listen</span>
-            </button>
+            <div className="flex flex-wrap items-center gap-3">
+              {/* Task 1: Listen */}
+              <button
+                onClick={() => changeTab("shadow")}
+                className="group relative flex items-center gap-2 px-4 py-2 rounded-xl bg-black/40 hover:bg-black/60 border border-white/5 hover:border-white/10 transition-all cursor-pointer text-left"
+              >
+                <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center border ${
+                  getTaskCompleted("listen") 
+                    ? "bg-green-500 border-green-500 text-black" 
+                    : "border-white/20 text-transparent"
+                }`}>
+                  {getTaskCompleted("listen") && <Check className="w-2.5 h-2.5" />}
+                </div>
+                <span className={`text-xs ${getTaskCompleted("listen") ? "text-green-300 font-semibold" : "text-white/70"}`}>1. Listen</span>
+                
+                {/* Tooltip */}
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-52 p-2.5 rounded-xl bg-zinc-950/95 border border-white/10 text-[10px] leading-relaxed text-white/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 shadow-2xl z-30 text-center font-sans">
+                  Play any timed subtitle segment in the YouTube Shadowing player to complete.
+                </div>
+              </button>
 
-            {/* Task 2: Shadow */}
-            <button
-              onClick={() => changeTab("shadow")}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/35 hover:bg-black/60 border border-white/5 hover:border-white/20 transition-all cursor-pointer text-left"
-            >
-              <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center border ${
-                userProgress.todayTasks.shadow 
-                  ? "bg-green-500 border-green-500 text-black" 
-                  : "border-white/20 text-transparent"
-              }`}>
-                {userProgress.todayTasks.shadow && <Check className="w-2.5 h-2.5" />}
-              </div>
-              <span className={userProgress.todayTasks.shadow ? "text-green-300 font-semibold" : "text-white/60"}>2. Shadow</span>
-            </button>
+              {/* Task 2: Shadow */}
+              <button
+                onClick={() => changeTab("shadow")}
+                className="group relative flex items-center gap-2 px-4 py-2 rounded-xl bg-black/40 hover:bg-black/60 border border-white/5 hover:border-white/10 transition-all cursor-pointer text-left"
+              >
+                <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center border ${
+                  getTaskCompleted("shadow") 
+                    ? "bg-green-500 border-green-500 text-black" 
+                    : "border-white/20 text-transparent"
+                }`}>
+                  {getTaskCompleted("shadow") && <Check className="w-2.5 h-2.5" />}
+                </div>
+                <span className={`text-xs ${getTaskCompleted("shadow") ? "text-green-300 font-semibold" : "text-white/70"}`}>2. Shadow</span>
+                
+                {/* Tooltip */}
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-52 p-2.5 rounded-xl bg-zinc-950/95 border border-white/10 text-[10px] leading-relaxed text-white/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 shadow-2xl z-30 text-center font-sans font-normal">
+                  Shadow any segment successfully and score <strong className="text-green-300 font-semibold">&gt; 80%</strong> pronunciation accuracy.
+                </div>
+              </button>
 
-            {/* Task 3: Speak */}
-            <button
-              onClick={() => changeTab("coach")}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/35 hover:bg-black/60 border border-white/5 hover:border-white/20 transition-all cursor-pointer text-left"
-            >
-              <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center border ${
-                userProgress.todayTasks.speak 
-                  ? "bg-green-500 border-green-500 text-black" 
-                  : "border-white/20 text-transparent"
-              }`}>
-                {userProgress.todayTasks.speak && <Check className="w-2.5 h-2.5" />}
-              </div>
-              <span className={userProgress.todayTasks.speak ? "text-green-300 font-semibold" : "text-white/60"}>3. Speak</span>
-            </button>
+              {/* Task 3: Speak */}
+              <button
+                onClick={() => changeTab("coach")}
+                className="group relative flex items-center gap-2 px-4 py-2 rounded-xl bg-black/40 hover:bg-black/60 border border-white/5 hover:border-white/10 transition-all cursor-pointer text-left"
+              >
+                <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center border ${
+                  getTaskCompleted("speak") 
+                    ? "bg-green-500 border-green-500 text-black" 
+                    : "border-white/20 text-transparent"
+                }`}>
+                  {getTaskCompleted("speak") && <Check className="w-2.5 h-2.5" />}
+                </div>
+                <span className={`text-xs ${getTaskCompleted("speak") ? "text-green-300 font-semibold" : "text-white/70"}`}>3. Speak</span>
+                
+                {/* Tooltip */}
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-52 p-2.5 rounded-xl bg-zinc-950/95 border border-white/10 text-[10px] leading-relaxed text-white/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 shadow-2xl z-30 text-center font-sans">
+                  Have a short conversation with the AI coach regarding the video context.
+                </div>
+              </button>
 
-            {/* Task 4: Quiz */}
-            <button
-              onClick={() => {
-                setActiveTab("vocab");
-                setVocabSubTab("quiz");
-              }}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/35 hover:bg-black/60 border border-white/5 hover:border-white/20 transition-all cursor-pointer text-left"
-            >
-              <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center border ${
-                userProgress.todayTasks.quiz 
-                  ? "bg-green-500 border-green-500 text-black" 
-                  : "border-white/20 text-transparent"
-              }`}>
-                {userProgress.todayTasks.quiz && <Check className="w-2.5 h-2.5" />}
-              </div>
-              <span className={userProgress.todayTasks.quiz ? "text-green-300 font-semibold" : "text-white/60"}>4. Quiz</span>
-            </button>
+              {/* Task 4: Quiz */}
+              <button
+                onClick={() => {
+                  changeTab("vocab");
+                  setVocabSubTab("quiz");
+                }}
+                className="group relative flex items-center gap-2 px-4 py-2 rounded-xl bg-black/40 hover:bg-black/60 border border-white/5 hover:border-white/10 transition-all cursor-pointer text-left"
+              >
+                <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center border ${
+                  getTaskCompleted("quiz") 
+                    ? "bg-green-500 border-green-500 text-black" 
+                    : "border-white/20 text-transparent"
+                }`}>
+                  {getTaskCompleted("quiz") && <Check className="w-2.5 h-2.5" />}
+                </div>
+                <span className={`text-xs ${getTaskCompleted("quiz") ? "text-green-300 font-semibold" : "text-white/70"}`}>4. Quiz</span>
+                
+                {/* Tooltip */}
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-52 p-2.5 rounded-xl bg-zinc-950/95 border border-white/10 text-[10px] leading-relaxed text-white/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 shadow-2xl z-30 text-center font-sans font-normal">
+                  Pass the daily vocabulary quiz with <strong className="text-white">100%</strong> correct answers.
+                </div>
+              </button>
 
-            {/* Reset progress */}
-            <button
-              onClick={async () => {
-                if (confirm("Are you sure you want to reset your progression back to Day 1?")) {
-                  const res = await fetch("/api/progress/reset", { method: "POST" });
-                  if (res.ok) {
-                    const data = await res.json();
-                    setUserProgress(data);
+              {/* Reset progress */}
+              <button
+                onClick={async () => {
+                  if (confirm("Are you sure you want to reset your progression back to Day 1?")) {
+                    const res = await fetch("/api/progress/reset", { method: "POST" });
+                    if (res.ok) {
+                      const data = await res.json();
+                      setUserProgress(data);
+                      setSelectedProgressDay(1);
+                    }
                   }
-                }
-              }}
-              className="px-2.5 py-1.5 rounded-xl hover:bg-white/5 text-[9px] font-mono text-white/30 hover:text-white/60 border border-transparent hover:border-white/5 transition-all cursor-pointer"
-              title="Reset Progression"
-            >
-              Reset
-            </button>
+                }}
+                className="px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-white/40 hover:text-white transition-all cursor-pointer font-sans font-semibold"
+                title="Reset Progression"
+              >
+                Reset
+              </button>
+            </div>
           </div>
+
+          {/* Historical Day Switcher List */}
+          {userProgress.currentDay > 1 && (
+            <div className="border-t border-white/5 pt-4 flex flex-col gap-2">
+              <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest block mb-1">Jump to Unlocked Day:</span>
+              <div className="flex items-center gap-2 overflow-x-auto pb-1 max-w-full no-scrollbar">
+                {Array.from({ length: userProgress.currentDay }).map((_, idx) => {
+                  const dNum = idx + 1;
+                  const isSelected = selectedProgressDay === dNum;
+                  return (
+                    <button
+                      key={dNum}
+                      onClick={() => {
+                        setSelectedProgressDay(dNum);
+                      }}
+                      className={`px-4 py-2 rounded-xl text-xs font-mono font-semibold transition-all cursor-pointer border ${
+                        isSelected
+                          ? "bg-white text-black border-white"
+                          : "bg-white/5 hover:bg-white/10 border-white/5 text-white/70 hover:text-white"
+                      }`}
+                    >
+                      Day {dNum}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Custom tabs selector using design system */}
@@ -1768,30 +1841,33 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
                   Practice daily by completing shadowing or conversation coach sessions to maintain your streak and blossom your generative plant!
                 </p>
 
-                {/* Minimal calendar grid */}
-                <div className="grid grid-cols-7 gap-2 bg-black/45 p-4 rounded-2xl border border-white/5">
-                  {Array.from({ length: 28 }).map((_, idx) => {
-                    const date = new Date();
-                    date.setHours(12, 0, 0, 0); // avoid DST shift
-                    date.setDate(date.getDate() - (27 - idx));
-                    const dateStr = getLocalDateString(date);
-                    const isPracticed = streakDays.includes(dateStr);
-                    const dayLabel = date.getDate();
-                    
-                    return (
-                      <div 
-                        key={idx}
-                        className={`aspect-square rounded-lg flex items-center justify-center text-[10px] font-mono transition-all border ${
-                          isPracticed 
-                            ? "bg-white text-black font-bold border-white" 
-                            : "bg-transparent border-white/5 text-white/20"
-                        }`}
-                        title={dateStr}
-                      >
-                        {dayLabel}
-                      </div>
-                    );
-                  })}
+                {/* 36-Day Course Progress Grid */}
+                <div className="flex flex-col gap-2.5">
+                  <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest block font-semibold">36-Day Journey Map</span>
+                  <div className="grid grid-cols-6 gap-2 bg-black/45 p-4 rounded-2xl border border-white/5">
+                    {Array.from({ length: 36 }).map((_, idx) => {
+                      const dayNumber = idx + 1;
+                      const isCompleted = dayNumber < userProgress.currentDay;
+                      const isActive = dayNumber === userProgress.currentDay;
+                      
+                      return (
+                        <div 
+                          key={idx}
+                          className={`aspect-square rounded-lg flex flex-col items-center justify-center text-[10px] transition-all border ${
+                            isCompleted 
+                              ? "bg-white text-black font-bold border-white" 
+                              : isActive
+                                ? "bg-white/10 border-white/30 text-white font-semibold animate-pulse"
+                                : "bg-transparent border-white/5 text-white/20"
+                          }`}
+                          title={`Day ${dayNumber}: ${isCompleted ? "Completed" : isActive ? "Active" : "Locked"}`}
+                        >
+                          <span className="text-[8px] opacity-40 uppercase font-mono block text-center font-semibold">D</span>
+                          <span className="text-xs font-bold font-mono leading-none mt-0.5">{dayNumber}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 {/* Daily task checklist */}
@@ -1910,44 +1986,72 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
                       <p className="text-xs text-white/40">Your saved words list is empty. Save words during shadowing!</p>
                     </div>
                   ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-h-[480px] overflow-y-auto pr-1">
-                      {savedVocab.map((item, idx) => (
-                        <div 
-                          key={idx} 
-                          onClick={() => toggleFlippedWord(item.word)}
-                          className="aspect-[1.5/1] w-full perspective-1000 cursor-pointer group"
-                        >
-                          <div className={`relative w-full h-full duration-300 preserve-3d transition-transform ${flippedWords.includes(item.word) ? "rotate-y-180" : ""}`}>
-                            
-                            {/* Front Face */}
-                            <div className="absolute inset-0 w-full h-full backface-hidden rounded-xl border border-white/5 bg-black/45 flex flex-col items-center justify-center p-3 text-center shadow">
-                              <span className="text-xs font-bold text-white tracking-wide">{item.word}</span>
-                              <span className="text-[9px] font-mono text-white/40 mt-1">{item.ipa}</span>
-                              
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleDeleteWord(item.word);
-                                }}
-                                className="absolute top-2 right-2 w-5 h-5 rounded-full bg-white/5 hover:bg-white/15 flex items-center justify-center transition-all opacity-0 group-hover:opacity-100"
-                                title="Delete word"
-                              >
-                                <Trash2 className="w-3 h-3 text-white/40 hover:text-white" />
-                              </button>
-                            </div>
+                    (() => {
+                      const grouped: Record<number, typeof savedVocab> = {};
+                      savedVocab.forEach((item) => {
+                        const day = item.day || 1;
+                        if (!grouped[day]) grouped[day] = [];
+                        grouped[day].push(item);
+                      });
 
-                            {/* Back Face */}
-                            <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-xl border border-white/10 bg-black/60 flex flex-col justify-between p-3 text-left shadow">
-                              <div className="flex flex-col gap-1 overflow-y-auto h-full justify-center">
-                                <p className="text-[10px] text-white/80 leading-normal">{item.definition}</p>
-                                <p className="text-[9px] text-white/45 italic leading-normal mt-0.5">"{item.example}"</p>
+                      const daysSorted = Object.keys(grouped).map(Number).sort((a, b) => a - b);
+
+                      return (
+                        <div className="flex flex-col gap-8 max-h-[480px] overflow-y-auto pr-1">
+                          {daysSorted.map((dayNum) => (
+                            <div key={dayNum} className="flex flex-col gap-3">
+                              <div className="flex items-center gap-3 border-b border-white/5 pb-2">
+                                <span className="px-2 py-0.5 rounded bg-white/10 text-white font-mono text-[9px] font-bold">
+                                  DAY {dayNum}
+                                </span>
+                                <span className="text-[10px] text-white/50 font-sans">
+                                  ({grouped[dayNum].length} words saved)
+                                </span>
+                              </div>
+
+                              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                                {grouped[dayNum].map((item, idx) => (
+                                  <div 
+                                    key={idx} 
+                                    onClick={() => toggleFlippedWord(item.word)}
+                                    className="aspect-[1.5/1] w-full perspective-1000 cursor-pointer group"
+                                  >
+                                    <div className={`relative w-full h-full duration-300 preserve-3d transition-transform ${flippedWords.includes(item.word) ? "rotate-y-180" : ""}`}>
+                                      
+                                      {/* Front Face */}
+                                      <div className="absolute inset-0 w-full h-full backface-hidden rounded-xl border border-white/5 bg-black/45 flex flex-col items-center justify-center p-3 text-center shadow">
+                                        <span className="text-xs font-bold text-white tracking-wide">{item.word}</span>
+                                        <span className="text-[9px] font-mono text-white/40 mt-1">{item.ipa}</span>
+                                        
+                                        <button
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDeleteWord(item.word);
+                                          }}
+                                          className="absolute top-2 right-2 w-5 h-5 rounded-full bg-white/5 hover:bg-white/15 flex items-center justify-center transition-all opacity-0 group-hover:opacity-100"
+                                          title="Delete word"
+                                        >
+                                          <Trash2 className="w-3 h-3 text-white/40 hover:text-white" />
+                                        </button>
+                                      </div>
+
+                                      {/* Back Face */}
+                                      <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-xl border border-white/10 bg-black/60 flex flex-col justify-between p-3 text-left shadow">
+                                        <div className="flex flex-col gap-1 overflow-y-auto h-full justify-center">
+                                          <p className="text-[10px] text-white/80 leading-normal">{item.definition}</p>
+                                          <p className="text-[9px] text-white/45 italic leading-normal mt-0.5">"{item.example}"</p>
+                                        </div>
+                                      </div>
+
+                                    </div>
+                                  </div>
+                                ))}
                               </div>
                             </div>
-
-                          </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
+                      );
+                    })()
                   )
                 ) : vocabSubTab === "foundational" ? (
                   commonVocab.length === 0 ? (
