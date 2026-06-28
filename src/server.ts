@@ -142,7 +142,7 @@ async function getYoutubeTranscript(videoId: string) {
 // 1. Ollama Chat Gateway Proxy Route
 app.post("/api/chat", async (req: Request, res: Response) => {
   try {
-    const { model, messages, options } = req.body;
+    const { model, messages, options, stream } = req.body;
 
     const response = await fetch(`${OLLAMA_URL}/api/chat`, {
       method: "POST",
@@ -150,7 +150,7 @@ app.post("/api/chat", async (req: Request, res: Response) => {
       body: JSON.stringify({
         model: model || "llama3",
         messages: messages || [],
-        stream: false,
+        stream: stream === true,
         options: options || {}
       })
     });
@@ -158,6 +158,31 @@ app.post("/api/chat", async (req: Request, res: Response) => {
     if (!response.ok) {
       const errorText = await response.text();
       res.status(response.status).json({ error: `Ollama error: ${errorText}` });
+      return;
+    }
+
+    if (stream) {
+      res.setHeader("Content-Type", "text/event-stream");
+      res.setHeader("Cache-Control", "no-cache");
+      res.setHeader("Connection", "keep-alive");
+
+      const bodyStream = response.body;
+      if (!bodyStream) {
+        res.status(500).json({ error: "Ollama returned an empty response body stream" });
+        return;
+      }
+
+      // @ts-ignore
+      const reader = bodyStream.getReader();
+      let done = false;
+      while (!done) {
+        const { value, done: doneReading } = await reader.read();
+        done = doneReading;
+        if (value) {
+          res.write(value);
+        }
+      }
+      res.end();
       return;
     }
 

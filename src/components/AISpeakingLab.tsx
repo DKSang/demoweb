@@ -856,6 +856,15 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
     setChatHistory(updatedHistory);
     setIsLlamaLoading(true);
 
+    const botId = `bot-${Date.now()}`;
+    const placeholderMsg: ChatMessage = {
+      id: botId,
+      role: "assistant",
+      content: ""
+    };
+    setChatHistory(prev => [...prev, placeholderMsg]);
+    setIsLlamaLoading(false); // set to false because stream displays immediately
+
     try {
       // Map history to Ollama parameters
       const systemPrompt = getSystemPrompt(currentWeek);
@@ -870,7 +879,7 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
         body: JSON.stringify({
           model: ollamaModel,
           messages: ollamaMessages,
-          stream: false,
+          stream: true,
           options: {
             temperature: 0.7,
             num_predict: 60, // limit to 60 tokens to speed up local Ollama response
@@ -883,20 +892,48 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
         throw new Error("Local Ollama connection failed.");
       }
 
-      const data = await response.json();
-      const botResponse = data.message?.content || "";
+      const reader = response.body?.getReader();
+      if (!reader) throw new Error("Stream reader not available");
 
-      // Parse grammar correction if in Week 3/4
-      let cleanText = botResponse;
+      const decoder = new TextDecoder();
+      let done = false;
+      let accumulatedContent = "";
+
+      while (!done) {
+        const { value, done: doneReading } = await reader.read();
+        done = doneReading;
+        if (value) {
+          const chunkStr = decoder.decode(value, { stream: true });
+          const lines = chunkStr.split("\n").filter(l => l.trim() !== "");
+          for (const line of lines) {
+            try {
+              const parsed = JSON.parse(line);
+              if (parsed.message?.content) {
+                accumulatedContent += parsed.message.content;
+                setChatHistory(prev =>
+                  prev.map(msg =>
+                    msg.id === botId
+                      ? { ...msg, content: accumulatedContent }
+                      : msg
+                  )
+                );
+              }
+            } catch (e) {
+              // Ignore partial/non-JSON lines
+            }
+          }
+        }
+      }
+
+      // Stream is complete! Parse grammar correction and speak.
+      let cleanText = accumulatedContent;
       let correctionData = undefined;
 
-      // Extract simple correction tags [Correction] ...
-      if (currentWeek >= 3 && botResponse.toLowerCase().includes("[correction]")) {
-        const parts = botResponse.split(/\[correction\]/i);
+      if (currentWeek >= 3 && accumulatedContent.toLowerCase().includes("[correction]")) {
+        const parts = accumulatedContent.split(/\[correction\]/i);
         cleanText = parts[0].trim();
         const correctionBlock = parts[1]?.trim() || "";
 
-        // Attempt basic parse of the correction text
         correctionData = {
           original: textToSend,
           corrected: correctionBlock.split("\n")[0] || "",
@@ -904,26 +941,29 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
         };
       }
 
-      const assistantMsg: ChatMessage = {
-        id: `bot-${Date.now()}`,
-        role: "assistant",
-        content: cleanText,
-        correction: correctionData
-      };
+      setChatHistory(prev =>
+        prev.map(msg =>
+          msg.id === botId
+            ? { ...msg, content: cleanText, correction: correctionData }
+            : msg
+        )
+      );
 
-      setChatHistory(prev => [...prev, assistantMsg]);
       speakAIResponse(cleanText);
       markDayPracticed();
     } catch (err) {
       console.error(err);
-      setChatHistory(prev => [
-        ...prev,
-        {
-          id: `error-${Date.now()}`,
-          role: "assistant",
-          content: "Oops! I could not connect to your local Ollama. Please make sure Ollama is running (`ollama run llama3`) on port 11434, and that the Vite proxy is active."
-        }
-      ]);
+      setChatHistory(prev =>
+        prev.map(msg =>
+          msg.id === botId
+            ? {
+                id: `error-${Date.now()}`,
+                role: "assistant",
+                content: "Oops! I could not connect to your local Ollama. Please make sure Ollama is running (`ollama run llama3`) on port 11434, and that the Vite proxy is active."
+              }
+            : msg
+        )
+      );
     } finally {
       setIsLlamaLoading(false);
     }
