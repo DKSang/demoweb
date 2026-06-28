@@ -629,9 +629,13 @@ export default function AISpeakingLab() {
   const speakAIResponse = (text: string) => {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en-US"; // Force English fallback language to prevent Vietnamese system accents
     if (selectedVoice) {
       const voice = voicesList.find(v => v.name === selectedVoice);
-      if (voice) utterance.voice = voice;
+      if (voice) {
+        utterance.voice = voice;
+        utterance.lang = voice.lang; // Match selected voice language code (e.g. en-GB, en-US)
+      }
     }
     utterance.rate = ttsSpeed;
     window.speechSynthesis.speak(utterance);
@@ -1100,20 +1104,18 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
     switch (week) {
       case 1:
         return `${baseRules}
-        WEEK 1 FOCUS: Simple Q&A. Ask the user one simple daily life question. 
-        Wait for their answer. Do not correct grammar errors yet, focus on confidence. Keep questions short.`;
+        WEEK 1 FOCUS: Simple Q&A. Ask the user one simple question about the details, scenes, or dialogues in the video lesson context. Wait for their answer. Do not correct grammar errors yet, focus on confidence. Keep questions short.`;
       case 2:
         return `${baseRules}
-        WEEK 2 FOCUS: Flow and Follow-ups. Continue the conversation naturally based on the user's last answer. 
-        Ask one relevant follow-up question to encourage them to speak more. Do not switch topics quickly.`;
+        WEEK 2 FOCUS: Flow and Follow-ups. Continue the conversation naturally based on the user's last answer, keeping it tied to the video lesson. Ask one relevant follow-up question. Do not switch topics quickly.`;
       case 3:
         return `${baseRules}
         WEEK 3 FOCUS: Simple Accuracy. You must check the user's grammar in their last reply.
         If there is an error: output a short block starting with [Correction] showing the natural rewrite and a simple 1-line explanation.
-        Then, output the next simple conversation question. Keep it concise.`;
+        Then, output the next simple conversation question related to the lesson context. Keep it concise.`;
       case 4:
         return `${baseRules}
-        WEEK 4 FOCUS: 1-Minute Topic Challenge. Give the user a simple topic (e.g. 'Describe your favorite weekend activity').
+        WEEK 4 FOCUS: Topic Challenge. Give the user a simple topic challenge related to the lesson (e.g., 'Explain your thoughts on the lesson video or share your own experience related to it').
         Encourage them to talk extensively. Provide correction and natural rewrites after their answer.`;
       default:
         return baseRules;
