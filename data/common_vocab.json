@@ -1,0 +1,3128 @@
+[
+  {
+    "word": "about",
+    "ipa": "/əˈbaʊt/",
+    "definition": "về, khoảng",
+    "example": "What are you talking about?"
+  },
+  {
+    "word": "above",
+    "ipa": "/əˈbʌv/",
+    "definition": "phía trên, hơn",
+    "example": "The planes flew high above the clouds."
+  },
+  {
+    "word": "abroad",
+    "ipa": "/əˈbrɔːd/",
+    "definition": "ở nước ngoài",
+    "example": "She decided to study abroad."
+  },
+  {
+    "word": "absolute",
+    "ipa": "/ˈæbsəluːt/",
+    "definition": "tuyệt đối, hoàn toàn",
+    "example": "I have absolute confidence in her ability."
+  },
+  {
+    "word": "absolutely",
+    "ipa": "/ˈæbsəluːtli/",
+    "definition": "chắc chắn rồi, hoàn toàn",
+    "example": "You are absolutely right."
+  },
+  {
+    "word": "accent",
+    "ipa": "/ˈæksənt/",
+    "definition": "giọng điệu, giọng phát âm",
+    "example": "He speaks with a strong British accent."
+  },
+  {
+    "word": "accept",
+    "ipa": "/əkˈsept/",
+    "definition": "chấp nhận, đồng ý nhận",
+    "example": "She offered me a job and I accepted it."
+  },
+  {
+    "word": "acceptable",
+    "ipa": "/əkˈseptəbl/",
+    "definition": "chấp nhận được, thỏa đáng",
+    "example": "The solution was acceptable to everyone."
+  },
+  {
+    "word": "access",
+    "ipa": "/ˈækses/",
+    "definition": "truy cập, lối vào, tiếp cận",
+    "example": "Students need access to the library resources."
+  },
+  {
+    "word": "accident",
+    "ipa": "/ˈæksɪdənt/",
+    "definition": "tai nạn, sự cố bất ngờ",
+    "example": "It was a complete accident; I didn't mean to do it."
+  },
+  {
+    "word": "accompany",
+    "ipa": "/accompany/",
+    "definition": "từ thông dụng: accompany",
+    "example": "Let's use the word \"accompany\" in a daily conversation."
+  },
+  {
+    "word": "accomplish",
+    "ipa": "/accomplish/",
+    "definition": "từ thông dụng: accomplish",
+    "example": "Let's use the word \"accomplish\" in a daily conversation."
+  },
+  {
+    "word": "according",
+    "ipa": "/according/",
+    "definition": "từ thông dụng: according",
+    "example": "Let's use the word \"according\" in a daily conversation."
+  },
+  {
+    "word": "account",
+    "ipa": "/account/",
+    "definition": "từ thông dụng: account",
+    "example": "Let's use the word \"account\" in a daily conversation."
+  },
+  {
+    "word": "accurate",
+    "ipa": "/accurate/",
+    "definition": "từ thông dụng: accurate",
+    "example": "Let's use the word \"accurate\" in a daily conversation."
+  },
+  {
+    "word": "accuse",
+    "ipa": "/accuse/",
+    "definition": "từ thông dụng: accuse",
+    "example": "Let's use the word \"accuse\" in a daily conversation."
+  },
+  {
+    "word": "achieve",
+    "ipa": "/achieve/",
+    "definition": "từ thông dụng: achieve",
+    "example": "Let's use the word \"achieve\" in a daily conversation."
+  },
+  {
+    "word": "achievement",
+    "ipa": "/achievement/",
+    "definition": "từ thông dụng: achievement",
+    "example": "Let's use the word \"achievement\" in a daily conversation."
+  },
+  {
+    "word": "acid",
+    "ipa": "/acid/",
+    "definition": "từ thông dụng: acid",
+    "example": "Let's use the word \"acid\" in a daily conversation."
+  },
+  {
+    "word": "acknowledge",
+    "ipa": "/acknowledge/",
+    "definition": "từ thông dụng: acknowledge",
+    "example": "Let's use the word \"acknowledge\" in a daily conversation."
+  },
+  {
+    "word": "acquire",
+    "ipa": "/acquire/",
+    "definition": "từ thông dụng: acquire",
+    "example": "Let's use the word \"acquire\" in a daily conversation."
+  },
+  {
+    "word": "across",
+    "ipa": "/across/",
+    "definition": "từ thông dụng: across",
+    "example": "Let's use the word \"across\" in a daily conversation."
+  },
+  {
+    "word": "act",
+    "ipa": "/act/",
+    "definition": "từ thông dụng: act",
+    "example": "Let's use the word \"act\" in a daily conversation."
+  },
+  {
+    "word": "action",
+    "ipa": "/action/",
+    "definition": "từ thông dụng: action",
+    "example": "Let's use the word \"action\" in a daily conversation."
+  },
+  {
+    "word": "active",
+    "ipa": "/active/",
+    "definition": "từ thông dụng: active",
+    "example": "Let's use the word \"active\" in a daily conversation."
+  },
+  {
+    "word": "activist",
+    "ipa": "/activist/",
+    "definition": "từ thông dụng: activist",
+    "example": "Let's use the word \"activist\" in a daily conversation."
+  },
+  {
+    "word": "activity",
+    "ipa": "/activity/",
+    "definition": "từ thông dụng: activity",
+    "example": "Let's use the word \"activity\" in a daily conversation."
+  },
+  {
+    "word": "actor",
+    "ipa": "/actor/",
+    "definition": "từ thông dụng: actor",
+    "example": "Let's use the word \"actor\" in a daily conversation."
+  },
+  {
+    "word": "actual",
+    "ipa": "/actual/",
+    "definition": "từ thông dụng: actual",
+    "example": "Let's use the word \"actual\" in a daily conversation."
+  },
+  {
+    "word": "actually",
+    "ipa": "/actually/",
+    "definition": "từ thông dụng: actually",
+    "example": "Let's use the word \"actually\" in a daily conversation."
+  },
+  {
+    "word": "adapt",
+    "ipa": "/adapt/",
+    "definition": "từ thông dụng: adapt",
+    "example": "Let's use the word \"adapt\" in a daily conversation."
+  },
+  {
+    "word": "add",
+    "ipa": "/add/",
+    "definition": "từ thông dụng: add",
+    "example": "Let's use the word \"add\" in a daily conversation."
+  },
+  {
+    "word": "addition",
+    "ipa": "/addition/",
+    "definition": "từ thông dụng: addition",
+    "example": "Let's use the word \"addition\" in a daily conversation."
+  },
+  {
+    "word": "additional",
+    "ipa": "/additional/",
+    "definition": "từ thông dụng: additional",
+    "example": "Let's use the word \"additional\" in a daily conversation."
+  },
+  {
+    "word": "address",
+    "ipa": "/address/",
+    "definition": "từ thông dụng: address",
+    "example": "Let's use the word \"address\" in a daily conversation."
+  },
+  {
+    "word": "adequate",
+    "ipa": "/adequate/",
+    "definition": "từ thông dụng: adequate",
+    "example": "Let's use the word \"adequate\" in a daily conversation."
+  },
+  {
+    "word": "adjust",
+    "ipa": "/adjust/",
+    "definition": "từ thông dụng: adjust",
+    "example": "Let's use the word \"adjust\" in a daily conversation."
+  },
+  {
+    "word": "admire",
+    "ipa": "/admire/",
+    "definition": "từ thông dụng: admire",
+    "example": "Let's use the word \"admire\" in a daily conversation."
+  },
+  {
+    "word": "admit",
+    "ipa": "/admit/",
+    "definition": "từ thông dụng: admit",
+    "example": "Let's use the word \"admit\" in a daily conversation."
+  },
+  {
+    "word": "adopt",
+    "ipa": "/adopt/",
+    "definition": "từ thông dụng: adopt",
+    "example": "Let's use the word \"adopt\" in a daily conversation."
+  },
+  {
+    "word": "adult",
+    "ipa": "/adult/",
+    "definition": "từ thông dụng: adult",
+    "example": "Let's use the word \"adult\" in a daily conversation."
+  },
+  {
+    "word": "advance",
+    "ipa": "/advance/",
+    "definition": "từ thông dụng: advance",
+    "example": "Let's use the word \"advance\" in a daily conversation."
+  },
+  {
+    "word": "advanced",
+    "ipa": "/advanced/",
+    "definition": "từ thông dụng: advanced",
+    "example": "Let's use the word \"advanced\" in a daily conversation."
+  },
+  {
+    "word": "advantage",
+    "ipa": "/advantage/",
+    "definition": "từ thông dụng: advantage",
+    "example": "Let's use the word \"advantage\" in a daily conversation."
+  },
+  {
+    "word": "adventure",
+    "ipa": "/adventure/",
+    "definition": "từ thông dụng: adventure",
+    "example": "Let's use the word \"adventure\" in a daily conversation."
+  },
+  {
+    "word": "advertise",
+    "ipa": "/advertise/",
+    "definition": "từ thông dụng: advertise",
+    "example": "Let's use the word \"advertise\" in a daily conversation."
+  },
+  {
+    "word": "advice",
+    "ipa": "/advice/",
+    "definition": "từ thông dụng: advice",
+    "example": "Let's use the word \"advice\" in a daily conversation."
+  },
+  {
+    "word": "advise",
+    "ipa": "/advise/",
+    "definition": "từ thông dụng: advise",
+    "example": "Let's use the word \"advise\" in a daily conversation."
+  },
+  {
+    "word": "advocate",
+    "ipa": "/advocate/",
+    "definition": "từ thông dụng: advocate",
+    "example": "Let's use the word \"advocate\" in a daily conversation."
+  },
+  {
+    "word": "affair",
+    "ipa": "/affair/",
+    "definition": "từ thông dụng: affair",
+    "example": "Let's use the word \"affair\" in a daily conversation."
+  },
+  {
+    "word": "affect",
+    "ipa": "/affect/",
+    "definition": "từ thông dụng: affect",
+    "example": "Let's use the word \"affect\" in a daily conversation."
+  },
+  {
+    "word": "afford",
+    "ipa": "/afford/",
+    "definition": "từ thông dụng: afford",
+    "example": "Let's use the word \"afford\" in a daily conversation."
+  },
+  {
+    "word": "afraid",
+    "ipa": "/afraid/",
+    "definition": "từ thông dụng: afraid",
+    "example": "Let's use the word \"afraid\" in a daily conversation."
+  },
+  {
+    "word": "after",
+    "ipa": "/after/",
+    "definition": "từ thông dụng: after",
+    "example": "Let's use the word \"after\" in a daily conversation."
+  },
+  {
+    "word": "afternoon",
+    "ipa": "/afternoon/",
+    "definition": "từ thông dụng: afternoon",
+    "example": "Let's use the word \"afternoon\" in a daily conversation."
+  },
+  {
+    "word": "afterward",
+    "ipa": "/afterward/",
+    "definition": "từ thông dụng: afterward",
+    "example": "Let's use the word \"afterward\" in a daily conversation."
+  },
+  {
+    "word": "again",
+    "ipa": "/again/",
+    "definition": "từ thông dụng: again",
+    "example": "Let's use the word \"again\" in a daily conversation."
+  },
+  {
+    "word": "against",
+    "ipa": "/against/",
+    "definition": "từ thông dụng: against",
+    "example": "Let's use the word \"against\" in a daily conversation."
+  },
+  {
+    "word": "age",
+    "ipa": "/age/",
+    "definition": "từ thông dụng: age",
+    "example": "Let's use the word \"age\" in a daily conversation."
+  },
+  {
+    "word": "agency",
+    "ipa": "/agency/",
+    "definition": "từ thông dụng: agency",
+    "example": "Let's use the word \"agency\" in a daily conversation."
+  },
+  {
+    "word": "agenda",
+    "ipa": "/agenda/",
+    "definition": "từ thông dụng: agenda",
+    "example": "Let's use the word \"agenda\" in a daily conversation."
+  },
+  {
+    "word": "agent",
+    "ipa": "/agent/",
+    "definition": "từ thông dụng: agent",
+    "example": "Let's use the word \"agent\" in a daily conversation."
+  },
+  {
+    "word": "aggressive",
+    "ipa": "/aggressive/",
+    "definition": "từ thông dụng: aggressive",
+    "example": "Let's use the word \"aggressive\" in a daily conversation."
+  },
+  {
+    "word": "ago",
+    "ipa": "/ago/",
+    "definition": "từ thông dụng: ago",
+    "example": "Let's use the word \"ago\" in a daily conversation."
+  },
+  {
+    "word": "agree",
+    "ipa": "/agree/",
+    "definition": "từ thông dụng: agree",
+    "example": "Let's use the word \"agree\" in a daily conversation."
+  },
+  {
+    "word": "agreement",
+    "ipa": "/agreement/",
+    "definition": "từ thông dụng: agreement",
+    "example": "Let's use the word \"agreement\" in a daily conversation."
+  },
+  {
+    "word": "ahead",
+    "ipa": "/ahead/",
+    "definition": "từ thông dụng: ahead",
+    "example": "Let's use the word \"ahead\" in a daily conversation."
+  },
+  {
+    "word": "aid",
+    "ipa": "/aid/",
+    "definition": "từ thông dụng: aid",
+    "example": "Let's use the word \"aid\" in a daily conversation."
+  },
+  {
+    "word": "aim",
+    "ipa": "/aim/",
+    "definition": "từ thông dụng: aim",
+    "example": "Let's use the word \"aim\" in a daily conversation."
+  },
+  {
+    "word": "air",
+    "ipa": "/air/",
+    "definition": "từ thông dụng: air",
+    "example": "Let's use the word \"air\" in a daily conversation."
+  },
+  {
+    "word": "airline",
+    "ipa": "/airline/",
+    "definition": "từ thông dụng: airline",
+    "example": "Let's use the word \"airline\" in a daily conversation."
+  },
+  {
+    "word": "airport",
+    "ipa": "/airport/",
+    "definition": "từ thông dụng: airport",
+    "example": "Let's use the word \"airport\" in a daily conversation."
+  },
+  {
+    "word": "alarm",
+    "ipa": "/alarm/",
+    "definition": "từ thông dụng: alarm",
+    "example": "Let's use the word \"alarm\" in a daily conversation."
+  },
+  {
+    "word": "album",
+    "ipa": "/album/",
+    "definition": "từ thông dụng: album",
+    "example": "Let's use the word \"album\" in a daily conversation."
+  },
+  {
+    "word": "alcohol",
+    "ipa": "/alcohol/",
+    "definition": "từ thông dụng: alcohol",
+    "example": "Let's use the word \"alcohol\" in a daily conversation."
+  },
+  {
+    "word": "alive",
+    "ipa": "/alive/",
+    "definition": "từ thông dụng: alive",
+    "example": "Let's use the word \"alive\" in a daily conversation."
+  },
+  {
+    "word": "all",
+    "ipa": "/all/",
+    "definition": "từ thông dụng: all",
+    "example": "Let's use the word \"all\" in a daily conversation."
+  },
+  {
+    "word": "allow",
+    "ipa": "/allow/",
+    "definition": "từ thông dụng: allow",
+    "example": "Let's use the word \"allow\" in a daily conversation."
+  },
+  {
+    "word": "almost",
+    "ipa": "/almost/",
+    "definition": "từ thông dụng: almost",
+    "example": "Let's use the word \"almost\" in a daily conversation."
+  },
+  {
+    "word": "alone",
+    "ipa": "/alone/",
+    "definition": "từ thông dụng: alone",
+    "example": "Let's use the word \"alone\" in a daily conversation."
+  },
+  {
+    "word": "along",
+    "ipa": "/along/",
+    "definition": "từ thông dụng: along",
+    "example": "Let's use the word \"along\" in a daily conversation."
+  },
+  {
+    "word": "already",
+    "ipa": "/already/",
+    "definition": "từ thông dụng: already",
+    "example": "Let's use the word \"already\" in a daily conversation."
+  },
+  {
+    "word": "also",
+    "ipa": "/also/",
+    "definition": "từ thông dụng: also",
+    "example": "Let's use the word \"also\" in a daily conversation."
+  },
+  {
+    "word": "alter",
+    "ipa": "/alter/",
+    "definition": "từ thông dụng: alter",
+    "example": "Let's use the word \"alter\" in a daily conversation."
+  },
+  {
+    "word": "alternative",
+    "ipa": "/alternative/",
+    "definition": "từ thông dụng: alternative",
+    "example": "Let's use the word \"alternative\" in a daily conversation."
+  },
+  {
+    "word": "although",
+    "ipa": "/although/",
+    "definition": "từ thông dụng: although",
+    "example": "Let's use the word \"although\" in a daily conversation."
+  },
+  {
+    "word": "altogether",
+    "ipa": "/altogether/",
+    "definition": "từ thông dụng: altogether",
+    "example": "Let's use the word \"altogether\" in a daily conversation."
+  },
+  {
+    "word": "always",
+    "ipa": "/always/",
+    "definition": "từ thông dụng: always",
+    "example": "Let's use the word \"always\" in a daily conversation."
+  },
+  {
+    "word": "amaze",
+    "ipa": "/amaze/",
+    "definition": "từ thông dụng: amaze",
+    "example": "Let's use the word \"amaze\" in a daily conversation."
+  },
+  {
+    "word": "amazing",
+    "ipa": "/amazing/",
+    "definition": "từ thông dụng: amazing",
+    "example": "Let's use the word \"amazing\" in a daily conversation."
+  },
+  {
+    "word": "ambition",
+    "ipa": "/ambition/",
+    "definition": "từ thông dụng: ambition",
+    "example": "Let's use the word \"ambition\" in a daily conversation."
+  },
+  {
+    "word": "ambitious",
+    "ipa": "/ambitious/",
+    "definition": "từ thông dụng: ambitious",
+    "example": "Let's use the word \"ambitious\" in a daily conversation."
+  },
+  {
+    "word": "among",
+    "ipa": "/among/",
+    "definition": "từ thông dụng: among",
+    "example": "Let's use the word \"among\" in a daily conversation."
+  },
+  {
+    "word": "amount",
+    "ipa": "/amount/",
+    "definition": "từ thông dụng: amount",
+    "example": "Let's use the word \"amount\" in a daily conversation."
+  },
+  {
+    "word": "amuse",
+    "ipa": "/amuse/",
+    "definition": "từ thông dụng: amuse",
+    "example": "Let's use the word \"amuse\" in a daily conversation."
+  },
+  {
+    "word": "amused",
+    "ipa": "/amused/",
+    "definition": "từ thông dụng: amused",
+    "example": "Let's use the word \"amused\" in a daily conversation."
+  },
+  {
+    "word": "amusing",
+    "ipa": "/amusing/",
+    "definition": "từ thông dụng: amusing",
+    "example": "Let's use the word \"amusing\" in a daily conversation."
+  },
+  {
+    "word": "analysis",
+    "ipa": "/analysis/",
+    "definition": "từ thông dụng: analysis",
+    "example": "Let's use the word \"analysis\" in a daily conversation."
+  },
+  {
+    "word": "analyst",
+    "ipa": "/analyst/",
+    "definition": "từ thông dụng: analyst",
+    "example": "Let's use the word \"analyst\" in a daily conversation."
+  },
+  {
+    "word": "analyze",
+    "ipa": "/analyze/",
+    "definition": "từ thông dụng: analyze",
+    "example": "Let's use the word \"analyze\" in a daily conversation."
+  },
+  {
+    "word": "ancient",
+    "ipa": "/ancient/",
+    "definition": "từ thông dụng: ancient",
+    "example": "Let's use the word \"ancient\" in a daily conversation."
+  },
+  {
+    "word": "anger",
+    "ipa": "/anger/",
+    "definition": "từ thông dụng: anger",
+    "example": "Let's use the word \"anger\" in a daily conversation."
+  },
+  {
+    "word": "angle",
+    "ipa": "/angle/",
+    "definition": "từ thông dụng: angle",
+    "example": "Let's use the word \"angle\" in a daily conversation."
+  },
+  {
+    "word": "angry",
+    "ipa": "/angry/",
+    "definition": "từ thông dụng: angry",
+    "example": "Let's use the word \"angry\" in a daily conversation."
+  },
+  {
+    "word": "animal",
+    "ipa": "/animal/",
+    "definition": "từ thông dụng: animal",
+    "example": "Let's use the word \"animal\" in a daily conversation."
+  },
+  {
+    "word": "anniversary",
+    "ipa": "/anniversary/",
+    "definition": "từ thông dụng: anniversary",
+    "example": "Let's use the word \"anniversary\" in a daily conversation."
+  },
+  {
+    "word": "announce",
+    "ipa": "/announce/",
+    "definition": "từ thông dụng: announce",
+    "example": "Let's use the word \"announce\" in a daily conversation."
+  },
+  {
+    "word": "annual",
+    "ipa": "/annual/",
+    "definition": "từ thông dụng: annual",
+    "example": "Let's use the word \"annual\" in a daily conversation."
+  },
+  {
+    "word": "annually",
+    "ipa": "/annually/",
+    "definition": "từ thông dụng: annually",
+    "example": "Let's use the word \"annually\" in a daily conversation."
+  },
+  {
+    "word": "another",
+    "ipa": "/another/",
+    "definition": "từ thông dụng: another",
+    "example": "Let's use the word \"another\" in a daily conversation."
+  },
+  {
+    "word": "answer",
+    "ipa": "/answer/",
+    "definition": "từ thông dụng: answer",
+    "example": "Let's use the word \"answer\" in a daily conversation."
+  },
+  {
+    "word": "anticipate",
+    "ipa": "/anticipate/",
+    "definition": "từ thông dụng: anticipate",
+    "example": "Let's use the word \"anticipate\" in a daily conversation."
+  },
+  {
+    "word": "anxiety",
+    "ipa": "/anxiety/",
+    "definition": "từ thông dụng: anxiety",
+    "example": "Let's use the word \"anxiety\" in a daily conversation."
+  },
+  {
+    "word": "anxious",
+    "ipa": "/anxious/",
+    "definition": "từ thông dụng: anxious",
+    "example": "Let's use the word \"anxious\" in a daily conversation."
+  },
+  {
+    "word": "anybody",
+    "ipa": "/anybody/",
+    "definition": "từ thông dụng: anybody",
+    "example": "Let's use the word \"anybody\" in a daily conversation."
+  },
+  {
+    "word": "anymore",
+    "ipa": "/anymore/",
+    "definition": "từ thông dụng: anymore",
+    "example": "Let's use the word \"anymore\" in a daily conversation."
+  },
+  {
+    "word": "anyone",
+    "ipa": "/anyone/",
+    "definition": "từ thông dụng: anyone",
+    "example": "Let's use the word \"anyone\" in a daily conversation."
+  },
+  {
+    "word": "anything",
+    "ipa": "/anything/",
+    "definition": "từ thông dụng: anything",
+    "example": "Let's use the word \"anything\" in a daily conversation."
+  },
+  {
+    "word": "anyway",
+    "ipa": "/anyway/",
+    "definition": "từ thông dụng: anyway",
+    "example": "Let's use the word \"anyway\" in a daily conversation."
+  },
+  {
+    "word": "anywhere",
+    "ipa": "/anywhere/",
+    "definition": "từ thông dụng: anywhere",
+    "example": "Let's use the word \"anywhere\" in a daily conversation."
+  },
+  {
+    "word": "apart",
+    "ipa": "/apart/",
+    "definition": "từ thông dụng: apart",
+    "example": "Let's use the word \"apart\" in a daily conversation."
+  },
+  {
+    "word": "apartment",
+    "ipa": "/apartment/",
+    "definition": "từ thông dụng: apartment",
+    "example": "Let's use the word \"apartment\" in a daily conversation."
+  },
+  {
+    "word": "apologize",
+    "ipa": "/apologize/",
+    "definition": "từ thông dụng: apologize",
+    "example": "Let's use the word \"apologize\" in a daily conversation."
+  },
+  {
+    "word": "apology",
+    "ipa": "/apology/",
+    "definition": "từ thông dụng: apology",
+    "example": "Let's use the word \"apology\" in a daily conversation."
+  },
+  {
+    "word": "apparent",
+    "ipa": "/apparent/",
+    "definition": "từ thông dụng: apparent",
+    "example": "Let's use the word \"apparent\" in a daily conversation."
+  },
+  {
+    "word": "apparently",
+    "ipa": "/apparently/",
+    "definition": "từ thông dụng: apparently",
+    "example": "Let's use the word \"apparently\" in a daily conversation."
+  },
+  {
+    "word": "appeal",
+    "ipa": "/appeal/",
+    "definition": "từ thông dụng: appeal",
+    "example": "Let's use the word \"appeal\" in a daily conversation."
+  },
+  {
+    "word": "appear",
+    "ipa": "/appear/",
+    "definition": "từ thông dụng: appear",
+    "example": "Let's use the word \"appear\" in a daily conversation."
+  },
+  {
+    "word": "appearance",
+    "ipa": "/appearance/",
+    "definition": "từ thông dụng: appearance",
+    "example": "Let's use the word \"appearance\" in a daily conversation."
+  },
+  {
+    "word": "apple",
+    "ipa": "/apple/",
+    "definition": "từ thông dụng: apple",
+    "example": "Let's use the word \"apple\" in a daily conversation."
+  },
+  {
+    "word": "application",
+    "ipa": "/application/",
+    "definition": "từ thông dụng: application",
+    "example": "Let's use the word \"application\" in a daily conversation."
+  },
+  {
+    "word": "apply",
+    "ipa": "/apply/",
+    "definition": "từ thông dụng: apply",
+    "example": "Let's use the word \"apply\" in a daily conversation."
+  },
+  {
+    "word": "appoint",
+    "ipa": "/appoint/",
+    "definition": "từ thông dụng: appoint",
+    "example": "Let's use the word \"appoint\" in a daily conversation."
+  },
+  {
+    "word": "appointment",
+    "ipa": "/appointment/",
+    "definition": "từ thông dụng: appointment",
+    "example": "Let's use the word \"appointment\" in a daily conversation."
+  },
+  {
+    "word": "appreciate",
+    "ipa": "/appreciate/",
+    "definition": "từ thông dụng: appreciate",
+    "example": "Let's use the word \"appreciate\" in a daily conversation."
+  },
+  {
+    "word": "approach",
+    "ipa": "/approach/",
+    "definition": "từ thông dụng: approach",
+    "example": "Let's use the word \"approach\" in a daily conversation."
+  },
+  {
+    "word": "appropriate",
+    "ipa": "/appropriate/",
+    "definition": "từ thông dụng: appropriate",
+    "example": "Let's use the word \"appropriate\" in a daily conversation."
+  },
+  {
+    "word": "approval",
+    "ipa": "/approval/",
+    "definition": "từ thông dụng: approval",
+    "example": "Let's use the word \"approval\" in a daily conversation."
+  },
+  {
+    "word": "approve",
+    "ipa": "/approve/",
+    "definition": "từ thông dụng: approve",
+    "example": "Let's use the word \"approve\" in a daily conversation."
+  },
+  {
+    "word": "approximate",
+    "ipa": "/approximate/",
+    "definition": "từ thông dụng: approximate",
+    "example": "Let's use the word \"approximate\" in a daily conversation."
+  },
+  {
+    "word": "approximately",
+    "ipa": "/approximately/",
+    "definition": "từ thông dụng: approximately",
+    "example": "Let's use the word \"approximately\" in a daily conversation."
+  },
+  {
+    "word": "architect",
+    "ipa": "/architect/",
+    "definition": "từ thông dụng: architect",
+    "example": "Let's use the word \"architect\" in a daily conversation."
+  },
+  {
+    "word": "architecture",
+    "ipa": "/architecture/",
+    "definition": "từ thông dụng: architecture",
+    "example": "Let's use the word \"architecture\" in a daily conversation."
+  },
+  {
+    "word": "area",
+    "ipa": "/area/",
+    "definition": "từ thông dụng: area",
+    "example": "Let's use the word \"area\" in a daily conversation."
+  },
+  {
+    "word": "argue",
+    "ipa": "/argue/",
+    "definition": "từ thông dụng: argue",
+    "example": "Let's use the word \"argue\" in a daily conversation."
+  },
+  {
+    "word": "argument",
+    "ipa": "/argument/",
+    "definition": "từ thông dụng: argument",
+    "example": "Let's use the word \"argument\" in a daily conversation."
+  },
+  {
+    "word": "arise",
+    "ipa": "/arise/",
+    "definition": "từ thông dụng: arise",
+    "example": "Let's use the word \"arise\" in a daily conversation."
+  },
+  {
+    "word": "arm",
+    "ipa": "/arm/",
+    "definition": "từ thông dụng: arm",
+    "example": "Let's use the word \"arm\" in a daily conversation."
+  },
+  {
+    "word": "army",
+    "ipa": "/army/",
+    "definition": "từ thông dụng: army",
+    "example": "Let's use the word \"army\" in a daily conversation."
+  },
+  {
+    "word": "around",
+    "ipa": "/around/",
+    "definition": "từ thông dụng: around",
+    "example": "Let's use the word \"around\" in a daily conversation."
+  },
+  {
+    "word": "arrange",
+    "ipa": "/arrange/",
+    "definition": "từ thông dụng: arrange",
+    "example": "Let's use the word \"arrange\" in a daily conversation."
+  },
+  {
+    "word": "arrangement",
+    "ipa": "/arrangement/",
+    "definition": "từ thông dụng: arrangement",
+    "example": "Let's use the word \"arrangement\" in a daily conversation."
+  },
+  {
+    "word": "arrest",
+    "ipa": "/arrest/",
+    "definition": "từ thông dụng: arrest",
+    "example": "Let's use the word \"arrest\" in a daily conversation."
+  },
+  {
+    "word": "arrival",
+    "ipa": "/arrival/",
+    "definition": "từ thông dụng: arrival",
+    "example": "Let's use the word \"arrival\" in a daily conversation."
+  },
+  {
+    "word": "arrive",
+    "ipa": "/arrive/",
+    "definition": "từ thông dụng: arrive",
+    "example": "Let's use the word \"arrive\" in a daily conversation."
+  },
+  {
+    "word": "art",
+    "ipa": "/art/",
+    "definition": "từ thông dụng: art",
+    "example": "Let's use the word \"art\" in a daily conversation."
+  },
+  {
+    "word": "article",
+    "ipa": "/article/",
+    "definition": "từ thông dụng: article",
+    "example": "Let's use the word \"article\" in a daily conversation."
+  },
+  {
+    "word": "artificial",
+    "ipa": "/artificial/",
+    "definition": "từ thông dụng: artificial",
+    "example": "Let's use the word \"artificial\" in a daily conversation."
+  },
+  {
+    "word": "artist",
+    "ipa": "/artist/",
+    "definition": "từ thông dụng: artist",
+    "example": "Let's use the word \"artist\" in a daily conversation."
+  },
+  {
+    "word": "artistic",
+    "ipa": "/artistic/",
+    "definition": "từ thông dụng: artistic",
+    "example": "Let's use the word \"artistic\" in a daily conversation."
+  },
+  {
+    "word": "aside",
+    "ipa": "/aside/",
+    "definition": "từ thông dụng: aside",
+    "example": "Let's use the word \"aside\" in a daily conversation."
+  },
+  {
+    "word": "ask",
+    "ipa": "/ask/",
+    "definition": "từ thông dụng: ask",
+    "example": "Let's use the word \"ask\" in a daily conversation."
+  },
+  {
+    "word": "asleep",
+    "ipa": "/asleep/",
+    "definition": "từ thông dụng: asleep",
+    "example": "Let's use the word \"asleep\" in a daily conversation."
+  },
+  {
+    "word": "aspect",
+    "ipa": "/aspect/",
+    "definition": "từ thông dụng: aspect",
+    "example": "Let's use the word \"aspect\" in a daily conversation."
+  },
+  {
+    "word": "assault",
+    "ipa": "/assault/",
+    "definition": "từ thông dụng: assault",
+    "example": "Let's use the word \"assault\" in a daily conversation."
+  },
+  {
+    "word": "assemble",
+    "ipa": "/assemble/",
+    "definition": "từ thông dụng: assemble",
+    "example": "Let's use the word \"assemble\" in a daily conversation."
+  },
+  {
+    "word": "assembly",
+    "ipa": "/assembly/",
+    "definition": "từ thông dụng: assembly",
+    "example": "Let's use the word \"assembly\" in a daily conversation."
+  },
+  {
+    "word": "assess",
+    "ipa": "/assess/",
+    "definition": "từ thông dụng: assess",
+    "example": "Let's use the word \"assess\" in a daily conversation."
+  },
+  {
+    "word": "assessment",
+    "ipa": "/assessment/",
+    "definition": "từ thông dụng: assessment",
+    "example": "Let's use the word \"assessment\" in a daily conversation."
+  },
+  {
+    "word": "asset",
+    "ipa": "/asset/",
+    "definition": "từ thông dụng: asset",
+    "example": "Let's use the word \"asset\" in a daily conversation."
+  },
+  {
+    "word": "assign",
+    "ipa": "/assign/",
+    "definition": "từ thông dụng: assign",
+    "example": "Let's use the word \"assign\" in a daily conversation."
+  },
+  {
+    "word": "assignment",
+    "ipa": "/assignment/",
+    "definition": "từ thông dụng: assignment",
+    "example": "Let's use the word \"assignment\" in a daily conversation."
+  },
+  {
+    "word": "assist",
+    "ipa": "/assist/",
+    "definition": "từ thông dụng: assist",
+    "example": "Let's use the word \"assist\" in a daily conversation."
+  },
+  {
+    "word": "assistance",
+    "ipa": "/assistance/",
+    "definition": "từ thông dụng: assistance",
+    "example": "Let's use the word \"assistance\" in a daily conversation."
+  },
+  {
+    "word": "assistant",
+    "ipa": "/assistant/",
+    "definition": "từ thông dụng: assistant",
+    "example": "Let's use the word \"assistant\" in a daily conversation."
+  },
+  {
+    "word": "associate",
+    "ipa": "/associate/",
+    "definition": "từ thông dụng: associate",
+    "example": "Let's use the word \"associate\" in a daily conversation."
+  },
+  {
+    "word": "association",
+    "ipa": "/association/",
+    "definition": "từ thông dụng: association",
+    "example": "Let's use the word \"association\" in a daily conversation."
+  },
+  {
+    "word": "assume",
+    "ipa": "/assume/",
+    "definition": "từ thông dụng: assume",
+    "example": "Let's use the word \"assume\" in a daily conversation."
+  },
+  {
+    "word": "assumption",
+    "ipa": "/assumption/",
+    "definition": "từ thông dụng: assumption",
+    "example": "Let's use the word \"assumption\" in a daily conversation."
+  },
+  {
+    "word": "assure",
+    "ipa": "/assure/",
+    "definition": "từ thông dụng: assure",
+    "example": "Let's use the word \"assure\" in a daily conversation."
+  },
+  {
+    "word": "atmosphere",
+    "ipa": "/atmosphere/",
+    "definition": "từ thông dụng: atmosphere",
+    "example": "Let's use the word \"atmosphere\" in a daily conversation."
+  },
+  {
+    "word": "attach",
+    "ipa": "/attach/",
+    "definition": "từ thông dụng: attach",
+    "example": "Let's use the word \"attach\" in a daily conversation."
+  },
+  {
+    "word": "attack",
+    "ipa": "/attack/",
+    "definition": "từ thông dụng: attack",
+    "example": "Let's use the word \"attack\" in a daily conversation."
+  },
+  {
+    "word": "attempt",
+    "ipa": "/attempt/",
+    "definition": "từ thông dụng: attempt",
+    "example": "Let's use the word \"attempt\" in a daily conversation."
+  },
+  {
+    "word": "attend",
+    "ipa": "/attend/",
+    "definition": "từ thông dụng: attend",
+    "example": "Let's use the word \"attend\" in a daily conversation."
+  },
+  {
+    "word": "attendance",
+    "ipa": "/attendance/",
+    "definition": "từ thông dụng: attendance",
+    "example": "Let's use the word \"attendance\" in a daily conversation."
+  },
+  {
+    "word": "attention",
+    "ipa": "/attention/",
+    "definition": "từ thông dụng: attention",
+    "example": "Let's use the word \"attention\" in a daily conversation."
+  },
+  {
+    "word": "attitude",
+    "ipa": "/attitude/",
+    "definition": "từ thông dụng: attitude",
+    "example": "Let's use the word \"attitude\" in a daily conversation."
+  },
+  {
+    "word": "attorney",
+    "ipa": "/attorney/",
+    "definition": "từ thông dụng: attorney",
+    "example": "Let's use the word \"attorney\" in a daily conversation."
+  },
+  {
+    "word": "attract",
+    "ipa": "/attract/",
+    "definition": "từ thông dụng: attract",
+    "example": "Let's use the word \"attract\" in a daily conversation."
+  },
+  {
+    "word": "attraction",
+    "ipa": "/attraction/",
+    "definition": "từ thông dụng: attraction",
+    "example": "Let's use the word \"attraction\" in a daily conversation."
+  },
+  {
+    "word": "attractive",
+    "ipa": "/attractive/",
+    "definition": "từ thông dụng: attractive",
+    "example": "Let's use the word \"attractive\" in a daily conversation."
+  },
+  {
+    "word": "attribute",
+    "ipa": "/attribute/",
+    "definition": "từ thông dụng: attribute",
+    "example": "Let's use the word \"attribute\" in a daily conversation."
+  },
+  {
+    "word": "audience",
+    "ipa": "/audience/",
+    "definition": "từ thông dụng: audience",
+    "example": "Let's use the word \"audience\" in a daily conversation."
+  },
+  {
+    "word": "august",
+    "ipa": "/august/",
+    "definition": "từ thông dụng: august",
+    "example": "Let's use the word \"august\" in a daily conversation."
+  },
+  {
+    "word": "author",
+    "ipa": "/author/",
+    "definition": "từ thông dụng: author",
+    "example": "Let's use the word \"author\" in a daily conversation."
+  },
+  {
+    "word": "authority",
+    "ipa": "/authority/",
+    "definition": "từ thông dụng: authority",
+    "example": "Let's use the word \"authority\" in a daily conversation."
+  },
+  {
+    "word": "automatic",
+    "ipa": "/automatic/",
+    "definition": "từ thông dụng: automatic",
+    "example": "Let's use the word \"automatic\" in a daily conversation."
+  },
+  {
+    "word": "automatically",
+    "ipa": "/automatically/",
+    "definition": "từ thông dụng: automatically",
+    "example": "Let's use the word \"automatically\" in a daily conversation."
+  },
+  {
+    "word": "available",
+    "ipa": "/available/",
+    "definition": "từ thông dụng: available",
+    "example": "Let's use the word \"available\" in a daily conversation."
+  },
+  {
+    "word": "average",
+    "ipa": "/average/",
+    "definition": "từ thông dụng: average",
+    "example": "Let's use the word \"average\" in a daily conversation."
+  },
+  {
+    "word": "avoid",
+    "ipa": "/avoid/",
+    "definition": "từ thông dụng: avoid",
+    "example": "Let's use the word \"avoid\" in a daily conversation."
+  },
+  {
+    "word": "award",
+    "ipa": "/award/",
+    "definition": "từ thông dụng: award",
+    "example": "Let's use the word \"award\" in a daily conversation."
+  },
+  {
+    "word": "aware",
+    "ipa": "/aware/",
+    "definition": "từ thông dụng: aware",
+    "example": "Let's use the word \"aware\" in a daily conversation."
+  },
+  {
+    "word": "awareness",
+    "ipa": "/awareness/",
+    "definition": "từ thông dụng: awareness",
+    "example": "Let's use the word \"awareness\" in a daily conversation."
+  },
+  {
+    "word": "away",
+    "ipa": "/away/",
+    "definition": "từ thông dụng: away",
+    "example": "Let's use the word \"away\" in a daily conversation."
+  },
+  {
+    "word": "awesome",
+    "ipa": "/awesome/",
+    "definition": "từ thông dụng: awesome",
+    "example": "Let's use the word \"awesome\" in a daily conversation."
+  },
+  {
+    "word": "awful",
+    "ipa": "/awful/",
+    "definition": "từ thông dụng: awful",
+    "example": "Let's use the word \"awful\" in a daily conversation."
+  },
+  {
+    "word": "awkward",
+    "ipa": "/awkward/",
+    "definition": "từ thông dụng: awkward",
+    "example": "Let's use the word \"awkward\" in a daily conversation."
+  },
+  {
+    "word": "baby",
+    "ipa": "/baby/",
+    "definition": "từ thông dụng: baby",
+    "example": "Let's use the word \"baby\" in a daily conversation."
+  },
+  {
+    "word": "back",
+    "ipa": "/back/",
+    "definition": "từ thông dụng: back",
+    "example": "Let's use the word \"back\" in a daily conversation."
+  },
+  {
+    "word": "background",
+    "ipa": "/background/",
+    "definition": "từ thông dụng: background",
+    "example": "Let's use the word \"background\" in a daily conversation."
+  },
+  {
+    "word": "backward",
+    "ipa": "/backward/",
+    "definition": "từ thông dụng: backward",
+    "example": "Let's use the word \"backward\" in a daily conversation."
+  },
+  {
+    "word": "bad",
+    "ipa": "/bad/",
+    "definition": "từ thông dụng: bad",
+    "example": "Let's use the word \"bad\" in a daily conversation."
+  },
+  {
+    "word": "badly",
+    "ipa": "/badly/",
+    "definition": "từ thông dụng: badly",
+    "example": "Let's use the word \"badly\" in a daily conversation."
+  },
+  {
+    "word": "bag",
+    "ipa": "/bag/",
+    "definition": "từ thông dụng: bag",
+    "example": "Let's use the word \"bag\" in a daily conversation."
+  },
+  {
+    "word": "bake",
+    "ipa": "/bake/",
+    "definition": "từ thông dụng: bake",
+    "example": "Let's use the word \"bake\" in a daily conversation."
+  },
+  {
+    "word": "balance",
+    "ipa": "/balance/",
+    "definition": "từ thông dụng: balance",
+    "example": "Let's use the word \"balance\" in a daily conversation."
+  },
+  {
+    "word": "ball",
+    "ipa": "/ball/",
+    "definition": "từ thông dụng: ball",
+    "example": "Let's use the word \"ball\" in a daily conversation."
+  },
+  {
+    "word": "ban",
+    "ipa": "/ban/",
+    "definition": "từ thông dụng: ban",
+    "example": "Let's use the word \"ban\" in a daily conversation."
+  },
+  {
+    "word": "band",
+    "ipa": "/band/",
+    "definition": "từ thông dụng: band",
+    "example": "Let's use the word \"band\" in a daily conversation."
+  },
+  {
+    "word": "bank",
+    "ipa": "/bank/",
+    "definition": "từ thông dụng: bank",
+    "example": "Let's use the word \"bank\" in a daily conversation."
+  },
+  {
+    "word": "bar",
+    "ipa": "/bar/",
+    "definition": "từ thông dụng: bar",
+    "example": "Let's use the word \"bar\" in a daily conversation."
+  },
+  {
+    "word": "barrier",
+    "ipa": "/barrier/",
+    "definition": "từ thông dụng: barrier",
+    "example": "Let's use the word \"barrier\" in a daily conversation."
+  },
+  {
+    "word": "base",
+    "ipa": "/base/",
+    "definition": "từ thông dụng: base",
+    "example": "Let's use the word \"base\" in a daily conversation."
+  },
+  {
+    "word": "baseball",
+    "ipa": "/baseball/",
+    "definition": "từ thông dụng: baseball",
+    "example": "Let's use the word \"baseball\" in a daily conversation."
+  },
+  {
+    "word": "basic",
+    "ipa": "/basic/",
+    "definition": "từ thông dụng: basic",
+    "example": "Let's use the word \"basic\" in a daily conversation."
+  },
+  {
+    "word": "basically",
+    "ipa": "/basically/",
+    "definition": "từ thông dụng: basically",
+    "example": "Let's use the word \"basically\" in a daily conversation."
+  },
+  {
+    "word": "basis",
+    "ipa": "/basis/",
+    "definition": "từ thông dụng: basis",
+    "example": "Let's use the word \"basis\" in a daily conversation."
+  },
+  {
+    "word": "basket",
+    "ipa": "/basket/",
+    "definition": "từ thông dụng: basket",
+    "example": "Let's use the word \"basket\" in a daily conversation."
+  },
+  {
+    "word": "basketball",
+    "ipa": "/basketball/",
+    "definition": "từ thông dụng: basketball",
+    "example": "Let's use the word \"basketball\" in a daily conversation."
+  },
+  {
+    "word": "bath",
+    "ipa": "/bath/",
+    "definition": "từ thông dụng: bath",
+    "example": "Let's use the word \"bath\" in a daily conversation."
+  },
+  {
+    "word": "bathroom",
+    "ipa": "/bathroom/",
+    "definition": "từ thông dụng: bathroom",
+    "example": "Let's use the word \"bathroom\" in a daily conversation."
+  },
+  {
+    "word": "battery",
+    "ipa": "/battery/",
+    "definition": "từ thông dụng: battery",
+    "example": "Let's use the word \"battery\" in a daily conversation."
+  },
+  {
+    "word": "battle",
+    "ipa": "/battle/",
+    "definition": "từ thông dụng: battle",
+    "example": "Let's use the word \"battle\" in a daily conversation."
+  },
+  {
+    "word": "beach",
+    "ipa": "/beach/",
+    "definition": "từ thông dụng: beach",
+    "example": "Let's use the word \"beach\" in a daily conversation."
+  },
+  {
+    "word": "beam",
+    "ipa": "/beam/",
+    "definition": "từ thông dụng: beam",
+    "example": "Let's use the word \"beam\" in a daily conversation."
+  },
+  {
+    "word": "bear",
+    "ipa": "/bear/",
+    "definition": "từ thông dụng: bear",
+    "example": "Let's use the word \"bear\" in a daily conversation."
+  },
+  {
+    "word": "beard",
+    "ipa": "/beard/",
+    "definition": "từ thông dụng: beard",
+    "example": "Let's use the word \"beard\" in a daily conversation."
+  },
+  {
+    "word": "beat",
+    "ipa": "/beat/",
+    "definition": "từ thông dụng: beat",
+    "example": "Let's use the word \"beat\" in a daily conversation."
+  },
+  {
+    "word": "beautiful",
+    "ipa": "/beautiful/",
+    "definition": "từ thông dụng: beautiful",
+    "example": "Let's use the word \"beautiful\" in a daily conversation."
+  },
+  {
+    "word": "beauty",
+    "ipa": "/beauty/",
+    "definition": "từ thông dụng: beauty",
+    "example": "Let's use the word \"beauty\" in a daily conversation."
+  },
+  {
+    "word": "because",
+    "ipa": "/because/",
+    "definition": "từ thông dụng: because",
+    "example": "Let's use the word \"because\" in a daily conversation."
+  },
+  {
+    "word": "become",
+    "ipa": "/become/",
+    "definition": "từ thông dụng: become",
+    "example": "Let's use the word \"become\" in a daily conversation."
+  },
+  {
+    "word": "bed",
+    "ipa": "/bed/",
+    "definition": "từ thông dụng: bed",
+    "example": "Let's use the word \"bed\" in a daily conversation."
+  },
+  {
+    "word": "bedroom",
+    "ipa": "/bedroom/",
+    "definition": "từ thông dụng: bedroom",
+    "example": "Let's use the word \"bedroom\" in a daily conversation."
+  },
+  {
+    "word": "beer",
+    "ipa": "/beer/",
+    "definition": "từ thông dụng: beer",
+    "example": "Let's use the word \"beer\" in a daily conversation."
+  },
+  {
+    "word": "before",
+    "ipa": "/before/",
+    "definition": "từ thông dụng: before",
+    "example": "Let's use the word \"before\" in a daily conversation."
+  },
+  {
+    "word": "beg",
+    "ipa": "/beg/",
+    "definition": "từ thông dụng: beg",
+    "example": "Let's use the word \"beg\" in a daily conversation."
+  },
+  {
+    "word": "begin",
+    "ipa": "/begin/",
+    "definition": "từ thông dụng: begin",
+    "example": "Let's use the word \"begin\" in a daily conversation."
+  },
+  {
+    "word": "beginner",
+    "ipa": "/beginner/",
+    "definition": "từ thông dụng: beginner",
+    "example": "Let's use the word \"beginner\" in a daily conversation."
+  },
+  {
+    "word": "beginning",
+    "ipa": "/beginning/",
+    "definition": "từ thông dụng: beginning",
+    "example": "Let's use the word \"beginning\" in a daily conversation."
+  },
+  {
+    "word": "behalf",
+    "ipa": "/behalf/",
+    "definition": "từ thông dụng: behalf",
+    "example": "Let's use the word \"behalf\" in a daily conversation."
+  },
+  {
+    "word": "behave",
+    "ipa": "/behave/",
+    "definition": "từ thông dụng: behave",
+    "example": "Let's use the word \"behave\" in a daily conversation."
+  },
+  {
+    "word": "behavior",
+    "ipa": "/behavior/",
+    "definition": "từ thông dụng: behavior",
+    "example": "Let's use the word \"behavior\" in a daily conversation."
+  },
+  {
+    "word": "behind",
+    "ipa": "/behind/",
+    "definition": "từ thông dụng: behind",
+    "example": "Let's use the word \"behind\" in a daily conversation."
+  },
+  {
+    "word": "being",
+    "ipa": "/being/",
+    "definition": "từ thông dụng: being",
+    "example": "Let's use the word \"being\" in a daily conversation."
+  },
+  {
+    "word": "belief",
+    "ipa": "/belief/",
+    "definition": "từ thông dụng: belief",
+    "example": "Let's use the word \"belief\" in a daily conversation."
+  },
+  {
+    "word": "believe",
+    "ipa": "/believe/",
+    "definition": "từ thông dụng: believe",
+    "example": "Let's use the word \"believe\" in a daily conversation."
+  },
+  {
+    "word": "bell",
+    "ipa": "/bell/",
+    "definition": "từ thông dụng: bell",
+    "example": "Let's use the word \"bell\" in a daily conversation."
+  },
+  {
+    "word": "belong",
+    "ipa": "/belong/",
+    "definition": "từ thông dụng: belong",
+    "example": "Let's use the word \"belong\" in a daily conversation."
+  },
+  {
+    "word": "below",
+    "ipa": "/below/",
+    "definition": "từ thông dụng: below",
+    "example": "Let's use the word \"below\" in a daily conversation."
+  },
+  {
+    "word": "belt",
+    "ipa": "/belt/",
+    "definition": "từ thông dụng: belt",
+    "example": "Let's use the word \"belt\" in a daily conversation."
+  },
+  {
+    "word": "bench",
+    "ipa": "/bench/",
+    "definition": "từ thông dụng: bench",
+    "example": "Let's use the word \"bench\" in a daily conversation."
+  },
+  {
+    "word": "bend",
+    "ipa": "/bend/",
+    "definition": "từ thông dụng: bend",
+    "example": "Let's use the word \"bend\" in a daily conversation."
+  },
+  {
+    "word": "beneath",
+    "ipa": "/beneath/",
+    "definition": "từ thông dụng: beneath",
+    "example": "Let's use the word \"beneath\" in a daily conversation."
+  },
+  {
+    "word": "benefit",
+    "ipa": "/benefit/",
+    "definition": "từ thông dụng: benefit",
+    "example": "Let's use the word \"benefit\" in a daily conversation."
+  },
+  {
+    "word": "beside",
+    "ipa": "/beside/",
+    "definition": "từ thông dụng: beside",
+    "example": "Let's use the word \"beside\" in a daily conversation."
+  },
+  {
+    "word": "besides",
+    "ipa": "/besides/",
+    "definition": "từ thông dụng: besides",
+    "example": "Let's use the word \"besides\" in a daily conversation."
+  },
+  {
+    "word": "best",
+    "ipa": "/best/",
+    "definition": "từ thông dụng: best",
+    "example": "Let's use the word \"best\" in a daily conversation."
+  },
+  {
+    "word": "bet",
+    "ipa": "/bet/",
+    "definition": "từ thông dụng: bet",
+    "example": "Let's use the word \"bet\" in a daily conversation."
+  },
+  {
+    "word": "better",
+    "ipa": "/better/",
+    "definition": "từ thông dụng: better",
+    "example": "Let's use the word \"better\" in a daily conversation."
+  },
+  {
+    "word": "between",
+    "ipa": "/between/",
+    "definition": "từ thông dụng: between",
+    "example": "Let's use the word \"between\" in a daily conversation."
+  },
+  {
+    "word": "beyond",
+    "ipa": "/beyond/",
+    "definition": "từ thông dụng: beyond",
+    "example": "Let's use the word \"beyond\" in a daily conversation."
+  },
+  {
+    "word": "bias",
+    "ipa": "/bias/",
+    "definition": "từ thông dụng: bias",
+    "example": "Let's use the word \"bias\" in a daily conversation."
+  },
+  {
+    "word": "bicycle",
+    "ipa": "/bicycle/",
+    "definition": "từ thông dụng: bicycle",
+    "example": "Let's use the word \"bicycle\" in a daily conversation."
+  },
+  {
+    "word": "big",
+    "ipa": "/big/",
+    "definition": "từ thông dụng: big",
+    "example": "Let's use the word \"big\" in a daily conversation."
+  },
+  {
+    "word": "bike",
+    "ipa": "/bike/",
+    "definition": "từ thông dụng: bike",
+    "example": "Let's use the word \"bike\" in a daily conversation."
+  },
+  {
+    "word": "bill",
+    "ipa": "/bill/",
+    "definition": "từ thông dụng: bill",
+    "example": "Let's use the word \"bill\" in a daily conversation."
+  },
+  {
+    "word": "billion",
+    "ipa": "/billion/",
+    "definition": "từ thông dụng: billion",
+    "example": "Let's use the word \"billion\" in a daily conversation."
+  },
+  {
+    "word": "bind",
+    "ipa": "/bind/",
+    "definition": "từ thông dụng: bind",
+    "example": "Let's use the word \"bind\" in a daily conversation."
+  },
+  {
+    "word": "biology",
+    "ipa": "/biology/",
+    "definition": "từ thông dụng: biology",
+    "example": "Let's use the word \"biology\" in a daily conversation."
+  },
+  {
+    "word": "bird",
+    "ipa": "/bird/",
+    "definition": "từ thông dụng: bird",
+    "example": "Let's use the word \"bird\" in a daily conversation."
+  },
+  {
+    "word": "birth",
+    "ipa": "/birth/",
+    "definition": "từ thông dụng: birth",
+    "example": "Let's use the word \"birth\" in a daily conversation."
+  },
+  {
+    "word": "birthday",
+    "ipa": "/birthday/",
+    "definition": "từ thông dụng: birthday",
+    "example": "Let's use the word \"birthday\" in a daily conversation."
+  },
+  {
+    "word": "biscuit",
+    "ipa": "/biscuit/",
+    "definition": "từ thông dụng: biscuit",
+    "example": "Let's use the word \"biscuit\" in a daily conversation."
+  },
+  {
+    "word": "bit",
+    "ipa": "/bit/",
+    "definition": "từ thông dụng: bit",
+    "example": "Let's use the word \"bit\" in a daily conversation."
+  },
+  {
+    "word": "bite",
+    "ipa": "/bite/",
+    "definition": "từ thông dụng: bite",
+    "example": "Let's use the word \"bite\" in a daily conversation."
+  },
+  {
+    "word": "bitter",
+    "ipa": "/bitter/",
+    "definition": "từ thông dụng: bitter",
+    "example": "Let's use the word \"bitter\" in a daily conversation."
+  },
+  {
+    "word": "black",
+    "ipa": "/black/",
+    "definition": "từ thông dụng: black",
+    "example": "Let's use the word \"black\" in a daily conversation."
+  },
+  {
+    "word": "blade",
+    "ipa": "/blade/",
+    "definition": "từ thông dụng: blade",
+    "example": "Let's use the word \"blade\" in a daily conversation."
+  },
+  {
+    "word": "blame",
+    "ipa": "/blame/",
+    "definition": "từ thông dụng: blame",
+    "example": "Let's use the word \"blame\" in a daily conversation."
+  },
+  {
+    "word": "blank",
+    "ipa": "/blank/",
+    "definition": "từ thông dụng: blank",
+    "example": "Let's use the word \"blank\" in a daily conversation."
+  },
+  {
+    "word": "blanket",
+    "ipa": "/blanket/",
+    "definition": "từ thông dụng: blanket",
+    "example": "Let's use the word \"blanket\" in a daily conversation."
+  },
+  {
+    "word": "blast",
+    "ipa": "/blast/",
+    "definition": "từ thông dụng: blast",
+    "example": "Let's use the word \"blast\" in a daily conversation."
+  },
+  {
+    "word": "blend",
+    "ipa": "/blend/",
+    "definition": "từ thông dụng: blend",
+    "example": "Let's use the word \"blend\" in a daily conversation."
+  },
+  {
+    "word": "bless",
+    "ipa": "/bless/",
+    "definition": "từ thông dụng: bless",
+    "example": "Let's use the word \"bless\" in a daily conversation."
+  },
+  {
+    "word": "blind",
+    "ipa": "/blind/",
+    "definition": "từ thông dụng: blind",
+    "example": "Let's use the word \"blind\" in a daily conversation."
+  },
+  {
+    "word": "block",
+    "ipa": "/block/",
+    "definition": "từ thông dụng: block",
+    "example": "Let's use the word \"block\" in a daily conversation."
+  },
+  {
+    "word": "blog",
+    "ipa": "/blog/",
+    "definition": "từ thông dụng: blog",
+    "example": "Let's use the word \"blog\" in a daily conversation."
+  },
+  {
+    "word": "blood",
+    "ipa": "/blood/",
+    "definition": "từ thông dụng: blood",
+    "example": "Let's use the word \"blood\" in a daily conversation."
+  },
+  {
+    "word": "bloom",
+    "ipa": "/bloom/",
+    "definition": "từ thông dụng: bloom",
+    "example": "Let's use the word \"bloom\" in a daily conversation."
+  },
+  {
+    "word": "blow",
+    "ipa": "/blow/",
+    "definition": "từ thông dụng: blow",
+    "example": "Let's use the word \"blow\" in a daily conversation."
+  },
+  {
+    "word": "blue",
+    "ipa": "/blue/",
+    "definition": "từ thông dụng: blue",
+    "example": "Let's use the word \"blue\" in a daily conversation."
+  },
+  {
+    "word": "board",
+    "ipa": "/board/",
+    "definition": "từ thông dụng: board",
+    "example": "Let's use the word \"board\" in a daily conversation."
+  },
+  {
+    "word": "boast",
+    "ipa": "/boast/",
+    "definition": "từ thông dụng: boast",
+    "example": "Let's use the word \"boast\" in a daily conversation."
+  },
+  {
+    "word": "boat",
+    "ipa": "/boat/",
+    "definition": "từ thông dụng: boat",
+    "example": "Let's use the word \"boat\" in a daily conversation."
+  },
+  {
+    "word": "body",
+    "ipa": "/body/",
+    "definition": "từ thông dụng: body",
+    "example": "Let's use the word \"body\" in a daily conversation."
+  },
+  {
+    "word": "boil",
+    "ipa": "/boil/",
+    "definition": "từ thông dụng: boil",
+    "example": "Let's use the word \"boil\" in a daily conversation."
+  },
+  {
+    "word": "bold",
+    "ipa": "/bold/",
+    "definition": "từ thông dụng: bold",
+    "example": "Let's use the word \"bold\" in a daily conversation."
+  },
+  {
+    "word": "bomb",
+    "ipa": "/bomb/",
+    "definition": "từ thông dụng: bomb",
+    "example": "Let's use the word \"bomb\" in a daily conversation."
+  },
+  {
+    "word": "bond",
+    "ipa": "/bond/",
+    "definition": "từ thông dụng: bond",
+    "example": "Let's use the word \"bond\" in a daily conversation."
+  },
+  {
+    "word": "bone",
+    "ipa": "/bone/",
+    "definition": "từ thông dụng: bone",
+    "example": "Let's use the word \"bone\" in a daily conversation."
+  },
+  {
+    "word": "book",
+    "ipa": "/book/",
+    "definition": "từ thông dụng: book",
+    "example": "Let's use the word \"book\" in a daily conversation."
+  },
+  {
+    "word": "boom",
+    "ipa": "/boom/",
+    "definition": "từ thông dụng: boom",
+    "example": "Let's use the word \"boom\" in a daily conversation."
+  },
+  {
+    "word": "boot",
+    "ipa": "/boot/",
+    "definition": "từ thông dụng: boot",
+    "example": "Let's use the word \"boot\" in a daily conversation."
+  },
+  {
+    "word": "border",
+    "ipa": "/border/",
+    "definition": "từ thông dụng: border",
+    "example": "Let's use the word \"border\" in a daily conversation."
+  },
+  {
+    "word": "bored",
+    "ipa": "/bored/",
+    "definition": "từ thông dụng: bored",
+    "example": "Let's use the word \"bored\" in a daily conversation."
+  },
+  {
+    "word": "boring",
+    "ipa": "/boring/",
+    "definition": "từ thông dụng: boring",
+    "example": "Let's use the word \"boring\" in a daily conversation."
+  },
+  {
+    "word": "born",
+    "ipa": "/born/",
+    "definition": "từ thông dụng: born",
+    "example": "Let's use the word \"born\" in a daily conversation."
+  },
+  {
+    "word": "borrow",
+    "ipa": "/borrow/",
+    "definition": "từ thông dụng: borrow",
+    "example": "Let's use the word \"borrow\" in a daily conversation."
+  },
+  {
+    "word": "boss",
+    "ipa": "/boss/",
+    "definition": "từ thông dụng: boss",
+    "example": "Let's use the word \"boss\" in a daily conversation."
+  },
+  {
+    "word": "both",
+    "ipa": "/both/",
+    "definition": "từ thông dụng: both",
+    "example": "Let's use the word \"both\" in a daily conversation."
+  },
+  {
+    "word": "bother",
+    "ipa": "/bother/",
+    "definition": "từ thông dụng: bother",
+    "example": "Let's use the word \"bother\" in a daily conversation."
+  },
+  {
+    "word": "bottle",
+    "ipa": "/bottle/",
+    "definition": "từ thông dụng: bottle",
+    "example": "Let's use the word \"bottle\" in a daily conversation."
+  },
+  {
+    "word": "bottom",
+    "ipa": "/bottom/",
+    "definition": "từ thông dụng: bottom",
+    "example": "Let's use the word \"bottom\" in a daily conversation."
+  },
+  {
+    "word": "bounce",
+    "ipa": "/bounce/",
+    "definition": "từ thông dụng: bounce",
+    "example": "Let's use the word \"bounce\" in a daily conversation."
+  },
+  {
+    "word": "bound",
+    "ipa": "/bound/",
+    "definition": "từ thông dụng: bound",
+    "example": "Let's use the word \"bound\" in a daily conversation."
+  },
+  {
+    "word": "boundary",
+    "ipa": "/boundary/",
+    "definition": "từ thông dụng: boundary",
+    "example": "Let's use the word \"boundary\" in a daily conversation."
+  },
+  {
+    "word": "bowl",
+    "ipa": "/bowl/",
+    "definition": "từ thông dụng: bowl",
+    "example": "Let's use the word \"bowl\" in a daily conversation."
+  },
+  {
+    "word": "box",
+    "ipa": "/box/",
+    "definition": "từ thông dụng: box",
+    "example": "Let's use the word \"box\" in a daily conversation."
+  },
+  {
+    "word": "boy",
+    "ipa": "/boy/",
+    "definition": "từ thông dụng: boy",
+    "example": "Let's use the word \"boy\" in a daily conversation."
+  },
+  {
+    "word": "boyfriend",
+    "ipa": "/boyfriend/",
+    "definition": "từ thông dụng: boyfriend",
+    "example": "Let's use the word \"boyfriend\" in a daily conversation."
+  },
+  {
+    "word": "brain",
+    "ipa": "/brain/",
+    "definition": "từ thông dụng: brain",
+    "example": "Let's use the word \"brain\" in a daily conversation."
+  },
+  {
+    "word": "branch",
+    "ipa": "/branch/",
+    "definition": "từ thông dụng: branch",
+    "example": "Let's use the word \"branch\" in a daily conversation."
+  },
+  {
+    "word": "brand",
+    "ipa": "/brand/",
+    "definition": "từ thông dụng: brand",
+    "example": "Let's use the word \"brand\" in a daily conversation."
+  },
+  {
+    "word": "brave",
+    "ipa": "/brave/",
+    "definition": "từ thông dụng: brave",
+    "example": "Let's use the word \"brave\" in a daily conversation."
+  },
+  {
+    "word": "bread",
+    "ipa": "/bread/",
+    "definition": "từ thông dụng: bread",
+    "example": "Let's use the word \"bread\" in a daily conversation."
+  },
+  {
+    "word": "break",
+    "ipa": "/break/",
+    "definition": "từ thông dụng: break",
+    "example": "Let's use the word \"break\" in a daily conversation."
+  },
+  {
+    "word": "breakfast",
+    "ipa": "/breakfast/",
+    "definition": "từ thông dụng: breakfast",
+    "example": "Let's use the word \"breakfast\" in a daily conversation."
+  },
+  {
+    "word": "breath",
+    "ipa": "/breath/",
+    "definition": "từ thông dụng: breath",
+    "example": "Let's use the word \"breath\" in a daily conversation."
+  },
+  {
+    "word": "breathe",
+    "ipa": "/breathe/",
+    "definition": "từ thông dụng: breathe",
+    "example": "Let's use the word \"breathe\" in a daily conversation."
+  },
+  {
+    "word": "breeze",
+    "ipa": "/breeze/",
+    "definition": "từ thông dụng: breeze",
+    "example": "Let's use the word \"breeze\" in a daily conversation."
+  },
+  {
+    "word": "brick",
+    "ipa": "/brick/",
+    "definition": "từ thông dụng: brick",
+    "example": "Let's use the word \"brick\" in a daily conversation."
+  },
+  {
+    "word": "bridge",
+    "ipa": "/bridge/",
+    "definition": "từ thông dụng: bridge",
+    "example": "Let's use the word \"bridge\" in a daily conversation."
+  },
+  {
+    "word": "brief",
+    "ipa": "/brief/",
+    "definition": "từ thông dụng: brief",
+    "example": "Let's use the word \"brief\" in a daily conversation."
+  },
+  {
+    "word": "briefly",
+    "ipa": "/briefly/",
+    "definition": "từ thông dụng: briefly",
+    "example": "Let's use the word \"briefly\" in a daily conversation."
+  },
+  {
+    "word": "bright",
+    "ipa": "/bright/",
+    "definition": "từ thông dụng: bright",
+    "example": "Let's use the word \"bright\" in a daily conversation."
+  },
+  {
+    "word": "brilliant",
+    "ipa": "/brilliant/",
+    "definition": "từ thông dụng: brilliant",
+    "example": "Let's use the word \"brilliant\" in a daily conversation."
+  },
+  {
+    "word": "bring",
+    "ipa": "/bring/",
+    "definition": "từ thông dụng: bring",
+    "example": "Let's use the word \"bring\" in a daily conversation."
+  },
+  {
+    "word": "broad",
+    "ipa": "/broad/",
+    "definition": "từ thông dụng: broad",
+    "example": "Let's use the word \"broad\" in a daily conversation."
+  },
+  {
+    "word": "broadcast",
+    "ipa": "/broadcast/",
+    "definition": "từ thông dụng: broadcast",
+    "example": "Let's use the word \"broadcast\" in a daily conversation."
+  },
+  {
+    "word": "broken",
+    "ipa": "/broken/",
+    "definition": "từ thông dụng: broken",
+    "example": "Let's use the word \"broken\" in a daily conversation."
+  },
+  {
+    "word": "brother",
+    "ipa": "/brother/",
+    "definition": "từ thông dụng: brother",
+    "example": "Let's use the word \"brother\" in a daily conversation."
+  },
+  {
+    "word": "brown",
+    "ipa": "/brown/",
+    "definition": "từ thông dụng: brown",
+    "example": "Let's use the word \"brown\" in a daily conversation."
+  },
+  {
+    "word": "brush",
+    "ipa": "/brush/",
+    "definition": "từ thông dụng: brush",
+    "example": "Let's use the word \"brush\" in a daily conversation."
+  },
+  {
+    "word": "bubble",
+    "ipa": "/bubble/",
+    "definition": "từ thông dụng: bubble",
+    "example": "Let's use the word \"bubble\" in a daily conversation."
+  },
+  {
+    "word": "bucket",
+    "ipa": "/bucket/",
+    "definition": "từ thông dụng: bucket",
+    "example": "Let's use the word \"bucket\" in a daily conversation."
+  },
+  {
+    "word": "budget",
+    "ipa": "/budget/",
+    "definition": "từ thông dụng: budget",
+    "example": "Let's use the word \"budget\" in a daily conversation."
+  },
+  {
+    "word": "bug",
+    "ipa": "/bug/",
+    "definition": "từ thông dụng: bug",
+    "example": "Let's use the word \"bug\" in a daily conversation."
+  },
+  {
+    "word": "build",
+    "ipa": "/build/",
+    "definition": "từ thông dụng: build",
+    "example": "Let's use the word \"build\" in a daily conversation."
+  },
+  {
+    "word": "builder",
+    "ipa": "/builder/",
+    "definition": "từ thông dụng: builder",
+    "example": "Let's use the word \"builder\" in a daily conversation."
+  },
+  {
+    "word": "building",
+    "ipa": "/building/",
+    "definition": "từ thông dụng: building",
+    "example": "Let's use the word \"building\" in a daily conversation."
+  },
+  {
+    "word": "bulb",
+    "ipa": "/bulb/",
+    "definition": "từ thông dụng: bulb",
+    "example": "Let's use the word \"bulb\" in a daily conversation."
+  },
+  {
+    "word": "bulk",
+    "ipa": "/bulk/",
+    "definition": "từ thông dụng: bulk",
+    "example": "Let's use the word \"bulk\" in a daily conversation."
+  },
+  {
+    "word": "bullet",
+    "ipa": "/bullet/",
+    "definition": "từ thông dụng: bullet",
+    "example": "Let's use the word \"bullet\" in a daily conversation."
+  },
+  {
+    "word": "bunch",
+    "ipa": "/bunch/",
+    "definition": "từ thông dụng: bunch",
+    "example": "Let's use the word \"bunch\" in a daily conversation."
+  },
+  {
+    "word": "burden",
+    "ipa": "/burden/",
+    "definition": "từ thông dụng: burden",
+    "example": "Let's use the word \"burden\" in a daily conversation."
+  },
+  {
+    "word": "burn",
+    "ipa": "/burn/",
+    "definition": "từ thông dụng: burn",
+    "example": "Let's use the word \"burn\" in a daily conversation."
+  },
+  {
+    "word": "burst",
+    "ipa": "/burst/",
+    "definition": "từ thông dụng: burst",
+    "example": "Let's use the word \"burst\" in a daily conversation."
+  },
+  {
+    "word": "bus",
+    "ipa": "/bus/",
+    "definition": "từ thông dụng: bus",
+    "example": "Let's use the word \"bus\" in a daily conversation."
+  },
+  {
+    "word": "bush",
+    "ipa": "/bush/",
+    "definition": "từ thông dụng: bush",
+    "example": "Let's use the word \"bush\" in a daily conversation."
+  },
+  {
+    "word": "business",
+    "ipa": "/business/",
+    "definition": "từ thông dụng: business",
+    "example": "Let's use the word \"business\" in a daily conversation."
+  },
+  {
+    "word": "busy",
+    "ipa": "/busy/",
+    "definition": "từ thông dụng: busy",
+    "example": "Let's use the word \"busy\" in a daily conversation."
+  },
+  {
+    "word": "butter",
+    "ipa": "/butter/",
+    "definition": "từ thông dụng: butter",
+    "example": "Let's use the word \"butter\" in a daily conversation."
+  },
+  {
+    "word": "button",
+    "ipa": "/button/",
+    "definition": "từ thông dụng: button",
+    "example": "Let's use the word \"button\" in a daily conversation."
+  },
+  {
+    "word": "buy",
+    "ipa": "/buy/",
+    "definition": "từ thông dụng: buy",
+    "example": "Let's use the word \"buy\" in a daily conversation."
+  },
+  {
+    "word": "buyer",
+    "ipa": "/buyer/",
+    "definition": "từ thông dụng: buyer",
+    "example": "Let's use the word \"buyer\" in a daily conversation."
+  },
+  {
+    "word": "cabin",
+    "ipa": "/cabin/",
+    "definition": "từ thông dụng: cabin",
+    "example": "Let's use the word \"cabin\" in a daily conversation."
+  },
+  {
+    "word": "cabinet",
+    "ipa": "/cabinet/",
+    "definition": "từ thông dụng: cabinet",
+    "example": "Let's use the word \"cabinet\" in a daily conversation."
+  },
+  {
+    "word": "cable",
+    "ipa": "/cable/",
+    "definition": "từ thông dụng: cable",
+    "example": "Let's use the word \"cable\" in a daily conversation."
+  },
+  {
+    "word": "cafe",
+    "ipa": "/cafe/",
+    "definition": "từ thông dụng: cafe",
+    "example": "Let's use the word \"cafe\" in a daily conversation."
+  },
+  {
+    "word": "cake",
+    "ipa": "/cake/",
+    "definition": "từ thông dụng: cake",
+    "example": "Let's use the word \"cake\" in a daily conversation."
+  },
+  {
+    "word": "calculate",
+    "ipa": "/calculate/",
+    "definition": "từ thông dụng: calculate",
+    "example": "Let's use the word \"calculate\" in a daily conversation."
+  },
+  {
+    "word": "calculation",
+    "ipa": "/calculation/",
+    "definition": "từ thông dụng: calculation",
+    "example": "Let's use the word \"calculation\" in a daily conversation."
+  },
+  {
+    "word": "calculator",
+    "ipa": "/calculator/",
+    "definition": "từ thông dụng: calculator",
+    "example": "Let's use the word \"calculator\" in a daily conversation."
+  },
+  {
+    "word": "calendar",
+    "ipa": "/calendar/",
+    "definition": "từ thông dụng: calendar",
+    "example": "Let's use the word \"calendar\" in a daily conversation."
+  },
+  {
+    "word": "call",
+    "ipa": "/call/",
+    "definition": "từ thông dụng: call",
+    "example": "Let's use the word \"call\" in a daily conversation."
+  },
+  {
+    "word": "calm",
+    "ipa": "/calm/",
+    "definition": "từ thông dụng: calm",
+    "example": "Let's use the word \"calm\" in a daily conversation."
+  },
+  {
+    "word": "camera",
+    "ipa": "/camera/",
+    "definition": "từ thông dụng: camera",
+    "example": "Let's use the word \"camera\" in a daily conversation."
+  },
+  {
+    "word": "camp",
+    "ipa": "/camp/",
+    "definition": "từ thông dụng: camp",
+    "example": "Let's use the word \"camp\" in a daily conversation."
+  },
+  {
+    "word": "campaign",
+    "ipa": "/campaign/",
+    "definition": "từ thông dụng: campaign",
+    "example": "Let's use the word \"campaign\" in a daily conversation."
+  },
+  {
+    "word": "campus",
+    "ipa": "/campus/",
+    "definition": "từ thông dụng: campus",
+    "example": "Let's use the word \"campus\" in a daily conversation."
+  },
+  {
+    "word": "cancel",
+    "ipa": "/cancel/",
+    "definition": "từ thông dụng: cancel",
+    "example": "Let's use the word \"cancel\" in a daily conversation."
+  },
+  {
+    "word": "cancer",
+    "ipa": "/cancer/",
+    "definition": "từ thông dụng: cancer",
+    "example": "Let's use the word \"cancer\" in a daily conversation."
+  },
+  {
+    "word": "candidate",
+    "ipa": "/candidate/",
+    "definition": "từ thông dụng: candidate",
+    "example": "Let's use the word \"candidate\" in a daily conversation."
+  },
+  {
+    "word": "candle",
+    "ipa": "/candle/",
+    "definition": "từ thông dụng: candle",
+    "example": "Let's use the word \"candle\" in a daily conversation."
+  },
+  {
+    "word": "candy",
+    "ipa": "/candy/",
+    "definition": "từ thông dụng: candy",
+    "example": "Let's use the word \"candy\" in a daily conversation."
+  },
+  {
+    "word": "canvas",
+    "ipa": "/canvas/",
+    "definition": "từ thông dụng: canvas",
+    "example": "Let's use the word \"canvas\" in a daily conversation."
+  },
+  {
+    "word": "cap",
+    "ipa": "/cap/",
+    "definition": "từ thông dụng: cap",
+    "example": "Let's use the word \"cap\" in a daily conversation."
+  },
+  {
+    "word": "capability",
+    "ipa": "/capability/",
+    "definition": "từ thông dụng: capability",
+    "example": "Let's use the word \"capability\" in a daily conversation."
+  },
+  {
+    "word": "capable",
+    "ipa": "/capable/",
+    "definition": "từ thông dụng: capable",
+    "example": "Let's use the word \"capable\" in a daily conversation."
+  },
+  {
+    "word": "capacity",
+    "ipa": "/capacity/",
+    "definition": "từ thông dụng: capacity",
+    "example": "Let's use the word \"capacity\" in a daily conversation."
+  },
+  {
+    "word": "capital",
+    "ipa": "/capital/",
+    "definition": "từ thông dụng: capital",
+    "example": "Let's use the word \"capital\" in a daily conversation."
+  },
+  {
+    "word": "captain",
+    "ipa": "/captain/",
+    "definition": "từ thông dụng: captain",
+    "example": "Let's use the word \"captain\" in a daily conversation."
+  },
+  {
+    "word": "capture",
+    "ipa": "/capture/",
+    "definition": "từ thông dụng: capture",
+    "example": "Let's use the word \"capture\" in a daily conversation."
+  },
+  {
+    "word": "car",
+    "ipa": "/car/",
+    "definition": "từ thông dụng: car",
+    "example": "Let's use the word \"car\" in a daily conversation."
+  },
+  {
+    "word": "carbon",
+    "ipa": "/carbon/",
+    "definition": "từ thông dụng: carbon",
+    "example": "Let's use the word \"carbon\" in a daily conversation."
+  },
+  {
+    "word": "card",
+    "ipa": "/card/",
+    "definition": "từ thông dụng: card",
+    "example": "Let's use the word \"card\" in a daily conversation."
+  },
+  {
+    "word": "care",
+    "ipa": "/care/",
+    "definition": "từ thông dụng: care",
+    "example": "Let's use the word \"care\" in a daily conversation."
+  },
+  {
+    "word": "career",
+    "ipa": "/career/",
+    "definition": "từ thông dụng: career",
+    "example": "Let's use the word \"career\" in a daily conversation."
+  },
+  {
+    "word": "careful",
+    "ipa": "/careful/",
+    "definition": "từ thông dụng: careful",
+    "example": "Let's use the word \"careful\" in a daily conversation."
+  },
+  {
+    "word": "carefully",
+    "ipa": "/carefully/",
+    "definition": "từ thông dụng: carefully",
+    "example": "Let's use the word \"carefully\" in a daily conversation."
+  },
+  {
+    "word": "careless",
+    "ipa": "/careless/",
+    "definition": "từ thông dụng: careless",
+    "example": "Let's use the word \"careless\" in a daily conversation."
+  },
+  {
+    "word": "cargo",
+    "ipa": "/cargo/",
+    "definition": "từ thông dụng: cargo",
+    "example": "Let's use the word \"cargo\" in a daily conversation."
+  },
+  {
+    "word": "carpet",
+    "ipa": "/carpet/",
+    "definition": "từ thông dụng: carpet",
+    "example": "Let's use the word \"carpet\" in a daily conversation."
+  },
+  {
+    "word": "carry",
+    "ipa": "/carry/",
+    "definition": "từ thông dụng: carry",
+    "example": "Let's use the word \"carry\" in a daily conversation."
+  },
+  {
+    "word": "cart",
+    "ipa": "/cart/",
+    "definition": "từ thông dụng: cart",
+    "example": "Let's use the word \"cart\" in a daily conversation."
+  },
+  {
+    "word": "cartoon",
+    "ipa": "/cartoon/",
+    "definition": "từ thông dụng: cartoon",
+    "example": "Let's use the word \"cartoon\" in a daily conversation."
+  },
+  {
+    "word": "carve",
+    "ipa": "/carve/",
+    "definition": "từ thông dụng: carve",
+    "example": "Let's use the word \"carve\" in a daily conversation."
+  },
+  {
+    "word": "case",
+    "ipa": "/case/",
+    "definition": "từ thông dụng: case",
+    "example": "Let's use the word \"case\" in a daily conversation."
+  },
+  {
+    "word": "cash",
+    "ipa": "/cash/",
+    "definition": "từ thông dụng: cash",
+    "example": "Let's use the word \"cash\" in a daily conversation."
+  },
+  {
+    "word": "cast",
+    "ipa": "/cast/",
+    "definition": "từ thông dụng: cast",
+    "example": "Let's use the word \"cast\" in a daily conversation."
+  },
+  {
+    "word": "castle",
+    "ipa": "/castle/",
+    "definition": "từ thông dụng: castle",
+    "example": "Let's use the word \"castle\" in a daily conversation."
+  },
+  {
+    "word": "casual",
+    "ipa": "/casual/",
+    "definition": "từ thông dụng: casual",
+    "example": "Let's use the word \"casual\" in a daily conversation."
+  },
+  {
+    "word": "cat",
+    "ipa": "/cat/",
+    "definition": "từ thông dụng: cat",
+    "example": "Let's use the word \"cat\" in a daily conversation."
+  },
+  {
+    "word": "catalog",
+    "ipa": "/catalog/",
+    "definition": "từ thông dụng: catalog",
+    "example": "Let's use the word \"catalog\" in a daily conversation."
+  },
+  {
+    "word": "catch",
+    "ipa": "/catch/",
+    "definition": "từ thông dụng: catch",
+    "example": "Let's use the word \"catch\" in a daily conversation."
+  },
+  {
+    "word": "category",
+    "ipa": "/category/",
+    "definition": "từ thông dụng: category",
+    "example": "Let's use the word \"category\" in a daily conversation."
+  },
+  {
+    "word": "cater",
+    "ipa": "/cater/",
+    "definition": "từ thông dụng: cater",
+    "example": "Let's use the word \"cater\" in a daily conversation."
+  },
+  {
+    "word": "cause",
+    "ipa": "/cause/",
+    "definition": "từ thông dụng: cause",
+    "example": "Let's use the word \"cause\" in a daily conversation."
+  },
+  {
+    "word": "cave",
+    "ipa": "/cave/",
+    "definition": "từ thông dụng: cave",
+    "example": "Let's use the word \"cave\" in a daily conversation."
+  },
+  {
+    "word": "ceiling",
+    "ipa": "/ceiling/",
+    "definition": "từ thông dụng: ceiling",
+    "example": "Let's use the word \"ceiling\" in a daily conversation."
+  },
+  {
+    "word": "celebrate",
+    "ipa": "/celebrate/",
+    "definition": "từ thông dụng: celebrate",
+    "example": "Let's use the word \"celebrate\" in a daily conversation."
+  },
+  {
+    "word": "celebrity",
+    "ipa": "/celebrity/",
+    "definition": "từ thông dụng: celebrity",
+    "example": "Let's use the word \"celebrity\" in a daily conversation."
+  },
+  {
+    "word": "cell",
+    "ipa": "/cell/",
+    "definition": "từ thông dụng: cell",
+    "example": "Let's use the word \"cell\" in a daily conversation."
+  },
+  {
+    "word": "cent",
+    "ipa": "/cent/",
+    "definition": "từ thông dụng: cent",
+    "example": "Let's use the word \"cent\" in a daily conversation."
+  },
+  {
+    "word": "center",
+    "ipa": "/center/",
+    "definition": "từ thông dụng: center",
+    "example": "Let's use the word \"center\" in a daily conversation."
+  },
+  {
+    "word": "central",
+    "ipa": "/central/",
+    "definition": "từ thông dụng: central",
+    "example": "Let's use the word \"central\" in a daily conversation."
+  },
+  {
+    "word": "century",
+    "ipa": "/century/",
+    "definition": "từ thông dụng: century",
+    "example": "Let's use the word \"century\" in a daily conversation."
+  },
+  {
+    "word": "ceremony",
+    "ipa": "/ceremony/",
+    "definition": "từ thông dụng: ceremony",
+    "example": "Let's use the word \"ceremony\" in a daily conversation."
+  },
+  {
+    "word": "certain",
+    "ipa": "/certain/",
+    "definition": "từ thông dụng: certain",
+    "example": "Let's use the word \"certain\" in a daily conversation."
+  },
+  {
+    "word": "certainly",
+    "ipa": "/certainly/",
+    "definition": "từ thông dụng: certainly",
+    "example": "Let's use the word \"certainly\" in a daily conversation."
+  },
+  {
+    "word": "certificate",
+    "ipa": "/certificate/",
+    "definition": "từ thông dụng: certificate",
+    "example": "Let's use the word \"certificate\" in a daily conversation."
+  },
+  {
+    "word": "chain",
+    "ipa": "/chain/",
+    "definition": "từ thông dụng: chain",
+    "example": "Let's use the word \"chain\" in a daily conversation."
+  },
+  {
+    "word": "chair",
+    "ipa": "/chair/",
+    "definition": "từ thông dụng: chair",
+    "example": "Let's use the word \"chair\" in a daily conversation."
+  },
+  {
+    "word": "chairman",
+    "ipa": "/chairman/",
+    "definition": "từ thông dụng: chairman",
+    "example": "Let's use the word \"chairman\" in a daily conversation."
+  },
+  {
+    "word": "challenge",
+    "ipa": "/challenge/",
+    "definition": "từ thông dụng: challenge",
+    "example": "Let's use the word \"challenge\" in a daily conversation."
+  },
+  {
+    "word": "chamber",
+    "ipa": "/chamber/",
+    "definition": "từ thông dụng: chamber",
+    "example": "Let's use the word \"chamber\" in a daily conversation."
+  },
+  {
+    "word": "champion",
+    "ipa": "/champion/",
+    "definition": "từ thông dụng: champion",
+    "example": "Let's use the word \"champion\" in a daily conversation."
+  },
+  {
+    "word": "chance",
+    "ipa": "/chance/",
+    "definition": "từ thông dụng: chance",
+    "example": "Let's use the word \"chance\" in a daily conversation."
+  },
+  {
+    "word": "change",
+    "ipa": "/change/",
+    "definition": "từ thông dụng: change",
+    "example": "Let's use the word \"change\" in a daily conversation."
+  },
+  {
+    "word": "channel",
+    "ipa": "/channel/",
+    "definition": "từ thông dụng: channel",
+    "example": "Let's use the word \"channel\" in a daily conversation."
+  },
+  {
+    "word": "chapter",
+    "ipa": "/chapter/",
+    "definition": "từ thông dụng: chapter",
+    "example": "Let's use the word \"chapter\" in a daily conversation."
+  },
+  {
+    "word": "character",
+    "ipa": "/character/",
+    "definition": "từ thông dụng: character",
+    "example": "Let's use the word \"character\" in a daily conversation."
+  },
+  {
+    "word": "characteristic",
+    "ipa": "/characteristic/",
+    "definition": "từ thông dụng: characteristic",
+    "example": "Let's use the word \"characteristic\" in a daily conversation."
+  },
+  {
+    "word": "charge",
+    "ipa": "/charge/",
+    "definition": "từ thông dụng: charge",
+    "example": "Let's use the word \"charge\" in a daily conversation."
+  },
+  {
+    "word": "charity",
+    "ipa": "/charity/",
+    "definition": "từ thông dụng: charity",
+    "example": "Let's use the word \"charity\" in a daily conversation."
+  },
+  {
+    "word": "charm",
+    "ipa": "/charm/",
+    "definition": "từ thông dụng: charm",
+    "example": "Let's use the word \"charm\" in a daily conversation."
+  },
+  {
+    "word": "chart",
+    "ipa": "/chart/",
+    "definition": "từ thông dụng: chart",
+    "example": "Let's use the word \"chart\" in a daily conversation."
+  },
+  {
+    "word": "chase",
+    "ipa": "/chase/",
+    "definition": "từ thông dụng: chase",
+    "example": "Let's use the word \"chase\" in a daily conversation."
+  },
+  {
+    "word": "chat",
+    "ipa": "/chat/",
+    "definition": "từ thông dụng: chat",
+    "example": "Let's use the word \"chat\" in a daily conversation."
+  },
+  {
+    "word": "cheap",
+    "ipa": "/cheap/",
+    "definition": "từ thông dụng: cheap",
+    "example": "Let's use the word \"cheap\" in a daily conversation."
+  },
+  {
+    "word": "cheat",
+    "ipa": "/cheat/",
+    "definition": "từ thông dụng: cheat",
+    "example": "Let's use the word \"cheat\" in a daily conversation."
+  },
+  {
+    "word": "check",
+    "ipa": "/check/",
+    "definition": "từ thông dụng: check",
+    "example": "Let's use the word \"check\" in a daily conversation."
+  },
+  {
+    "word": "cheek",
+    "ipa": "/cheek/",
+    "definition": "từ thông dụng: cheek",
+    "example": "Let's use the word \"cheek\" in a daily conversation."
+  },
+  {
+    "word": "cheerful",
+    "ipa": "/cheerful/",
+    "definition": "từ thông dụng: cheerful",
+    "example": "Let's use the word \"cheerful\" in a daily conversation."
+  },
+  {
+    "word": "cheese",
+    "ipa": "/cheese/",
+    "definition": "từ thông dụng: cheese",
+    "example": "Let's use the word \"cheese\" in a daily conversation."
+  },
+  {
+    "word": "chef",
+    "ipa": "/chef/",
+    "definition": "từ thông dụng: chef",
+    "example": "Let's use the word \"chef\" in a daily conversation."
+  },
+  {
+    "word": "chemical",
+    "ipa": "/chemical/",
+    "definition": "từ thông dụng: chemical",
+    "example": "Let's use the word \"chemical\" in a daily conversation."
+  },
+  {
+    "word": "chemistry",
+    "ipa": "/chemistry/",
+    "definition": "từ thông dụng: chemistry",
+    "example": "Let's use the word \"chemistry\" in a daily conversation."
+  },
+  {
+    "word": "chest",
+    "ipa": "/chest/",
+    "definition": "từ thông dụng: chest",
+    "example": "Let's use the word \"chest\" in a daily conversation."
+  },
+  {
+    "word": "chicken",
+    "ipa": "/chicken/",
+    "definition": "từ thông dụng: chicken",
+    "example": "Let's use the word \"chicken\" in a daily conversation."
+  },
+  {
+    "word": "chief",
+    "ipa": "/chief/",
+    "definition": "từ thông dụng: chief",
+    "example": "Let's use the word \"chief\" in a daily conversation."
+  },
+  {
+    "word": "child",
+    "ipa": "/child/",
+    "definition": "từ thông dụng: child",
+    "example": "Let's use the word \"child\" in a daily conversation."
+  },
+  {
+    "word": "childhood",
+    "ipa": "/childhood/",
+    "definition": "từ thông dụng: childhood",
+    "example": "Let's use the word \"childhood\" in a daily conversation."
+  },
+  {
+    "word": "chill",
+    "ipa": "/chill/",
+    "definition": "từ thông dụng: chill",
+    "example": "Let's use the word \"chill\" in a daily conversation."
+  },
+  {
+    "word": "chin",
+    "ipa": "/chin/",
+    "definition": "từ thông dụng: chin",
+    "example": "Let's use the word \"chin\" in a daily conversation."
+  },
+  {
+    "word": "chip",
+    "ipa": "/chip/",
+    "definition": "từ thông dụng: chip",
+    "example": "Let's use the word \"chip\" in a daily conversation."
+  },
+  {
+    "word": "chocolate",
+    "ipa": "/chocolate/",
+    "definition": "từ thông dụng: chocolate",
+    "example": "Let's use the word \"chocolate\" in a daily conversation."
+  },
+  {
+    "word": "choice",
+    "ipa": "/choice/",
+    "definition": "từ thông dụng: choice",
+    "example": "Let's use the word \"choice\" in a daily conversation."
+  },
+  {
+    "word": "choose",
+    "ipa": "/choose/",
+    "definition": "từ thông dụng: choose",
+    "example": "Let's use the word \"choose\" in a daily conversation."
+  },
+  {
+    "word": "chop",
+    "ipa": "/chop/",
+    "definition": "từ thông dụng: chop",
+    "example": "Let's use the word \"chop\" in a daily conversation."
+  },
+  {
+    "word": "chronic",
+    "ipa": "/chronic/",
+    "definition": "từ thông dụng: chronic",
+    "example": "Let's use the word \"chronic\" in a daily conversation."
+  },
+  {
+    "word": "chunk",
+    "ipa": "/chunk/",
+    "definition": "từ thông dụng: chunk",
+    "example": "Let's use the word \"chunk\" in a daily conversation."
+  },
+  {
+    "word": "church",
+    "ipa": "/church/",
+    "definition": "từ thông dụng: church",
+    "example": "Let's use the word \"church\" in a daily conversation."
+  },
+  {
+    "word": "cigarette",
+    "ipa": "/cigarette/",
+    "definition": "từ thông dụng: cigarette",
+    "example": "Let's use the word \"cigarette\" in a daily conversation."
+  },
+  {
+    "word": "cinema",
+    "ipa": "/cinema/",
+    "definition": "từ thông dụng: cinema",
+    "example": "Let's use the word \"cinema\" in a daily conversation."
+  },
+  {
+    "word": "circle",
+    "ipa": "/circle/",
+    "definition": "từ thông dụng: circle",
+    "example": "Let's use the word \"circle\" in a daily conversation."
+  },
+  {
+    "word": "circuit",
+    "ipa": "/circuit/",
+    "definition": "từ thông dụng: circuit",
+    "example": "Let's use the word \"circuit\" in a daily conversation."
+  },
+  {
+    "word": "circumstance",
+    "ipa": "/circumstance/",
+    "definition": "từ thông dụng: circumstance",
+    "example": "Let's use the word \"circumstance\" in a daily conversation."
+  },
+  {
+    "word": "cite",
+    "ipa": "/cite/",
+    "definition": "từ thông dụng: cite",
+    "example": "Let's use the word \"cite\" in a daily conversation."
+  },
+  {
+    "word": "citizen",
+    "ipa": "/citizen/",
+    "definition": "từ thông dụng: citizen",
+    "example": "Let's use the word \"citizen\" in a daily conversation."
+  },
+  {
+    "word": "city",
+    "ipa": "/city/",
+    "definition": "từ thông dụng: city",
+    "example": "Let's use the word \"city\" in a daily conversation."
+  },
+  {
+    "word": "civil",
+    "ipa": "/civil/",
+    "definition": "từ thông dụng: civil",
+    "example": "Let's use the word \"civil\" in a daily conversation."
+  },
+  {
+    "word": "civilian",
+    "ipa": "/civilian/",
+    "definition": "từ thông dụng: civilian",
+    "example": "Let's use the word \"civilian\" in a daily conversation."
+  },
+  {
+    "word": "claim",
+    "ipa": "/claim/",
+    "definition": "từ thông dụng: claim",
+    "example": "Let's use the word \"claim\" in a daily conversation."
+  },
+  {
+    "word": "clap",
+    "ipa": "/clap/",
+    "definition": "từ thông dụng: clap",
+    "example": "Let's use the word \"clap\" in a daily conversation."
+  },
+  {
+    "word": "class",
+    "ipa": "/class/",
+    "definition": "từ thông dụng: class",
+    "example": "Let's use the word \"class\" in a daily conversation."
+  },
+  {
+    "word": "classic",
+    "ipa": "/classic/",
+    "definition": "từ thông dụng: classic",
+    "example": "Let's use the word \"classic\" in a daily conversation."
+  },
+  {
+    "word": "classical",
+    "ipa": "/classical/",
+    "definition": "từ thông dụng: classical",
+    "example": "Let's use the word \"classical\" in a daily conversation."
+  },
+  {
+    "word": "classify",
+    "ipa": "/classify/",
+    "definition": "từ thông dụng: classify",
+    "example": "Let's use the word \"classify\" in a daily conversation."
+  },
+  {
+    "word": "classroom",
+    "ipa": "/classroom/",
+    "definition": "từ thông dụng: classroom",
+    "example": "Let's use the word \"classroom\" in a daily conversation."
+  },
+  {
+    "word": "clay",
+    "ipa": "/clay/",
+    "definition": "từ thông dụng: clay",
+    "example": "Let's use the word \"clay\" in a daily conversation."
+  },
+  {
+    "word": "clean",
+    "ipa": "/clean/",
+    "definition": "từ thông dụng: clean",
+    "example": "Let's use the word \"clean\" in a daily conversation."
+  },
+  {
+    "word": "cleaner",
+    "ipa": "/cleaner/",
+    "definition": "từ thông dụng: cleaner",
+    "example": "Let's use the word \"cleaner\" in a daily conversation."
+  },
+  {
+    "word": "clear",
+    "ipa": "/clear/",
+    "definition": "từ thông dụng: clear",
+    "example": "Let's use the word \"clear\" in a daily conversation."
+  },
+  {
+    "word": "clearly",
+    "ipa": "/clearly/",
+    "definition": "từ thông dụng: clearly",
+    "example": "Let's use the word \"clearly\" in a daily conversation."
+  },
+  {
+    "word": "clerk",
+    "ipa": "/clerk/",
+    "definition": "từ thông dụng: clerk",
+    "example": "Let's use the word \"clerk\" in a daily conversation."
+  },
+  {
+    "word": "clever",
+    "ipa": "/clever/",
+    "definition": "từ thông dụng: clever",
+    "example": "Let's use the word \"clever\" in a daily conversation."
+  },
+  {
+    "word": "click",
+    "ipa": "/click/",
+    "definition": "từ thông dụng: click",
+    "example": "Let's use the word \"click\" in a daily conversation."
+  },
+  {
+    "word": "client",
+    "ipa": "/client/",
+    "definition": "từ thông dụng: client",
+    "example": "Let's use the word \"client\" in a daily conversation."
+  },
+  {
+    "word": "cliff",
+    "ipa": "/cliff/",
+    "definition": "từ thông dụng: cliff",
+    "example": "Let's use the word \"cliff\" in a daily conversation."
+  },
+  {
+    "word": "climate",
+    "ipa": "/climate/",
+    "definition": "từ thông dụng: climate",
+    "example": "Let's use the word \"climate\" in a daily conversation."
+  },
+  {
+    "word": "climb",
+    "ipa": "/climb/",
+    "definition": "từ thông dụng: climb",
+    "example": "Let's use the word \"climb\" in a daily conversation."
+  },
+  {
+    "word": "clinic",
+    "ipa": "/clinic/",
+    "definition": "từ thông dụng: clinic",
+    "example": "Let's use the word \"clinic\" in a daily conversation."
+  },
+  {
+    "word": "clinical",
+    "ipa": "/clinical/",
+    "definition": "từ thông dụng: clinical",
+    "example": "Let's use the word \"clinical\" in a daily conversation."
+  },
+  {
+    "word": "clip",
+    "ipa": "/clip/",
+    "definition": "từ thông dụng: clip",
+    "example": "Let's use the word \"clip\" in a daily conversation."
+  },
+  {
+    "word": "clock",
+    "ipa": "/clock/",
+    "definition": "từ thông dụng: clock",
+    "example": "Let's use the word \"clock\" in a daily conversation."
+  },
+  {
+    "word": "close",
+    "ipa": "/close/",
+    "definition": "từ thông dụng: close",
+    "example": "Let's use the word \"close\" in a daily conversation."
+  },
+  {
+    "word": "closely",
+    "ipa": "/closely/",
+    "definition": "từ thông dụng: closely",
+    "example": "Let's use the word \"closely\" in a daily conversation."
+  }
+]

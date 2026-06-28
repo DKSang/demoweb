@@ -21,6 +21,7 @@ const VOCAB_FILE = path.join(DATA_DIR, "vocabulary.json");
 const STREAKS_FILE = path.join(DATA_DIR, "streaks.json");
 const HISTORY_FILE = path.join(DATA_DIR, "chat_history.json");
 const LESSONS_FILE = path.join(DATA_DIR, "lessons.json");
+const COMMON_VOCAB_FILE = path.join(DATA_DIR, "common_vocab.json");
 
 if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -99,6 +100,7 @@ initializeFile(VOCAB_FILE, "[]");
 initializeFile(STREAKS_FILE, "[]");
 initializeFile(HISTORY_FILE, "[]");
 initializeFile(LESSONS_FILE, JSON.stringify(DEFAULT_LESSONS, null, 2));
+initializeFile(COMMON_VOCAB_FILE, "[]");
 
 app.use(express.json());
 
@@ -192,6 +194,15 @@ app.get("/api/vocabulary", (req: Request, res: Response) => {
   }
 });
 
+app.get("/api/common-vocabulary", (req: Request, res: Response) => {
+  try {
+    const data = fs.readFileSync(COMMON_VOCAB_FILE, "utf-8");
+    res.json(JSON.parse(data));
+  } catch (err: any) {
+    res.status(500).json({ error: "Failed to read common vocabulary data", details: err.message });
+  }
+});
+
 app.post("/api/vocabulary", (req: Request, res: Response) => {
   try {
     const newWord = req.body;
@@ -207,7 +218,12 @@ app.post("/api/vocabulary", (req: Request, res: Response) => {
     if (!exists) {
       vocab.push({
         ...newWord,
-        dateSaved: newWord.dateSaved || new Date().toLocaleDateString()
+        dateSaved: newWord.dateSaved || (() => {
+          const d = new Date();
+          const offset = d.getTimezoneOffset();
+          const localDate = new Date(d.getTime() - offset * 60 * 1000);
+          return localDate.toISOString().split("T")[0];
+        })()
       });
       fs.writeFileSync(VOCAB_FILE, JSON.stringify(vocab, null, 2), "utf-8");
     }
@@ -245,7 +261,11 @@ app.get("/api/streaks", (req: Request, res: Response) => {
 
 app.post("/api/streaks", (req: Request, res: Response) => {
   try {
-    const todayStr = new Date().toISOString().split("T")[0];
+    const d = new Date();
+    const offset = d.getTimezoneOffset();
+    const localDate = new Date(d.getTime() - offset * 60 * 1000);
+    const todayStr = localDate.toISOString().split("T")[0];
+    
     const dataRaw = fs.readFileSync(STREAKS_FILE, "utf-8");
     const streaks = JSON.parse(dataRaw);
 

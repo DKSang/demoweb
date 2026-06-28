@@ -194,10 +194,33 @@ export default function AISpeakingLab() {
   const [isInitializingLesson, setIsInitializingLesson] = useState(false);
 
   // Notebook/Review Game states
-  const [vocabViewMode, setVocabViewMode] = useState<"list" | "review">("list");
+  const [vocabSubTab, setVocabSubTab] = useState<"saved" | "foundational" | "review">("saved");
   const [reviewIndex, setReviewIndex] = useState(0);
   const [isCardFlipped, setIsCardFlipped] = useState(false);
   const [reviewScores, setReviewScores] = useState({ correct: 0, total: 0 });
+
+  // Daily task lock & status states
+  const [hasShadowedToday, setHasShadowedToday] = useState(false);
+  const [hasChattedToday, setHasChattedToday] = useState(false);
+
+  // Common vocabulary database state
+  const [commonVocab, setCommonVocab] = useState<VocabWord[]>([]);
+  const [flippedWords, setFlippedWords] = useState<string[]>([]);
+  const [foundationalPage, setFoundationalPage] = useState(1);
+  const wordsPerPage = 12;
+
+  // Timezone-safe local date string generator (YYYY-MM-DD)
+  const getLocalDateString = (d: Date = new Date()) => {
+    const offset = d.getTimezoneOffset();
+    const localDate = new Date(d.getTime() - offset * 60 * 1000);
+    return localDate.toISOString().split("T")[0];
+  };
+
+  const toggleFlippedWord = (word: string) => {
+    setFlippedWords(prev => 
+      prev.includes(word) ? prev.filter(w => w !== word) : [...prev, word]
+    );
+  };
 
   const getConsecutiveStreak = (days: string[]): number => {
     if (days.length === 0) return 0;
@@ -256,6 +279,12 @@ export default function AISpeakingLab() {
       .then(res => res.json())
       .then(data => setSavedVocab(data))
       .catch(err => console.error("Failed to fetch vocabulary:", err));
+
+    // Fetch foundational common vocabulary from backend
+    fetch("/api/common-vocabulary")
+      .then(res => res.json())
+      .then(data => setCommonVocab(data))
+      .catch(err => console.error("Failed to fetch common vocabulary:", err));
 
     // Fetch streaks from backend
     fetch("/api/streaks")
@@ -325,6 +354,25 @@ export default function AISpeakingLab() {
       console.error("Failed to log streak:", err);
     }
   };
+
+  // Sync today's completed state if date is already in database
+  useEffect(() => {
+    const todayStr = getLocalDateString();
+    if (streakDays.includes(todayStr)) {
+      setHasShadowedToday(true);
+      setHasChattedToday(true);
+    }
+  }, [streakDays]);
+
+  // Automatically submit streak to backend once both tasks are finished today
+  useEffect(() => {
+    if (hasShadowedToday && hasChattedToday) {
+      const todayStr = getLocalDateString();
+      if (!streakDays.includes(todayStr)) {
+        markDayPracticed();
+      }
+    }
+  }, [hasShadowedToday, hasChattedToday, streakDays]);
 
   // TTS Output speak helper
   const speakAIResponse = (text: string) => {
@@ -467,7 +515,9 @@ export default function AISpeakingLab() {
       const target = selectedLesson.lines[currentLineIndex].text;
       const score = getSimilarity(target, recognitionText);
       setShadowScore(score);
-      markDayPracticed();
+      if (score >= 50) {
+        setHasShadowedToday(true);
+      }
     }
   }, [recognitionText]);
 
@@ -476,7 +526,7 @@ export default function AISpeakingLab() {
     if (savedVocab.some(w => w.word.toLowerCase() === wordObj.word.toLowerCase())) return;
     const newWord = {
       ...wordObj,
-      dateSaved: new Date().toLocaleDateString()
+      dateSaved: getLocalDateString()
     };
 
     try {
@@ -683,11 +733,11 @@ export default function AISpeakingLab() {
     }, 600);
   };
 
-  // Call Ollama backend Proxy
   const handleSendChat = async (overrideText?: string) => {
     const textToSend = overrideText || chatInput;
     if (!textToSend.trim()) return;
 
+    setHasChattedToday(true);
     setChatInput("");
     setRecognitionText("");
     
@@ -905,11 +955,19 @@ export default function AISpeakingLab() {
                       }}
                       className="bg-black/60 border border-white/10 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-white/30 cursor-pointer max-w-xs"
                     >
-                      {lessonsList.map(l => (
-                        <option key={l.id} value={l.id} className="bg-zinc-950 text-white text-xs">
-                          {l.title.replace("🇬🇧", "").replace("⏰", "").trim()}
-                        </option>
-                      ))}
+                      {(() => {
+                        const todayStr = getLocalDateString();
+                        const isDailyCompleted = streakDays.includes(todayStr) || (hasShadowedToday && hasChattedToday);
+                        
+                        return lessonsList.map((l, idx) => {
+                          const isLocked = !isDailyCompleted && idx > 0 && l.id !== selectedLesson?.id;
+                          return (
+                            <option key={l.id} value={l.id} disabled={isLocked} className="bg-zinc-950 text-white text-xs">
+                              {isLocked ? `🔒 ${l.title.replace("🇬🇧", "").replace("⏰", "").trim()}` : l.title.replace("🇬🇧", "").replace("⏰", "").trim()}
+                            </option>
+                          );
+                        });
+                      })()}
                     </select>
                   </div>
 
@@ -1256,8 +1314,9 @@ export default function AISpeakingLab() {
                 <div className="grid grid-cols-7 gap-2 bg-black/45 p-4 rounded-2xl border border-white/5">
                   {Array.from({ length: 28 }).map((_, idx) => {
                     const date = new Date();
+                    date.setHours(12, 0, 0, 0); // avoid DST shift
                     date.setDate(date.getDate() - (27 - idx));
-                    const dateStr = date.toISOString().split("T")[0];
+                    const dateStr = getLocalDateString(date);
                     const isPracticed = streakDays.includes(dateStr);
                     const dayLabel = date.getDate();
                     
@@ -1276,6 +1335,33 @@ export default function AISpeakingLab() {
                     );
                   })}
                 </div>
+
+                {/* Daily task checklist */}
+                <div className="p-4 rounded-2xl bg-black/45 border border-white/5 flex flex-col gap-3">
+                  <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                    <span className="text-[10px] font-mono text-white/40 uppercase">Today's Tasks</span>
+                    <span className={`text-[10px] font-mono font-semibold px-2 py-0.5 rounded ${
+                      (hasShadowedToday && hasChattedToday) ? "bg-white/10 text-white" : "bg-white/5 text-white/55"
+                    }`}>
+                      {(hasShadowedToday && hasChattedToday) ? "✓ COMPLETED" : "LOCKED"}
+                    </span>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-white/60">1. Shadow 1 sentence (Score &ge; 50)</span>
+                      <span className="font-mono text-white">{hasShadowedToday ? "✓ Done" : "○ Pending"}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-white/60">2. Message Ollama AI Coach</span>
+                      <span className="font-mono text-white">{hasChattedToday ? "✓ Done" : "○ Pending"}</span>
+                    </div>
+                  </div>
+                  {!(hasShadowedToday && hasChattedToday) && (
+                    <div className="text-[9px] font-mono text-white/30 italic text-center mt-1">
+                      *Unlock other lessons by completing today's tasks!
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Right Column: Vocabulary notebooks list or Review game */}
@@ -1289,6 +1375,7 @@ export default function AISpeakingLab() {
                   }
                   .backface-hidden {
                     backface-visibility: hidden;
+                    -webkit-backface-visibility: hidden;
                   }
                   .rotate-y-180 {
                     transform: rotateY(180deg);
@@ -1296,63 +1383,139 @@ export default function AISpeakingLab() {
                 `}</style>
 
                 <div className="flex justify-between items-center border-b border-white/5 pb-4">
-                  <div className="flex gap-6">
+                  <div className="flex gap-4 sm:gap-6">
                     <button
-                      onClick={() => setVocabViewMode("list")}
+                      onClick={() => setVocabSubTab("saved")}
                       className={`text-xs font-semibold tracking-wide uppercase pb-2 border-b-2 transition-all cursor-pointer ${
-                        vocabViewMode === "list" ? "text-white border-white" : "text-white/40 border-transparent hover:text-white/70"
+                        vocabSubTab === "saved" ? "text-white border-white" : "text-white/40 border-transparent hover:text-white/70"
                       }`}
                     >
-                      My Notebook
+                      My Saved
+                    </button>
+                    <button
+                      onClick={() => setVocabSubTab("foundational")}
+                      className={`text-xs font-semibold tracking-wide uppercase pb-2 border-b-2 transition-all cursor-pointer ${
+                        vocabSubTab === "foundational" ? "text-white border-white" : "text-white/40 border-transparent hover:text-white/70"
+                      }`}
+                    >
+                      Foundational 521
                     </button>
                     <button
                       onClick={() => {
-                        setVocabViewMode("review");
+                        setVocabSubTab("review");
                         setReviewIndex(0);
                         setIsCardFlipped(false);
                         setReviewScores({ correct: 0, total: 0 });
                       }}
                       className={`text-xs font-semibold tracking-wide uppercase pb-2 border-b-2 transition-all cursor-pointer ${
-                        vocabViewMode === "review" ? "text-white border-white" : "text-white/40 border-transparent hover:text-white/70"
+                        vocabSubTab === "review" ? "text-white border-white" : "text-white/40 border-transparent hover:text-white/70"
                       }`}
                     >
                       Review Game
                     </button>
                   </div>
-                  <span className="text-[10px] font-mono text-white/40">{savedVocab.length} words saved</span>
+                  <span className="text-[10px] font-mono text-white/40 hidden sm:inline">
+                    {vocabSubTab === "saved" ? `${savedVocab.length} saved` : vocabSubTab === "foundational" ? `${commonVocab.length} words` : "Challenge Mode"}
+                  </span>
                 </div>
 
-                {vocabViewMode === "list" ? (
+                {vocabSubTab === "saved" ? (
                   savedVocab.length === 0 ? (
                     <div className="py-20 text-center flex flex-col items-center gap-3">
                       <BookOpen className="w-8 h-8 text-white/10" />
-                      <p className="text-xs text-white/40">Your saved words list is currently empty. Add words while shadowing!</p>
+                      <p className="text-xs text-white/40">Your saved words list is empty. Save words during shadowing!</p>
                     </div>
                   ) : (
-                    <div className="flex flex-col gap-3.5 max-h-[480px] overflow-y-auto pr-1">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-h-[480px] overflow-y-auto pr-1">
                       {savedVocab.map((item, idx) => (
-                        <div key={idx} className="p-4 rounded-2xl bg-black/40 border border-white/5 flex justify-between items-start gap-4 relative group">
-                          <div className="flex flex-col gap-1.5">
-                            <div className="flex items-center gap-3">
-                              <span className="text-sm font-semibold text-white">{item.word}</span>
-                              <span className="text-[10px] font-mono text-white/50">{item.ipa}</span>
-                              <span className="text-[8px] font-mono text-white/30 bg-white/5 px-1.5 py-0.5 rounded">
-                                {item.dateSaved}
-                              </span>
+                        <div 
+                          key={idx} 
+                          onClick={() => toggleFlippedWord(item.word)}
+                          className="aspect-[1.5/1] w-full perspective-1000 cursor-pointer group"
+                        >
+                          <div className={`relative w-full h-full duration-300 preserve-3d transition-transform ${flippedWords.includes(item.word) ? "rotate-y-180" : ""}`}>
+                            
+                            {/* Front Face */}
+                            <div className="absolute inset-0 w-full h-full backface-hidden rounded-xl border border-white/5 bg-black/45 flex flex-col items-center justify-center p-3 text-center shadow">
+                              <span className="text-xs font-bold text-white tracking-wide">{item.word}</span>
+                              <span className="text-[9px] font-mono text-white/40 mt-1">{item.ipa}</span>
+                              
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDeleteWord(item.word);
+                                }}
+                                className="absolute top-2 right-2 w-5 h-5 rounded-full bg-white/5 hover:bg-white/15 flex items-center justify-center transition-all opacity-0 group-hover:opacity-100"
+                                title="Delete word"
+                              >
+                                <Trash2 className="w-3 h-3 text-white/40 hover:text-white" />
+                              </button>
                             </div>
-                            <p className="text-xs text-white/70 leading-normal">{item.definition}</p>
-                            <p className="text-xs text-white/45 italic leading-normal">"{item.example}"</p>
+
+                            {/* Back Face */}
+                            <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-xl border border-white/10 bg-black/60 flex flex-col justify-between p-3 text-left shadow">
+                              <div className="flex flex-col gap-1 overflow-y-auto h-full justify-center">
+                                <p className="text-[10px] text-white/80 leading-normal">{item.definition}</p>
+                                <p className="text-[9px] text-white/45 italic leading-normal mt-0.5">"{item.example}"</p>
+                              </div>
+                            </div>
+
                           </div>
-                          
-                          <button
-                            onClick={() => handleDeleteWord(item.word)}
-                            className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/15 flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 cursor-pointer shrink-0"
-                            title="Delete word"
-                          >
-                            <Trash2 className="w-3.5 h-3.5 text-white/60 hover:text-white" />
-                          </button>
                         </div>
                       ))}
+                    </div>
+                  )
+                ) : vocabSubTab === "foundational" ? (
+                  commonVocab.length === 0 ? (
+                    <div className="py-20 text-center text-xs text-white/40">Loading 521 foundational words...</div>
+                  ) : (
+                    <div className="flex flex-col gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-h-[420px] overflow-y-auto pr-1">
+                        {commonVocab.slice((foundationalPage - 1) * wordsPerPage, foundationalPage * wordsPerPage).map((item, idx) => (
+                          <div 
+                            key={idx} 
+                            onClick={() => toggleFlippedWord(item.word)}
+                            className="aspect-[1.5/1] w-full perspective-1000 cursor-pointer"
+                          >
+                            <div className={`relative w-full h-full duration-300 preserve-3d transition-transform ${flippedWords.includes(item.word) ? "rotate-y-180" : ""}`}>
+                              
+                              {/* Front Face */}
+                              <div className="absolute inset-0 w-full h-full backface-hidden rounded-xl border border-white/5 bg-black/45 flex flex-col items-center justify-center p-3 text-center shadow">
+                                <span className="text-xs font-bold text-white tracking-wide">{item.word}</span>
+                                <span className="text-[9px] font-mono text-white/40 mt-1">{item.ipa}</span>
+                              </div>
+
+                              {/* Back Face */}
+                              <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-xl border border-white/10 bg-black/60 flex flex-col justify-between p-3 text-left shadow">
+                                <div className="flex flex-col gap-1 overflow-y-auto h-full justify-center">
+                                  <p className="text-[10px] text-white/80 leading-normal">{item.definition}</p>
+                                  <p className="text-[9px] text-white/45 italic leading-normal mt-0.5">"{item.example}"</p>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Pagination controls */}
+                      <div className="flex items-center justify-between border-t border-white/5 pt-4 mt-2">
+                        <button
+                          disabled={foundationalPage === 1}
+                          onClick={() => setFoundationalPage(p => Math.max(1, p - 1))}
+                          className="px-3.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:pointer-events-none text-xs font-mono transition-all"
+                        >
+                          &larr; Prev
+                        </button>
+                        <span className="text-[10px] font-mono text-white/40">Page {foundationalPage} of {Math.ceil(commonVocab.length / wordsPerPage)}</span>
+                        <button
+                          disabled={foundationalPage === Math.ceil(commonVocab.length / wordsPerPage)}
+                          onClick={() => setFoundationalPage(p => Math.min(Math.ceil(commonVocab.length / wordsPerPage), p + 1))}
+                          className="px-3.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:pointer-events-none text-xs font-mono transition-all"
+                        >
+                          Next &rarr;
+                        </button>
+                      </div>
                     </div>
                   )
                 ) : (
@@ -1395,10 +1558,10 @@ export default function AISpeakingLab() {
                           Restart Game
                         </button>
                         <button
-                          onClick={() => setVocabViewMode("list")}
+                          onClick={() => setVocabSubTab("saved")}
                           className="px-6 py-2.5 rounded-full bg-white/5 text-white/80 hover:text-white hover:bg-white/10 text-xs font-semibold hover:scale-105 active:scale-95 transition-all cursor-pointer"
                         >
-                          Back to List
+                          Back to Notebook
                         </button>
                       </div>
                     </div>
@@ -1450,11 +1613,6 @@ export default function AISpeakingLab() {
                           onClick={(e) => {
                             e.stopPropagation();
                             setIsCardFlipped(false);
-                            setTimeout(() => {
-                              setReviewIndex((prev) => prev + 1);
-                              setReviewScores((prev) => ({ ...prev, total: prev.total + 1 }));
-                            }, 20000000000); // Trigger transition delay
-                            // Wait for flip back to complete
                             setTimeout(() => {
                               setReviewIndex((prev) => prev + 1);
                               setReviewScores((prev) => ({ ...prev, total: prev.total + 1 }));

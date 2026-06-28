@@ -11106,9 +11106,1666 @@
     "id": "xD2IWnl7I3g",
     "title": "Learn English in the Supermarket 🛒🍎 Comprehensible Input",
     "videoId": "xD2IWnl7I3g",
-    "isInitialized": false,
-    "vocab": [],
-    "lines": []
+    "isInitialized": true,
+    "vocab": [
+      {
+        "word": "aisle",
+        "ipa": "/aɪl/",
+        "definition": "A long narrow passageway between rows of shelves in a supermarket.",
+        "example": "I'm walking down the aisle to grab some milk."
+      },
+      {
+        "word": "promotion",
+        "ipa": "/prəʊməʊˈteɪʃən/",
+        "definition": "An offer or sale that is cheaper than normal.",
+        "example": "The store has a promotion on all their summer clothes."
+      },
+      {
+        "word": "trolley",
+        "ipa": "/ˈtrɒli/",
+        "definition": "A shopping cart with wheels, used to carry items in a supermarket.",
+        "example": "I'm using the trolley to carry my groceries home."
+      },
+      {
+        "word": "kimbap",
+        "ipa": "/kiːm.bæp/",
+        "definition": "A Korean dish made from rice and various fillings, often wrapped in seaweed.",
+        "example": "I love eating kimbap for lunch."
+      },
+      {
+        "word": "piping",
+        "ipa": "/ˈpaɪpɪŋ/",
+        "definition": "Very hot; extremely hot.",
+        "example": "The coffee is piping hot, be careful not to burn your tongue."
+      }
+    ],
+    "lines": [
+      {
+        "start": 0,
+        "end": 3,
+        "text": "Hello. We are in the supermarket and"
+      },
+      {
+        "start": 3,
+        "end": 7,
+        "text": "learning English."
+      },
+      {
+        "start": 7,
+        "end": 17,
+        "text": ">> [music]"
+      },
+      {
+        "start": 17,
+        "end": 23,
+        "text": ">> Ah, toilet roll."
+      },
+      {
+        "start": 23,
+        "end": 26,
+        "text": "I am walking down the aisle. There are"
+      },
+      {
+        "start": 26,
+        "end": 28,
+        "text": "shelves."
+      },
+      {
+        "start": 28,
+        "end": 32,
+        "text": "On the shelves, there are items, things,"
+      },
+      {
+        "start": 32,
+        "end": 34,
+        "text": "stuff."
+      },
+      {
+        "start": 34,
+        "end": 35,
+        "text": "Let's get some stuff."
+      },
+      {
+        "start": 35,
+        "end": 38,
+        "text": "So, Chang is shopping for some"
+      },
+      {
+        "start": 38,
+        "end": 39,
+        "text": "deodorant."
+      },
+      {
+        "start": 39,
+        "end": 43,
+        "text": "We say deodorant, three syllables."
+      },
+      {
+        "start": 43,
+        "end": 45,
+        "text": "Chang is rubbing the deodorant on my"
+      },
+      {
+        "start": 45,
+        "end": 48,
+        "text": "armpit because I'm smelly. These are"
+      },
+      {
+        "start": 48,
+        "end": 53,
+        "text": "roll-on deodorants and they are on sale."
+      },
+      {
+        "start": 53,
+        "end": 56,
+        "text": "This is a promotion."
+      },
+      {
+        "start": 56,
+        "end": 58,
+        "text": "A promotion is when something is cheaper"
+      },
+      {
+        "start": 58,
+        "end": 61,
+        "text": "than normal. They're on sale. The next"
+      },
+      {
+        "start": 61,
+        "end": 68,
+        "text": "thing on our list is kitchen roll."
+      },
+      {
+        "start": 68,
+        "end": 73,
+        "text": "This is a multi-pack of kitchen roll."
+      },
+      {
+        "start": 73,
+        "end": 78,
+        "text": "Kitchen roll is for the kitchen and"
+      },
+      {
+        "start": 78,
+        "end": 79,
+        "text": "toilet roll"
+      },
+      {
+        "start": 79,
+        "end": 80,
+        "text": "is for"
+      },
+      {
+        "start": 80,
+        "end": 84,
+        "text": "Well, you tell me. Ooh, this is useful."
+      },
+      {
+        "start": 84,
+        "end": 89,
+        "text": "So, guys, this is a shopping basket."
+      },
+      {
+        "start": 89,
+        "end": 91,
+        "text": "It's called a basket because it has a"
+      },
+      {
+        "start": 91,
+        "end": 94,
+        "text": "handle and I carry it."
+      },
+      {
+        "start": 94,
+        "end": 96,
+        "text": "And this is a trolley."
+      },
+      {
+        "start": 96,
+        "end": 99,
+        "text": "Or in America, they would say a shopping"
+      },
+      {
+        "start": 99,
+        "end": 102,
+        "text": "cart, a shopping cart. In England, we"
+      },
+      {
+        "start": 102,
+        "end": 105,
+        "text": "say a trolley and you push the trolley"
+      },
+      {
+        "start": 105,
+        "end": 108,
+        "text": "on its wheels. Now, we are going to pay"
+      },
+      {
+        "start": 108,
+        "end": 111,
+        "text": "for our items and then go get some food."
+      },
+      {
+        "start": 111,
+        "end": 114,
+        "text": "Chang is going back."
+      },
+      {
+        "start": 114,
+        "end": 116,
+        "text": "We've just done part one of the shop."
+      },
+      {
+        "start": 116,
+        "end": 117,
+        "text": "We've just paid at the checkout"
+      },
+      {
+        "start": 117,
+        "end": 122,
+        "text": "counters. We've got our items for home"
+      },
+      {
+        "start": 122,
+        "end": 124,
+        "text": "in these plastic bags."
+      },
+      {
+        "start": 124,
+        "end": 125,
+        "text": "Now,"
+      },
+      {
+        "start": 125,
+        "end": 127,
+        "text": "I'm getting hungry. Are you hungry?"
+      },
+      {
+        "start": 127,
+        "end": 130,
+        "text": "Yeah, always hungry."
+      },
+      {
+        "start": 130,
+        "end": 132,
+        "text": "This is the restaurant side. Chang is"
+      },
+      {
+        "start": 132,
+        "end": 135,
+        "text": "flicking through the menu. Hmm, do we"
+      },
+      {
+        "start": 135,
+        "end": 138,
+        "text": "want to eat here?"
+      },
+      {
+        "start": 138,
+        "end": 149,
+        "text": "Okay."
+      },
+      {
+        "start": 149,
+        "end": 151,
+        "text": "I've got a white shirt on and we're"
+      },
+      {
+        "start": 151,
+        "end": 153,
+        "text": "about to eat. So, I've been asked if I'd"
+      },
+      {
+        "start": 153,
+        "end": 156,
+        "text": "like an apron. Yes."
+      },
+      {
+        "start": 156,
+        "end": 158,
+        "text": "Thank you. All right, guys, this is an"
+      },
+      {
+        "start": 158,
+        "end": 161,
+        "text": "apron and you use it to"
+      },
+      {
+        "start": 161,
+        "end": 165,
+        "text": "not get food on yourself."
+      },
+      {
+        "start": 165,
+        "end": 167,
+        "text": "I'm going to wear my apron."
+      },
+      {
+        "start": 167,
+        "end": 170,
+        "text": "Thumbs going in."
+      },
+      {
+        "start": 170,
+        "end": 173,
+        "text": "All right."
+      },
+      {
+        "start": 173,
+        "end": 175,
+        "text": "Feel like a kid again. Korean"
+      },
+      {
+        "start": 175,
+        "end": 177,
+        "text": "number one soju."
+      },
+      {
+        "start": 177,
+        "end": 179,
+        "text": "If you're Korean and and watching this,"
+      },
+      {
+        "start": 179,
+        "end": 180,
+        "text": "then"
+      },
+      {
+        "start": 180,
+        "end": 185,
+        "text": "thank you. Wow."
+      },
+      {
+        "start": 185,
+        "end": 189,
+        "text": "My soup is absolutely bubbling."
+      },
+      {
+        "start": 189,
+        "end": 191,
+        "text": "Looks like a witch's cauldron."
+      },
+      {
+        "start": 191,
+        "end": 193,
+        "text": "If I drink that or eat that, I will"
+      },
+      {
+        "start": 193,
+        "end": 195,
+        "text": "scald my tongue"
+      },
+      {
+        "start": 195,
+        "end": 197,
+        "text": "Okay, Chang's food's arriving."
+      },
+      {
+        "start": 197,
+        "end": 199,
+        "text": "Wow, that is insanely hot. All right,"
+      },
+      {
+        "start": 199,
+        "end": 202,
+        "text": "guys, I've got my apron on. I'm ready."
+      },
+      {
+        "start": 202,
+        "end": 205,
+        "text": "We have our Korean banquet, our buffet,"
+      },
+      {
+        "start": 205,
+        "end": 206,
+        "text": "our food."
+      },
+      {
+        "start": 206,
+        "end": 208,
+        "text": "We have some"
+      },
+      {
+        "start": 208,
+        "end": 213,
+        "text": "tofu seafood soup, a plate of kimchi,"
+      },
+      {
+        "start": 213,
+        "end": 215,
+        "text": "we have some"
+      },
+      {
+        "start": 215,
+        "end": 217,
+        "text": "bean sprouts,"
+      },
+      {
+        "start": 217,
+        "end": 220,
+        "text": "some mashed potato, it looks like,"
+      },
+      {
+        "start": 220,
+        "end": 224,
+        "text": "and some sweet potato noodles with red,"
+      },
+      {
+        "start": 224,
+        "end": 227,
+        "text": "green, and yellow pepper."
+      },
+      {
+        "start": 227,
+        "end": 230,
+        "text": "I'm holding a ladle for the soup."
+      },
+      {
+        "start": 230,
+        "end": 234,
+        "text": "This is a kimbap. Looks delicious. Let's"
+      },
+      {
+        "start": 234,
+        "end": 236,
+        "text": "dig in. One more language point before"
+      },
+      {
+        "start": 236,
+        "end": 238,
+        "text": "we eat. When something is really,"
+      },
+      {
+        "start": 238,
+        "end": 240,
+        "text": "really, really hot, a liquid, we can say"
+      },
+      {
+        "start": 240,
+        "end": 244,
+        "text": "it's piping. It's piping hot. You can"
+      },
+      {
+        "start": 244,
+        "end": 246,
+        "text": "also say it's steaming hot."
+      },
+      {
+        "start": 246,
+        "end": 248,
+        "text": "This is absolutely piping, so I'm not"
+      },
+      {
+        "start": 248,
+        "end": 250,
+        "text": "going to eat it yet. I think I'll take"
+      },
+      {
+        "start": 250,
+        "end": 252,
+        "text": "my chopsticks"
+      },
+      {
+        "start": 252,
+        "end": 256,
+        "text": "and take a piece of kimchi, fermented"
+      },
+      {
+        "start": 256,
+        "end": 263,
+        "text": "cabbage."
+      },
+      {
+        "start": 263,
+        "end": 265,
+        "text": "This food is delicious. What do you"
+      },
+      {
+        "start": 265,
+        "end": 266,
+        "text": "think?"
+      },
+      {
+        "start": 266,
+        "end": 269,
+        "text": "Yeah, it is."
+      },
+      {
+        "start": 269,
+        "end": 273,
+        "text": "Time to pay."
+      },
+      {
+        "start": 273,
+        "end": 276,
+        "text": "Going up the escalator."
+      },
+      {
+        "start": 276,
+        "end": 278,
+        "text": "Ooh."
+      },
+      {
+        "start": 278,
+        "end": 281,
+        "text": "What's this?"
+      },
+      {
+        "start": 281,
+        "end": 283,
+        "text": "A man texting."
+      },
+      {
+        "start": 283,
+        "end": 288,
+        "text": "A family chatting."
+      },
+      {
+        "start": 288,
+        "end": 296,
+        "text": "Two Grab drivers waiting."
+      },
+      {
+        "start": 296,
+        "end": 299,
+        "text": "Now, my friends, we are doing a food"
+      },
+      {
+        "start": 299,
+        "end": 302,
+        "text": "shop. A food shop is a UK term for a"
+      },
+      {
+        "start": 302,
+        "end": 305,
+        "text": "grocery shop. We're getting our food for"
+      },
+      {
+        "start": 305,
+        "end": 306,
+        "text": "the week."
+      },
+      {
+        "start": 306,
+        "end": 307,
+        "text": "Ooh."
+      },
+      {
+        "start": 307,
+        "end": 309,
+        "text": "Eggs."
+      },
+      {
+        "start": 309,
+        "end": 310,
+        "text": "Ah."
+      },
+      {
+        "start": 310,
+        "end": 313,
+        "text": "A box of a dozen eggs."
+      },
+      {
+        "start": 313,
+        "end": 317,
+        "text": "A dozen is 12."
+      },
+      {
+        "start": 317,
+        "end": 320,
+        "text": "This is the dairy section."
+      },
+      {
+        "start": 320,
+        "end": 323,
+        "text": "These products are in the fridge because"
+      },
+      {
+        "start": 323,
+        "end": 327,
+        "text": "they are made from milk. I need"
+      },
+      {
+        "start": 327,
+        "end": 330,
+        "text": "some Greek yogurt."
+      },
+      {
+        "start": 330,
+        "end": 334,
+        "text": "Ooh."
+      },
+      {
+        "start": 334,
+        "end": 337,
+        "text": "Pines."
+      },
+      {
+        "start": 337,
+        "end": 341,
+        "text": "Tomato ketchup. Next, I need pasta, but"
+      },
+      {
+        "start": 341,
+        "end": 343,
+        "text": "we've got a traffic jam."
+      },
+      {
+        "start": 343,
+        "end": 345,
+        "text": "Can I get through?"
+      },
+      {
+        "start": 345,
+        "end": 348,
+        "text": "Excuse me."
+      },
+      {
+        "start": 348,
+        "end": 350,
+        "text": "Come on. Thank you."
+      },
+      {
+        "start": 350,
+        "end": 352,
+        "text": "I made it through the traffic jam"
+      },
+      {
+        "start": 352,
+        "end": 354,
+        "text": "to be met by"
+      },
+      {
+        "start": 354,
+        "end": 355,
+        "text": "another traffic jam."
+      },
+      {
+        "start": 355,
+        "end": 358,
+        "text": "But, pasta."
+      },
+      {
+        "start": 358,
+        "end": 359,
+        "text": "Box of"
+      },
+      {
+        "start": 359,
+        "end": 362,
+        "text": "pasta."
+      },
+      {
+        "start": 362,
+        "end": 368,
+        "text": "Pasta sauce. Hmm."
+      },
+      {
+        "start": 368,
+        "end": 371,
+        "text": "Ooh. An offer."
+      },
+      {
+        "start": 371,
+        "end": 374,
+        "text": "Oatside oat milk."
+      },
+      {
+        "start": 374,
+        "end": 378,
+        "text": "This milk is on offer. It's discounted."
+      },
+      {
+        "start": 378,
+        "end": 382,
+        "text": "This oat milk was pretty cheap."
+      },
+      {
+        "start": 382,
+        "end": 385,
+        "text": "Cheap in English can have a negative"
+      },
+      {
+        "start": 385,
+        "end": 388,
+        "text": "meaning, a negative connotation."
+      },
+      {
+        "start": 388,
+        "end": 391,
+        "text": "It's better to say it's a bargain, it's"
+      },
+      {
+        "start": 391,
+        "end": 394,
+        "text": "a steal, or a good deal."
+      },
+      {
+        "start": 394,
+        "end": 400,
+        "text": "It sounds more positive."
+      },
+      {
+        "start": 400,
+        "end": 403,
+        "text": "Look at this, guys. Mental."
+      },
+      {
+        "start": 403,
+        "end": 404,
+        "text": ">> [laughter]"
+      },
+      {
+        "start": 404,
+        "end": 407,
+        "text": ">> It's bigger than you."
+      },
+      {
+        "start": 407,
+        "end": 409,
+        "text": "Looks stylish. What do you think of"
+      },
+      {
+        "start": 409,
+        "end": 411,
+        "text": "Chang's new handbag?"
+      },
+      {
+        "start": 411,
+        "end": 413,
+        "text": ">> [laughter]"
+      },
+      {
+        "start": 413,
+        "end": 418,
+        "text": ">> Stylish."
+      },
+      {
+        "start": 418,
+        "end": 420,
+        "text": "La vache qui rit."
+      },
+      {
+        "start": 420,
+        "end": 423,
+        "text": "That's French and it means the cow that"
+      },
+      {
+        "start": 423,
+        "end": 427,
+        "text": "laughs or the laughing cow."
+      },
+      {
+        "start": 427,
+        "end": 431,
+        "text": "I actually became fluent in French using"
+      },
+      {
+        "start": 431,
+        "end": 435,
+        "text": "the methods I use to teach you English."
+      },
+      {
+        "start": 435,
+        "end": 437,
+        "text": "You're here with me because you want to"
+      },
+      {
+        "start": 437,
+        "end": 440,
+        "text": "learn real-life English and become"
+      },
+      {
+        "start": 440,
+        "end": 441,
+        "text": "fluent."
+      },
+      {
+        "start": 441,
+        "end": 444,
+        "text": "Watching videos like this one is the"
+      },
+      {
+        "start": 444,
+        "end": 447,
+        "text": "best way to do that. You learn words"
+      },
+      {
+        "start": 447,
+        "end": 451,
+        "text": "naturally and in context."
+      },
+      {
+        "start": 451,
+        "end": 455,
+        "text": "This is a carton of peach juice."
+      },
+      {
+        "start": 455,
+        "end": 458,
+        "text": "I am only 1 week away from launching"
+      },
+      {
+        "start": 458,
+        "end": 462,
+        "text": "Sprouts, the platform where you learn"
+      },
+      {
+        "start": 462,
+        "end": 471,
+        "text": "English using videos just like this one."
+      },
+      {
+        "start": 471,
+        "end": 473,
+        "text": "I'm very excited about this, guys, and"
+      },
+      {
+        "start": 473,
+        "end": 476,
+        "text": "I'm also excited to share with you,"
+      },
+      {
+        "start": 476,
+        "end": 480,
+        "text": "my loyal YouTube following, a special"
+      },
+      {
+        "start": 480,
+        "end": 482,
+        "text": "surprise"
+      },
+      {
+        "start": 482,
+        "end": 486,
+        "text": "next Sunday."
+      },
+      {
+        "start": 486,
+        "end": 489,
+        "text": "Well, I'm very excited for Sprouts."
+      },
+      {
+        "start": 489,
+        "end": 496,
+        "text": "I'm also excited for"
+      },
+      {
+        "start": 496,
+        "end": 501,
+        "text": ">> [music]"
+      },
+      {
+        "start": 501,
+        "end": 503,
+        "text": ">> a bag of"
+      },
+      {
+        "start": 503,
+        "end": 505,
+        "text": "blueberries."
+      },
+      {
+        "start": 505,
+        "end": 507,
+        "text": "Delicious."
+      },
+      {
+        "start": 507,
+        "end": 509,
+        "text": "At the end of the aisles, there are"
+      },
+      {
+        "start": 509,
+        "end": 513,
+        "text": "signs. The sign is above me. The signs"
+      },
+      {
+        "start": 513,
+        "end": 516,
+        "text": "tell us where certain items in the"
+      },
+      {
+        "start": 516,
+        "end": 518,
+        "text": "supermarkets are."
+      },
+      {
+        "start": 518,
+        "end": 522,
+        "text": "So, this sign says confectionery."
+      },
+      {
+        "start": 522,
+        "end": 525,
+        "text": "Confectionery is like chocolates and"
+      },
+      {
+        "start": 525,
+        "end": 527,
+        "text": "sweets."
+      },
+      {
+        "start": 527,
+        "end": 529,
+        "text": "All right, guys, Chang has taken the"
+      },
+      {
+        "start": 529,
+        "end": 532,
+        "text": "shopping trolley. I'm free. So,"
+      },
+      {
+        "start": 532,
+        "end": 535,
+        "text": "I can teach you. All right, this is"
+      },
+      {
+        "start": 535,
+        "end": 538,
+        "text": "a packet of cookies or packet of"
+      },
+      {
+        "start": 538,
+        "end": 542,
+        "text": "biscuits, as we commonly say in England."
+      },
+      {
+        "start": 542,
+        "end": 544,
+        "text": "Over here,"
+      },
+      {
+        "start": 544,
+        "end": 548,
+        "text": "we have crackers, Ritz crackers. What's"
+      },
+      {
+        "start": 548,
+        "end": 551,
+        "text": "the difference between biscuits and"
+      },
+      {
+        "start": 551,
+        "end": 553,
+        "text": "crackers? Well,"
+      },
+      {
+        "start": 553,
+        "end": 556,
+        "text": "biscuits are sweet."
+      },
+      {
+        "start": 556,
+        "end": 560,
+        "text": "Crackers are savory. Savory is the"
+      },
+      {
+        "start": 560,
+        "end": 563,
+        "text": "opposite of sweet."
+      },
+      {
+        "start": 563,
+        "end": 564,
+        "text": "Got it?"
+      },
+      {
+        "start": 564,
+        "end": 567,
+        "text": "Good. All right, guys, I'm on a mission"
+      },
+      {
+        "start": 567,
+        "end": 568,
+        "text": "to find the people who work in the"
+      },
+      {
+        "start": 568,
+        "end": 571,
+        "text": "supermarkets. They are called the staff"
+      },
+      {
+        "start": 571,
+        "end": 573,
+        "text": "and I think I've found"
+      },
+      {
+        "start": 573,
+        "end": 577,
+        "text": "Here is the staff."
+      },
+      {
+        "start": 577,
+        "end": 578,
+        "text": "Now,"
+      },
+      {
+        "start": 578,
+        "end": 581,
+        "text": "what do the staff do? Well, let me show"
+      },
+      {
+        "start": 581,
+        "end": 582,
+        "text": "you."
+      },
+      {
+        "start": 582,
+        "end": 585,
+        "text": "These are the shelves and the staff"
+      },
+      {
+        "start": 585,
+        "end": 589,
+        "text": "stock the shelves with items."
+      },
+      {
+        "start": 589,
+        "end": 591,
+        "text": "They also work at the"
+      },
+      {
+        "start": 591,
+        "end": 594,
+        "text": "checkout counters."
+      },
+      {
+        "start": 594,
+        "end": 597,
+        "text": "I've lost Chang and I always get a bit"
+      },
+      {
+        "start": 597,
+        "end": 599,
+        "text": "weird when I'm on my own."
+      },
+      {
+        "start": 599,
+        "end": 600,
+        "text": "So,"
+      },
+      {
+        "start": 600,
+        "end": 602,
+        "text": "I'm going to see if I can follow some"
+      },
+      {
+        "start": 602,
+        "end": 605,
+        "text": "people, film their clothes, and describe"
+      },
+      {
+        "start": 605,
+        "end": 607,
+        "text": "what they're wearing. It's all in the"
+      },
+      {
+        "start": 607,
+        "end": 609,
+        "text": "name of English. Don't arrest me."
+      },
+      {
+        "start": 609,
+        "end": 612,
+        "text": "The baby is sitting in the trolley."
+      },
+      {
+        "start": 612,
+        "end": 616,
+        "text": "The woman is deciding which milk to buy."
+      },
+      {
+        "start": 616,
+        "end": 619,
+        "text": "The little boy is running after his dad,"
+      },
+      {
+        "start": 619,
+        "end": 621,
+        "text": "who is wheeling the shopping basket. The"
+      },
+      {
+        "start": 621,
+        "end": 624,
+        "text": "woman is wearing white Wellington boots,"
+      },
+      {
+        "start": 624,
+        "end": 627,
+        "text": "or in the UK we say wellies. So far, no"
+      },
+      {
+        "start": 627,
+        "end": 630,
+        "text": "one has reported me to the police."
+      },
+      {
+        "start": 630,
+        "end": 631,
+        "text": "No one has noticed that I'm describing"
+      },
+      {
+        "start": 631,
+        "end": 632,
+        "text": "what they're wearing. So, let's"
+      },
+      {
+        "start": 632,
+        "end": 633,
+        "text": "continue."
+      },
+      {
+        "start": 633,
+        "end": 637,
+        "text": "Over here, a woman is wearing purple"
+      },
+      {
+        "start": 637,
+        "end": 640,
+        "text": "shirt and"
+      },
+      {
+        "start": 640,
+        "end": 642,
+        "text": "smelling flowers. Oh."
+      },
+      {
+        "start": 642,
+        "end": 644,
+        "text": "It's Chang."
+      },
+      {
+        "start": 644,
+        "end": 645,
+        "text": "Would you believe it?"
+      },
+      {
+        "start": 645,
+        "end": 650,
+        "text": "She has three bunches of flowers. One"
+      },
+      {
+        "start": 650,
+        "end": 654,
+        "text": "bunch, two bunches, three bunches. A"
+      },
+      {
+        "start": 654,
+        "end": 658,
+        "text": "bunch of flowers is usually cheaper and"
+      },
+      {
+        "start": 658,
+        "end": 660,
+        "text": "it's for you to arrange when you get"
+      },
+      {
+        "start": 660,
+        "end": 661,
+        "text": "home."
+      },
+      {
+        "start": 661,
+        "end": 664,
+        "text": "A bouquet of flowers is already made up"
+      },
+      {
+        "start": 664,
+        "end": 666,
+        "text": "for you and it's usually a bit more"
+      },
+      {
+        "start": 666,
+        "end": 668,
+        "text": "expensive. These are bunches of flowers."
+      },
+      {
+        "start": 668,
+        "end": 671,
+        "text": "You would need to go to a florist to buy"
+      },
+      {
+        "start": 671,
+        "end": 674,
+        "text": "a bouquet. A florist is a shop that"
+      },
+      {
+        "start": 674,
+        "end": 677,
+        "text": "sells flowers."
+      },
+      {
+        "start": 677,
+        "end": 679,
+        "text": "Which color do you like? I like all"
+      },
+      {
+        "start": 679,
+        "end": 680,
+        "text": "three."
+      },
+      {
+        "start": 680,
+        "end": 682,
+        "text": "You like all three? Yeah."
+      },
+      {
+        "start": 682,
+        "end": 684,
+        "text": "Can you decide? No."
+      },
+      {
+        "start": 684,
+        "end": 686,
+        "text": "All right, she can't decide. No surprise"
+      },
+      {
+        "start": 686,
+        "end": 689,
+        "text": "there. What do you like? I"
+      },
+      {
+        "start": 689,
+        "end": 691,
+        "text": "I like the orange ones."
+      },
+      {
+        "start": 691,
+        "end": 694,
+        "text": ">> Mhm. And I think they go well with They"
+      },
+      {
+        "start": 694,
+        "end": 695,
+        "text": "all go well. They all They go They go"
+      },
+      {
+        "start": 695,
+        "end": 697,
+        "text": "They all go well together. Let's get"
+      },
+      {
+        "start": 697,
+        "end": 698,
+        "text": "them all."
+      },
+      {
+        "start": 698,
+        "end": 699,
+        "text": "All right, so we're going to get three"
+      },
+      {
+        "start": 699,
+        "end": 700,
+        "text": "bunches of flowers and we are going to"
+      },
+      {
+        "start": 700,
+        "end": 714,
+        "text": "make them into a bouquet at home."
+      },
+      {
+        "start": 714,
+        "end": 720,
+        "text": "These are apples and the top of an apple"
+      },
+      {
+        "start": 720,
+        "end": 722,
+        "text": "is called the stem."
+      },
+      {
+        "start": 722,
+        "end": 724,
+        "text": "This was the part that was once"
+      },
+      {
+        "start": 724,
+        "end": 726,
+        "text": "connected to"
+      },
+      {
+        "start": 726,
+        "end": 730,
+        "text": "the tree. These are tangerines. A"
+      },
+      {
+        "start": 730,
+        "end": 733,
+        "text": "tangerine is like a small orange."
+      },
+      {
+        "start": 733,
+        "end": 735,
+        "text": "And here"
+      },
+      {
+        "start": 735,
+        "end": 738,
+        "text": "they are in a polystyrene tray"
+      },
+      {
+        "start": 738,
+        "end": 741,
+        "text": "and wrapped in cling [music] film."
+      },
+      {
+        "start": 741,
+        "end": 744,
+        "text": "This plastic wrapping is called cling"
+      },
+      {
+        "start": 744,
+        "end": 747,
+        "text": "film. The outside of a fruit is usually"
+      },
+      {
+        "start": 747,
+        "end": 749,
+        "text": "called the skin. And the verb you use"
+      },
+      {
+        "start": 749,
+        "end": 751,
+        "text": "with a tangerine or an orange is to"
+      },
+      {
+        "start": 751,
+        "end": 754,
+        "text": "peel. You peel the fruit."
+      },
+      {
+        "start": 754,
+        "end": 756,
+        "text": "I'm not going to peel this now, though."
+      },
+      {
+        "start": 756,
+        "end": 760,
+        "text": "These are bunches of grapes. This is a"
+      },
+      {
+        "start": 760,
+        "end": 763,
+        "text": "bunch of grapes."
+      },
+      {
+        "start": 763,
+        "end": 767,
+        "text": "These are kiwi fruits."
+      },
+      {
+        "start": 767,
+        "end": 771,
+        "text": "Kiwi fruits."
+      },
+      {
+        "start": 771,
+        "end": 774,
+        "text": "And the outside of the kiwi is sometimes"
+      },
+      {
+        "start": 774,
+        "end": 779,
+        "text": "furry, hairy, or fuzzy. Fuzzy. This one,"
+      },
+      {
+        "start": 779,
+        "end": 781,
+        "text": "the texture of the skin is a little bit"
+      },
+      {
+        "start": 781,
+        "end": 784,
+        "text": "fuzzy or furry."
+      },
+      {
+        "start": 784,
+        "end": 787,
+        "text": "These are passion fruits"
+      },
+      {
+        "start": 787,
+        "end": 790,
+        "text": "and again they are in a tray, a"
+      },
+      {
+        "start": 790,
+        "end": 792,
+        "text": "polystyrene tray. That's the material."
+      },
+      {
+        "start": 792,
+        "end": 795,
+        "text": "Polystyrene is a type of plastic."
+      },
+      {
+        "start": 795,
+        "end": 799,
+        "text": "Cling film is this material which wraps"
+      },
+      {
+        "start": 799,
+        "end": 802,
+        "text": "around food to preserve it, to stop it"
+      },
+      {
+        "start": 802,
+        "end": 804,
+        "text": "from going off or going bad."
+      },
+      {
+        "start": 804,
+        "end": 806,
+        "text": "Passion fruits."
+      },
+      {
+        "start": 806,
+        "end": 808,
+        "text": "These passion fruits are whole. They"
+      },
+      {
+        "start": 808,
+        "end": 810,
+        "text": "haven't been sliced."
+      },
+      {
+        "start": 810,
+        "end": 812,
+        "text": "I'm going to take them home. The texture"
+      },
+      {
+        "start": 812,
+        "end": 815,
+        "text": "of this passion fruit's skin is wrinkly,"
+      },
+      {
+        "start": 815,
+        "end": 819,
+        "text": "wrinkly. Just like my face when I get"
+      },
+      {
+        "start": 819,
+        "end": 820,
+        "text": "older."
+      },
+      {
+        "start": 820,
+        "end": 823,
+        "text": "These bad boys are I think you know."
+      },
+      {
+        "start": 823,
+        "end": 824,
+        "text": "Ouch."
+      },
+      {
+        "start": 824,
+        "end": 829,
+        "text": "Durian. And they are very spiky. When"
+      },
+      {
+        "start": 829,
+        "end": 833,
+        "text": "something smells bad or strong, we say"
+      },
+      {
+        "start": 833,
+        "end": 835,
+        "text": "it's stinky."
+      },
+      {
+        "start": 835,
+        "end": 837,
+        "text": "That durian is stinky."
+      },
+      {
+        "start": 837,
+        "end": 840,
+        "text": "And very spiky, so better not poke"
+      },
+      {
+        "start": 840,
+        "end": 843,
+        "text": "myself in the eye. Over here, we have"
+      },
+      {
+        "start": 843,
+        "end": 847,
+        "text": "some very yellow melons. And here is the"
+      },
+      {
+        "start": 847,
+        "end": 849,
+        "text": "cross-section of the melon. This is the"
+      },
+      {
+        "start": 849,
+        "end": 852,
+        "text": "sticker with the barcode on, which you"
+      },
+      {
+        "start": 852,
+        "end": 854,
+        "text": "scan."
+      },
+      {
+        "start": 854,
+        "end": 855,
+        "text": "Speaking of"
+      },
+      {
+        "start": 855,
+        "end": 857,
+        "text": "scanning barcodes"
+      },
+      {
+        "start": 857,
+        "end": 861,
+        "text": "let's go pay. So, this is the checkout"
+      },
+      {
+        "start": 861,
+        "end": 864,
+        "text": "counter where you pay for your food."
+      },
+      {
+        "start": 864,
+        "end": 867,
+        "text": "Chang is grabbing a bag for life."
+      },
+      {
+        "start": 867,
+        "end": 869,
+        "text": "A bag that you can use again and again"
+      },
+      {
+        "start": 869,
+        "end": 872,
+        "text": "and again and again and again and again"
+      },
+      {
+        "start": 872,
+        "end": 879,
+        "text": "and again."
+      },
+      {
+        "start": 879,
+        "end": 887,
+        "text": "This is scanning."
+      },
+      {
+        "start": 887,
+        "end": 890,
+        "text": "I am bagging up the items"
+      },
+      {
+        "start": 890,
+        "end": 894,
+        "text": "in the bag for life."
+      },
+      {
+        "start": 894,
+        "end": 896,
+        "text": "A jar,"
+      },
+      {
+        "start": 896,
+        "end": 898,
+        "text": "a carton,"
+      },
+      {
+        "start": 898,
+        "end": 900,
+        "text": "almost done."
+      },
+      {
+        "start": 900,
+        "end": 903,
+        "text": "Don't you go anywhere. Nice. This is the"
+      },
+      {
+        "start": 903,
+        "end": 904,
+        "text": "till."
+      },
+      {
+        "start": 904,
+        "end": 906,
+        "text": "Thank you."
+      },
+      {
+        "start": 906,
+        "end": 910,
+        "text": "My card goes in my wallet. My wallet"
+      },
+      {
+        "start": 910,
+        "end": 914,
+        "text": "goes in my pocket. This is the receipt."
+      },
+      {
+        "start": 914,
+        "end": 917,
+        "text": "Silent P. Receipt. Receipt."
+      },
+      {
+        "start": 917,
+        "end": 919,
+        "text": "That goes in the bag."
+      },
+      {
+        "start": 919,
+        "end": 922,
+        "text": "And let's go learn the final word."
+      },
+      {
+        "start": 922,
+        "end": 924,
+        "text": "Oh, that's heavy."
+      },
+      {
+        "start": 924,
+        "end": 925,
+        "text": "Look at that."
+      },
+      {
+        "start": 925,
+        "end": 928,
+        "text": "The wheels"
+      },
+      {
+        "start": 928,
+        "end": 931,
+        "text": "are stuck. Now, it's time to go home."
+      },
+      {
+        "start": 931,
+        "end": 943,
+        "text": "But first, the final word of the day is"
+      },
+      {
+        "start": 943,
+        "end": 948,
+        "text": "So, what's the final word?"
+      },
+      {
+        "start": 948,
+        "end": 954,
+        "text": "This is a gift box."
+      },
+      {
+        "start": 954,
+        "end": 961,
+        "text": "What's this for?"
+      },
+      {
+        "start": 961,
+        "end": 964,
+        "text": "No way."
+      }
+    ]
   },
   {
     "id": "vub4dz7NRXA",
