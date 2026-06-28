@@ -152,69 +152,70 @@ async function getYoutubeTranscript(videoId: string) {
   return lines;
 }
 
-// Helper: Ask Ollama to reconstruct raw transcript segments into clean sentences with timestamps
+// Helper: Reconstruct raw transcript segments into clean sentences with timestamps using punctuation rules
 async function reconstructTranscriptIntoSentences(transcriptLines: any[]) {
-  const batchSize = 15;
-  const reconstructed: any[] = [];
-  
-  for (let i = 0; i < transcriptLines.length; i += batchSize) {
-    const batch = transcriptLines.slice(i, i + batchSize);
-    const systemPrompt = `You are a professional subtitle editor. Take this array of raw transcript segments with start and end times, and merge them into complete, grammatically correct English sentences. 
-    Add proper capitalization and punctuation. Keep the timestamps (start, end) aligned with the flow of the sentences.
-    
-    Output the result EXACTLY as a JSON array of objects matching this TypeScript interface:
-    interface TimedLine {
-      start: number;
-      end: number;
-      text: string;
-    }
-    
-    Do NOT wrap in markdown blocks like \`\`\`json. Return only the raw JSON array.
-    
-    Segments to process:
-    ${JSON.stringify(batch)}`;
+  const words: { word: string; start: number; end: number }[] = [];
 
-    try {
-      const response = await fetch(`${OLLAMA_URL}/api/chat`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "llama3",
-          messages: [{ role: "system", content: systemPrompt }],
-          stream: false,
-          options: { temperature: 0.1 }
-        })
+  for (const line of transcriptLines) {
+    const text = line.text.trim();
+    if (!text) continue;
+    
+    // Skip sound effect brackets
+    if (text.startsWith("[") && text.endsWith("]")) continue;
+    if (text.startsWith("(") && text.endsWith(")")) continue;
+
+    const segmentWords = text.split(/\s+/).filter(w => {
+      return !(w.startsWith("[") && w.endsWith("]")) && !(w.startsWith("(") && w.endsWith(")"));
+    });
+
+    if (segmentWords.length === 0) continue;
+
+    const duration = line.end - line.start;
+    const wordDuration = duration / segmentWords.length;
+
+    for (let i = 0; i < segmentWords.length; i++) {
+      words.push({
+        word: segmentWords[i],
+        start: Number((line.start + i * wordDuration).toFixed(2)),
+        end: Number((line.start + (i + 1) * wordDuration).toFixed(2))
+      });
+    }
+  }
+
+  const sentences: any[] = [];
+  let currentSentenceWords: typeof words = [];
+  const ABBREVIATIONS = new Set(["mr", "mrs", "dr", "st", "vs", "eg", "ie", "jr", "sr", "co", "ltd", "inc", "approx", "etc"]);
+
+  for (let i = 0; i < words.length; i++) {
+    const item = words[i];
+    currentSentenceWords.push(item);
+
+    const wordText = item.word;
+    const cleanWord = wordText.toLowerCase().replace(/[^a-z]/g, "");
+
+    const lastChar = wordText[wordText.length - 1];
+    const isSentenceEnd = (lastChar === '.' || lastChar === '?' || lastChar === '!') && !ABBREVIATIONS.has(cleanWord);
+
+    if (isSentenceEnd || i === words.length - 1) {
+      const sentenceText = currentSentenceWords.map(w => w.word).join(" ");
+      const start = currentSentenceWords[0].start;
+      const end = currentSentenceWords[currentSentenceWords.length - 1].end;
+
+      sentences.push({
+        start: Math.round(start),
+        end: Math.round(end),
+        text: sentenceText
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        let content = data.message?.content || "[]";
-        content = content.trim();
-        const startIndex = content.indexOf("[");
-        const endIndex = content.lastIndexOf("]");
-        if (startIndex !== -1 && endIndex !== -1) {
-          content = content.substring(startIndex, endIndex + 1);
-        }
-        const parsed = JSON.parse(content);
-        if (Array.isArray(parsed)) {
-          reconstructed.push(...parsed);
-        } else {
-          reconstructed.push(...batch);
-        }
-      } else {
-        reconstructed.push(...batch);
-      }
-    } catch (err) {
-      console.error("[Bloom Server] Batch reconstruction error, fallback to raw:", err);
-      reconstructed.push(...batch);
+      currentSentenceWords = [];
     }
   }
 
   // Smooth end boundaries to prevent overlaps
-  for (let i = 0; i < reconstructed.length - 1; i++) {
-    reconstructed[i].end = reconstructed[i + 1].start;
+  for (let i = 0; i < sentences.length - 1; i++) {
+    sentences[i].end = sentences[i + 1].start;
   }
-  return reconstructed;
+  return sentences;
 }
 
 // 1. Ollama Chat Gateway Proxy Route
