@@ -158,6 +158,17 @@ const getSimilarity = (s1: string, s2: string): number => {
 
 export default function AISpeakingLab() {
   const [activeTab, setActiveTab] = useState<"shadow" | "coach" | "vocab">("shadow");
+  
+  // Shadowing hub state declarations moved to top to prevent use-before-declaration errors
+  const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
+  const [currentLineIndex, setCurrentLineIndex] = useState(0);
+  const [isPlayingSegment, setIsPlayingSegment] = useState(false);
+  const [shadowScore, setShadowScore] = useState<number | null>(null);
+  const [customVideoUrl, setCustomVideoUrl] = useState("");
+  const [customTranscriptText, setCustomTranscriptText] = useState("");
+  const [isCustomLoading, setIsCustomLoading] = useState(false);
+  const playerRef = useRef<any>(null);
+  const playCheckIntervalRef = useRef<any>(null);
   const activeTabRef = useRef(activeTab);
   useEffect(() => {
     activeTabRef.current = activeTab;
@@ -287,6 +298,27 @@ export default function AISpeakingLab() {
   const [voicesList, setVoicesList] = useState<SpeechSynthesisVoice[]>([]);
   const [ollamaModel, setOllamaModel] = useState<string>("llama3");
 
+  // Daily Progression and Tasks State
+  const [userProgress, setUserProgress] = useState<any>({
+    currentDay: 1,
+    completedDays: {},
+    todayTasks: { listen: false, shadow: false, speak: false, quiz: false }
+  });
+
+  const [quizState, setQuizState] = useState<{
+    questions: { word: string; question: string; correctAnswer: string; options: string[] }[];
+    currentQuestionIndex: number;
+    selectedAnswers: Record<number, string>;
+    isFinished: boolean;
+    score: number;
+  }>({
+    questions: [],
+    currentQuestionIndex: 0,
+    selectedAnswers: {},
+    isFinished: false,
+    score: 0
+  });
+
   // Load local state
   useEffect(() => {
     // Fetch vocabulary from backend
@@ -307,14 +339,17 @@ export default function AISpeakingLab() {
       .then(data => setStreakDays(data))
       .catch(err => console.error("Failed to fetch streaks:", err));
 
+    // Fetch progression from backend
+    fetch("/api/progress")
+      .then(res => res.json())
+      .then(data => setUserProgress(data))
+      .catch(err => console.error("Failed to fetch user progress:", err));
+
     // Fetch lessons list from backend
     fetch("/api/lessons")
       .then(res => res.json())
       .then(data => {
         setLessonsList(data);
-        if (data.length > 0) {
-          setSelectedLesson(data[0]);
-        }
       })
       .catch(err => console.error("Failed to fetch lessons list:", err));
 
@@ -370,6 +405,38 @@ export default function AISpeakingLab() {
     }
   }, []);
 
+  // Automatically select/lock lesson based on active day progression
+  useEffect(() => {
+    if (lessonsList.length > 0 && userProgress?.currentDay) {
+      const activeDay = userProgress.currentDay;
+      let targetLesson = lessonsList.find(l => l.id === "RJbUtcaoNCY" || l.title.toLowerCase().includes("haircut"));
+      
+      if (activeDay > 1) {
+        const otherLessons = lessonsList.filter(l => l.id !== "RJbUtcaoNCY" && !l.title.toLowerCase().includes("haircut"));
+        const seqIndex = (activeDay - 2) % otherLessons.length;
+        targetLesson = otherLessons[seqIndex] || lessonsList[0];
+      }
+
+      if (targetLesson && (!selectedLesson || selectedLesson.id !== targetLesson.id)) {
+        setSelectedLesson(targetLesson);
+      }
+    }
+  }, [userProgress?.currentDay, lessonsList]);
+
+  // Generate quiz when subtab is quiz or selectedLesson changes
+  useEffect(() => {
+    if (vocabSubTab === "quiz") {
+      generateQuiz();
+    }
+  }, [vocabSubTab, selectedLesson]);
+
+  // Automatically initialize lesson if not already initialized
+  useEffect(() => {
+    if (selectedLesson && !selectedLesson.isInitialized && !isInitializingLesson) {
+      handleInitializeLesson();
+    }
+  }, [selectedLesson]);
+
   // Update backend stats triggers
   const markDayPracticed = async () => {
     try {
@@ -417,19 +484,7 @@ export default function AISpeakingLab() {
   };
 
   // --- TAB 1: SHADOWING HUB ---
-  const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
-  const [currentLineIndex, setCurrentLineIndex] = useState(0);
-  const [isPlayingSegment, setIsPlayingSegment] = useState(false);
-  const [shadowScore, setShadowScore] = useState<number | null>(null);
-  
-  // Custom video imports state
-  const [customVideoUrl, setCustomVideoUrl] = useState("");
-  const [customTranscriptText, setCustomTranscriptText] = useState("");
-  const [isCustomLoading, setIsCustomLoading] = useState(false);
-
-  // YouTube player references
-  const playerRef = useRef<any>(null);
-  const playCheckIntervalRef = useRef<any>(null);
+  // (State declarations moved to top)
 
   // YouTube API loading script
   useEffect(() => {
@@ -500,6 +555,7 @@ export default function AISpeakingLab() {
     setRecognitionText("");
     setShadowScore(null);
     setIsPlayingSegment(true);
+    updateProgressTask("listen", true);
 
     playerRef.current.seekTo(line.start, true);
     playerRef.current.playVideo();
@@ -547,6 +603,7 @@ export default function AISpeakingLab() {
       setShadowScore(score);
       if (score >= 50) {
         setHasShadowedToday(true);
+        updateProgressTask("shadow", true);
       }
     }
   }, [recognitionText]);
@@ -678,6 +735,73 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
     } finally {
       setIsInferring(false);
     }
+  };
+
+  const updateProgressTask = async (taskName: "listen" | "shadow" | "speak" | "quiz", completed: boolean) => {
+    try {
+      const res = await fetch("/api/progress/task", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ taskName, completed })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setUserProgress(data);
+      }
+    } catch (err) {
+      console.error("Failed to update progress task:", err);
+    }
+  };
+
+  const generateQuiz = () => {
+    if (!selectedLesson || !selectedLesson.vocab || selectedLesson.vocab.length === 0) {
+      setQuizState({
+        questions: [],
+        currentQuestionIndex: 0,
+        selectedAnswers: {},
+        isFinished: false,
+        score: 0
+      });
+      return;
+    }
+
+    const vocabList = selectedLesson.vocab;
+    const questions = vocabList.map(item => {
+      const correctAnswer = item.definition;
+      const distractors: string[] = [];
+      const allPossibleDistractors = [
+        ...commonVocab.map((w: any) => w.definition),
+        ...(lessonsList.flatMap(l => l.vocab || []).map(w => w.definition))
+      ].filter(def => def && def.toLowerCase() !== correctAnswer.toLowerCase());
+
+      const shuffledDistractors = allPossibleDistractors.sort(() => 0.5 - Math.random());
+      for (const def of shuffledDistractors) {
+        if (distractors.length < 3 && !distractors.includes(def)) {
+          distractors.push(def);
+        }
+      }
+
+      while (distractors.length < 3) {
+        distractors.push(`Definition placeholder ${distractors.length + 1}`);
+      }
+
+      const options = [correctAnswer, ...distractors].sort(() => 0.5 - Math.random());
+
+      return {
+        word: item.word,
+        question: `What does the word "${item.word}" mean?`,
+        correctAnswer,
+        options
+      };
+    });
+
+    setQuizState({
+      questions,
+      currentQuestionIndex: 0,
+      selectedAnswers: {},
+      isFinished: false,
+      score: 0
+    });
   };
 
   const handleInitializeLesson = async () => {
@@ -970,6 +1094,7 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
 
       speakAIResponse(cleanText);
       markDayPracticed();
+      updateProgressTask("speak", true);
     } catch (err) {
       console.error(err);
       setChatHistory(prev =>
@@ -1015,6 +1140,8 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
     }
   };
 
+
+  const isDayComplete = !!(userProgress?.todayTasks?.listen && userProgress?.todayTasks?.shadow && userProgress?.todayTasks?.speak && userProgress?.todayTasks?.quiz);
 
   return (
     <section id="ai-speaking-lab" className="py-24 px-4 lg:px-8 relative z-10 max-w-7xl mx-auto border-t border-white/5">
@@ -1082,6 +1209,96 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
                 <option value="gemma2:2b" className="bg-zinc-950 text-white">gemma2:2b</option>
               </select>
             </div>
+          </div>
+        </div>
+
+        {/* Progression Status Bar Card */}
+        <div className="w-full rounded-2xl bg-white/5 border border-white/5 p-5 mt-6 mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-xs">
+          <div className="flex flex-col gap-1.5">
+            <div className="flex items-center gap-2">
+              <span className="px-2 py-0.5 rounded-full bg-white text-black font-bold font-mono text-[10px]">
+                DAY {userProgress.currentDay}
+              </span>
+              <span className="text-white font-medium text-sm">
+                Active Lesson: <span className="font-serif italic text-white/95">{selectedLesson?.title.replace("🇬🇧", "").trim() || "Loading..."}</span>
+              </span>
+            </div>
+            <p className="text-white/40 text-[10px] font-mono">
+              Complete the 4 tasks below to unlock the next day's lesson.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-4">
+            {/* Task 1: Listen */}
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/35 border border-white/5">
+              <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center border ${
+                userProgress.todayTasks.listen 
+                  ? "bg-green-500 border-green-500 text-black" 
+                  : "border-white/20 text-transparent"
+              }`}>
+                {userProgress.todayTasks.listen && <Check className="w-2.5 h-2.5" />}
+              </div>
+              <span className={userProgress.todayTasks.listen ? "text-green-300 font-semibold" : "text-white/60"}>1. Listen</span>
+            </div>
+
+            {/* Task 2: Shadow */}
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/35 border border-white/5">
+              <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center border ${
+                userProgress.todayTasks.shadow 
+                  ? "bg-green-500 border-green-500 text-black" 
+                  : "border-white/20 text-transparent"
+              }`}>
+                {userProgress.todayTasks.shadow && <Check className="w-2.5 h-2.5" />}
+              </div>
+              <span className={userProgress.todayTasks.shadow ? "text-green-300 font-semibold" : "text-white/60"}>2. Shadow</span>
+            </div>
+
+            {/* Task 3: Speak */}
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/35 border border-white/5">
+              <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center border ${
+                userProgress.todayTasks.speak 
+                  ? "bg-green-500 border-green-500 text-black" 
+                  : "border-white/20 text-transparent"
+              }`}>
+                {userProgress.todayTasks.speak && <Check className="w-2.5 h-2.5" />}
+              </div>
+              <span className={userProgress.todayTasks.speak ? "text-green-300 font-semibold" : "text-white/60"}>3. Speak</span>
+            </div>
+
+            {/* Task 4: Quiz */}
+            <button
+              onClick={() => {
+                setActiveTab("vocab");
+                setVocabSubTab("quiz");
+              }}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/35 hover:bg-black/60 border border-white/5 hover:border-white/20 transition-all cursor-pointer text-left"
+            >
+              <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center border ${
+                userProgress.todayTasks.quiz 
+                  ? "bg-green-500 border-green-500 text-black" 
+                  : "border-white/20 text-transparent"
+              }`}>
+                {userProgress.todayTasks.quiz && <Check className="w-2.5 h-2.5" />}
+              </div>
+              <span className={userProgress.todayTasks.quiz ? "text-green-300 font-semibold" : "text-white/60"}>4. Quiz</span>
+            </button>
+
+            {/* Reset progress */}
+            <button
+              onClick={async () => {
+                if (confirm("Are you sure you want to reset your progression back to Day 1?")) {
+                  const res = await fetch("/api/progress/reset", { method: "POST" });
+                  if (res.ok) {
+                    const data = await res.json();
+                    setUserProgress(data);
+                  }
+                }
+              }}
+              className="px-2.5 py-1.5 rounded-xl hover:bg-white/5 text-[9px] font-mono text-white/30 hover:text-white/60 border border-transparent hover:border-white/5 transition-all cursor-pointer"
+              title="Reset Progression"
+            >
+              Reset
+            </button>
           </div>
         </div>
 
@@ -1593,6 +1810,23 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
                     </button>
                     <button
                       onClick={() => {
+                        setVocabSubTab("quiz");
+                        setQuizState({
+                          questions: [],
+                          currentQuestionIndex: 0,
+                          selectedAnswers: {},
+                          isFinished: false,
+                          score: 0
+                        });
+                      }}
+                      className={`text-xs font-semibold tracking-wide uppercase pb-2 border-b-2 transition-all cursor-pointer ${
+                        vocabSubTab === "quiz" ? "text-white border-white" : "text-white/40 border-transparent hover:text-white/70"
+                      }`}
+                    >
+                      Daily Quiz
+                    </button>
+                    <button
+                      onClick={() => {
                         setVocabSubTab("review");
                         setReviewIndex(0);
                         setIsCardFlipped(false);
@@ -1801,6 +2035,104 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
                       <span>Save to Vocabulary Store</span>
                     </button>
                   </form>
+                ) : vocabSubTab === "quiz" ? (
+                  quizState.questions.length === 0 ? (
+                    <div className="py-20 text-center flex flex-col items-center gap-3 bg-black/45 rounded-2xl border border-white/5 p-6">
+                      <Sparkles className="w-8 h-8 text-white/10" />
+                      <p className="text-xs text-white/40">No vocabulary words available for this lesson. Please initialize the lesson to start the quiz.</p>
+                    </div>
+                  ) : quizState.isFinished ? (
+                    <div className="py-16 text-center flex flex-col items-center gap-6 bg-black/45 rounded-2xl border border-white/5 p-6">
+                      <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center animate-bounce">
+                        <Sparkles className="w-8 h-8 text-white" />
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <h4 className="text-base font-semibold text-white uppercase tracking-wider">Quiz Completed!</h4>
+                        <p className="text-xs text-white/60">
+                          {quizState.score === quizState.questions.length
+                            ? "Perfect! You got all definitions correct and finished the quiz!"
+                            : `You scored ${quizState.score} out of ${quizState.questions.length}. You need 100% correct to complete this task.`}
+                        </p>
+                      </div>
+                      <div className="flex gap-4">
+                        <button
+                          onClick={generateQuiz}
+                          className="px-6 py-3 rounded-full bg-white text-black text-xs font-semibold hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                        >
+                          Retry Quiz
+                        </button>
+                        {quizState.score === quizState.questions.length && (
+                          <button
+                            onClick={() => setVocabSubTab("saved")}
+                            className="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 text-white text-xs font-semibold hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                          >
+                            Back to Saved
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="bg-black/45 p-6 rounded-2xl border border-white/5 flex flex-col gap-5">
+                      <div className="flex justify-between items-center border-b border-white/5 pb-3">
+                        <span className="text-[10px] font-mono text-white/40 uppercase tracking-wider">
+                          Question {quizState.currentQuestionIndex + 1} of {quizState.questions.length}
+                        </span>
+                        <span className="text-[10px] font-mono text-white/50 bg-white/5 px-2 py-0.5 rounded">
+                          Word: {quizState.questions[quizState.currentQuestionIndex].word}
+                        </span>
+                      </div>
+                      <p className="text-xs text-white font-medium">
+                        {quizState.questions[quizState.currentQuestionIndex].question}
+                      </p>
+                      <div className="flex flex-col gap-3 mt-2">
+                        {quizState.questions[quizState.currentQuestionIndex].options.map((option, idx) => {
+                          const isSelected = quizState.selectedAnswers[quizState.currentQuestionIndex] === option;
+                          return (
+                            <button
+                              key={idx}
+                              onClick={() => {
+                                setQuizState(prev => {
+                                  const answers = { ...prev.selectedAnswers, [prev.currentQuestionIndex]: option };
+                                  const isLast = prev.currentQuestionIndex === prev.questions.length - 1;
+                                  if (isLast) {
+                                    let score = 0;
+                                    prev.questions.forEach((q, qidx) => {
+                                      if (answers[qidx] === q.correctAnswer) {
+                                        score++;
+                                      }
+                                    });
+                                    if (score === prev.questions.length) {
+                                      updateProgressTask("quiz", true);
+                                    }
+                                    return {
+                                      ...prev,
+                                      selectedAnswers: answers,
+                                      isFinished: true,
+                                      score
+                                    };
+                                  } else {
+                                    return {
+                                      ...prev,
+                                      selectedAnswers: answers,
+                                      currentQuestionIndex: prev.currentQuestionIndex + 1
+                                    };
+                                  }
+                                });
+                              }}
+                              className={`w-full text-left p-3.5 rounded-xl text-xs leading-relaxed border transition-all duration-200 hover:scale-[1.01] active:scale-95 cursor-pointer ${
+                                isSelected
+                                  ? "bg-white text-black border-white font-medium"
+                                  : "bg-black/60 text-white/80 border-white/5 hover:border-white/10 hover:bg-black/85"
+                              }`}
+                            >
+                              <span className="font-mono text-white/40 mr-2">{String.fromCharCode(65 + idx)}.</span>
+                              {option}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )
                 ) : (
                   // Review flashcard game mode
                   savedVocab.length === 0 ? (
@@ -1937,6 +2269,61 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
         </div>
 
       </div>
+
+      <AnimatePresence>
+        {isDayComplete && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4"
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              className="max-w-md w-full bg-zinc-950/90 rounded-[2.5rem] p-8 border border-white/10 text-center flex flex-col items-center gap-6 shadow-2xl"
+            >
+              <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-lg animate-bounce">
+                <Sparkles className="w-8 h-8 text-black" />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <span className="text-[10px] font-mono text-white/50 uppercase tracking-widest">Day Completed</span>
+                <h3 className="text-xl font-semibold text-white">Day {userProgress.currentDay} Accomplished!</h3>
+                <p className="text-xs text-white/60 mt-1">
+                  Congratulations! You completed all daily tasks (Listen, Shadow, Speak with AI, and Quiz) for the lesson:
+                  <br />
+                  <span className="font-serif italic text-white/95 mt-2 block font-medium">"{selectedLesson?.title.replace("🇬🇧", "").trim()}"</span>
+                </p>
+              </div>
+
+              <button
+                onClick={async () => {
+                  try {
+                    const res = await fetch("/api/progress/next-day", { method: "POST" });
+                    if (res.ok) {
+                      const data = await res.json();
+                      setUserProgress(data);
+                      setVocabSubTab("saved");
+                      // Fetch updated streaks
+                      fetch("/api/streaks")
+                        .then(res => res.json())
+                        .then(streakData => setStreakDays(streakData));
+                    }
+                  } catch (err) {
+                    console.error("Failed to unlock next day:", err);
+                  }
+                }}
+                className="w-full py-3.5 rounded-full bg-white text-black hover:bg-white/95 text-xs font-semibold hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
+              >
+                <span>Unlock Day {userProgress.currentDay + 1}</span>
+                <ArrowRight className="w-4 h-4 text-black" />
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

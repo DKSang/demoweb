@@ -22,6 +22,7 @@ const STREAKS_FILE = path.join(DATA_DIR, "streaks.json");
 const HISTORY_FILE = path.join(DATA_DIR, "chat_history.json");
 const LESSONS_FILE = path.join(DATA_DIR, "lessons.json");
 const COMMON_VOCAB_FILE = path.join(DATA_DIR, "common_vocab.json");
+const PROGRESS_FILE = path.join(DATA_DIR, "user_progress.json");
 
 if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -101,6 +102,18 @@ initializeFile(STREAKS_FILE, "[]");
 initializeFile(HISTORY_FILE, "[]");
 initializeFile(LESSONS_FILE, JSON.stringify(DEFAULT_LESSONS, null, 2));
 initializeFile(COMMON_VOCAB_FILE, "[]");
+
+const defaultProgress = {
+  currentDay: 1,
+  completedDays: {},
+  todayTasks: {
+    listen: false,
+    shadow: false,
+    speak: false,
+    quiz: false
+  }
+};
+initializeFile(PROGRESS_FILE, JSON.stringify(defaultProgress, null, 2));
 
 app.use(express.json());
 
@@ -408,6 +421,102 @@ app.post("/api/lessons/:id/initialize", async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to initialize lesson captions & vocabulary", details: err.message });
   }
 });
+// 5. User Progress Daily Progression API Routes
+app.get("/api/progress", (req: Request, res: Response) => {
+  try {
+    const data = fs.readFileSync(PROGRESS_FILE, "utf-8");
+    res.json(JSON.parse(data));
+  } catch (err: any) {
+    res.status(500).json({ error: "Failed to read progress data", details: err.message });
+  }
+});
+
+app.post("/api/progress/task", (req: Request, res: Response) => {
+  try {
+    const { taskName, completed } = req.body;
+    if (!taskName || typeof completed !== "boolean") {
+      res.status(400).json({ error: "Invalid task parameter payload" });
+      return;
+    }
+
+    const dataRaw = fs.readFileSync(PROGRESS_FILE, "utf-8");
+    const progress = JSON.parse(dataRaw);
+
+    if (progress.todayTasks.hasOwnProperty(taskName)) {
+      progress.todayTasks[taskName] = completed;
+      fs.writeFileSync(PROGRESS_FILE, JSON.stringify(progress, null, 2), "utf-8");
+    }
+
+    res.json(progress);
+  } catch (err: any) {
+    res.status(500).json({ error: "Failed to update progress task", details: err.message });
+  }
+});
+
+app.post("/api/progress/next-day", (req: Request, res: Response) => {
+  try {
+    const dataRaw = fs.readFileSync(PROGRESS_FILE, "utf-8");
+    const progress = JSON.parse(dataRaw);
+
+    const tasks = progress.todayTasks;
+    const allCompleted = tasks.listen && tasks.shadow && tasks.speak && tasks.quiz;
+
+    if (allCompleted) {
+      const finishedDay = progress.currentDay;
+      progress.completedDays[finishedDay] = { ...tasks };
+      progress.currentDay = finishedDay + 1;
+      progress.todayTasks = {
+        listen: false,
+        shadow: false,
+        speak: false,
+        quiz: false
+      };
+
+      // Record streak date for today
+      const d = new Date();
+      const offset = d.getTimezoneOffset();
+      const localDate = new Date(d.getTime() - offset * 60 * 1000);
+      const todayStr = localDate.toISOString().split("T")[0];
+
+      try {
+        const streaksRaw = fs.readFileSync(STREAKS_FILE, "utf-8");
+        const streaks = JSON.parse(streaksRaw);
+        if (!streaks.includes(todayStr)) {
+          streaks.push(todayStr);
+          fs.writeFileSync(STREAKS_FILE, JSON.stringify(streaks, null, 2), "utf-8");
+        }
+      } catch (streakErr) {
+        console.error("Failed to automatically record streak on day complete:", streakErr);
+      }
+
+      fs.writeFileSync(PROGRESS_FILE, JSON.stringify(progress, null, 2), "utf-8");
+    }
+
+    res.json(progress);
+  } catch (err: any) {
+    res.status(500).json({ error: "Failed to proceed to next day", details: err.message });
+  }
+});
+
+app.post("/api/progress/reset", (req: Request, res: Response) => {
+  try {
+    const defaultProgress = {
+      currentDay: 1,
+      completedDays: {},
+      todayTasks: {
+        listen: false,
+        shadow: false,
+        speak: false,
+        quiz: false
+      }
+    };
+    fs.writeFileSync(PROGRESS_FILE, JSON.stringify(defaultProgress, null, 2), "utf-8");
+    res.json(defaultProgress);
+  } catch (err: any) {
+    res.status(500).json({ error: "Failed to reset progress", details: err.message });
+  }
+});
+
 
 app.listen(PORT, () => {
   console.log(`[Bloom Server] Backend initialized and running on http://localhost:${PORT}`);
