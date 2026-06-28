@@ -742,15 +742,13 @@ export default function AISpeakingLab() {
       return;
     }
 
-    if (isRecording) {
-      stopRecording();
-    } else {
-      setRecognitionText("");
-      setShadowScore(null);
-      setIsRecording(true);
-      recognitionRef.current.start();
-      startSilenceDetection();
-    }
+    if (isRecording) return;
+
+    setRecognitionText("");
+    setShadowScore(null);
+    setIsRecording(true);
+    recognitionRef.current.start();
+    startSilenceDetection();
   };
 
   // Compare shadow transcript
@@ -1283,15 +1281,13 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
       return;
     }
 
-    if (isRecording) {
-      stopRecording();
-    } else {
-      setChatInput("");
-      setRecognitionText("");
-      setIsRecording(true);
-      recognitionRef.current.start();
-      startSilenceDetection();
-    }
+    if (isRecording) return;
+
+    setChatInput("");
+    setRecognitionText("");
+    setIsRecording(true);
+    recognitionRef.current.start();
+    startSilenceDetection();
   };
 
 
@@ -1692,9 +1688,10 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
                   {/* Recording control button */}
                   <button
                     onClick={toggleRecordShadow}
+                    disabled={isRecording}
                     className={`py-4 rounded-full flex items-center justify-center gap-3 transition-all hover:scale-[1.03] active:scale-95 cursor-pointer ${
                       isRecording 
-                        ? "bg-white text-black font-semibold" 
+                        ? "bg-white text-black font-semibold opacity-70 cursor-not-allowed" 
                         : "bg-white/10 text-white hover:bg-white/20 border border-white/10"
                     }`}
                   >
@@ -1911,9 +1908,10 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
                   {/* Hold to speak walkie talkie */}
                   <button
                     onClick={handleRecordChatInput}
+                    disabled={isRecording}
                     className={`px-5 py-3 rounded-full flex items-center justify-center gap-2 border transition-all hover:scale-105 active:scale-95 cursor-pointer ${
                       isRecording 
-                        ? "bg-white text-black border-white" 
+                        ? "bg-white text-black border-white opacity-70 cursor-not-allowed" 
                         : "bg-white/5 text-white/80 hover:text-white border-white/10"
                     }`}
                   >
