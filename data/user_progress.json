@@ -1,0 +1,10 @@
+{
+  "currentDay": 1,
+  "completedDays": {},
+  "todayTasks": {
+    "listen": true,
+    "shadow": false,
+    "speak": false,
+    "quiz": false
+  }
+}
