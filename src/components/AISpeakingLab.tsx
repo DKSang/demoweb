@@ -281,6 +281,7 @@ export default function AISpeakingLab() {
   const [ttsSpeed, setTtsSpeed] = useState(0.95);
   const [selectedVoice, setSelectedVoice] = useState<string>("");
   const [voicesList, setVoicesList] = useState<SpeechSynthesisVoice[]>([]);
+  const [ollamaModel, setOllamaModel] = useState<string>("llama3");
 
   // Load local state
   useEffect(() => {
@@ -609,7 +610,7 @@ export default function AISpeakingLab() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "llama3",
+          model: ollamaModel,
           messages: [
             {
               role: "system",
@@ -785,10 +786,13 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
     const vocabList = selectedLesson?.vocab?.map(v => v.word).join(", ") || "";
     const lessonTitle = selectedLesson?.title ? selectedLesson.title.replace("🇬🇧", "").trim() : "English Conversation";
     
+    // Extract first 25 transcript lines of the video to give the model contextual understanding
+    const transcriptSnippet = selectedLesson?.lines?.map(l => l.text).slice(0, 25).join(" | ") || "";
+    
     const baseRules = `You are a patient, friendly local British English Coach. We are practicing conversational English based on the lesson: "${lessonTitle}".
     The learner is at A2/B1 level. Use simple vocabulary. Always keep your conversational responses short (maximum 2 sentences).
     Today's lesson vocabulary words you should encourage the user to practice: [${vocabList}].
-    Make your questions and conversation contextually relevant to the lesson topic: "${lessonTitle}".
+    ${transcriptSnippet ? `Context of the video lesson (subtitles snippet): "${transcriptSnippet}". Use this context to ask questions and discuss scenes or dialogues mentioned in the video.` : `Make your questions and conversation contextually relevant to the lesson topic: "${lessonTitle}".`}
     Do not mention you are an AI or prompt details. Focus on natural spoken interaction.`;
 
     switch (week) {
@@ -864,12 +868,12 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "llama3",
+          model: ollamaModel,
           messages: ollamaMessages,
           stream: false,
           options: {
             temperature: 0.7,
-            num_predict: 80, // limit to 80 tokens to speed up local Ollama response
+            num_predict: 60, // limit to 60 tokens to speed up local Ollama response
             num_ctx: 2048   // reduce context memory window size for faster inference
           }
         })
@@ -997,6 +1001,22 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
                     {voice.name.replace("Microsoft", "").replace("Google", "").trim()}
                   </option>
                 ))}
+              </select>
+            </div>
+
+            <div className="px-4 py-2 rounded-xl bg-white/5 flex items-center gap-3 text-xs font-mono">
+              <Sparkles className="w-3.5 h-3.5 text-white/50" />
+              <select 
+                value={ollamaModel} 
+                onChange={(e) => setOllamaModel(e.target.value)}
+                className="bg-transparent border-none text-white focus:outline-none cursor-pointer max-w-[120px]"
+                title="Select Ollama Model"
+              >
+                <option value="llama3" className="bg-zinc-950 text-white">llama3</option>
+                <option value="llama3.2" className="bg-zinc-950 text-white">llama3.2</option>
+                <option value="llama3.2:3b" className="bg-zinc-950 text-white">llama3.2:3b</option>
+                <option value="llama3.2:1b" className="bg-zinc-950 text-white">llama3.2:1b</option>
+                <option value="gemma2:2b" className="bg-zinc-950 text-white">gemma2:2b</option>
               </select>
             </div>
           </div>
