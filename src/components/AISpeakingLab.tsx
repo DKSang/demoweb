@@ -158,6 +158,10 @@ const getSimilarity = (s1: string, s2: string): number => {
 
 export default function AISpeakingLab() {
   const [activeTab, setActiveTab] = useState<"shadow" | "coach" | "vocab">("shadow");
+  const activeTabRef = useRef(activeTab);
+  useEffect(() => {
+    activeTabRef.current = activeTab;
+  }, [activeTab]);
 
   // Synchronize tab active state with URL hash routing
   useEffect(() => {
@@ -328,14 +332,29 @@ export default function AISpeakingLab() {
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (SpeechRecognition) {
       const rec = new SpeechRecognition();
-      rec.continuous = false;
-      rec.interimResults = false;
+      rec.continuous = true;
+      rec.interimResults = true;
       rec.lang = "en-GB";
 
       rec.onresult = (event: any) => {
-        const result = event.results[0][0].transcript;
-        setRecognitionText(result);
-        setIsRecording(false);
+        let finalTranscript = "";
+        let interimTranscript = "";
+
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            finalTranscript += event.results[i][0].transcript + " ";
+          } else {
+            interimTranscript += event.results[i][0].transcript;
+          }
+        }
+
+        if (finalTranscript) {
+          if (activeTabRef.current === "shadow") {
+            setRecognitionText(prev => prev + finalTranscript);
+          } else {
+            setChatInput(prev => prev + finalTranscript);
+          }
+        }
       };
 
       rec.onerror = (event: any) => {
@@ -786,8 +805,8 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
     const vocabList = selectedLesson?.vocab?.map(v => v.word).join(", ") || "";
     const lessonTitle = selectedLesson?.title ? selectedLesson.title.replace("🇬🇧", "").trim() : "English Conversation";
     
-    // Extract first 25 transcript lines of the video to give the model contextual understanding
-    const transcriptSnippet = selectedLesson?.lines?.map(l => l.text).slice(0, 25).join(" | ") || "";
+    // Extract all transcript lines of the video to give the model full contextual understanding
+    const transcriptSnippet = selectedLesson?.lines?.map(l => l.text).join(" | ") || "";
     
     const baseRules = `You are a patient, friendly local British English Coach. We are practicing conversational English based on the lesson: "${lessonTitle}".
     The learner is at A2/B1 level. Use simple vocabulary. Always keep your conversational responses short (maximum 2 sentences).
@@ -978,19 +997,23 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
     if (isRecording) {
       recognitionRef.current.stop();
       setIsRecording(false);
+      // Wait briefly for final recognition results to flush and populate chatInput
+      setTimeout(() => {
+        setChatInput(prev => {
+          const finalVal = prev.trim();
+          if (finalVal) {
+            handleSendChat(finalVal);
+          }
+          return "";
+        });
+      }, 400);
     } else {
+      setChatInput("");
       setRecognitionText("");
       setIsRecording(true);
       recognitionRef.current.start();
     }
   };
-
-  // Trigger send immediately on speech result in Chat Coach
-  useEffect(() => {
-    if (recognitionText && activeTab === "coach") {
-      handleSendChat(recognitionText);
-    }
-  }, [recognitionText]);
 
 
   return (
@@ -1369,7 +1392,16 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
                             : "bg-white/5 border border-white/5 text-white rounded-tl-none"
                         }`}
                       >
-                        {msg.content}
+                        {msg.role === "assistant" && msg.content === "" ? (
+                          <div className="flex items-center gap-1.5 py-1" title="Coach is writing...">
+                            <span className="w-1.5 h-1.5 rounded-full bg-white/40 animate-bounce" style={{ animationDelay: "0ms" }} />
+                            <span className="w-1.5 h-1.5 rounded-full bg-white/40 animate-bounce" style={{ animationDelay: "150ms" }} />
+                            <span className="w-1.5 h-1.5 rounded-full bg-white/40 animate-bounce" style={{ animationDelay: "300ms" }} />
+                            <span className="font-mono text-[9px] text-white/40 ml-1.5 tracking-wider">Coach is thinking...</span>
+                          </div>
+                        ) : (
+                          msg.content
+                        )}
                       </div>
 
                       {/* Display correction cards in Week 3/4 */}
