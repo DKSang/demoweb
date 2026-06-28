@@ -3,8 +3,8 @@
   "completedDays": {},
   "todayTasks": {
     "listen": true,
-    "shadow": false,
-    "speak": false,
+    "shadow": true,
+    "speak": true,
     "quiz": false
   }
 }

@@ -364,377 +364,387 @@
     "isInitialized": true,
     "vocab": [
       {
-        "word": "fluent",
-        "ipa": "/ˈfluːənt/",
-        "definition": "able to speak or write a foreign language easily and accurately",
-        "example": "He is fluent in English."
+        "word": "Whoa",
+        "ipa": "/waʊ/",
+        "definition": "an expression of surprise or excitement",
+        "example": "I felt whoa when I saw the rollercoaster's steep drop"
+      },
+      {
+        "word": "Dizzy",
+        "ipa": "/ˈdɪzi/",
+        "definition": "feeling a sense of giddiness or lightheadedness",
+        "example": "After spinning around, I felt dizzy and had to sit down"
+      },
+      {
+        "word": "Meticulous",
+        "ipa": "/mɛtɪkʊˈlɛs/",
+        "definition": "careful and precise in one's work or actions",
+        "example": "The meticulous artist spent hours perfecting each brushstroke"
+      },
+      {
+        "word": "Stationary",
+        "ipa": "/stæʃənˈerɪ/",
+        "definition": "not moving; fixed in place",
+        "example": "The bike was stationary, parked outside the shop"
+      },
+      {
+        "word": "Opportunistic",
+        "ipa": "/ɒpˌtʊnɪˈstɪk/",
+        "definition": "taking advantage of opportunities as they arise",
+        "example": "The entrepreneur was opportunistic, seizing new business ideas"
+      },
+      {
+        "word": "Phenomenal",
+        "ipa": "/fɛnəməˈnɒl/",
+        "definition": "extremely good or impressive",
+        "example": "The fireworks display was phenomenal, lighting up the night sky"
       }
     ],
     "lines": [
       {
         "start": 0,
-        "end": 2,
-        "text": "Good"
+        "end": 3,
+        "text": "Good morning."
       },
       {
-        "start": 2,
-        "end": 8,
-        "text": "morning. Whoa, dizzy. Dizzy. I feel"
+        "start": 3,
+        "end": 5,
+        "text": "Whoa, dizzy."
       },
       {
-        "start": 8,
+        "start": 5,
+        "end": 6,
+        "text": "Dizzy."
+      },
+      {
+        "start": 6,
         "end": 21,
-        "text": "[Music]"
+        "text": "I feel dizzy."
       },
       {
         "start": 21,
-        "end": 23,
-        "text": "dizzy. Good morning, you beautiful"
+        "end": 26,
+        "text": "Good morning, you beautiful people, and welcome."
       },
       {
-        "start": 23,
-        "end": 29,
-        "text": "people, and welcome. This is my first"
+        "start": 26,
+        "end": 30,
+        "text": "This is my first ever vlog."
       },
       {
-        "start": 29,
-        "end": 34,
-        "text": "ever vlog. And today I'm going to get my"
+        "start": 30,
+        "end": 35,
+        "text": "And today I'm going to get my hair cut."
       },
       {
-        "start": 34,
-        "end": 37,
-        "text": "hair cut. I'm gonna take you guys with"
+        "start": 35,
+        "end": 43,
+        "text": "I'm gonna take you guys with me and teach you English using the world around me."
       },
       {
-        "start": 37,
-        "end": 42,
-        "text": "me and teach you English using the world"
+        "start": 43,
+        "end": 45,
+        "text": "I've got my bag on."
       },
       {
-        "start": 42,
-        "end": 46,
-        "text": "around me. I've got my bag on. I'm ready"
+        "start": 45,
+        "end": 47,
+        "text": "I'm ready to go."
       },
       {
-        "start": 46,
-        "end": 49,
-        "text": "to go. Let's go get a"
+        "start": 47,
+        "end": 50,
+        "text": "Let's go get a haircut."
       },
       {
-        "start": 49,
-        "end": 53,
-        "text": "haircut. Here we go. Hello. I'm putting"
+        "start": 50,
+        "end": 51,
+        "text": "Here we go."
       },
       {
-        "start": 53,
+        "start": 51,
+        "end": 52,
+        "text": "Hello."
+      },
+      {
+        "start": 52,
         "end": 57,
-        "text": "on my helmet to protect my head. And"
+        "text": "I'm putting on my helmet to protect my head."
       },
       {
         "start": 57,
         "end": 61,
-        "text": "with one hand, I'm fattening the strap."
+        "text": "And with one hand, I'm fattening the strap."
       },
       {
         "start": 61,
-        "end": 65,
-        "text": "Good to go. Key. I'm putting the key in"
+        "end": 62,
+        "text": "Good to go."
       },
       {
-        "start": 65,
-        "end": 68,
-        "text": "the ignition and turning it. I am"
+        "start": 62,
+        "end": 63,
+        "text": "Key."
       },
       {
-        "start": 68,
-        "end": 71,
-        "text": "setting off on my journey."
+        "start": 63,
+        "end": 67,
+        "text": "I'm putting the key in the ignition and turning it."
       },
       {
-        "start": 71,
-        "end": 83,
-        "text": "[Music]"
-      },
-      {
-        "start": 83,
+        "start": 67,
         "end": 84,
-        "text": "[Applause]"
+        "text": "I am setting off on my journey."
       },
       {
         "start": 84,
-        "end": 88,
-        "text": "We have arrived. Viking barber shop. A"
+        "end": 86,
+        "text": "We have arrived."
       },
       {
-        "start": 88,
+        "start": 86,
+        "end": 87,
+        "text": "Viking barber shop."
+      },
+      {
+        "start": 87,
         "end": 92,
-        "text": "barber shop is a hairdresser for men."
+        "text": "A barber shop is a hairdresser for men."
       },
       {
         "start": 92,
-        "end": 95,
-        "text": "And a hairdresser for women would be a"
+        "end": 96,
+        "text": "And a hairdresser for women would be a salon."
       },
       {
-        "start": 95,
-        "end": 99,
-        "text": "salon. This bike is parked. These bikes"
+        "start": 96,
+        "end": 98,
+        "text": "This bike is parked."
       },
       {
-        "start": 99,
+        "start": 98,
+        "end": 100,
+        "text": "These bikes are parked."
+      },
+      {
+        "start": 100,
         "end": 102,
-        "text": "are parked. They are stationary. They"
+        "text": "They are stationary."
       },
       {
         "start": 102,
-        "end": 109,
-        "text": "are still. All right, let's go."
+        "end": 104,
+        "text": "They are still."
       },
       {
-        "start": 109,
+        "start": 104,
         "end": 113,
-        "text": "[Music]"
+        "text": "All right, let's go."
       },
       {
         "start": 113,
-        "end": 116,
-        "text": "for my free coffee. So, I'm here getting"
+        "end": 115,
+        "text": "for my free coffee."
       },
       {
-        "start": 116,
-        "end": 119,
-        "text": "my hair cut. And we would say to get a"
+        "start": 115,
+        "end": 117,
+        "text": "So, I'm here getting my hair cut."
       },
       {
-        "start": 119,
-        "end": 123,
-        "text": "hair cut, not to cut your hair. If you"
+        "start": 117,
+        "end": 122,
+        "text": "And we would say to get a hair cut, not to cut your hair."
       },
       {
-        "start": 123,
-        "end": 126,
-        "text": "say, \"I'm going to cut my hair.\" It"
-      },
-      {
-        "start": 126,
+        "start": 122,
         "end": 128,
-        "text": "means that you're going to cut it"
+        "text": "If you say, \"I'm going to cut my hair.\" It means that you're going to cut it yourself."
       },
       {
         "start": 128,
-        "end": 130,
-        "text": "yourself. When you go to a barber shop,"
+        "end": 140,
+        "text": "When you go to a barber shop, when you go to a hairdressers, you say, \"I'm going to get a haircut.\" or I'm going to have a haircut soon in the future."
       },
       {
-        "start": 130,
-        "end": 132,
-        "text": "when you go to a hairdressers, you say,"
-      },
-      {
-        "start": 132,
-        "end": 135,
-        "text": "\"I'm going to get a haircut.\" or I'm"
-      },
-      {
-        "start": 135,
-        "end": 138,
-        "text": "going to have a haircut soon in the"
-      },
-      {
-        "start": 138,
+        "start": 140,
         "end": 146,
-        "text": "future. I will have a"
+        "text": "I will have a haircut."
       },
       {
         "start": 146,
-        "end": 149,
-        "text": "haircut. So, right now I am sitting in"
+        "end": 152,
+        "text": "So, right now I am sitting in the barber chair."
       },
       {
-        "start": 149,
-        "end": 151,
-        "text": "the barber"
+        "start": 152,
+        "end": 161,
+        "text": "In front of me there is the sink and we have all the different tools, the equipment."
       },
       {
-        "start": 151,
-        "end": 156,
-        "text": "chair. In front of me there is the sink"
+        "start": 161,
+        "end": 163,
+        "text": "This is wax, hair wax."
       },
       {
-        "start": 156,
-        "end": 160,
-        "text": "and we have all the different tools, the"
+        "start": 163,
+        "end": 167,
+        "text": "This is a brush for your hair."
       },
       {
-        "start": 160,
-        "end": 164,
-        "text": "equipment. This is wax, hair wax. This"
+        "start": 167,
+        "end": 169,
+        "text": "These are clippers."
       },
       {
-        "start": 164,
-        "end": 168,
-        "text": "is a brush for your hair. These are"
+        "start": 169,
+        "end": 170,
+        "text": "Clippers."
       },
       {
-        "start": 168,
-        "end": 171,
-        "text": "clippers. Clippers. Clippers. These"
+        "start": 170,
+        "end": 170,
+        "text": "Clippers."
       },
       {
-        "start": 171,
+        "start": 170,
         "end": 174,
-        "text": "little things are called figurines. You"
+        "text": "These little things are called figurines."
       },
       {
         "start": 174,
-        "end": 177,
-        "text": "got three Spider-Man figurines. Iron Man"
+        "end": 176,
+        "text": "You got three Spider-Man figurines."
       },
       {
-        "start": 177,
+        "start": 176,
         "end": 181,
-        "text": "figurine and Goku there on the wall. We"
+        "text": "Iron Man figurine and Goku there on the wall."
       },
       {
         "start": 181,
-        "end": 185,
-        "text": "have stickers. The stickers are stuck to"
+        "end": 182,
+        "text": "We have stickers."
       },
       {
-        "start": 185,
+        "start": 182,
+        "end": 186,
+        "text": "The stickers are stuck to the wall."
+      },
+      {
+        "start": 186,
+        "end": 188,
+        "text": "Tan the man."
+      },
+      {
+        "start": 188,
         "end": 189,
-        "text": "the wall. Tan the man. Yes, bro. Okay."
+        "text": "Yes, bro."
       },
       {
         "start": 189,
-        "end": 196,
+        "end": 189,
+        "text": "Okay."
+      },
+      {
+        "start": 189,
+        "end": 211,
         "text": "About to get my long hair cut."
       },
       {
-        "start": 196,
-        "end": 211,
-        "text": "[Music]"
-      },
-      {
         "start": 211,
-        "end": 216,
-        "text": "Now is blow drying my hair with the hair"
-      },
-      {
-        "start": 216,
         "end": 220,
-        "text": "dryer."
+        "text": "Now is blow drying my hair with the hair dryer."
       },
       {
         "start": 220,
-        "end": 223,
-        "text": "All right, leaving the barber shop and"
-      },
-      {
-        "start": 223,
-        "end": 226,
-        "text": "walking out into the"
-      },
-      {
-        "start": 226,
         "end": 231,
-        "text": "busy, hot Vietnam"
+        "text": "All right, leaving the barber shop and walking out into the busy, hot Vietnam streets."
       },
       {
         "start": 231,
         "end": 235,
-        "text": "streets. I am in the city of Daang. I've"
+        "text": "I am in the city of Daang."
       },
       {
         "start": 235,
         "end": 237,
-        "text": "just spotted a fruit market over there."
+        "text": "I've just spotted a fruit market over there."
       },
       {
         "start": 237,
-        "end": 240,
-        "text": "So, I'm going to go grab some"
+        "end": 241,
+        "text": "So, I'm going to go grab some fruits."
       },
       {
-        "start": 240,
-        "end": 244,
-        "text": "fruits. I'm just waiting for a safe"
+        "start": 241,
+        "end": 246,
+        "text": "I'm just waiting for a safe moment to cross the road."
       },
       {
-        "start": 244,
-        "end": 247,
-        "text": "moment to cross the road. In Vietnam,"
-      },
-      {
-        "start": 247,
+        "start": 246,
         "end": 249,
-        "text": "when crossing a road, you have to be"
+        "text": "In Vietnam, when crossing a road, you have to be opportunistic."
       },
       {
         "start": 249,
         "end": 250,
-        "text": "opportunistic. What does that mean? It"
+        "text": "What does that mean?"
       },
       {
         "start": 250,
         "end": 253,
-        "text": "means to take an opportunity when it"
+        "text": "It means to take an opportunity when it arrives."
       },
       {
         "start": 253,
         "end": 256,
-        "text": "arrives. Just like now, I'm going to be"
+        "text": "Just like now, I'm going to be opportunistic."
       },
       {
         "start": 256,
         "end": 258,
-        "text": "opportunistic. It could be borderline"
+        "text": "It could be borderline dangerous."
       },
       {
         "start": 258,
-        "end": 260,
-        "text": "dangerous. You never know what's coming"
-      },
-      {
-        "start": 260,
         "end": 262,
-        "text": "in Vietnam, but we made it. I'm across"
+        "text": "You never know what's coming in Vietnam, but we made it."
       },
       {
         "start": 262,
-        "end": 265,
-        "text": "the road. So, look here. We have a"
+        "end": 263,
+        "text": "I'm across the road."
       },
       {
-        "start": 265,
-        "end": 267,
-        "text": "little fruit market. We got some"
+        "start": 263,
+        "end": 264,
+        "text": "So, look here."
       },
       {
-        "start": 267,
-        "end": 269,
-        "text": "avocados looking very green and"
+        "start": 264,
+        "end": 266,
+        "text": "We have a little fruit market."
       },
       {
-        "start": 269,
-        "end": 273,
-        "text": "beautiful. The oranges or these are"
+        "start": 266,
+        "end": 270,
+        "text": "We got some avocados looking very green and beautiful."
       },
       {
-        "start": 273,
-        "end": 274,
-        "text": "clementine or"
+        "start": 270,
+        "end": 275,
+        "text": "The oranges or these are clementine or tangerines."
       },
       {
-        "start": 274,
-        "end": 278,
-        "text": "tangerines. Here we have guava in the"
+        "start": 275,
+        "end": 279,
+        "text": "Here we have guava in the packets."
       },
       {
-        "start": 278,
+        "start": 279,
         "end": 281,
-        "text": "packets. It's in a plastic packaging."
+        "text": "It's in a plastic packaging."
       },
       {
         "start": 281,
@@ -743,478 +753,378 @@
       },
       {
         "start": 285,
-        "end": 289,
-        "text": "Bellfruit coming this way. I'm not sure"
+        "end": 287,
+        "text": "Bellfruit coming this way."
       },
       {
-        "start": 289,
+        "start": 287,
+        "end": 290,
+        "text": "I'm not sure what these little things are."
+      },
+      {
+        "start": 290,
         "end": 291,
-        "text": "what these little things are. No idea."
+        "text": "No idea."
       },
       {
         "start": 291,
-        "end": 293,
-        "text": "Looks like a small"
+        "end": 294,
+        "text": "Looks like a small apple."
       },
       {
-        "start": 293,
+        "start": 294,
+        "end": 295,
+        "text": "Grapes here."
+      },
+      {
+        "start": 295,
         "end": 297,
-        "text": "apple. Grapes here. These are bunches of"
+        "text": "These are bunches of grapes."
       },
       {
         "start": 297,
-        "end": 300,
-        "text": "grapes. Next to the grapes, we have the"
+        "end": 301,
+        "text": "Next to the grapes, we have the dragon fruits."
       },
       {
-        "start": 300,
-        "end": 303,
-        "text": "dragon fruits. These are white dragon"
+        "start": 301,
+        "end": 304,
+        "text": "These are white dragon fruits."
       },
       {
-        "start": 303,
-        "end": 307,
-        "text": "fruits. Inside the flesh is white. Over"
+        "start": 304,
+        "end": 306,
+        "text": "Inside the flesh is white."
       },
       {
-        "start": 307,
-        "end": 311,
-        "text": "here, inside the flesh of these bad boys"
+        "start": 306,
+        "end": 312,
+        "text": "Over here, inside the flesh of these bad boys is red."
       },
       {
-        "start": 311,
-        "end": 314,
-        "text": "is red. The red dragon fruits and the"
+        "start": 312,
+        "end": 315,
+        "text": "The red dragon fruits and the white dragon fruits."
       },
       {
-        "start": 314,
-        "end": 316,
-        "text": "white dragon fruits. On the outside, the"
+        "start": 315,
+        "end": 323,
+        "text": "On the outside, the skin looks kind of the same, but I've lived in Vietnam long enough to know my red dragon fruit from my white dragon fruit."
       },
       {
-        "start": 316,
-        "end": 319,
-        "text": "skin looks kind of the same, but I've"
+        "start": 323,
+        "end": 327,
+        "text": "Everything looks beautiful."
       },
       {
-        "start": 319,
-        "end": 320,
-        "text": "lived in Vietnam long enough to know my"
-      },
-      {
-        "start": 320,
-        "end": 322,
-        "text": "red dragon fruit from my white dragon"
-      },
-      {
-        "start": 322,
-        "end": 326,
-        "text": "fruit. Everything looks"
-      },
-      {
-        "start": 326,
+        "start": 327,
         "end": 330,
-        "text": "beautiful. It all looks very colorful."
+        "text": "It all looks very colorful."
       },
       {
         "start": 330,
-        "end": 333,
-        "text": "Very colorful. You could say a rainbow"
+        "end": 331,
+        "text": "Very colorful."
       },
       {
-        "start": 333,
+        "start": 331,
+        "end": 334,
+        "text": "You could say a rainbow of colors."
+      },
+      {
+        "start": 334,
         "end": 336,
-        "text": "of colors. Anyway, I'm going to buy some"
+        "text": "Anyway, I'm going to buy some now."
       },
       {
         "start": 336,
         "end": 339,
-        "text": "now. I want to buy some avocados. I'm"
+        "text": "I want to buy some avocados."
       },
       {
         "start": 339,
-        "end": 344,
-        "text": "testing these. They're very firm, very"
+        "end": 341,
+        "text": "I'm testing these."
       },
       {
-        "start": 344,
-        "end": 348,
-        "text": "hard. They're not yet ripe. When a fruit"
+        "start": 341,
+        "end": 345,
+        "text": "They're very firm, very hard."
       },
       {
-        "start": 348,
-        "end": 351,
-        "text": "is ripe, it means it's soft. It's fresh,"
+        "start": 345,
+        "end": 347,
+        "text": "They're not yet ripe."
       },
       {
-        "start": 351,
-        "end": 352,
-        "text": "ready to"
+        "start": 347,
+        "end": 350,
+        "text": "When a fruit is ripe, it means it's soft."
       },
       {
-        "start": 352,
-        "end": 355,
-        "text": "[Applause]"
-      },
-      {
-        "start": 355,
+        "start": 350,
         "end": 362,
-        "text": "eat."
+        "text": "It's fresh, ready to eat."
       },
       {
         "start": 362,
-        "end": 368,
-        "text": "Feeling good. Let's"
+        "end": 366,
+        "text": "Feeling good."
       },
       {
-        "start": 368,
+        "start": 366,
+        "end": 369,
+        "text": "Let's move."
+      },
+      {
+        "start": 369,
         "end": 372,
-        "text": "move. Look how fresh my haircut is. The"
+        "text": "Look how fresh my haircut is."
       },
       {
         "start": 372,
-        "end": 377,
-        "text": "attention to detail that my barber Tuan"
+        "end": 379,
+        "text": "The attention to detail that my barber Tuan pays is phenomenal."
       },
       {
-        "start": 377,
+        "start": 379,
         "end": 381,
-        "text": "pays is phenomenal. He's meticulous."
+        "text": "He's meticulous."
       },
       {
         "start": 381,
+        "end": 382,
+        "text": "Meticulous."
+      },
+      {
+        "start": 382,
         "end": 384,
-        "text": "Meticulous. What does that mean? He"
+        "text": "What does that mean?"
       },
       {
         "start": 384,
-        "end": 388,
-        "text": "takes care when he does something. Every"
+        "end": 387,
+        "text": "He takes care when he does something."
       },
       {
-        "start": 388,
-        "end": 391,
-        "text": "single detail is important to him. He is"
+        "start": 387,
+        "end": 390,
+        "text": "Every single detail is important to him."
       },
       {
-        "start": 391,
+        "start": 390,
+        "end": 392,
+        "text": "He is meticulous."
+      },
+      {
+        "start": 392,
         "end": 395,
-        "text": "meticulous. He's trimmed my eyebrows."
+        "text": "He's trimmed my eyebrows."
       },
       {
         "start": 395,
-        "end": 400,
-        "text": "Before I had a mono brow. Time to hop"
+        "end": 398,
+        "text": "Before I had a mono brow."
       },
       {
-        "start": 400,
-        "end": 403,
-        "text": "back on my motorbike. We're going to go"
+        "start": 398,
+        "end": 402,
+        "text": "Time to hop back on my motorbike."
       },
       {
-        "start": 403,
-        "end": 405,
-        "text": "to a new location. So, we're going on a"
+        "start": 402,
+        "end": 404,
+        "text": "We're going to go to a new location."
       },
       {
-        "start": 405,
+        "start": 404,
         "end": 408,
-        "text": "little walk under the bridge here. I'm"
+        "text": "So, we're going on a little walk under the bridge here."
       },
       {
         "start": 408,
-        "end": 412,
-        "text": "going to walk through the bridge. So all"
+        "end": 411,
+        "text": "I'm going to walk through the bridge."
       },
       {
-        "start": 412,
+        "start": 411,
+        "end": 414,
+        "text": "So all this area is shaded."
+      },
+      {
+        "start": 414,
         "end": 415,
-        "text": "this area is shaded. It's protected from"
+        "text": "It's protected from the sun."
       },
       {
         "start": 415,
-        "end": 417,
-        "text": "the sun. And I don't know if you can"
+        "end": 427,
+        "text": "And I don't know if you can hear that, but when I speak like this ho, the sound bounces back off the walls."
       },
       {
-        "start": 417,
-        "end": 422,
-        "text": "hear that, but when I speak like this"
+        "start": 427,
+        "end": 430,
+        "text": "Do you know what that's called?"
       },
       {
-        "start": 422,
-        "end": 426,
-        "text": "ho, the sound bounces back off the"
+        "start": 430,
+        "end": 432,
+        "text": "That is called an echo."
       },
       {
-        "start": 426,
-        "end": 429,
-        "text": "walls. Do you know what that's"
-      },
-      {
-        "start": 429,
+        "start": 432,
         "end": 434,
-        "text": "called? That is called an echo. A co a."
+        "text": "A co a."
       },
       {
         "start": 434,
-        "end": 438,
-        "text": "Let's take a walk through the gate and"
+        "end": 439,
+        "text": "Let's take a walk through the gate and up the stairs."
       },
       {
-        "start": 438,
-        "end": 442,
-        "text": "up the stairs. Right now I am walking up"
+        "start": 439,
+        "end": 443,
+        "text": "Right now I am walking up the stairs."
       },
       {
-        "start": 442,
+        "start": 443,
         "end": 446,
-        "text": "the stairs. I was just talking past"
+        "text": "I was just talking past continuous."
       },
       {
         "start": 446,
-        "end": 448,
-        "text": "continuous. I was talking to you about"
+        "end": 451,
+        "text": "I was talking to you about the echoes and now I'm walking."
       },
       {
-        "start": 448,
-        "end": 452,
-        "text": "the echoes and now I'm walking. Present"
+        "start": 451,
+        "end": 453,
+        "text": "Present continuous."
       },
       {
-        "start": 452,
+        "start": 453,
         "end": 456,
-        "text": "continuous. I am walking up the stairs."
+        "text": "I am walking up the stairs."
       },
       {
         "start": 456,
-        "end": 461,
-        "text": "On either side of me, on either side,"
+        "end": 463,
+        "text": "On either side of me, on either side, there is loud traffic."
       },
       {
-        "start": 461,
+        "start": 463,
         "end": 464,
-        "text": "there is loud traffic. Look at that."
+        "text": "Look at that."
       },
       {
         "start": 464,
-        "end": 467,
-        "text": "There's a cool yellow van. That's a"
+        "end": 466,
+        "text": "There's a cool yellow van."
       },
       {
-        "start": 467,
-        "end": 469,
-        "text": "yellow van. And there was a man smoking"
+        "start": 466,
+        "end": 468,
+        "text": "That's a yellow van."
       },
       {
-        "start": 469,
-        "end": 470,
-        "text": "a cigarette and he and he was very"
+        "start": 468,
+        "end": 472,
+        "text": "And there was a man smoking a cigarette and he and he was very curious about what I was doing."
       },
       {
-        "start": 470,
-        "end": 473,
-        "text": "curious about what I was doing. So what"
+        "start": 472,
+        "end": 477,
+        "text": "So what the what the hell is that white man doing in 40° heat?"
       },
       {
-        "start": 473,
-        "end": 474,
-        "text": "the what the hell is that white man"
+        "start": 477,
+        "end": 480,
+        "text": "Well, good question."
       },
       {
-        "start": 474,
-        "end": 475,
-        "text": "doing"
+        "start": 480,
+        "end": 482,
+        "text": "I have no idea."
       },
       {
-        "start": 475,
-        "end": 481,
-        "text": "in 40° heat? Well, good question. I have"
+        "start": 482,
+        "end": 506,
+        "text": "And guys, what would be really useful for you guys when watching these videos, when you hear new vocabulary, when you hear me speak something that you have not heard before, maybe it will be a skyscraper, then it would be great if you could put that in your own sentence or if you could shadow me."
       },
       {
-        "start": 481,
-        "end": 484,
-        "text": "no idea. And guys, what would be really"
+        "start": 506,
+        "end": 514,
+        "text": "So basically when you hear me speak a new word that you have not heard before, shadow me."
       },
       {
-        "start": 484,
-        "end": 487,
-        "text": "useful for you guys when watching these"
+        "start": 514,
+        "end": 517,
+        "text": "Practice speaking that word."
       },
       {
-        "start": 487,
-        "end": 490,
-        "text": "videos, when you hear new vocabulary,"
+        "start": 517,
+        "end": 525,
+        "text": "Then not only are you learning the new word in context, but you're also producing it in context."
       },
       {
-        "start": 490,
-        "end": 494,
-        "text": "when you hear me speak something that"
-      },
-      {
-        "start": 494,
-        "end": 497,
-        "text": "you have not heard before, maybe it will"
-      },
-      {
-        "start": 497,
-        "end": 500,
-        "text": "be a skyscraper, then it would be great"
-      },
-      {
-        "start": 500,
-        "end": 502,
-        "text": "if you could put that in your own"
-      },
-      {
-        "start": 502,
-        "end": 507,
-        "text": "sentence or if you could shadow me. So"
-      },
-      {
-        "start": 507,
-        "end": 509,
-        "text": "basically when you hear me speak a new"
-      },
-      {
-        "start": 509,
-        "end": 512,
-        "text": "word that you have not heard"
-      },
-      {
-        "start": 512,
-        "end": 516,
-        "text": "before, shadow me. Practice speaking"
-      },
-      {
-        "start": 516,
-        "end": 520,
-        "text": "that word. Then not only are you"
-      },
-      {
-        "start": 520,
-        "end": 522,
-        "text": "learning the new word in context, but"
-      },
-      {
-        "start": 522,
-        "end": 526,
-        "text": "you're also producing it in context. And"
-      },
-      {
-        "start": 526,
-        "end": 528,
-        "text": "this is basically going to boost the"
-      },
-      {
-        "start": 528,
-        "end": 531,
-        "text": "efficiency of these videos if you can do"
-      },
-      {
-        "start": 531,
-        "end": 534,
-        "text": "your part and put a little bit of effort"
-      },
-      {
-        "start": 534,
-        "end": 538,
-        "text": "in in producing the language as well"
-      },
-      {
-        "start": 538,
-        "end": 542,
-        "text": "as receiving it as well as listening to"
-      },
-      {
-        "start": 542,
+        "start": 525,
         "end": 544,
-        "text": "it and watching these videos. I've"
+        "text": "And this is basically going to boost the efficiency of these videos if you can do your part and put a little bit of effort in in producing the language as well as receiving it as well as listening to it and watching these videos."
       },
       {
         "start": 544,
         "end": 548,
-        "text": "showed you guys the beautiful Daang"
+        "text": "I've showed you guys the beautiful Daang River."
       },
       {
         "start": 548,
         "end": 551,
-        "text": "River. This is called the Han River."
+        "text": "This is called the Han River."
       },
       {
         "start": 551,
-        "end": 556,
-        "text": "There is the Dragon Bridge. I'm very"
+        "end": 555,
+        "text": "There is the Dragon Bridge."
       },
       {
-        "start": 556,
-        "end": 561,
-        "text": "lucky to live in Daang, Vietnam. If"
+        "start": 555,
+        "end": 560,
+        "text": "I'm very lucky to live in Daang, Vietnam."
       },
       {
-        "start": 561,
-        "end": 562,
-        "text": "you're watching this and you're from"
-      },
-      {
-        "start": 562,
+        "start": 560,
         "end": 565,
-        "text": "Daang, then let me know in the comments."
+        "text": "If you're watching this and you're from Daang, then let me know in the comments."
       },
       {
         "start": 565,
         "end": 568,
-        "text": "I would love to know where you guys are"
+        "text": "I would love to know where you guys are from."
       },
       {
         "start": 568,
-        "end": 570,
-        "text": "from. Right now, I'm going to head back"
+        "end": 576,
+        "text": "Right now, I'm going to head back to my bike, go home, and take a shower before my English class."
       },
       {
-        "start": 570,
-        "end": 574,
-        "text": "to my bike, go home, and take a shower"
-      },
-      {
-        "start": 574,
-        "end": 577,
-        "text": "before my English class. Comment now"
-      },
-      {
-        "start": 577,
+        "start": 576,
         "end": 579,
-        "text": "where are you from in the world? I'm"
+        "text": "Comment now where are you from in the world?"
       },
       {
         "start": 579,
+        "end": 580,
+        "text": "I'm very curious."
+      },
+      {
+        "start": 580,
         "end": 581,
-        "text": "very curious. I would love to know. Make"
+        "text": "I would love to know."
       },
       {
         "start": 581,
-        "end": 585,
-        "text": "sure to like this video, subscribe, hit"
-      },
-      {
-        "start": 585,
-        "end": 587,
-        "text": "that notification bell so you will be"
-      },
-      {
-        "start": 587,
-        "end": 591,
-        "text": "notified when I upload a brand new"
-      },
-      {
-        "start": 591,
         "end": 593,
-        "text": "video."
-      },
-      {
-        "start": 593,
-        "end": 606,
-        "text": "[Music]"
+        "text": "Make sure to like this video, subscribe, hit that notification bell so you will be notified when I upload a brand new video."
       }
     ]
   }

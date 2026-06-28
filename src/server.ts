@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, NextFunction } from "express";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -115,7 +115,7 @@ const defaultProgress = {
 };
 initializeFile(PROGRESS_FILE, JSON.stringify(defaultProgress, null, 2));
 
-app.use(express.json());
+app.use(express.json({ limit: '100kb' }));
 
 // Root & Health check routes
 app.get("/", (req: Request, res: Response) => {
@@ -171,7 +171,8 @@ async function reconstructTranscriptIntoSentences(transcriptLines: any[]) {
     if (segmentWords.length === 0) continue;
 
     const duration = line.end - line.start;
-    const wordDuration = duration / segmentWords.length;
+    const safeDuration = duration <= 0 ? 0.5 * segmentWords.length : duration;
+    const wordDuration = safeDuration / segmentWords.length;
 
     for (let i = 0; i < segmentWords.length; i++) {
       words.push({
@@ -218,19 +219,83 @@ async function reconstructTranscriptIntoSentences(transcriptLines: any[]) {
   return sentences;
 }
 
-// 1. Ollama Chat Gateway Proxy Route
-app.post("/api/chat", async (req: Request, res: Response) => {
+  // --- Robustness Utilities ---
+
+// Sequential Asynchronous File Write Queue to prevent race conditions
+class FileWriteQueue {
+  private queue: Promise<void> = Promise.resolve();
+
+  async enqueueWrite(filePath: string, data: string): Promise<void> {
+    const next = () => fs.promises.writeFile(filePath, data, "utf-8");
+    this.queue = this.queue.then(next).catch((err) => {
+      console.error(`[Bloom Queue] Failed writing to: ${filePath}`, err);
+      throw err;
+    });
+    return this.queue;
+  }
+}
+const fileWriteQueue = new FileWriteQueue();
+
+// Simple In-Memory Rate Limiter Middleware
+interface RateLimitInfo {
+  count: number;
+  resetTime: number;
+}
+const ipLimits = new Map<string, RateLimitInfo>();
+
+const rateLimiter = (limit: number, windowMs: number) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const ip = (req.headers["x-forwarded-for"] as string) || req.ip || req.socket.remoteAddress || "unknown";
+    const now = Date.now();
+    
+    let info = ipLimits.get(ip);
+    if (!info || now > info.resetTime) {
+      info = { count: 1, resetTime: now + windowMs };
+      ipLimits.set(ip, info);
+      return next();
+    }
+    
+    if (info.count >= limit) {
+      res.status(429).json({ error: "Too many requests, please try again later." });
+      return;
+    }
+    
+    info.count++;
+    next();
+  };
+};
+
+// Ollama Options Sanitizer & Clamping Utility
+const sanitizeChatOptions = (clientOptions: any) => {
+  const options: any = {};
+  if (clientOptions) {
+    if (typeof clientOptions.temperature === "number") {
+      options.temperature = Math.max(0, Math.min(1.5, clientOptions.temperature));
+    }
+    if (typeof clientOptions.num_predict === "number") {
+      options.num_predict = Math.max(1, Math.min(150, clientOptions.num_predict));
+    }
+    if (typeof clientOptions.num_ctx === "number") {
+      options.num_ctx = Math.max(256, Math.min(4096, clientOptions.num_ctx));
+    }
+  }
+  return options;
+};
+
+// 1. Ollama Chat Gateway Proxy Route with rate limiting and options sanitization
+app.post("/api/chat", rateLimiter(15, 60000), async (req: Request, res: Response) => {
   try {
     const { model, messages, options, stream } = req.body;
+    const sanitizedOptions = sanitizeChatOptions(options);
 
     const response = await fetch(`${OLLAMA_URL}/api/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: model || "llama3",
+        model: model || "gemma2:2b",
         messages: messages || [],
         stream: stream === true,
-        options: options || {}
+        options: sanitizedOptions
       })
     });
 
@@ -267,16 +332,16 @@ app.post("/api/chat", async (req: Request, res: Response) => {
 
     const data = await response.json();
 
-    // Log chat history
+    // Log chat history asynchronously
     try {
-      const historyRaw = fs.readFileSync(HISTORY_FILE, "utf-8");
+      const historyRaw = await fs.promises.readFile(HISTORY_FILE, "utf-8");
       const history = JSON.parse(historyRaw);
       history.push({
         timestamp: new Date().toISOString(),
         messages: messages,
         assistantResponse: data.message
       });
-      fs.writeFileSync(HISTORY_FILE, JSON.stringify(history, null, 2), "utf-8");
+      await fileWriteQueue.enqueueWrite(HISTORY_FILE, JSON.stringify(history, null, 2));
     } catch (logErr) {
       console.error("Failed to log chat history:", logErr);
     }
@@ -288,48 +353,78 @@ app.post("/api/chat", async (req: Request, res: Response) => {
   }
 });
 
-// 2. Vocabulary API Routes
-app.get("/api/vocabulary", (req: Request, res: Response) => {
+// 1b. Ollama connection health check endpoint
+app.get("/api/ollama/health", async (req: Request, res: Response) => {
   try {
-    const data = fs.readFileSync(VOCAB_FILE, "utf-8");
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000); // 2 second timeout
+
+    const response = await fetch(`${OLLAMA_URL}/api/tags`, {
+      method: "GET",
+      signal: controller.signal
+    });
+    
+    clearTimeout(timeoutId);
+
+    if (response.ok) {
+      const data = await response.json();
+      res.json({ status: "ok", models: data.models || [] });
+    } else {
+      res.json({ status: "error", message: `Ollama returned status ${response.status}` });
+    }
+  } catch (err: any) {
+    res.json({ status: "error", message: "Failed to connect to local Ollama service" });
+  }
+});
+
+// 2. Vocabulary API Routes (Asynchronous & Sanitized)
+app.get("/api/vocabulary", async (req: Request, res: Response) => {
+  try {
+    const data = await fs.promises.readFile(VOCAB_FILE, "utf-8");
     res.json(JSON.parse(data));
   } catch (err: any) {
     res.status(500).json({ error: "Failed to read vocabulary data", details: err.message });
   }
 });
 
-app.get("/api/common-vocabulary", (req: Request, res: Response) => {
+app.get("/api/common-vocabulary", async (req: Request, res: Response) => {
   try {
-    const data = fs.readFileSync(COMMON_VOCAB_FILE, "utf-8");
+    const data = await fs.promises.readFile(COMMON_VOCAB_FILE, "utf-8");
     res.json(JSON.parse(data));
   } catch (err: any) {
     res.status(500).json({ error: "Failed to read common vocabulary data", details: err.message });
   }
 });
 
-app.post("/api/vocabulary", (req: Request, res: Response) => {
+app.post("/api/vocabulary", async (req: Request, res: Response) => {
   try {
-    const newWord = req.body;
-    if (!newWord || !newWord.word) {
+    const body = req.body;
+    if (!body || typeof body.word !== "string" || !body.word.trim()) {
       res.status(400).json({ error: "Word object with word property is required" });
       return;
     }
 
-    const dataRaw = fs.readFileSync(VOCAB_FILE, "utf-8");
+    // Input Sanitization to only permitted keys
+    const newWord = {
+      word: body.word.trim(),
+      ipa: typeof body.ipa === "string" ? body.ipa.trim() : "",
+      definition: typeof body.definition === "string" ? body.definition.trim() : "",
+      example: typeof body.example === "string" ? body.example.trim() : "",
+      dateSaved: typeof body.dateSaved === "string" ? body.dateSaved.trim() : (() => {
+        const d = new Date();
+        const offset = d.getTimezoneOffset();
+        const localDate = new Date(d.getTime() - offset * 60 * 1000);
+        return localDate.toISOString().split("T")[0];
+      })()
+    };
+
+    const dataRaw = await fs.promises.readFile(VOCAB_FILE, "utf-8");
     const vocab = JSON.parse(dataRaw);
 
     const exists = vocab.some((w: any) => w.word.toLowerCase() === newWord.word.toLowerCase());
     if (!exists) {
-      vocab.push({
-        ...newWord,
-        dateSaved: newWord.dateSaved || (() => {
-          const d = new Date();
-          const offset = d.getTimezoneOffset();
-          const localDate = new Date(d.getTime() - offset * 60 * 1000);
-          return localDate.toISOString().split("T")[0];
-        })()
-      });
-      fs.writeFileSync(VOCAB_FILE, JSON.stringify(vocab, null, 2), "utf-8");
+      vocab.push(newWord);
+      await fileWriteQueue.enqueueWrite(VOCAB_FILE, JSON.stringify(vocab, null, 2));
     }
 
     res.json(vocab);
@@ -338,14 +433,14 @@ app.post("/api/vocabulary", (req: Request, res: Response) => {
   }
 });
 
-app.delete("/api/vocabulary/:word", (req: Request, res: Response) => {
+app.delete("/api/vocabulary/:word", async (req: Request, res: Response) => {
   try {
     const targetWord = req.params.word.toLowerCase();
-    const dataRaw = fs.readFileSync(VOCAB_FILE, "utf-8");
+    const dataRaw = await fs.promises.readFile(VOCAB_FILE, "utf-8");
     const vocab = JSON.parse(dataRaw);
 
     const filtered = vocab.filter((w: any) => w.word.toLowerCase() !== targetWord);
-    fs.writeFileSync(VOCAB_FILE, JSON.stringify(filtered, null, 2), "utf-8");
+    await fileWriteQueue.enqueueWrite(VOCAB_FILE, JSON.stringify(filtered, null, 2));
 
     res.json(filtered);
   } catch (err: any) {
@@ -353,29 +448,29 @@ app.delete("/api/vocabulary/:word", (req: Request, res: Response) => {
   }
 });
 
-// 3. Streaks API Routes
-app.get("/api/streaks", (req: Request, res: Response) => {
+// 3. Streaks API Routes (Asynchronous)
+app.get("/api/streaks", async (req: Request, res: Response) => {
   try {
-    const data = fs.readFileSync(STREAKS_FILE, "utf-8");
+    const data = await fs.promises.readFile(STREAKS_FILE, "utf-8");
     res.json(JSON.parse(data));
   } catch (err: any) {
     res.status(500).json({ error: "Failed to read streak data", details: err.message });
   }
 });
 
-app.post("/api/streaks", (req: Request, res: Response) => {
+app.post("/api/streaks", async (req: Request, res: Response) => {
   try {
     const d = new Date();
     const offset = d.getTimezoneOffset();
     const localDate = new Date(d.getTime() - offset * 60 * 1000);
     const todayStr = localDate.toISOString().split("T")[0];
     
-    const dataRaw = fs.readFileSync(STREAKS_FILE, "utf-8");
+    const dataRaw = await fs.promises.readFile(STREAKS_FILE, "utf-8");
     const streaks = JSON.parse(dataRaw);
 
     if (!streaks.includes(todayStr)) {
       streaks.push(todayStr);
-      fs.writeFileSync(STREAKS_FILE, JSON.stringify(streaks, null, 2), "utf-8");
+      await fileWriteQueue.enqueueWrite(STREAKS_FILE, JSON.stringify(streaks, null, 2));
     }
 
     res.json(streaks);
@@ -384,20 +479,20 @@ app.post("/api/streaks", (req: Request, res: Response) => {
   }
 });
 
-// 4. Dynamic Lessons Playlist Routes
-app.get("/api/lessons", (req: Request, res: Response) => {
+// 4. Dynamic Lessons Playlist Routes (Asynchronous)
+app.get("/api/lessons", async (req: Request, res: Response) => {
   try {
-    const data = fs.readFileSync(LESSONS_FILE, "utf-8");
+    const data = await fs.promises.readFile(LESSONS_FILE, "utf-8");
     res.json(JSON.parse(data));
   } catch (err: any) {
     res.status(500).json({ error: "Failed to read lessons data", details: err.message });
   }
 });
 
-app.post("/api/lessons/:id/initialize", async (req: Request, res: Response) => {
+app.post("/api/lessons/:id/initialize", rateLimiter(5, 60000), async (req: Request, res: Response) => {
   try {
     const lessonId = req.params.id;
-    const lessonsRaw = fs.readFileSync(LESSONS_FILE, "utf-8");
+    const lessonsRaw = await fs.promises.readFile(LESSONS_FILE, "utf-8");
     const lessons = JSON.parse(lessonsRaw);
     
     const lessonIndex = lessons.findIndex((l: any) => l.id === lessonId);
@@ -479,7 +574,7 @@ app.post("/api/lessons/:id/initialize", async (req: Request, res: Response) => {
     lesson.isInitialized = true;
     
     lessons[lessonIndex] = lesson;
-    fs.writeFileSync(LESSONS_FILE, JSON.stringify(lessons, null, 2), "utf-8");
+    await fileWriteQueue.enqueueWrite(LESSONS_FILE, JSON.stringify(lessons, null, 2));
     console.log(`[Bloom Server] Lesson ${lessonId} initialized successfully with ${vocab.length} words and ${transcriptLines.length} lines.`);
     
     res.json(lesson);
@@ -488,17 +583,18 @@ app.post("/api/lessons/:id/initialize", async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to initialize lesson captions & vocabulary", details: err.message });
   }
 });
-// 5. User Progress Daily Progression API Routes
-app.get("/api/progress", (req: Request, res: Response) => {
+
+// 5. User Progress Daily Progression API Routes (Asynchronous)
+app.get("/api/progress", async (req: Request, res: Response) => {
   try {
-    const data = fs.readFileSync(PROGRESS_FILE, "utf-8");
+    const data = await fs.promises.readFile(PROGRESS_FILE, "utf-8");
     res.json(JSON.parse(data));
   } catch (err: any) {
     res.status(500).json({ error: "Failed to read progress data", details: err.message });
   }
 });
 
-app.post("/api/progress/task", (req: Request, res: Response) => {
+app.post("/api/progress/task", async (req: Request, res: Response) => {
   try {
     const { taskName, completed } = req.body;
     if (!taskName || typeof completed !== "boolean") {
@@ -506,12 +602,12 @@ app.post("/api/progress/task", (req: Request, res: Response) => {
       return;
     }
 
-    const dataRaw = fs.readFileSync(PROGRESS_FILE, "utf-8");
+    const dataRaw = await fs.promises.readFile(PROGRESS_FILE, "utf-8");
     const progress = JSON.parse(dataRaw);
 
     if (progress.todayTasks.hasOwnProperty(taskName)) {
       progress.todayTasks[taskName] = completed;
-      fs.writeFileSync(PROGRESS_FILE, JSON.stringify(progress, null, 2), "utf-8");
+      await fileWriteQueue.enqueueWrite(PROGRESS_FILE, JSON.stringify(progress, null, 2));
     }
 
     res.json(progress);
@@ -520,9 +616,9 @@ app.post("/api/progress/task", (req: Request, res: Response) => {
   }
 });
 
-app.post("/api/progress/next-day", (req: Request, res: Response) => {
+app.post("/api/progress/next-day", async (req: Request, res: Response) => {
   try {
-    const dataRaw = fs.readFileSync(PROGRESS_FILE, "utf-8");
+    const dataRaw = await fs.promises.readFile(PROGRESS_FILE, "utf-8");
     const progress = JSON.parse(dataRaw);
 
     const tasks = progress.todayTasks;
@@ -546,17 +642,17 @@ app.post("/api/progress/next-day", (req: Request, res: Response) => {
       const todayStr = localDate.toISOString().split("T")[0];
 
       try {
-        const streaksRaw = fs.readFileSync(STREAKS_FILE, "utf-8");
+        const streaksRaw = await fs.promises.readFile(STREAKS_FILE, "utf-8");
         const streaks = JSON.parse(streaksRaw);
         if (!streaks.includes(todayStr)) {
           streaks.push(todayStr);
-          fs.writeFileSync(STREAKS_FILE, JSON.stringify(streaks, null, 2), "utf-8");
+          await fileWriteQueue.enqueueWrite(STREAKS_FILE, JSON.stringify(streaks, null, 2));
         }
       } catch (streakErr) {
         console.error("Failed to automatically record streak on day complete:", streakErr);
       }
 
-      fs.writeFileSync(PROGRESS_FILE, JSON.stringify(progress, null, 2), "utf-8");
+      await fileWriteQueue.enqueueWrite(PROGRESS_FILE, JSON.stringify(progress, null, 2));
     }
 
     res.json(progress);
@@ -565,8 +661,13 @@ app.post("/api/progress/next-day", (req: Request, res: Response) => {
   }
 });
 
-app.post("/api/progress/reset", (req: Request, res: Response) => {
+app.post("/api/progress/reset", rateLimiter(3, 60000), async (req: Request, res: Response) => {
   try {
+    // Require explicit confirmation token to prevent accidental/malicious resets
+    if (req.body?.confirm !== true) {
+      res.status(400).json({ error: "Missing confirm token. Send { confirm: true } to reset progress." });
+      return;
+    }
     const defaultProgress = {
       currentDay: 1,
       completedDays: {},
@@ -577,13 +678,12 @@ app.post("/api/progress/reset", (req: Request, res: Response) => {
         quiz: false
       }
     };
-    fs.writeFileSync(PROGRESS_FILE, JSON.stringify(defaultProgress, null, 2), "utf-8");
+    await fileWriteQueue.enqueueWrite(PROGRESS_FILE, JSON.stringify(defaultProgress, null, 2));
     res.json(defaultProgress);
   } catch (err: any) {
     res.status(500).json({ error: "Failed to reset progress", details: err.message });
   }
 });
-
 
 app.listen(PORT, () => {
   console.log(`[Bloom Server] Backend initialized and running on http://localhost:${PORT}`);
