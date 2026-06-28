@@ -209,22 +209,7 @@ export default function AISpeakingLab() {
 
   const stopRecording = () => {
     if (!recognitionRef.current) return;
-    
     recognitionRef.current.stop();
-    setIsRecording(false);
-    stopSilenceDetection();
-
-    if (activeTabRef.current === "coach") {
-      setTimeout(() => {
-        setChatInput(prev => {
-          const finalVal = prev.trim();
-          if (finalVal) {
-            handleSendChat(finalVal);
-          }
-          return "";
-        });
-      }, 400);
-    }
   };
 
   const startSilenceDetection = async () => {
@@ -495,7 +480,7 @@ export default function AISpeakingLab() {
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (SpeechRecognition) {
       const rec = new SpeechRecognition();
-      rec.continuous = true;
+      rec.continuous = false;
       rec.interimResults = true;
       rec.lang = "en-GB";
 
@@ -529,6 +514,17 @@ export default function AISpeakingLab() {
       rec.onend = () => {
         setIsRecording(false);
         stopSilenceDetection();
+        if (activeTabRef.current === "coach") {
+          setTimeout(() => {
+            setChatInput(prev => {
+              const finalVal = prev.trim();
+              if (finalVal) {
+                handleSendChat(finalVal);
+              }
+              return "";
+            });
+          }, 300);
+        }
       };
 
       recognitionRef.current = rec;
