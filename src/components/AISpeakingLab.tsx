@@ -17,7 +17,8 @@ import {
   Send,
   HelpCircle,
   Video,
-  Settings
+  Settings,
+  Pencil
 } from "lucide-react";
 
 // Types
@@ -194,10 +195,18 @@ export default function AISpeakingLab() {
   const [isInitializingLesson, setIsInitializingLesson] = useState(false);
 
   // Notebook/Review Game states
-  const [vocabSubTab, setVocabSubTab] = useState<"saved" | "foundational" | "review">("saved");
+  const [vocabSubTab, setVocabSubTab] = useState<"saved" | "foundational" | "review" | "add">("saved");
   const [reviewIndex, setReviewIndex] = useState(0);
   const [isCardFlipped, setIsCardFlipped] = useState(false);
   const [reviewScores, setReviewScores] = useState({ correct: 0, total: 0 });
+
+  // Add new word form state
+  const [newWordForm, setNewWordForm] = useState({
+    word: "",
+    ipa: "",
+    definition: "",
+    example: ""
+  });
 
   // Daily task lock & status states
   const [hasShadowedToday, setHasShadowedToday] = useState(false);
@@ -557,6 +566,34 @@ export default function AISpeakingLab() {
     } catch (err) {
       console.error("Failed to delete word:", err);
     }
+  };
+
+  // Handle adding a new custom word from the form
+  const handleAddCustomWord = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!newWordForm.word.trim()) {
+      alert("Please enter at least a word.");
+      return;
+    }
+
+    const wordObj: VocabWord = {
+      word: newWordForm.word.trim(),
+      ipa: newWordForm.ipa.trim() || "",
+      definition: newWordForm.definition.trim() || "",
+      example: newWordForm.example.trim() || ""
+    };
+
+    await handleSaveWord(wordObj);
+    
+    // Reset form and switch to saved tab
+    setNewWordForm({
+      word: "",
+      ipa: "",
+      definition: "",
+      example: ""
+    });
+    setVocabSubTab("saved");
   };
 
   const handleInitializeLesson = async () => {
@@ -1413,9 +1450,18 @@ export default function AISpeakingLab() {
                     >
                       Review Game
                     </button>
+                    <button
+                      onClick={() => setVocabSubTab("add")}
+                      className={`text-xs font-semibold tracking-wide uppercase pb-2 border-b-2 transition-all cursor-pointer flex items-center gap-1.5 ${
+                        vocabSubTab === "add" ? "text-white border-white" : "text-white/40 border-transparent hover:text-white/70"
+                      }`}
+                    >
+                      <Plus className="w-3 h-3" />
+                      Add Word
+                    </button>
                   </div>
                   <span className="text-[10px] font-mono text-white/40 hidden sm:inline">
-                    {vocabSubTab === "saved" ? `${savedVocab.length} saved` : vocabSubTab === "foundational" ? `${commonVocab.length} words` : "Challenge Mode"}
+                    {vocabSubTab === "saved" ? `${savedVocab.length} saved` : vocabSubTab === "foundational" ? `${commonVocab.length} words` : vocabSubTab === "add" ? "Add new word" : "Challenge Mode"}
                   </span>
                 </div>
 
