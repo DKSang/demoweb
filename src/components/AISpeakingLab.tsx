@@ -169,6 +169,13 @@ export default function AISpeakingLab() {
   const [isCustomLoading, setIsCustomLoading] = useState(false);
   const playerRef = useRef<any>(null);
   const playCheckIntervalRef = useRef<any>(null);
+
+  // Coach tab state declarations moved to top to prevent use-before-declaration errors
+  const [currentWeek, setCurrentWeek] = useState<1 | 2 | 3 | 4>(1);
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+  const [chatInput, setChatInput] = useState("");
+  const [isLlamaLoading, setIsLlamaLoading] = useState(false);
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const activeTabRef = useRef(activeTab);
   useEffect(() => {
     activeTabRef.current = activeTab;
@@ -436,6 +443,23 @@ export default function AISpeakingLab() {
       handleInitializeLesson();
     }
   }, [selectedLesson]);
+
+  // Reset coach session when active lesson or week changes (without auto-speech in background)
+  useEffect(() => {
+    if (selectedLesson) {
+      setChatHistory([]);
+      setIsLlamaLoading(true);
+      const lessonTitle = selectedLesson.title ? selectedLesson.title.replace("🇬🇧", "").trim() : "this lesson";
+      const welcomeMsg = `Hello! Let's start Week ${currentWeek} of your English Coach. Today we will practice speaking about "${lessonTitle}". Try to use vocabulary words like: ${selectedLesson.vocab?.map(v => v.word).slice(0, 3).join(", ") || "our target words"}. Ready?`;
+      const initialMessage: ChatMessage = {
+        id: `bot-${Date.now()}`,
+        role: "assistant",
+        content: welcomeMsg
+      };
+      setChatHistory([initialMessage]);
+      setIsLlamaLoading(false);
+    }
+  }, [selectedLesson, currentWeek]);
 
   // Update backend stats triggers
   const markDayPracticed = async () => {
@@ -909,11 +933,7 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
 
 
   // --- TAB 2: INTERACTIVE SPEAKING COACH ---
-  const [currentWeek, setCurrentWeek] = useState<1 | 2 | 3 | 4>(1);
-  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
-  const [chatInput, setChatInput] = useState("");
-  const [isLlamaLoading, setIsLlamaLoading] = useState(false);
-  const chatContainerRef = useRef<HTMLDivElement | null>(null);
+  // (State declarations moved to top)
 
   // Auto-scroll chat container only (prevents full window scrolling)
   useEffect(() => {
@@ -1230,7 +1250,10 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
 
           <div className="flex flex-wrap items-center gap-4">
             {/* Task 1: Listen */}
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/35 border border-white/5">
+            <button
+              onClick={() => changeTab("shadow")}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/35 hover:bg-black/60 border border-white/5 hover:border-white/20 transition-all cursor-pointer text-left"
+            >
               <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center border ${
                 userProgress.todayTasks.listen 
                   ? "bg-green-500 border-green-500 text-black" 
@@ -1239,10 +1262,13 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
                 {userProgress.todayTasks.listen && <Check className="w-2.5 h-2.5" />}
               </div>
               <span className={userProgress.todayTasks.listen ? "text-green-300 font-semibold" : "text-white/60"}>1. Listen</span>
-            </div>
+            </button>
 
             {/* Task 2: Shadow */}
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/35 border border-white/5">
+            <button
+              onClick={() => changeTab("shadow")}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/35 hover:bg-black/60 border border-white/5 hover:border-white/20 transition-all cursor-pointer text-left"
+            >
               <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center border ${
                 userProgress.todayTasks.shadow 
                   ? "bg-green-500 border-green-500 text-black" 
@@ -1251,10 +1277,13 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
                 {userProgress.todayTasks.shadow && <Check className="w-2.5 h-2.5" />}
               </div>
               <span className={userProgress.todayTasks.shadow ? "text-green-300 font-semibold" : "text-white/60"}>2. Shadow</span>
-            </div>
+            </button>
 
             {/* Task 3: Speak */}
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/35 border border-white/5">
+            <button
+              onClick={() => changeTab("coach")}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/35 hover:bg-black/60 border border-white/5 hover:border-white/20 transition-all cursor-pointer text-left"
+            >
               <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center border ${
                 userProgress.todayTasks.speak 
                   ? "bg-green-500 border-green-500 text-black" 
@@ -1263,7 +1292,7 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
                 {userProgress.todayTasks.speak && <Check className="w-2.5 h-2.5" />}
               </div>
               <span className={userProgress.todayTasks.speak ? "text-green-300 font-semibold" : "text-white/60"}>3. Speak</span>
-            </div>
+            </button>
 
             {/* Task 4: Quiz */}
             <button
@@ -1343,32 +1372,10 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
                       <p className="text-[10px] font-mono text-white/40 mt-1">Select a video from Jay's Sprout English playlist (36 lessons)</p>
                     </div>
 
-                    <select
-                      value={selectedLesson?.id || ""}
-                      onChange={(e) => {
-                        const target = lessonsList.find(l => l.id === e.target.value);
-                        if (target) {
-                          setSelectedLesson(target);
-                          setCurrentLineIndex(0);
-                          setShadowScore(null);
-                        }
-                      }}
-                      className="bg-black/60 border border-white/10 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-white/30 cursor-pointer max-w-xs"
-                    >
-                      {(() => {
-                        const todayStr = getLocalDateString();
-                        const isDailyCompleted = streakDays.includes(todayStr) || (hasShadowedToday && hasChattedToday);
-                        
-                        return lessonsList.map((l, idx) => {
-                          const isLocked = !isDailyCompleted && idx > 0 && l.id !== selectedLesson?.id;
-                          return (
-                            <option key={l.id} value={l.id} disabled={isLocked} className="bg-zinc-950 text-white text-xs">
-                              {isLocked ? `🔒 ${l.title.replace("🇬🇧", "").replace("⏰", "").trim()}` : l.title.replace("🇬🇧", "").replace("⏰", "").trim()}
-                            </option>
-                          );
-                        });
-                      })()}
-                    </select>
+                    <div className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs text-white/95 font-medium font-mono flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                      <span>DAY {userProgress.currentDay} LOCK</span>
+                    </div>
                   </div>
 
                   {!selectedLesson ? (
@@ -1516,6 +1523,26 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
                       </>
                     )}
                   </button>
+
+                  {/* Task transition guidance card */}
+                  {userProgress.todayTasks.listen && userProgress.todayTasks.shadow && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-4 rounded-2xl bg-green-500/10 border border-green-500/20 text-center flex flex-col gap-3 mt-4"
+                    >
+                      <p className="text-xs text-green-300 font-medium">
+                        ✓ Listen & Shadow tasks completed!
+                      </p>
+                      <button
+                        onClick={() => changeTab("coach")}
+                        className="py-2.5 rounded-xl bg-white text-black hover:bg-white/90 text-xs font-semibold hover:scale-102 active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow"
+                      >
+                        <span>Start Speaking with AI Coach</span>
+                        <ArrowRight className="w-3.5 h-3.5 text-black" />
+                      </button>
+                    </motion.div>
+                  )}
                 </div>
 
                 {/* Lesson Target Vocabulary card */}
@@ -1680,6 +1707,29 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
                 </button>
 
               </div>
+
+              {/* Task transition guidance card for Speak */}
+              {userProgress.todayTasks.speak && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-6 p-4 rounded-2xl bg-green-500/10 border border-green-500/20 text-center flex flex-col gap-3"
+                >
+                  <p className="text-xs text-green-300 font-medium">
+                    ✓ AI Coach Speaking task completed!
+                  </p>
+                  <button
+                    onClick={() => {
+                      changeTab("vocab");
+                      setVocabSubTab("quiz");
+                    }}
+                    className="py-2.5 rounded-xl bg-white text-black hover:bg-white/90 text-xs font-semibold hover:scale-102 active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow"
+                  >
+                    <span>Take Vocabulary Quiz</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-black" />
+                  </button>
+                </motion.div>
+              )}
 
             </div>
           )}

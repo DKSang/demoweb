@@ -47,15 +47,10 @@ The lab is structured as a two-panel module or a unified dashboard containing th
 
 # Key Flows
 
-### Flow 1: Shadowing Practice
-1.  **Select Lesson**: User selects "British Time Expressions".
-2.  **Play Segment**: User clicks play. The YouTube video plays from 0:15 to 0:20 and automatically pauses.
-3.  **Vocal Practice**: User clicks "Record" and says "We woke up at stupid o'clock this morning."
-4.  **Feedback**: The screen highlights "stupid o'clock" and shows a "96% Match" score.
-5.  **Save Word**: User clicks a "+" icon next to "stupid o'clock" to save it to their vocabulary notebook.
-
-### Flow 2: Speaking with Llama-3-8b
-1.  **Choose Week**: User selects "Week 3 (Grammar & Correction)".
-2.  **Open Conversation**: Llama-3-8b prompts: *"Hi Dksang, what time do you usually wake up?"*
-3.  **Speak Answer**: User holds Spacebar and speaks: *"I usually wake up at half 6."*
-4.  **Correction Card**: The UI shows a correction card stating: *"Perfect! In British English, 'half 6' means 6:30. Let's practice using it in another sentence."* The AI speaks this response out loud.
+### Flow 1: Daily Task Progression (From Day 1 to Day 2 Unlock)
+1.  **Enter Lesson Dashboard**: The user lands on Day 1. The player is locked to the "Getting a haircut in Vietnam" lesson. The dropdown is hidden; a static "DAY 1 LOCK" badge is displayed.
+2.  **Task 1: Listen**: The user clicks play on a timed segment. Playing/interacting with the video segment automatically completes and checks off the **Listen** task in the Progression Status Bar.
+3.  **Task 2: Shadow**: The user records their pronunciation for a segment. Upon achieving a similarity score >= 50, the **Shadow** task checks off. An inline green **Task Guidance Card** appears, prompting: *"✓ Listen & Shadow tasks completed! [Start Speaking with AI Coach →]"*.
+4.  **Task 3: Speak**: The user clicks the CTA button, which automatically routes them to the AI Coach tab. The user sends a chat message. Upon receiving the completed stream response from Llama, the **Speak** task checks off. A second inline green **Task Guidance Card** appears under the input row, prompting: *"✓ AI Coach Speaking task completed! [Take Vocabulary Quiz →]"*.
+5.  **Task 4: Quiz**: The user clicks the CTA, routing them to the Vocabulary -> Daily Quiz sub-tab. The user takes the generated multiple-choice quiz and achieves 100% correct, completing the **Quiz** task.
+6.  **Celebrate & Unlock**: The full-screen **Day Completed Unlock Overlay** modal automatically appears. The user clicks *"Unlock Day 2"*. The dashboard transitions silently to the Day 2 lesson, resetting all task checkboxes to clean state.
