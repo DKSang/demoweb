@@ -152,6 +152,71 @@ async function getYoutubeTranscript(videoId: string) {
   return lines;
 }
 
+// Helper: Ask Ollama to reconstruct raw transcript segments into clean sentences with timestamps
+async function reconstructTranscriptIntoSentences(transcriptLines: any[]) {
+  const batchSize = 15;
+  const reconstructed: any[] = [];
+  
+  for (let i = 0; i < transcriptLines.length; i += batchSize) {
+    const batch = transcriptLines.slice(i, i + batchSize);
+    const systemPrompt = `You are a professional subtitle editor. Take this array of raw transcript segments with start and end times, and merge them into complete, grammatically correct English sentences. 
+    Add proper capitalization and punctuation. Keep the timestamps (start, end) aligned with the flow of the sentences.
+    
+    Output the result EXACTLY as a JSON array of objects matching this TypeScript interface:
+    interface TimedLine {
+      start: number;
+      end: number;
+      text: string;
+    }
+    
+    Do NOT wrap in markdown blocks like \`\`\`json. Return only the raw JSON array.
+    
+    Segments to process:
+    ${JSON.stringify(batch)}`;
+
+    try {
+      const response = await fetch(`${OLLAMA_URL}/api/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "llama3",
+          messages: [{ role: "system", content: systemPrompt }],
+          stream: false,
+          options: { temperature: 0.1 }
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        let content = data.message?.content || "[]";
+        content = content.trim();
+        const startIndex = content.indexOf("[");
+        const endIndex = content.lastIndexOf("]");
+        if (startIndex !== -1 && endIndex !== -1) {
+          content = content.substring(startIndex, endIndex + 1);
+        }
+        const parsed = JSON.parse(content);
+        if (Array.isArray(parsed)) {
+          reconstructed.push(...parsed);
+        } else {
+          reconstructed.push(...batch);
+        }
+      } else {
+        reconstructed.push(...batch);
+      }
+    } catch (err) {
+      console.error("[Bloom Server] Batch reconstruction error, fallback to raw:", err);
+      reconstructed.push(...batch);
+    }
+  }
+
+  // Smooth end boundaries to prevent overlaps
+  for (let i = 0; i < reconstructed.length - 1; i++) {
+    reconstructed[i].end = reconstructed[i + 1].start;
+  }
+  return reconstructed;
+}
+
 // 1. Ollama Chat Gateway Proxy Route
 app.post("/api/chat", async (req: Request, res: Response) => {
   try {
@@ -344,11 +409,14 @@ app.post("/api/lessons/:id/initialize", async (req: Request, res: Response) => {
     
     // 1. Fetch transcript lines directly from YouTube video
     console.log(`[Bloom Server] Fetching subtitles for video: ${lesson.videoId}...`);
-    const transcriptLines = await getYoutubeTranscript(lesson.videoId);
+    const rawLines = await getYoutubeTranscript(lesson.videoId);
     
-    if (transcriptLines.length === 0) {
+    if (rawLines.length === 0) {
       throw new Error("No caption lines parsed from video.");
     }
+
+    console.log(`[Bloom Server] Reconstructing transcript lines into complete sentences...`);
+    const transcriptLines = await reconstructTranscriptIntoSentences(rawLines);
     
     // 2. Send transcript snippet to Llama-3 to extract 5-6 British vocabulary words
     const snippetText = transcriptLines.slice(0, 100).map(l => l.text).join(" ");
@@ -386,13 +454,11 @@ app.post("/api/lessons/:id/initialize", async (req: Request, res: Response) => {
       const ollamaData = await ollamaResponse.json();
       let responseText = ollamaData.message?.content || "[]";
       
-      // Sanitization: Remove any markdown backticks wrapper if Llama-3 outputs it
       responseText = responseText.trim();
-      if (responseText.startsWith("```")) {
-        const jsonMatch = responseText.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
-        if (jsonMatch) {
-          responseText = jsonMatch[1];
-        }
+      const startIndex = responseText.indexOf("[");
+      const endIndex = responseText.lastIndexOf("]");
+      if (startIndex !== -1 && endIndex !== -1) {
+        responseText = responseText.substring(startIndex, endIndex + 1);
       }
       
       try {
