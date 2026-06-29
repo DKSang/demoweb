@@ -565,7 +565,7 @@ const sanitizeChatOptions = (clientOptions: any) => {
       options.temperature = Math.max(0, Math.min(1.5, clientOptions.temperature));
     }
     if (typeof clientOptions.num_predict === "number") {
-      options.num_predict = Math.max(1, Math.min(150, clientOptions.num_predict));
+      options.num_predict = Math.max(1, Math.min(2000, clientOptions.num_predict));
     }
     if (typeof clientOptions.num_ctx === "number") {
       options.num_ctx = Math.max(256, Math.min(4096, clientOptions.num_ctx));
@@ -623,7 +623,7 @@ app.post("/api/chat", rateLimiter(15, 60000), async (req: Request, res: Response
         messages: messages || [],
         stream: stream === true,
         temperature: sanitizedOptions.temperature ?? 0.7,
-        max_tokens: sanitizedOptions.num_predict ?? 150 // Map num_predict to max_tokens
+        max_tokens: sanitizedOptions.num_predict ?? 1000 // Map num_predict to max_tokens
       })
     });
 
