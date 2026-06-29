@@ -9,7 +9,7 @@
     }
   },
   "todayTasks": {
-    "listen": false,
+    "listen": true,
     "shadow": false,
     "speak": true,
     "quiz": false

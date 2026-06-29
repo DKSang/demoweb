@@ -36,30 +36,7 @@ const initializeFile = (filePath: string, defaultContent: string) => {
 
 // 36 Videos Pre-populated Metadata
 const DEFAULT_LESSONS = [
-  {
-    id: "BCDXweG6CLc",
-    title: "British Time Expressions You Need Every Day ⏰",
-    videoId: "BCDXweG6CLc",
-    isInitialized: true,
-    vocab: [
-      { word: "crack on", ipa: "/kræk ɒn/", definition: "to start or continue doing something quickly and with energy", example: "Let's crack on with the lesson." },
-      { word: "stupid o'clock", ipa: "/ˈstjuːpɪd əˈklɒk/", definition: "an unreasonably early or late hour of the day", example: "I woke up at stupid o'clock this morning." },
-      { word: "yonks", ipa: "/jɒŋks/", definition: "a very long time", example: "I haven't seen you in yonks!" },
-      { word: "faff", ipa: "/fæf/", definition: "to spend time doing things that are not important without achieving much", example: "Stop faffing around and get ready." },
-      { word: "now and then", ipa: "/naʊ ænd ðen/", definition: "occasionally; from time to time", example: "We go out for dinner now and then." },
-      { word: "getting on for", ipa: "/ˈɡetɪŋ ɒn fɔːr/", definition: "approaching a certain age, time, or number", example: "It is getting on for midnight." }
-    ],
-    lines: [
-      { start: 0, end: 5, text: "Hello everyone and welcome back to Sprout English." },
-      { start: 6, end: 12, text: "Today we are looking at British time expressions that you will hear every day." },
-      { start: 13, end: 18, text: "Let's crack on with the first phrase before we run out of time." },
-      { start: 19, end: 25, text: "I had to wake up at stupid o'clock this morning to catch my train." },
-      { start: 26, end: 32, text: "Honestly, I haven't been to this part of the city in absolute yonks." },
-      { start: 33, end: 39, text: "If you stop faffing around, we might actually finish this work early." },
-      { start: 40, end: 46, text: "We go down to the local pub now and then just to catch up." },
-      { start: 47, end: 53, text: "Look at the clock, it is getting on for ten already, we should go." }
-    ]
-  },
+  { id: "BCDXweG6CLc", title: "British Time Expressions You Need Every Day ⏰", videoId: "BCDXweG6CLc", isInitialized: false, vocab: [], lines: [] },
   { id: "cjJLqjjuOs4", title: "Can You Understand British Money Slang? 🇬🇧", videoId: "cjJLqjjuOs4", isInitialized: false, vocab: [], lines: [] },
   { id: "IXuJSwk1gck", title: "The English words you don't learn unless you go to England.", videoId: "IXuJSwk1gck", isInitialized: false, vocab: [], lines: [] },
   { id: "K9pY8Or7-GA", title: "If you want to be good at English... Don't go to school.", videoId: "K9pY8Or7-GA", isInitialized: false, vocab: [], lines: [] },
