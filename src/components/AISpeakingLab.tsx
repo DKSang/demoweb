@@ -130,7 +130,7 @@ export default function AISpeakingLab() {
   const [ttsSpeed, setTtsSpeed] = useState(0.95);
   const [selectedVoice, setSelectedVoice] = useState<string>("");
   const [voicesList, setVoicesList] = useState<SpeechSynthesisVoice[]>([]);
-  const [openRouterModel, setOpenRouterModel] = useState<string>("openrouter/free");
+  const [openRouterModel, setOpenRouterModel] = useState<string>("qwen/qwen3-next-80b-a3b-instruct");
 
   // Daily Progression State
   const [userProgress, setUserProgress] = useState<UserProgress>({
@@ -511,6 +511,8 @@ export default function AISpeakingLab() {
               chatInput={chatInput}
               setChatInput={setChatInput}
               setRecognitionText={setRecognitionText}
+              pendingSpeechSend={pendingSpeechSend}
+              clearPendingSpeechSend={() => setPendingSpeechSend(null)}
             />
           )}
 

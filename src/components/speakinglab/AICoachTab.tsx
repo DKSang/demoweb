@@ -26,6 +26,8 @@ interface AICoachTabProps {
   chatInput: string;
   setChatInput: (v: string) => void;
   setRecognitionText: (v: string) => void;
+  pendingSpeechSend?: string | null;
+  clearPendingSpeechSend?: () => void;
 }
 
 export default function AICoachTab({
@@ -49,7 +51,9 @@ export default function AICoachTab({
   stopRecording,
   chatInput,
   setChatInput,
-  setRecognitionText
+  setRecognitionText,
+  pendingSpeechSend,
+  clearPendingSpeechSend
 }: AICoachTabProps) {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [phase, setPhase] = useState<"shadow" | "practice" | "whatif" | "debrief">("shadow");
@@ -143,6 +147,16 @@ export default function AICoachTab({
       });
     }
   }, [chatHistory, isQwenLoading]);
+
+  // Listen to pending speech sends from parent
+  useEffect(() => {
+    if (pendingSpeechSend) {
+      handleSendChat(pendingSpeechSend);
+      if (clearPendingSpeechSend) {
+        clearPendingSpeechSend();
+      }
+    }
+  }, [pendingSpeechSend]);
 
   // TTS Output speak helper
   const speakAIResponse = (text: string) => {
@@ -507,16 +521,6 @@ export default function AICoachTab({
               )}
             </div>
           ))
-        )}
-        {isQwenLoading && (
-          <div className="flex flex-col max-w-[85%] self-start items-start">
-            <div className="p-4 rounded-2xl text-xs bg-white/5 border border-white/5 text-white/55 rounded-tl-none flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-white/80 animate-bounce" style={{ animationDelay: "0ms" }} />
-              <span className="w-1.5 h-1.5 rounded-full bg-white/80 animate-bounce" style={{ animationDelay: "150ms" }} />
-              <span className="w-1.5 h-1.5 rounded-full bg-white/80 animate-bounce" style={{ animationDelay: "300ms" }} />
-              <span className="font-mono text-[9px] ml-1 tracking-wider">AI is processing...</span>
-            </div>
-          </div>
         )}
       </div>
 
