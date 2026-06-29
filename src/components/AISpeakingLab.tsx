@@ -24,7 +24,7 @@ export default function AISpeakingLab() {
   // Ollama Health via custom hook
   const { isOllamaOnline } = useOllamaHealth(10000);
 
-  // Custom Hook for Speech Recognition & Silence Auto-Stop
+  // Custom Hook for Speech Recognition & Silence Auto-Stop with Enhanced Features
   const {
     isRecording,
     volumeLevel,
@@ -32,9 +32,13 @@ export default function AISpeakingLab() {
     isSpeechSupported,
     startRecording,
     stopRecording,
-    setRecognitionText
+    setRecognitionText,
+    audioQuality,
+    backgroundNoise
   } = useSilenceDetection({
     lang: activeTab === "shadow" ? "en-GB" : "en-US",
+    enableNoiseCancellation: true,
+    enableEnhancedProcessing: true,
     onTextUpdate: (text) => {
       if (activeTab === "coach") {
         setChatInput(text);
@@ -481,6 +485,8 @@ export default function AISpeakingLab() {
               startRecording={startRecording}
               stopRecording={stopRecording}
               setRecognitionText={setRecognitionText}
+              audioQuality={audioQuality}
+              backgroundNoise={backgroundNoise}
             />
           </div>
 
