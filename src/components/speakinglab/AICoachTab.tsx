@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion } from "motion/react";
 import { Mic, MicOff, Send, Sparkles, ArrowRight } from "lucide-react";
 import type { Lesson, ChatMessage, UserProgress } from "./types";
@@ -55,6 +55,7 @@ export default function AICoachTab({
   const [isLlamaLoading, setIsLlamaLoading] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const lastLoadedDayRef = useRef<number | null>(null);
+  const sessionStartTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Auto-calculate week from selected progress day (1-7 -> W1, 8-14 -> W2, etc.)
   const currentWeek = Math.min(4, Math.ceil((selectedProgressDay || 1) / 7)) as 1 | 2 | 3 | 4;
@@ -89,29 +90,45 @@ export default function AICoachTab({
     loadChatHistory();
   }, [selectedLesson?.id, selectedProgressDay]);
 
-  // Save chat history when it changes
-  useEffect(() => {
-    if (chatHistory.length > 0 && selectedLesson && lastLoadedDayRef.current === selectedProgressDay) {
-      const saveChatHistory = async () => {
-        try {
-          await fetch("/api/chat-history", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              lessonId: selectedLesson.id,
-              day: selectedProgressDay,
-              messages: chatHistory
-            })
-          });
-        } catch (err) {
-          console.error("Failed to save chat history:", err);
-        }
-      };
-      // Debounce save to avoid too many requests
-      const timeoutId = setTimeout(saveChatHistory, 1000);
-      return () => clearTimeout(timeoutId);
+  // Helper to persist chat history to backend
+  const persistChatHistory = useCallback(async (messages: ChatMessage[]) => {
+    if (!selectedLesson || messages.length === 0) return;
+    try {
+      const response = await fetch("/api/chat-history", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          lessonId: selectedLesson.id,
+          day: selectedProgressDay,
+          messages
+        })
+      });
+      if (!response.ok) {
+        console.error("Failed to save chat history:", await response.text());
+      }
+    } catch (err) {
+      console.error("Failed to save chat history:", err);
     }
-  }, [chatHistory, selectedLesson, selectedProgressDay]);
+  }, [selectedLesson, selectedProgressDay]);
+
+  // Throttled save: persist on new messages + when stream has meaningful content
+  const prevChatLenRef = useRef(0);
+  const lastSaveTimeRef = useRef(0);
+  const SAVE_THROTTLE_MS = 2000;
+  useEffect(() => {
+    if (chatHistory.length > 0 && lastLoadedDayRef.current === selectedProgressDay) {
+      const now = Date.now();
+      const lastMsg = chatHistory[chatHistory.length - 1];
+      const isNewMessage = chatHistory.length !== prevChatLenRef.current;
+      const hasStreamContent = lastMsg?.role === "assistant" && lastMsg?.content && lastMsg.content.length > 20;
+      const shouldSave = isNewMessage || (hasStreamContent && (now - lastSaveTimeRef.current) >= SAVE_THROTTLE_MS);
+      if (shouldSave) {
+        prevChatLenRef.current = chatHistory.length;
+        lastSaveTimeRef.current = now;
+        persistChatHistory(chatHistory);
+      }
+    }
+  }, [chatHistory, selectedProgressDay, persistChatHistory]);
 
   // Auto-scroll chat container
   useEffect(() => {
@@ -173,8 +190,10 @@ export default function AICoachTab({
   };
 
   const startNewCoachSession = (speakWelcome: boolean = true) => {
-    setChatHistory([]);
-    setIsLlamaLoading(true);
+    if (sessionStartTimerRef.current) {
+      clearTimeout(sessionStartTimerRef.current);
+      sessionStartTimerRef.current = null;
+    }
 
     const lessonTitle = selectedLesson?.title ? selectedLesson.title.replace("🇬🇧", "").trim() : "this lesson";
     const welcomeMsg = `Hello! Let's start Week ${currentWeek} of your English Coach. Today we will practice speaking about "${lessonTitle}". Try to use vocabulary words like: ${selectedLesson?.vocab?.map(v => v.word).slice(0, 3).join(", ") || "our target words"}. Ready?`;
@@ -185,13 +204,12 @@ export default function AICoachTab({
       content: welcomeMsg
     };
 
-    setTimeout(() => {
-      setChatHistory([initialMessage]);
-      setIsLlamaLoading(false);
-      if (speakWelcome) {
-        speakAIResponse(welcomeMsg);
-      }
-    }, 600);
+    setChatHistory([initialMessage]);
+    setIsLlamaLoading(false);
+
+    if (speakWelcome) {
+      speakAIResponse(welcomeMsg);
+    }
   };
 
   const handleSendChat = async (overrideText?: string) => {
