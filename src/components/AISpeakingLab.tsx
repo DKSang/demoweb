@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSilenceDetection } from "../hooks/useSilenceDetection";
-import { useOllamaHealth } from "../hooks/useOllamaHealth";
+import { useOpenRouterHealth } from "../hooks/useOllamaHealth";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   Video,
@@ -22,7 +22,7 @@ export default function AISpeakingLab() {
   const [activeTab, setActiveTab] = useState<"shadow" | "coach" | "vocab" | "games">("shadow");
 
   // OpenRouter Health via custom hook
-  const { isOllamaOnline } = useOllamaHealth(10000);
+  const { isOpenRouterOnline } = useOpenRouterHealth(10000);
 
   // Custom Hook for Speech Recognition & Silence Auto-Stop with Enhanced Features
   const {
@@ -493,7 +493,7 @@ export default function AISpeakingLab() {
               selectedLesson={selectedLesson}
               userProgress={userProgress}
               selectedProgressDay={selectedProgressDay}
-              isOllamaOnline={isOllamaOnline}
+              isOllamaOnline={isOpenRouterOnline}
               openRouterModel={openRouterModel}
               ttsSpeed={ttsSpeed}
               selectedVoice={selectedVoice}
