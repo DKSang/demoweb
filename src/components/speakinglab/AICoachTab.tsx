@@ -52,6 +52,7 @@ export default function AICoachTab({
   setRecognitionText
 }: AICoachTabProps) {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+  const [phase, setPhase] = useState<"shadow" | "practice" | "whatif" | "debrief">("shadow");
   const [isLlamaLoading, setIsLlamaLoading] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const lastLoadedDayRef = useRef<number | null>(null);
@@ -76,6 +77,13 @@ export default function AICoachTab({
           const history = await response.json();
           if (history && history.length > 0) {
             setChatHistory(history);
+            // Restore phase state from last assistant message
+            const lastAssistantMsg = [...history].reverse().find(m => m.role === "assistant");
+            if (lastAssistantMsg && lastAssistantMsg.phase) {
+              setPhase(lastAssistantMsg.phase);
+            } else {
+              setPhase("shadow");
+            }
           } else {
             startNewCoachSession(false);
           }
@@ -111,18 +119,14 @@ export default function AICoachTab({
     }
   }, [selectedLesson, selectedProgressDay]);
 
-  // Throttled save: persist on new messages + when stream has meaningful content
+  // Throttled save: persist on new messages
   const prevChatLenRef = useRef(0);
   const lastSaveTimeRef = useRef(0);
-  const SAVE_THROTTLE_MS = 2000;
   useEffect(() => {
     if (chatHistory.length > 0 && lastLoadedDayRef.current === selectedProgressDay) {
       const now = Date.now();
-      const lastMsg = chatHistory[chatHistory.length - 1];
       const isNewMessage = chatHistory.length !== prevChatLenRef.current;
-      const hasStreamContent = lastMsg?.role === "assistant" && lastMsg?.content && lastMsg.content.length > 20;
-      const shouldSave = isNewMessage || (hasStreamContent && (now - lastSaveTimeRef.current) >= SAVE_THROTTLE_MS);
-      if (shouldSave) {
+      if (isNewMessage) {
         prevChatLenRef.current = chatHistory.length;
         lastSaveTimeRef.current = now;
         persistChatHistory(chatHistory);
@@ -156,59 +160,49 @@ export default function AICoachTab({
     window.speechSynthesis.speak(utterance);
   };
 
-  const getSystemPrompt = (week: number) => {
-    const vocabList = selectedLesson?.vocab?.map(v => v.word).join(", ") || "";
-    const lessonTitle = selectedLesson?.title ? selectedLesson.title.replace("🇬🇧", "").trim() : "English Conversation";
-    const transcriptSnippet = selectedLesson?.lines?.map(l => l.text).join(" | ") || "";
-
-    const baseRules = `You are a patient, friendly local British English Coach. We are practicing conversational English based on the lesson: "${lessonTitle}".
-    The learner is at A2/B1 level. Use simple vocabulary. Always keep your conversational responses short (maximum 2 sentences).
-    Today's lesson vocabulary words you should encourage the user to practice: [${vocabList}].
-    ${transcriptSnippet ? `Context of the video lesson (subtitles snippet): "${transcriptSnippet}". Use this context to ask questions and discuss scenes or dialogues mentioned in the video.` : `Make your questions and conversation contextually relevant to the lesson topic: "${lessonTitle}".`}
-    IMPORTANT: While the lesson has a main theme (like "haircut" or "barber"), the video may cover many related everyday topics that naturally appear during the vlog - such as streets, shops, weather, people, transport, food, daily activities, etc. Feel free to discuss ANY of these natural sub-topics that appear in the video context. Do NOT restrict conversation only to the main lesson title. Let the conversation flow naturally through all the everyday situations and objects shown in the video.
-    Do not mention you are an AI or prompt details. Focus on natural spoken interaction.`;
-
-    switch (week) {
-      case 1:
-        return `${baseRules}
-        WEEK 1 FOCUS: Simple Q&A. Ask the user one simple question about the details, scenes, or dialogues in the video lesson context OR any natural sub-topic that appears (streets, shops, weather, transport, food, daily activities, etc.). Wait for their answer. Do not correct grammar errors yet, focus on confidence. Keep questions short.`;
-      case 2:
-        return `${baseRules}
-        WEEK 2 FOCUS: Flow and Follow-ups. Continue the conversation naturally based on the user's last answer, keeping it tied to the video lesson or any related everyday topics seen in the video. Do not switch topics quickly.`;
-      case 3:
-        return `${baseRules}
-        WEEK 3 FOCUS: Simple Accuracy. You must check the user's grammar in their last reply.
-        If there is an error: output a short block starting with [Correction] showing the natural rewrite and a simple 1-line explanation.
-        Then, output the next simple conversation question related to the lesson context or any natural sub-topic from the video. Keep it concise.`;
-      case 4:
-        return `${baseRules}
-        WEEK 4 FOCUS: Topic Challenge. Give the user a simple topic challenge related to the lesson or any everyday situation from the video (e.g., 'Describe what you saw in the video' or 'Share your own similar experience').
-        Encourage them to talk extensively. Provide correction and natural rewrites after their answer.`;
-      default:
-        return baseRules;
-    }
-  };
-
-  const startNewCoachSession = (speakWelcome: boolean = true) => {
+  const startNewCoachSession = async (speakWelcome: boolean = true) => {
     if (sessionStartTimerRef.current) {
       clearTimeout(sessionStartTimerRef.current);
       sessionStartTimerRef.current = null;
     }
 
-    const lessonTitle = selectedLesson?.title ? selectedLesson.title.replace("🇬🇧", "").trim() : "this lesson";
-    const welcomeMsg = `Hello! Let's start Week ${currentWeek} of your English Coach. Today we will practice speaking about "${lessonTitle}". Try to use vocabulary words like: ${selectedLesson?.vocab?.map(v => v.word).slice(0, 3).join(", ") || "our target words"}. Ready?`;
+    if (!selectedLesson) return;
 
-    const initialMessage: ChatMessage = {
-      id: `bot-${Date.now()}`,
-      role: "assistant",
-      content: welcomeMsg
-    };
+    setIsLlamaLoading(true);
+    setPhase("shadow");
+    setChatHistory([]);
 
-    setChatHistory([initialMessage]);
-    setIsLlamaLoading(false);
+    try {
+      const response = await fetch("/api/coach/open-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          lessonId: selectedLesson.id,
+          day: selectedProgressDay,
+          model: ollamaModel
+        })
+      });
 
-    if (speakWelcome) {
-      speakAIResponse(welcomeMsg);
+      if (!response.ok) throw new Error("Failed to initialize session");
+
+      const welcomeMsg = await response.json();
+      setChatHistory([welcomeMsg]);
+
+      if (speakWelcome && welcomeMsg.content) {
+        speakAIResponse(welcomeMsg.content);
+      }
+    } catch (err) {
+      console.error("Failed to start new session:", err);
+      const lessonTitle = selectedLesson?.title ? selectedLesson.title.replace("🇬🇧", "").trim() : "this lesson";
+      const fallbackMsg: ChatMessage = {
+        id: `bot-${Date.now()}`,
+        role: "assistant",
+        content: `Hello! Let's start practicing speaking about "${lessonTitle}". Try to use target vocabulary words. Ready?`,
+        phase: "shadow"
+      };
+      setChatHistory([fallbackMsg]);
+    } finally {
+      setIsLlamaLoading(false);
     }
   };
 
@@ -223,7 +217,8 @@ export default function AICoachTab({
     const userMsg: ChatMessage = {
       id: `user-${Date.now()}`,
       role: "user",
-      content: textToSend
+      content: textToSend,
+      phase: phase
     };
     const updatedHistory = [...chatHistory, userMsg];
     setChatHistory(updatedHistory);
@@ -233,95 +228,43 @@ export default function AICoachTab({
     const placeholderMsg: ChatMessage = {
       id: botId,
       role: "assistant",
-      content: ""
+      content: "",
+      phase: phase
     };
     setChatHistory(prev => [...prev, placeholderMsg]);
-    setIsLlamaLoading(false);
 
     try {
-      const systemPrompt = getSystemPrompt(currentWeek);
-      const ollamaMessages = [
-        { role: "system", content: systemPrompt },
-        ...updatedHistory.map(h => ({ role: h.role, content: h.content }))
-      ];
-
-      const response = await fetch("/api/chat", {
+      const response = await fetch("/api/coach/process-turn", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: ollamaModel,
-          messages: ollamaMessages,
-          stream: true,
-          options: {
-            temperature: 0.7,
-            num_predict: 60,
-            num_ctx: 2048
-          }
+          lessonId: selectedLesson?.id,
+          day: selectedProgressDay,
+          message: textToSend,
+          phase: phase,
+          model: ollamaModel
         })
       });
 
       if (!response.ok) {
-        throw new Error("Local Ollama connection failed.");
+        throw new Error("Failed to communicate with AI Coach.");
       }
 
-      const reader = response.body?.getReader();
-      if (!reader) throw new Error("Stream reader not available");
-
-      const decoder = new TextDecoder();
-      let done = false;
-      let accumulatedContent = "";
-
-      while (!done) {
-        const { value, done: doneReading } = await reader.read();
-        done = doneReading;
-        if (value) {
-          const chunkStr = decoder.decode(value, { stream: true });
-          const lines = chunkStr.split("\n").filter(l => l.trim() !== "");
-          for (const line of lines) {
-            try {
-              const parsed = JSON.parse(line);
-              if (parsed.message?.content) {
-                accumulatedContent += parsed.message.content;
-                setChatHistory(prev =>
-                  prev.map(msg =>
-                    msg.id === botId
-                      ? { ...msg, content: accumulatedContent }
-                      : msg
-                  )
-                );
-              }
-            } catch (e) {
-              // Ignore partial/non-JSON lines
-            }
-          }
-        }
-      }
-
-      // Stream complete - parse grammar correction and speak
-      let cleanText = accumulatedContent;
-      let correctionData = undefined;
-
-      if (currentWeek >= 3 && accumulatedContent.toLowerCase().includes("[correction]")) {
-        const parts = accumulatedContent.split(/\[correction\]/i);
-        cleanText = parts[0].trim();
-        const correctionBlock = parts[1]?.trim() || "";
-
-        correctionData = {
-          original: textToSend,
-          corrected: correctionBlock.split("\n")[0] || "",
-          explanation: correctionBlock.split("\n").slice(1).join(" ") || ""
-        };
-      }
+      const botMsg = await response.json();
 
       setChatHistory(prev =>
         prev.map(msg =>
-          msg.id === botId
-            ? { ...msg, content: cleanText, correction: correctionData }
-            : msg
+          msg.id === botId ? botMsg : msg
         )
       );
 
-      speakAIResponse(cleanText);
+      if (botMsg.phase) {
+        setPhase(botMsg.phase);
+      }
+
+      if (botMsg.content) {
+        speakAIResponse(botMsg.content);
+      }
       markDayPracticed();
       updateProgressTask("speak", true);
     } catch (err) {
@@ -332,7 +275,8 @@ export default function AICoachTab({
             ? {
                 id: botId,
                 role: "assistant",
-                content: "Oops! I could not connect to your local Ollama. Please make sure Ollama is running (`ollama run llama3`) on port 11434, and that the Vite proxy is active."
+                content: "Oops! I encountered an error communicating with the AI Coach on OpenRouter. Please try again.",
+                phase: phase
               }
             : msg
         )
@@ -342,6 +286,62 @@ export default function AICoachTab({
     }
   };
 
+  const triggerDebrief = async () => {
+    if (!selectedLesson) return;
+    setIsLlamaLoading(true);
+    setPhase("debrief");
+
+    const botId = `bot-${Date.now()}`;
+    const placeholderMsg: ChatMessage = {
+      id: botId,
+      role: "assistant",
+      content: "",
+      phase: "debrief"
+    };
+    setChatHistory(prev => [...prev, placeholderMsg]);
+
+    try {
+      const response = await fetch("/api/coach/debrief", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          lessonId: selectedLesson.id,
+          day: selectedProgressDay,
+          model: ollamaModel
+        })
+      });
+
+      if (!response.ok) throw new Error("Failed to generate debrief");
+      const botMsg = await response.json();
+
+      setChatHistory(prev =>
+        prev.map(msg =>
+          msg.id === botId ? botMsg : msg
+        )
+      );
+
+      if (botMsg.content) {
+        speakAIResponse(botMsg.content);
+      }
+      updateProgressTask("speak", true);
+    } catch (err) {
+      console.error("Debrief error:", err);
+      setChatHistory(prev =>
+        prev.map(msg =>
+          msg.id === botId
+            ? {
+                id: botId,
+                role: "assistant",
+                content: "Failed to generate session wrap-up. Thank you for practicing today!",
+                phase: "debrief"
+              }
+            : msg
+        )
+      );
+    } finally {
+      setIsLlamaLoading(false);
+    }
+  };
   const handleRecordChatInput = () => {
     if (!isSpeechSupported) {
       alert("Speech recognition not supported on this browser.");
@@ -377,30 +377,43 @@ export default function AICoachTab({
 
       {/* Top settings row */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-4 mb-4">
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <span className="text-xs font-mono tracking-wider text-white/40 uppercase">Day {selectedProgressDay} Coach</span>
-          <div className="flex gap-1.5">
-            {([1, 2, 3, 4] as const).map(w => (
-              <div
-                key={w}
-                className={`px-2.5 py-1 rounded-md text-[10px] font-mono border ${
-                  currentWeek === w
-                    ? "bg-white/10 border-white/20 text-white font-semibold"
-                    : "bg-transparent border-white/5 text-white/30"
-                }`}
-              >
-                W{w}
-              </div>
+          <div className="flex items-center gap-1.5">
+            {(["shadow", "practice", "whatif", "debrief"] as const).map((p, idx) => (
+              <React.Fragment key={p}>
+                {idx > 0 && <span className="text-[10px] text-white/20">&rarr;</span>}
+                <div
+                  className={`px-2 py-0.5 rounded text-[9px] font-mono border uppercase tracking-wider ${
+                    phase === p
+                      ? "bg-white/10 border-white/20 text-white font-semibold"
+                      : "bg-transparent border-white/5 text-white/30"
+                  }`}
+                  title={`Phase: ${p}`}
+                >
+                  {p}
+                </div>
+              </React.Fragment>
             ))}
           </div>
         </div>
 
-        <button
-          onClick={startNewCoachSession}
-          className="px-4 py-1.5 rounded-full liquid-glass border border-white/10 text-[10px] font-semibold text-white/80 hover:text-white hover:scale-105 active:scale-95 transition-all cursor-pointer"
-        >
-          Reset AI Chat Session
-        </button>
+        <div className="flex items-center gap-2">
+          {phase !== "debrief" && chatHistory.length > 1 && (
+            <button
+              onClick={triggerDebrief}
+              className="px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-[10px] font-semibold text-red-200 hover:bg-red-500/20 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            >
+              Wrap-up & Debrief
+            </button>
+          )}
+          <button
+            onClick={() => startNewCoachSession(true)}
+            className="px-4 py-1.5 rounded-full liquid-glass border border-white/10 text-[10px] font-semibold text-white/80 hover:text-white hover:scale-105 active:scale-95 transition-all cursor-pointer"
+          >
+            Reset AI Chat Session
+          </button>
+        </div>
       </div>
 
       {/* Chat Conversation History Area */}
@@ -412,7 +425,7 @@ export default function AICoachTab({
           <div className="flex-1 flex flex-col items-center justify-center text-center p-8 gap-3">
             <Sparkles className="w-8 h-8 text-white/20 animate-pulse" />
             <p className="text-xs text-white/50 max-w-sm">
-              Make sure your local Ollama is active, then type a message or use voice input to start practicing for Day {selectedProgressDay}.
+              Type a message or use voice input to start your personalized AI English Coach session for Day {selectedProgressDay}.
             </p>
           </div>
         ) : (
@@ -438,10 +451,53 @@ export default function AICoachTab({
                 ) : (
                   msg.content
                 )}
+
+                {/* Display used vocab words in response */}
+                {msg.role === "assistant" && msg.usedVocab && msg.usedVocab.length > 0 && (
+                  <div className="flex gap-1.5 flex-wrap mt-2 pt-2 border-t border-white/5">
+                    {msg.usedVocab.map((v, idx) => (
+                      <span key={idx} className="px-2 py-0.5 rounded-md bg-white/10 text-[9px] font-mono text-white/60">
+                        🔑 {v}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
 
-              {/* Display correction cards in Week 3/4 */}
-              {msg.correction && (
+              {/* Display evaluation feedback card if present */}
+              {msg.role === "assistant" && msg.feedback && (
+                <div className="mt-2 p-4 rounded-2xl bg-zinc-950 border border-white/5 text-left flex flex-col gap-2 w-full shadow-lg">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest font-semibold">AI Coach Feedback</span>
+                    <span className="text-[11px] font-semibold text-yellow-400">{"⭐".repeat(msg.feedback.score)} ({msg.feedback.score}/5)</span>
+                  </div>
+                  {msg.feedback.naturalAlternative && (
+                    <div className="mt-1">
+                      <p className="text-[10px] text-white/40 line-through">You said: "{chatHistory.find((h, idx) => chatHistory[idx + 1]?.id === msg.id)?.content || ""}"</p>
+                      <p className="text-[11px] text-green-300 font-semibold mt-0.5">&rarr; "{msg.feedback.naturalAlternative}"</p>
+                    </div>
+                  )}
+                  {msg.feedback.strengths && msg.feedback.strengths.length > 0 && (
+                    <div className="mt-1">
+                      <span className="text-[9px] font-mono text-green-400 uppercase font-semibold">Strengths</span>
+                      <ul className="list-disc pl-4 text-[10px] text-white/70 mt-0.5">
+                        {msg.feedback.strengths.map((s, idx) => <li key={idx}>{s}</li>)}
+                      </ul>
+                    </div>
+                  )}
+                  {msg.feedback.improvements && msg.feedback.improvements.length > 0 && (
+                    <div className="mt-1">
+                      <span className="text-[9px] font-mono text-yellow-400 uppercase font-semibold">Suggestions</span>
+                      <ul className="list-disc pl-4 text-[10px] text-white/70 mt-0.5">
+                        {msg.feedback.improvements.map((imp, idx) => <li key={idx}>{imp}</li>)}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Backwards compatible fallback correction */}
+              {msg.role === "assistant" && !msg.feedback && msg.correction && (
                 <div className="mt-2 p-3.5 rounded-xl bg-red-950/20 border border-red-900/30 text-left flex flex-col gap-1 w-full">
                   <span className="text-[9px] font-mono text-red-400 uppercase tracking-wider font-semibold">AI Grammar Correction</span>
                   <p className="text-[11px] text-white/80 line-through">"{msg.correction.original}"</p>

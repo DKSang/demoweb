@@ -35,6 +35,14 @@ export interface ChatMessage {
   id: string;
   role: "system" | "user" | "assistant";
   content: string;
+  phase?: "shadow" | "practice" | "whatif" | "debrief";
+  usedVocab?: string[];
+  feedback?: {
+    score: number;
+    strengths: string[];
+    improvements: string[];
+    naturalAlternative?: string;
+  } | null;
   correction?: {
     original: string;
     corrected: string;

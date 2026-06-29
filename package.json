@@ -10,7 +10,7 @@
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
     "server": "tsx src/server.ts",
-    "harness": "tsx scripts/ai-harness.ts"
+    "harness": "tsx src/coach/ai-coach-harness.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

@@ -6,6 +6,13 @@ import { fileURLToPath } from "url";
 import { YoutubeTranscript } from "youtube-transcript";
 import dotenv from "dotenv";
 import { DatabaseSync } from "node:sqlite";
+import {
+  extractVocabFromLesson,
+  openSession,
+  processTurn,
+  generateDebrief
+} from "./coach/coach.js";
+import { SessionContext, ConversationTurn, SessionPhase } from "./coach/types.js";
 
 dotenv.config();
 
@@ -737,6 +744,198 @@ app.post("/api/chat", rateLimiter(15, 60000), async (req: Request, res: Response
   }
 });
 
+// Helper to construct SessionContext from database lesson and history
+function buildSessionContext(lesson: any, historyMessages: any[], phase: SessionPhase): SessionContext {
+  const videoLesson = {
+    youtubeUrl: `https://www.youtube.com/watch?v=${lesson.videoId}`,
+    videoId: lesson.videoId,
+    title: lesson.title,
+    transcript: JSON.parse(lesson.lines || "[]").map((l: any) => ({
+      text: l.text,
+      offset: l.start ?? 0,
+      duration: l.end !== undefined && l.start !== undefined ? l.end - l.start : 0
+    })),
+    rawTranscript: JSON.parse(lesson.lines || "[]").map((l: any) => l.text).join(" "),
+    fetchedAt: new Date()
+  };
+
+  const vocabResult = {
+    topic: lesson.theme || "Conversation",
+    vocab: JSON.parse(lesson.vocab || "[]").map((v: any) => ({
+      word: v.word,
+      ipa: v.ipa || "",
+      partOfSpeech: v.partOfSpeech || "phrase",
+      definition: v.definition || "",
+      example: v.example || ""
+    })),
+    keyPhrases: JSON.parse(lesson.gameStartWords || "[]")
+  };
+
+  const history: ConversationTurn[] = historyMessages.map((m: any) => ({
+    role: m.role === "user" ? "learner" : "coach",
+    text: m.content,
+    timestamp: new Date(),
+    phase: m.phase || "practice",
+    feedbackScore: m.feedback?.score
+  }));
+
+  return {
+    lesson: videoLesson,
+    vocab: vocabResult,
+    phase,
+    history,
+    sessionStarted: new Date(),
+    turnsCompleted: history.filter(h => h.role === "learner").length
+  };
+}
+
+// 1c. Open Session for AI Coach
+app.post("/api/coach/open-session", rateLimiter(10, 60000), async (req: Request, res: Response) => {
+  try {
+    const { lessonId, day, model } = req.body;
+    if (!lessonId || !day) {
+      return res.status(400).json({ error: "Missing lessonId or day" });
+    }
+
+    const stmtFind = db.prepare("SELECT * FROM lessons WHERE id = ?");
+    const lessonRow: any = stmtFind.get(lessonId);
+    if (!lessonRow) {
+      return res.status(404).json({ error: "Lesson not found" });
+    }
+
+    const clientModel = model || OPENROUTER_MODEL || "google/gemini-3.1-flash-lite";
+    const ctx = buildSessionContext(lessonRow, [], "shadow");
+
+    const coachResp = await openSession(ctx, clientModel);
+
+    const welcomeMsg = {
+      id: `bot-${Date.now()}`,
+      role: "assistant",
+      content: coachResp.reply,
+      phase: "shadow",
+      usedVocab: coachResp.usedVocab || []
+    };
+
+    // Save initial message in history
+    const historyKey = `chat_${lessonId}_${day}`;
+    const stmtInsert = db.prepare("INSERT OR REPLACE INTO progress (key, value) VALUES (?, ?)");
+    stmtInsert.run(historyKey, JSON.stringify([welcomeMsg]));
+
+    res.json(welcomeMsg);
+  } catch (err: any) {
+    console.error("Failed to open AI Coach session:", err);
+    res.status(500).json({ error: "Failed to open AI Coach session", details: err.message });
+  }
+});
+
+// 1d. Process Turn for AI Coach
+app.post("/api/coach/process-turn", rateLimiter(15, 60000), async (req: Request, res: Response) => {
+  try {
+    const { lessonId, day, message, phase, model } = req.body;
+    if (!lessonId || !day || message === undefined || !phase) {
+      return res.status(400).json({ error: "Missing lessonId, day, message or phase" });
+    }
+
+    const stmtFind = db.prepare("SELECT * FROM lessons WHERE id = ?");
+    const lessonRow: any = stmtFind.get(lessonId);
+    if (!lessonRow) {
+      return res.status(404).json({ error: "Lesson not found" });
+    }
+
+    const historyKey = `chat_${lessonId}_${day}`;
+    const stmtHistory = db.prepare("SELECT value FROM progress WHERE key = ?");
+    const row = stmtHistory.get(historyKey) as { value: string } | undefined;
+    const existingMessages = row ? JSON.parse(row.value) : [];
+
+    const clientModel = model || OPENROUTER_MODEL || "google/gemini-3.1-flash-lite";
+    const ctx = buildSessionContext(lessonRow, existingMessages, phase);
+
+    const coachResp = await processTurn(message, ctx, clientModel);
+
+    // Save learner message
+    const userMsg = {
+      id: `user-${Date.now()}`,
+      role: "user",
+      content: message,
+      phase: phase
+    };
+
+    // Backwards compatible correction format if AI provided feedback
+    let correction = undefined;
+    if (coachResp.feedbackOnLearner?.naturalAlternative) {
+      correction = {
+        original: message,
+        corrected: coachResp.feedbackOnLearner.naturalAlternative,
+        explanation: coachResp.feedbackOnLearner.improvements.join(" ")
+      };
+    }
+
+    // Save coach reply
+    const nextPhase = coachResp.suggestedNextPhase || phase;
+    const botMsg = {
+      id: `bot-${Date.now()}`,
+      role: "assistant",
+      content: coachResp.reply,
+      phase: nextPhase,
+      usedVocab: coachResp.usedVocab || [],
+      feedback: coachResp.feedbackOnLearner || null,
+      correction
+    };
+
+    const updatedMessages = [...existingMessages, userMsg, botMsg];
+    const stmtInsert = db.prepare("INSERT OR REPLACE INTO progress (key, value) VALUES (?, ?)");
+    stmtInsert.run(historyKey, JSON.stringify(updatedMessages));
+
+    res.json(botMsg);
+  } catch (err: any) {
+    console.error("Failed to process AI Coach turn:", err);
+    res.status(500).json({ error: "Failed to process AI Coach turn", details: err.message });
+  }
+});
+
+// 1e. Generate Debrief for AI Coach
+app.post("/api/coach/debrief", rateLimiter(10, 60000), async (req: Request, res: Response) => {
+  try {
+    const { lessonId, day, model } = req.body;
+    if (!lessonId || !day) {
+      return res.status(400).json({ error: "Missing lessonId or day" });
+    }
+
+    const stmtFind = db.prepare("SELECT * FROM lessons WHERE id = ?");
+    const lessonRow: any = stmtFind.get(lessonId);
+    if (!lessonRow) {
+      return res.status(404).json({ error: "Lesson not found" });
+    }
+
+    const historyKey = `chat_${lessonId}_${day}`;
+    const stmtHistory = db.prepare("SELECT value FROM progress WHERE key = ?");
+    const row = stmtHistory.get(historyKey) as { value: string } | undefined;
+    const existingMessages = row ? JSON.parse(row.value) : [];
+
+    const clientModel = model || OPENROUTER_MODEL || "google/gemini-3.1-flash-lite";
+    const ctx = buildSessionContext(lessonRow, existingMessages, "debrief");
+
+    const debriefText = await generateDebrief(ctx, clientModel);
+
+    const debriefMsg = {
+      id: `bot-${Date.now()}`,
+      role: "assistant",
+      content: debriefText,
+      phase: "debrief",
+      usedVocab: []
+    };
+
+    const updatedMessages = [...existingMessages, debriefMsg];
+    const stmtInsert = db.prepare("INSERT OR REPLACE INTO progress (key, value) VALUES (?, ?)");
+    stmtInsert.run(historyKey, JSON.stringify(updatedMessages));
+
+    res.json(debriefMsg);
+  } catch (err: any) {
+    console.error("Failed to generate AI Coach debrief:", err);
+    res.status(500).json({ error: "Failed to generate AI Coach debrief", details: err.message });
+  }
+});
+
 // 1b. OpenRouter connection health check endpoint
 app.get("/api/ollama/health", async (req: Request, res: Response) => {
   try {
@@ -905,72 +1104,34 @@ app.post("/api/lessons/:id/initialize", rateLimiter(5, 60000), async (req: Reque
     console.log(`[Bloom Server] Reconstructing transcript lines into complete sentences...`);
     const transcriptLines = await reconstructTranscriptIntoSentences(rawLines);
 
-    // 2. Send transcript snippet to Llama-3 to extract 5-6 British vocabulary words
-    const snippetText = transcriptLines.slice(0, 100).map(l => l.text).join(" ");
-    console.log(`[Bloom Server] Asking Llama-3 to extract British vocabulary words...`);
-
-    const systemPrompt = `You are a professional British lexicographer and course designer.
-    Analyze the following transcript snippet from an English learning video:
-    "${snippetText}"
-
-    Extract:
-    1. Exactly 5-6 interesting vocabulary words, idioms, or slang phrases present or relevant to the text.
-    2. A 1-2 word core "theme" or topic of the lesson (e.g. "Haircut", "Time Expressions", "Shopping", "Meeting friends").
-    3. A list of 5-8 interesting words from the transcript that are great starting words for word association or category games.
-
-    Output a valid JSON object matching this structure:
-    {
-      "vocab": [
-        {
-          "word": "...",
-          "ipa": "...",
-          "definition": "...",
-          "example": "..."
-        }
-      ],
-      "theme": "...",
-      "gameStartWords": ["...", "...", "...", "...", "...", "..."]
-    }
-
-    Rules:
-    - Respond ONLY with the raw JSON object and nothing else.
-    - Do NOT wrap in markdown code blocks like \`\`\`json.
-    - Do NOT output any preamble, notes, or chat text.`;
-
+    // 2. Call extractVocabFromLesson from coach.ts
     const clientModel = req.body?.model || OPENROUTER_MODEL || "google/gemini-3.1-flash-lite";
-    let responseText = "{}";
-    try {
-      responseText = await callOpenRouter([{ role: "system", content: systemPrompt }], 0.3, 1000, clientModel);
-    } catch (apiErr: any) {
-      console.error("OpenRouter vocabulary generation failed:", apiErr);
-    }
+    console.log(`[Bloom Server] Asking extractVocabFromLesson to extract vocabulary...`);
+
+    const videoLessonData = {
+      youtubeUrl: `https://www.youtube.com/watch?v=${lesson.videoId}`,
+      videoId: lesson.videoId,
+      rawTranscript: transcriptLines.map(l => l.text).join(" "),
+      transcript: transcriptLines.map(l => ({ text: l.text, offset: l.start ?? 0, duration: l.end !== undefined && l.start !== undefined ? l.end - l.start : 0 })),
+      fetchedAt: new Date()
+    };
 
     let vocab: any[] = [];
     let theme = "Conversation";
     let gameStartWords: string[] = [];
 
-    if (responseText !== "{}") {
-
-      responseText = responseText.trim();
-      const startIndex = responseText.indexOf("{");
-      const endIndex = responseText.lastIndexOf("}");
-      if (startIndex !== -1 && endIndex !== -1) {
-        responseText = responseText.substring(startIndex, endIndex + 1);
-      }
-
-      try {
-        const parsed = JSON.parse(responseText);
-        vocab = parsed.vocab || [];
-        theme = parsed.theme || "Conversation";
-        gameStartWords = parsed.gameStartWords || [];
-      } catch (parseErr) {
-        console.error("Failed to parse Llama-3 vocabulary response. Using defaults.", parseErr);
-        vocab = [
-          { word: "fluent", ipa: "/ˈfluːənt/", definition: "able to speak or write a foreign language easily and accurately", example: "He is fluent in English." }
-        ];
-        theme = "Speaking Practice";
-        gameStartWords = ["fluent", "speaking", "practice", "conversation", "language"];
-      }
+    try {
+      const extraction = await extractVocabFromLesson(videoLessonData, clientModel);
+      vocab = extraction.vocab || [];
+      theme = extraction.topic || "Conversation";
+      gameStartWords = extraction.keyPhrases || [];
+    } catch (apiErr: any) {
+      console.error("extractVocabFromLesson failed, using defaults:", apiErr);
+      vocab = [
+        { word: "fluent", ipa: "/ˈfluːənt/", partOfSpeech: "adjective", definition: "able to speak or write easily and accurately", example: "He is fluent in English." }
+      ];
+      theme = "Speaking Practice";
+      gameStartWords = ["fluent", "speaking", "practice", "conversation", "language"];
     }
 
     // 3. Update lesson in SQLite database

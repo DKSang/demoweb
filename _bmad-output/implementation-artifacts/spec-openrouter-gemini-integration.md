@@ -82,10 +82,19 @@ context: []
   [server.ts:741](../../src/server.ts#L741)
 
 - Lesson vocabulary extraction using callOpenRouter.
-  [server.ts:880](../../src/server.ts#L880)
+  [server.ts:1107](../../src/server.ts#L1107)
+
+- Open Session endpoint for AI Coach.
+  [server.ts:1143](../../src/server.ts#L1143)
+
+- Process Turn endpoint for AI Coach turn analysis.
+  [server.ts:1191](../../src/server.ts#L1191)
+
+- Generate Debrief endpoint for session wrap-up.
+  [server.ts:1255](../../src/server.ts#L1255)
 
 - Game word semantic validator bypassing embeddings and routing to OpenRouter.
-  [server.ts:1103](../../src/server.ts#L1103)
+  [server.ts:1303](../../src/server.ts#L1303)
 
 **Frontend Settings**
 
@@ -94,6 +103,35 @@ context: []
 
 - Options updated with OpenRouter and free model choices in selection dropdown.
   [AISpeakingLab.tsx:415](../../src/components/AISpeakingLab.tsx#L415)
+
+- Interactive phase management, feedback rendering, and endpoint binding in AI Coach tab.
+  [AICoachTab.tsx:54](../../src/components/speakinglab/AICoachTab.tsx#L54)
+
+- ChatMessage extended TypeScript types.
+  [types.ts:34](../../src/components/speakinglab/types.ts#L34)
+
+- Web Speech API browser recognition React hook.
+  [useSpeechRecognition.ts:1](../../src/hooks/useSpeechRecognition.ts#L1)
+
+**AI Coach Service Modules**
+
+- Domain TypeScript interfaces.
+  [types.ts:1](../../src/coach/types.ts#L1)
+
+- OpenRouter API client wrapper with retries and JSON parsing.
+  [ai.ts:28](../../src/coach/ai.ts#L28)
+
+- Subtitle fetching and sentence reconstruction.
+  [youtube.ts:19](../../src/coach/youtube.ts#L19)
+
+- Core 4-phase coaching logic prompts.
+  [coach.ts:15](../../src/coach/coach.ts#L15)
+
+- Speech transcript cleaning and CLI inputs.
+  [speech.ts:13](../../src/coach/speech.ts#L13)
+
+- 6-command developer test harness.
+  [ai-coach-harness.ts:1](../../src/coach/ai-coach-harness.ts#L1)
 
 **Configuration**
 
