@@ -22,3 +22,5 @@ __pycache__/
 # Temp files
 *.tmp
 ```
+_bmad/
+.agent/
