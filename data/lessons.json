@@ -3,9 +3,927 @@
     "id": "BCDXweG6CLc",
     "title": "British Time Expressions You Need Every Day ⏰",
     "videoId": "BCDXweG6CLc",
-    "isInitialized": false,
-    "vocab": [],
-    "lines": []
+    "isInitialized": true,
+    "vocab": [
+      {
+        "word": "quarter past",
+        "ipa": "kwart pa:st",
+        "definition": "A way of saying 15 minutes past the hour.",
+        "example": "It's quarter past seven."
+      },
+      {
+        "word": "halfway round",
+        "ipa": "halv-wa:rd roun",
+        "definition": "Describes a point on a clock face halfway between two numbers.",
+        "example": "Halfway round the clock is 12 o'clock."
+      },
+      {
+        "word": "breaky",
+        "ipa": "brek-ee",
+        "definition": "Slang for breakfast.",
+        "example": "I'm having a croissant with mulberry jam and butter for breaky."
+      },
+      {
+        "word": "kip",
+        "ipa": "ki:p",
+        "definition": "A short nap, often used in British English.",
+        "example": "I had a quick kip after lunch."
+      },
+      {
+        "word": "cat nap",
+        "ipa": "kæt n:ap",
+        "definition": "A short nap taken during the day.",
+        "example": "I took a cat nap on the couch while waiting for my friend."
+      },
+      {
+        "word": "power nap",
+        "ipa": "pɔ:r-ə n:ap",
+        "definition": "A short, quick nap that provides energy.",
+        "example": "I had a power nap to recharge before the meeting."
+      }
+    ],
+    "lines": [
+      {
+        "start": 0,
+        "end": 4,
+        "text": "In England, we don't say 6:30."
+      },
+      {
+        "start": 4,
+        "end": 7,
+        "text": "We say half six."
+      },
+      {
+        "start": 7,
+        "end": 11,
+        "text": "We don't say wait a minute."
+      },
+      {
+        "start": 11,
+        "end": 14,
+        "text": "We say one sec."
+      },
+      {
+        "start": 14,
+        "end": 18,
+        "text": "In this video, I will teach you everything you need to know"
+      },
+      {
+        "start": 18,
+        "end": 25,
+        "text": "about time."
+      },
+      {
+        "start": 25,
+        "end": 29,
+        "text": "What other ways can we say what time is it?"
+      },
+      {
+        "start": 29,
+        "end": 32,
+        "text": "Well, it depends on the situation."
+      },
+      {
+        "start": 32,
+        "end": 38,
+        "text": "For example, if you're at work, you might say >> Luigi, do you know what time"
+      },
+      {
+        "start": 38,
+        "end": 39,
+        "text": "it is?"
+      },
+      {
+        "start": 39,
+        "end": 44,
+        "text": ">> If you're asking a stranger in the streets, you would say"
+      },
+      {
+        "start": 44,
+        "end": 46,
+        "text": ">> Excuse me, have you got the time?"
+      },
+      {
+        "start": 46,
+        "end": 49,
+        "text": ">> And if you're asking a close friend or a"
+      },
+      {
+        "start": 49,
+        "end": 53,
+        "text": "family member, you might say >> What time is it?"
+      },
+      {
+        "start": 53,
+        "end": 55,
+        "text": ">> Or >> Got the time?"
+      },
+      {
+        "start": 55,
+        "end": 60,
+        "text": ">> It's 7:00."
+      },
+      {
+        "start": 60,
+        "end": 67,
+        "text": "Or you say Actually, it's more natural to just say it's 7:00."
+      },
+      {
+        "start": 67,
+        "end": 76,
+        "text": "And at 7:00, I like to do the horse stance for 5 minutes,"
+      },
+      {
+        "start": 76,
+        "end": 89,
+        "text": "read a book for 5 minutes, and finally, meditate for 5 minutes."
+      },
+      {
+        "start": 89,
+        "end": 91,
+        "text": "Oh, look."
+      },
+      {
+        "start": 91,
+        "end": 93,
+        "text": "It's 7:15."
+      },
+      {
+        "start": 93,
+        "end": 98,
+        "text": "Or as British people say, quarter past seven."
+      },
+      {
+        "start": 98,
+        "end": 104,
+        "text": "Now, I'm going to show you a simple way how to tell the time in Britain."
+      },
+      {
+        "start": 104,
+        "end": 108,
+        "text": "On the right of the clock, we say past."
+      },
+      {
+        "start": 108,
+        "end": 112,
+        "text": "On the left of the clock, we say to."
+      },
+      {
+        "start": 112,
+        "end": 115,
+        "text": "Halfway round, we say half."
+      },
+      {
+        "start": 115,
+        "end": 118,
+        "text": "And by the way, these are called hands."
+      },
+      {
+        "start": 118,
+        "end": 121,
+        "text": "Big hand, little hand."
+      },
+      {
+        "start": 121,
+        "end": 128,
+        "text": "So, right now, it is 5:07."
+      },
+      {
+        "start": 128,
+        "end": 130,
+        "text": "5:07."
+      },
+      {
+        "start": 130,
+        "end": 135,
+        "text": "Now, it's 10:07."
+      },
+      {
+        "start": 135,
+        "end": 142,
+        "text": "1/4 15 minutes later, it is 1/2 7:00."
+      },
+      {
+        "start": 142,
+        "end": 147,
+        "text": "15 minutes later, it is 1/4 to 8:00."
+      },
+      {
+        "start": 147,
+        "end": 152,
+        "text": "And remember, on the left side of the clock, it's to, so it's"
+      },
+      {
+        "start": 152,
+        "end": 154,
+        "text": "15 minutes to 8:00."
+      },
+      {
+        "start": 154,
+        "end": 156,
+        "text": "It's 1/4 to 8:00."
+      },
+      {
+        "start": 156,
+        "end": 159,
+        "text": "Now, it's 10:00 to 8:00."
+      },
+      {
+        "start": 159,
+        "end": 161,
+        "text": "5:00 to 8:00."
+      },
+      {
+        "start": 161,
+        "end": 172,
+        "text": "And 8:00."
+      },
+      {
+        "start": 172,
+        "end": 174,
+        "text": ">> Morning."
+      },
+      {
+        "start": 174,
+        "end": 175,
+        "text": ">> Morning."
+      },
+      {
+        "start": 175,
+        "end": 180,
+        "text": "In real life conversation, it's more common to hear British people saying"
+      },
+      {
+        "start": 180,
+        "end": 184,
+        "text": "\"Morning.\" instead of good morning."
+      },
+      {
+        "start": 184,
+        "end": 188,
+        "text": "Morning is less formal and more friendly."
+      },
+      {
+        "start": 188,
+        "end": 192,
+        "text": "Now, what am I having for breaky?"
+      },
+      {
+        "start": 192,
+        "end": 195,
+        "text": "And breaky is slang for breakfast."
+      },
+      {
+        "start": 195,
+        "end": 198,
+        "text": "Mhm."
+      },
+      {
+        "start": 198,
+        "end": 204,
+        "text": "For breaky, I'm having a croissant with mulberry jam and butter."
+      },
+      {
+        "start": 204,
+        "end": 212,
+        "text": "I'm having an oat milk latte in a mug with a little biscuits on the saucer."
+      },
+      {
+        "start": 212,
+        "end": 214,
+        "text": "There is also a silver teaspoon."
+      },
+      {
+        "start": 214,
+        "end": 220,
+        "text": "I'm grabbing the handle and picking it up."
+      },
+      {
+        "start": 220,
+        "end": 224,
+        "text": "Now, I'm taking a sip of my latte."
+      },
+      {
+        "start": 224,
+        "end": 227,
+        "text": "Jay, have you got the time?"
+      },
+      {
+        "start": 227,
+        "end": 229,
+        "text": "Mhm."
+      },
+      {
+        "start": 229,
+        "end": 232,
+        "text": "It's 1/2 8:00."
+      },
+      {
+        "start": 232,
+        "end": 239,
+        "text": "And at 8:30 I love to write."
+      },
+      {
+        "start": 239,
+        "end": 242,
+        "text": "They say that writing helps you think clearly."
+      },
+      {
+        "start": 242,
+        "end": 244,
+        "text": "I like to write in the morning as a nice"
+      },
+      {
+        "start": 244,
+        "end": 247,
+        "text": "and gentle way to start the day."
+      },
+      {
+        "start": 247,
+        "end": 249,
+        "text": "I usually free write."
+      },
+      {
+        "start": 249,
+        "end": 258,
+        "text": "And today I'm going to write about my environment."
+      },
+      {
+        "start": 258,
+        "end": 263,
+        "text": "I'm surrounded by greenery."
+      },
+      {
+        "start": 263,
+        "end": 271,
+        "text": "The trees are covered by plants and the air smells fresh."
+      },
+      {
+        "start": 271,
+        "end": 277,
+        "text": "I can hear the sound of chimes tinkling in the wind."
+      },
+      {
+        "start": 277,
+        "end": 281,
+        "text": "The sun is lighting up the pond."
+      },
+      {
+        "start": 281,
+        "end": 286,
+        "text": "The frog is cooling in the shade."
+      },
+      {
+        "start": 286,
+        "end": 300,
+        "text": "I feel happy to be in this moment."
+      },
+      {
+        "start": 300,
+        "end": 308,
+        "text": "Now, I think it's time for croissant."
+      },
+      {
+        "start": 308,
+        "end": 310,
+        "text": "Oh, look."
+      },
+      {
+        "start": 310,
+        "end": 313,
+        "text": "It's quarter to nine."
+      },
+      {
+        "start": 313,
+        "end": 318,
+        "text": "So, once I have cleared my mind, once I've written down in my journal,"
+      },
+      {
+        "start": 318,
+        "end": 321,
+        "text": "I like to dive in to my work."
+      },
+      {
+        "start": 321,
+        "end": 322,
+        "text": "But what am I working on?"
+      },
+      {
+        "start": 322,
+        "end": 325,
+        "text": "Well, I'm actually talking to myself."
+      },
+      {
+        "start": 325,
+        "end": 330,
+        "text": "I'm currently chatting with JI, who is an AI version of me who sounds exactly"
+      },
+      {
+        "start": 330,
+        "end": 332,
+        "text": "like me."
+      },
+      {
+        "start": 332,
+        "end": 337,
+        "text": "And I'm talking with him to improve how he sounds, to make his accent sound even"
+      },
+      {
+        "start": 337,
+        "end": 338,
+        "text": "more like mine."
+      },
+      {
+        "start": 338,
+        "end": 342,
+        "text": "Recently, I also improved how JI gives you feedback in"
+      },
+      {
+        "start": 342,
+        "end": 345,
+        "text": "even more detail."
+      },
+      {
+        "start": 345,
+        "end": 349,
+        "text": "Finally, I built a role-play exercise so that you can practice speaking in any"
+      },
+      {
+        "start": 349,
+        "end": 351,
+        "text": "scenario that you want."
+      },
+      {
+        "start": 351,
+        "end": 356,
+        "text": "In a cafe, at a job interview, or any custom scenario"
+      },
+      {
+        "start": 356,
+        "end": 358,
+        "text": "that you choose."
+      },
+      {
+        "start": 358,
+        "end": 365,
+        "text": "Hey Jay, what does it mean when people say it's just gone 12?"
+      },
+      {
+        "start": 365,
+        "end": 373,
+        "text": "When people say it's just gone 12:00, it means it's a little bit past 12:00."
+      },
+      {
+        "start": 373,
+        "end": 379,
+        "text": "Now, I've finished working on Sprout, and the time is 11:56."
+      },
+      {
+        "start": 379,
+        "end": 382,
+        "text": "It's coming up to 12:00."
+      },
+      {
+        "start": 382,
+        "end": 385,
+        "text": "It's getting on for 12:00."
+      },
+      {
+        "start": 385,
+        "end": 387,
+        "text": "It's almost 12:00."
+      },
+      {
+        "start": 387,
+        "end": 390,
+        "text": "We call 12:00 noon or midday."
+      },
+      {
+        "start": 390,
+        "end": 394,
+        "text": "Midday is more conversational."
+      },
+      {
+        "start": 394,
+        "end": 403,
+        "text": "And at midday, I like to do my favorite thing."
+      },
+      {
+        "start": 403,
+        "end": 405,
+        "text": ">> Nighty nighty."
+      },
+      {
+        "start": 405,
+        "end": 406,
+        "text": ">> Ah."
+      },
+      {
+        "start": 406,
+        "end": 407,
+        "text": "Nap."
+      },
+      {
+        "start": 407,
+        "end": 411,
+        "text": "Other ways to say nap are to have a kip."
+      },
+      {
+        "start": 411,
+        "end": 416,
+        "text": "Kip is very British, and it can be a verb or a noun."
+      },
+      {
+        "start": 416,
+        "end": 419,
+        "text": "You can kip, or you can have a kip."
+      },
+      {
+        "start": 419,
+        "end": 421,
+        "text": "You can also say a cat nap or a power"
+      },
+      {
+        "start": 421,
+        "end": 429,
+        "text": "nap, which both mean a quick nap."
+      },
+      {
+        "start": 429,
+        "end": 431,
+        "text": "What day is it?"
+      },
+      {
+        "start": 431,
+        "end": 436,
+        "text": "What date is it?"
+      },
+      {
+        "start": 436,
+        "end": 439,
+        "text": "This is a calendar."
+      },
+      {
+        "start": 439,
+        "end": 441,
+        "text": "These are the days."
+      },
+      {
+        "start": 441,
+        "end": 445,
+        "text": "Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday."
+      },
+      {
+        "start": 445,
+        "end": 447,
+        "text": "And these are the dates."
+      },
+      {
+        "start": 447,
+        "end": 454,
+        "text": "The 1st, the 2nd, the 3rd, and the 4th of April."
+      },
+      {
+        "start": 454,
+        "end": 458,
+        "text": "Day and date sounds very similar."
+      },
+      {
+        "start": 458,
+        "end": 462,
+        "text": "So, let's make sure that we don't confuse them."
+      },
+      {
+        "start": 462,
+        "end": 465,
+        "text": ">> Hey Jay, what day is it today?"
+      },
+      {
+        "start": 465,
+        "end": 469,
+        "text": ">> Today, it's Saturday, Mario."
+      },
+      {
+        "start": 469,
+        "end": 470,
+        "text": "It's the weekend."
+      },
+      {
+        "start": 470,
+        "end": 474,
+        "text": "It's the 25th of April."
+      },
+      {
+        "start": 474,
+        "end": 481,
+        "text": "And remember, Mario, and you, we don't say the 25 of April, we say the"
+      },
+      {
+        "start": 481,
+        "end": 483,
+        "text": "25th."
+      },
+      {
+        "start": 483,
+        "end": 484,
+        "text": "The 25th."
+      },
+      {
+        "start": 484,
+        "end": 485,
+        "text": "Got it?"
+      },
+      {
+        "start": 485,
+        "end": 487,
+        "text": "Good."
+      },
+      {
+        "start": 487,
+        "end": 493,
+        "text": "And if you look at the calendar, you can see that day one is the first,"
+      },
+      {
+        "start": 493,
+        "end": 499,
+        "text": "day two is the second, and day three is the third."
+      },
+      {
+        "start": 499,
+        "end": 501,
+        "text": ">> So, if we say the first, do we say the"
+      },
+      {
+        "start": 501,
+        "end": 503,
+        "text": "11th?"
+      },
+      {
+        "start": 503,
+        "end": 504,
+        "text": ">> No."
+      },
+      {
+        "start": 504,
+        "end": 508,
+        "text": "It's the 11th, 12th, and 13th."
+      },
+      {
+        "start": 508,
+        "end": 512,
+        "text": "English is weird."
+      },
+      {
+        "start": 512,
+        "end": 517,
+        "text": "Speaking of weird, we're not as weird as those Americans who put the month first."
+      },
+      {
+        "start": 517,
+        "end": 528,
+        "text": "In England, we write the day, the month, and then the year."
+      },
+      {
+        "start": 528,
+        "end": 532,
+        "text": "Now, I have a question for you guys."
+      },
+      {
+        "start": 532,
+        "end": 540,
+        "text": "If your phone died for an entire day, how would you spend your time?"
+      },
+      {
+        "start": 540,
+        "end": 542,
+        "text": "And why?"
+      },
+      {
+        "start": 542,
+        "end": 545,
+        "text": "Would it be a good thing or a bad thing?"
+      },
+      {
+        "start": 545,
+        "end": 551,
+        "text": "Let me know in the comments, and let's start a conversation with each other."
+      },
+      {
+        "start": 551,
+        "end": 556,
+        "text": "Now, it's time for some trendy British slang."
+      },
+      {
+        "start": 556,
+        "end": 558,
+        "text": "Here are five of my favorite slang words in British English."
+      },
+      {
+        "start": 558,
+        "end": 561,
+        "text": "And the first one is to faff."
+      },
+      {
+        "start": 561,
+        "end": 565,
+        "text": "To faff about, to faff on, or to faff around."
+      },
+      {
+        "start": 565,
+        "end": 569,
+        "text": "And this means to waste time."
+      },
+      {
+        "start": 569,
+        "end": 572,
+        "text": "Here's an example."
+      },
+      {
+        "start": 572,
+        "end": 574,
+        "text": "John, stop faffing."
+      },
+      {
+        "start": 574,
+        "end": 576,
+        "text": "Flight's in 2 hours."
+      },
+      {
+        "start": 576,
+        "end": 579,
+        "text": "Chop, chop."
+      },
+      {
+        "start": 579,
+        "end": 583,
+        "text": "The next slang word is to crack on."
+      },
+      {
+        "start": 583,
+        "end": 584,
+        "text": "Crack on."
+      },
+      {
+        "start": 584,
+        "end": 587,
+        "text": "Which means hurry up."
+      },
+      {
+        "start": 587,
+        "end": 591,
+        "text": "Here's another example."
+      },
+      {
+        "start": 591,
+        "end": 592,
+        "text": "We're still late."
+      },
+      {
+        "start": 592,
+        "end": 593,
+        "text": "Crack on."
+      },
+      {
+        "start": 593,
+        "end": 596,
+        "text": "Thank you."
+      },
+      {
+        "start": 596,
+        "end": 600,
+        "text": "The next slang word is stupid o'clock."
+      },
+      {
+        "start": 600,
+        "end": 605,
+        "text": "Stupid o'clock means extremely early or extremely late."
+      },
+      {
+        "start": 605,
+        "end": 607,
+        "text": "An inconvenient time."
+      },
+      {
+        "start": 607,
+        "end": 609,
+        "text": "Here's an example."
+      },
+      {
+        "start": 609,
+        "end": 611,
+        "text": "You look knackered."
+      },
+      {
+        "start": 611,
+        "end": 612,
+        "text": "Uh, Luigi."
+      },
+      {
+        "start": 612,
+        "end": 617,
+        "text": "I was up until stupid o'clock last night."
+      },
+      {
+        "start": 617,
+        "end": 619,
+        "text": "The next slang word is yonks."
+      },
+      {
+        "start": 619,
+        "end": 622,
+        "text": "We can also say donkey's years."
+      },
+      {
+        "start": 622,
+        "end": 628,
+        "text": "And these mean a very, very, very long time."
+      },
+      {
+        "start": 628,
+        "end": 630,
+        "text": "Here's an example."
+      },
+      {
+        "start": 630,
+        "end": 630,
+        "text": "Monopoly."
+      },
+      {
+        "start": 630,
+        "end": 633,
+        "text": "It's been yonks since we played this."
+      },
+      {
+        "start": 633,
+        "end": 635,
+        "text": "Should we play?"
+      },
+      {
+        "start": 635,
+        "end": 639,
+        "text": "Slang word number five is now and then."
+      },
+      {
+        "start": 639,
+        "end": 644,
+        "text": "Now and then means occasionally."
+      },
+      {
+        "start": 644,
+        "end": 646,
+        "text": "Here's an example."
+      },
+      {
+        "start": 646,
+        "end": 652,
+        "text": "I usually have coffee at home, but now and then I like to enjoy it"
+      },
+      {
+        "start": 652,
+        "end": 654,
+        "text": "in the sun in a cafe."
+      },
+      {
+        "start": 654,
+        "end": 661,
+        "text": "Now, it's time for you to practice what you learned in this video by talking to"
+      },
+      {
+        "start": 661,
+        "end": 662,
+        "text": "JI."
+      },
+      {
+        "start": 662,
+        "end": 665,
+        "text": "JI sounds exactly like me."
+      },
+      {
+        "start": 665,
+        "end": 670,
+        "text": "He will ask you questions, give you feedback, and help you"
+      },
+      {
+        "start": 670,
+        "end": 675,
+        "text": "reinforce everything that you learned in this video."
+      },
+      {
+        "start": 675,
+        "end": 682,
+        "text": "Just click the link in the description and sign up for 7 days free."
+      },
+      {
+        "start": 682,
+        "end": 684,
+        "text": "Time is our most valuable asset."
+      },
+      {
+        "start": 684,
+        "end": 689,
+        "text": "We can waste it or use it wisely."
+      }
+    ]
   },
   {
     "id": "cjJLqjjuOs4",

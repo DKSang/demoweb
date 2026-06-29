@@ -508,6 +508,7 @@ export default function AISpeakingLab() {
             <VocabNotebookTab
               selectedLesson={selectedLesson}
               selectedProgressDay={selectedProgressDay}
+              setSelectedProgressDay={setSelectedProgressDay}
               savedVocab={savedVocab}
               commonVocab={commonVocab}
               streakDays={streakDays}

@@ -62,6 +62,7 @@ const StreakSprout = ({ streak }: { streak: number }) => {
 interface VocabNotebookTabProps {
   selectedLesson: Lesson | null;
   selectedProgressDay: number;
+  setSelectedProgressDay: (day: number) => void;
   savedVocab: SavedWord[];
   commonVocab: VocabWord[];
   streakDays: string[];
@@ -126,6 +127,7 @@ const getConsecutiveStreak = (days: string[]): number => {
 export default function VocabNotebookTab({
   selectedLesson,
   selectedProgressDay,
+  setSelectedProgressDay,
   savedVocab,
   commonVocab,
   streakDays,
@@ -359,22 +361,38 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
               const dayNumber = idx + 1;
               const isCompleted = dayNumber < userProgress.currentDay;
               const isActive = dayNumber === userProgress.currentDay;
+              const isUnlocked = dayNumber <= userProgress.currentDay;
+              const isSelected = dayNumber === selectedProgressDay;
               
               return (
-                <div 
+                <button 
                   key={idx}
+                  onClick={() => {
+                    if (isUnlocked) {
+                      setSelectedProgressDay(dayNumber);
+                    }
+                  }}
+                  disabled={!isUnlocked}
                   className={`aspect-square rounded-lg flex flex-col items-center justify-center text-[10px] transition-all border ${
                     isCompleted 
                       ? "bg-white text-black font-bold border-white" 
                       : isActive
                         ? "bg-white/10 border-white/30 text-white font-semibold animate-pulse"
                         : "bg-transparent border-white/5 text-white/20"
+                  } ${
+                    isUnlocked 
+                      ? "cursor-pointer hover:border-white/50 hover:bg-white/5" 
+                      : "cursor-not-allowed opacity-30"
+                  } ${
+                    isSelected
+                      ? "ring-2 ring-white border-transparent scale-[1.05]"
+                      : ""
                   }`}
-                  title={`Day ${dayNumber}: ${isCompleted ? "Completed" : isActive ? "Active" : "Locked"}`}
+                  title={`Day ${dayNumber}: ${isCompleted ? "Completed" : isActive ? "Active" : "Locked"}${isSelected ? " (Selected)" : ""}`}
                 >
                   <span className="text-[8px] opacity-40 uppercase font-mono block text-center font-semibold">D</span>
                   <span className="text-xs font-bold font-mono leading-none mt-0.5">{dayNumber}</span>
-                </div>
+                </button>
               );
             })}
           </div>
@@ -490,35 +508,46 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
         </div>
 
         {vocabSubTab === "saved" ? (
-          savedVocab.length === 0 ? (
-            <div className="py-20 text-center flex flex-col items-center gap-3">
-              <BookOpen className="w-8 h-8 text-white/10" />
-              <p className="text-xs text-white/40">Your saved words list is empty. Save words during shadowing!</p>
-            </div>
-          ) : (
-            (() => {
-              const grouped: Record<number, typeof savedVocab> = {};
-              savedVocab.forEach((item) => {
-                const day = item.day || 1;
-                if (!grouped[day]) grouped[day] = [];
-                grouped[day].push(item);
-              });
+          (() => {
+            const grouped: Record<number, typeof savedVocab> = {};
+            savedVocab.forEach((item) => {
+              const day = item.day || 1;
+              if (!grouped[day]) grouped[day] = [];
+              grouped[day].push(item);
+            });
 
-              const daysSorted = Object.keys(grouped).map(Number).sort((a, b) => a - b);
+            // Ensure selected progress day is always listed
+            if (!grouped[selectedProgressDay]) {
+              grouped[selectedProgressDay] = [];
+            }
 
-              return (
-                <div className="flex flex-col gap-8 max-h-[480px] overflow-y-auto pr-1">
-                  {daysSorted.map((dayNum) => (
-                    <div key={dayNum} className="flex flex-col gap-3">
-                      <div className="flex items-center gap-3 border-b border-white/5 pb-2">
-                        <span className="px-2 py-0.5 rounded bg-white/10 text-white font-mono text-[9px] font-bold">
-                          DAY {dayNum}
-                        </span>
-                        <span className="text-[10px] text-white/50 font-sans">
-                          ({grouped[dayNum].length} words saved)
-                        </span>
+            // Ensure active currentDay is always listed
+            if (!grouped[userProgress.currentDay]) {
+              grouped[userProgress.currentDay] = [];
+            }
+
+            const daysSorted = Object.keys(grouped).map(Number).sort((a, b) => a - b);
+
+            return (
+              <div className="flex flex-col gap-8 max-h-[480px] overflow-y-auto pr-1">
+                {daysSorted.map((dayNum) => (
+                  <div key={dayNum} className="flex flex-col gap-3">
+                    <div className="flex items-center gap-3 border-b border-white/5 pb-2">
+                      <span className="px-2 py-0.5 rounded bg-white/10 text-white font-mono text-[9px] font-bold">
+                        DAY {dayNum}
+                      </span>
+                      <span className="text-[10px] text-white/50 font-sans">
+                        ({grouped[dayNum].length} words saved)
+                      </span>
+                    </div>
+
+                    {grouped[dayNum].length === 0 ? (
+                      <div className="py-8 px-4 rounded-2xl border border-dashed border-white/10 text-center flex flex-col items-center justify-center gap-2 bg-white/5">
+                        <BookOpen className="w-5 h-5 text-white/20" />
+                        <p className="text-xs text-white/40">No words saved for Day {dayNum} yet.</p>
+                        <p className="text-[10px] text-white/30 max-w-[280px]">Save words during shadowing or click "Add Word" above to build your custom vocabulary!</p>
                       </div>
-
+                    ) : (
                       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                         {grouped[dayNum].map((item, idx) => (
                           <div 
@@ -557,12 +586,12 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
                           </div>
                         ))}
                       </div>
-                    </div>
-                  ))}
-                </div>
-              );
-            })()
-          )
+                    )}
+                  </div>
+                ))}
+              </div>
+            );
+          })()
         ) : vocabSubTab === "foundational" ? (
           commonVocab.length === 0 ? (
             <div className="py-20 text-center text-xs text-white/40">Loading 521 foundational words...</div>
