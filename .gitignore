@@ -38,3 +38,4 @@ pnpm-debug.log*
 # Agent directories
 _bmad/
 .agent/
+data/
