@@ -16,8 +16,12 @@ export async function extractVocabFromLesson(
   lesson: VideoLesson,
   modelOverride?: string
 ): Promise<VocabExtractionResult> {
-  // Use first ~3000 chars to stay within token budget while capturing main content
-  const transcriptSample = lesson.rawTranscript.slice(0, 3000);
+  // Use first ~5000 chars to stay within token budget while capturing main content
+  const transcriptSample = lesson.rawTranscript.slice(0, 5000);
+
+  if (transcriptSample.trim().length < 50) {
+    throw new Error("Transcript quá ngắn, không thể extract vocab");
+  }
 
   const messages: ChatMessage[] = [
     {
@@ -28,6 +32,10 @@ Focus on:
 - Naturally spoken phrases, collocations, and idioms
 - Words that appear in meaningful conversational contexts
 - Expressions the learner can immediately reuse in conversation
+
+⚠️ CRITICAL: ALL vocabulary MUST come directly from the transcript below.
+Do NOT invent words. Do NOT use words not present in the transcript.
+If the transcript is about cooking, vocab must be about cooking.
 
 Respond ONLY with valid JSON matching this exact schema:
 {
@@ -96,6 +104,17 @@ export async function processTurn(
   ctx: SessionContext,
   modelOverride?: string
 ): Promise<CoachResponse> {
+  // Intercept user asking for vocab/vocabulary/từ vựng
+  if (/vocabulary|vocab|từ vựng/i.test(learnerInput)) {
+    return {
+      reply: formatVocabList(ctx.vocab),
+      usedVocab: [],
+      whatIfPrompt: undefined,
+      feedbackOnLearner: undefined,
+      suggestedNextPhase: undefined,
+    };
+  }
+
   const messages: ChatMessage[] = [
     {
       role: "system",
@@ -135,6 +154,12 @@ export async function processTurn(
       : undefined,
     suggestedNextPhase: raw.suggestPhase ?? undefined,
   };
+}
+
+function formatVocabList(vocab: VocabExtractionResult): string {
+  return "Here is the vocabulary list for this lesson:\n\n" + vocab.vocab
+    .map((v, i) => `${i + 1}. **${v.word}** [${v.ipa}] — ${v.definition}\n   Example: "${v.example}"`)
+    .join("\n\n");
 }
 
 // ─── 4. What-If Generator ─────────────────────────────────────────────────────
@@ -267,6 +292,7 @@ COACHING RULES:
 4. Keep responses SHORT for shadow phase (1 sentence to repeat), MEDIUM for practice (2-3 sentences)
 5. Always end your turn with either a question or a clear invitation for the learner to speak
 6. When in 'whatif' phase: pose a scenario, then let learner respond fully before commenting
+7. ⚠️ CRITICAL: Only discuss topics related to the video topic ("${vocab.topic}"). Do NOT talk about unrelated topics (like haircuts, weather, etc.) unless they are part of the video context. Do NOT invent unrelated conversation.
 
 Respond as JSON:
 {
