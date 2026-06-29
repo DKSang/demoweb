@@ -468,7 +468,7 @@ export default function App() {
                   { name: "Neural Registry", hash: "#portfolio", note: "specimen storage" },
                   { name: "Growth Sandbox", hash: "#interactive-lab", note: "interactive simulator" },
                   { name: "Shadowing Hub", hash: "#shadowing-lab", note: "YouTube accent shadowing" },
-                  { name: "AI Coach", hash: "#ai-coach", note: "Llama3 conversational practice" },
+                  { name: "AI Coach", hash: "#ai-coach", note: "Qwen3 conversational practice" },
                   { name: "Vocab Notebook", hash: "#vocab-notebook", note: "your personal notebook" },
                   { name: "Sponsorships", hash: "#pricing", note: "Ecosystem project calculations" }
                 ].map((item, index) => (

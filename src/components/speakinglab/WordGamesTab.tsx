@@ -35,7 +35,7 @@ import {
 interface WordGamesTabProps {
   selectedLesson: Lesson | null;
   savedVocab: SavedWord[];
-  ollamaModel: string;
+  openRouterModel: string;
   userProgress: UserProgress;
   updateProgressTask: (task: "listen" | "shadow" | "speak" | "game", completed: boolean) => void;
 }
@@ -43,7 +43,7 @@ interface WordGamesTabProps {
 export default function WordGamesTab({
   selectedLesson,
   savedVocab,
-  ollamaModel,
+  openRouterModel,
   userProgress,
   updateProgressTask
 }: WordGamesTabProps) {
@@ -378,7 +378,7 @@ export default function WordGamesTab({
           gameType: "tree",
           trunk: treeTrunk,
           word: treeInput.trim(),
-          model: ollamaModel,
+          model: openRouterModel,
           lessonContext
         })
       });
@@ -572,7 +572,7 @@ export default function WordGamesTab({
           gameType: "association",
           previousWord,
           word: assocInput.trim(),
-          model: ollamaModel,
+          model: openRouterModel,
           lessonContext
         })
       });

@@ -1,30 +1,30 @@
 import { useState, useEffect } from "react";
 
 /**
- * Custom hook to poll Ollama health status endpoint.
+ * Custom hook to poll OpenRouter health status endpoint.
  * Returns the connection status and available models.
  */
-export function useOllamaHealth(pollIntervalMs = 10000) {
-  const [isOllamaOnline, setIsOllamaOnline] = useState<boolean | null>(null);
+export function useOpenRouterHealth(pollIntervalMs = 10000) {
+  const [isOpenRouterOnline, setIsOpenRouterOnline] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const checkOllamaHealth = async () => {
+    const checkOpenRouterHealth = async () => {
       try {
-        const res = await fetch("/api/ollama/health");
+        const res = await fetch("/api/openrouter/health");
         if (res.ok) {
           const data = await res.json();
-          setIsOllamaOnline(data.status === "ok");
+          setIsOpenRouterOnline(data.status === "ok");
         } else {
-          setIsOllamaOnline(false);
+          setIsOpenRouterOnline(false);
         }
       } catch (err) {
-        setIsOllamaOnline(false);
+        setIsOpenRouterOnline(false);
       }
     };
-    checkOllamaHealth();
-    const interval = setInterval(checkOllamaHealth, pollIntervalMs);
+    checkOpenRouterHealth();
+    const interval = setInterval(checkOpenRouterHealth, pollIntervalMs);
     return () => clearInterval(interval);
   }, [pollIntervalMs]);
 
-  return { isOllamaOnline };
+  return { isOpenRouterOnline };
 }

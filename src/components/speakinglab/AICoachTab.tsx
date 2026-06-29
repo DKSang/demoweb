@@ -8,7 +8,7 @@ interface AICoachTabProps {
   userProgress: UserProgress;
   selectedProgressDay: number;
   isOllamaOnline: boolean | null;
-  ollamaModel: string;
+  openRouterModel: string;
   ttsSpeed: number;
   selectedVoice: string;
   voicesList: SpeechSynthesisVoice[];
@@ -33,7 +33,7 @@ export default function AICoachTab({
   userProgress,
   selectedProgressDay,
   isOllamaOnline,
-  ollamaModel,
+  openRouterModel,
   ttsSpeed,
   selectedVoice,
   voicesList,
@@ -53,7 +53,7 @@ export default function AICoachTab({
 }: AICoachTabProps) {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [phase, setPhase] = useState<"shadow" | "practice" | "whatif" | "debrief">("shadow");
-  const [isLlamaLoading, setIsLlamaLoading] = useState(false);
+  const [isQwenLoading, setIsQwenLoading] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const lastLoadedDayRef = useRef<number | null>(null);
   const sessionStartTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -142,7 +142,7 @@ export default function AICoachTab({
         behavior: "smooth"
       });
     }
-  }, [chatHistory, isLlamaLoading]);
+  }, [chatHistory, isQwenLoading]);
 
   // TTS Output speak helper
   const speakAIResponse = (text: string) => {
@@ -168,7 +168,7 @@ export default function AICoachTab({
 
     if (!selectedLesson) return;
 
-    setIsLlamaLoading(true);
+    setIsQwenLoading(true);
     setPhase("shadow");
     setChatHistory([]);
 
@@ -179,7 +179,7 @@ export default function AICoachTab({
         body: JSON.stringify({
           lessonId: selectedLesson.id,
           day: selectedProgressDay,
-          model: ollamaModel
+          model: openRouterModel
         })
       });
 
@@ -202,7 +202,7 @@ export default function AICoachTab({
       };
       setChatHistory([fallbackMsg]);
     } finally {
-      setIsLlamaLoading(false);
+      setIsQwenLoading(false);
     }
   };
 
@@ -222,7 +222,7 @@ export default function AICoachTab({
     };
     const updatedHistory = [...chatHistory, userMsg];
     setChatHistory(updatedHistory);
-    setIsLlamaLoading(true);
+    setIsQwenLoading(true);
 
     const botId = `bot-${Date.now()}`;
     const placeholderMsg: ChatMessage = {
@@ -242,7 +242,7 @@ export default function AICoachTab({
           day: selectedProgressDay,
           message: textToSend,
           phase: phase,
-          model: ollamaModel
+          model: openRouterModel
         })
       });
 
@@ -282,13 +282,13 @@ export default function AICoachTab({
         )
       );
     } finally {
-      setIsLlamaLoading(false);
+      setIsQwenLoading(false);
     }
   };
 
   const triggerDebrief = async () => {
     if (!selectedLesson) return;
-    setIsLlamaLoading(true);
+    setIsQwenLoading(true);
     setPhase("debrief");
 
     const botId = `bot-${Date.now()}`;
@@ -307,7 +307,7 @@ export default function AICoachTab({
         body: JSON.stringify({
           lessonId: selectedLesson.id,
           day: selectedProgressDay,
-          model: ollamaModel
+          model: openRouterModel
         })
       });
 
@@ -339,7 +339,7 @@ export default function AICoachTab({
         )
       );
     } finally {
-      setIsLlamaLoading(false);
+      setIsQwenLoading(false);
     }
   };
   const handleRecordChatInput = () => {
@@ -365,12 +365,12 @@ export default function AICoachTab({
   return (
     <div className="lg:col-span-12 rounded-[2.5rem] liquid-glass p-6 lg:p-8 flex flex-col justify-between min-h-[500px]">
 
-      {/* Ollama Offline Alert Banner */}
+      {/* OpenRouter Connection Alert Banner */}
       {isOllamaOnline === false && (
         <div className="mb-6 p-4 rounded-2xl bg-red-950/40 border border-red-500/20 text-red-200 text-xs flex items-center justify-between gap-3 animate-pulse">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
-            <span><strong>Ollama Offline:</strong> Could not connect to local Ollama (11434). Please verify Ollama is running (`ollama serve` / `ollama run llama3`).</span>
+            <span><strong>OpenRouter Offline:</strong> Could not connect to OpenRouter API. Please verify your API key and connection.</span>
           </div>
         </div>
       )}
@@ -508,7 +508,7 @@ export default function AICoachTab({
             </div>
           ))
         )}
-        {isLlamaLoading && (
+        {isQwenLoading && (
           <div className="flex flex-col max-w-[85%] self-start items-start">
             <div className="p-4 rounded-2xl text-xs bg-white/5 border border-white/5 text-white/55 rounded-tl-none flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-white/80 animate-bounce" style={{ animationDelay: "0ms" }} />
@@ -573,13 +573,13 @@ export default function AICoachTab({
             value={chatInput}
             onChange={(e) => setChatInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSendChat()}
-            disabled={isLlamaLoading}
+            disabled={isQwenLoading}
             className="flex-1 bg-black/60 border border-white/10 rounded-full px-5 py-3 text-xs text-white placeholder-white/30 focus:outline-none focus:border-white/30"
           />
 
           <button
             onClick={() => handleSendChat()}
-            disabled={isLlamaLoading || !chatInput.trim()}
+            disabled={isQwenLoading || !chatInput.trim()}
             className="w-10 h-10 rounded-full bg-white text-black hover:bg-white/90 flex items-center justify-center transition-all hover:scale-105 active:scale-95 disabled:opacity-40 disabled:scale-100 cursor-pointer"
           >
             <Send className="w-4 h-4" />
