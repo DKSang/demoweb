@@ -37,7 +37,7 @@ ${transcriptSample}
 1. ALL vocabulary words/phrases MUST come directly from the transcript above. Do NOT invent words.
 2. The topic must be the video's actual subject. If it is about money slang, do NOT extract haircut words.
 
-Respond ONLY with a valid JSON object matching this schema (no markdown, no extra text):
+Respond ONLY with a valid JSON object matching this schema. You may format your response as a json code block (no other text outside of the JSON):
 {
   "topic": "subject in 5 words or less",
   "keyPhrases": ["4-6 collocations or phrases from the transcript"],
