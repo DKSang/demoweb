@@ -16,53 +16,47 @@ export async function extractVocabFromLesson(
   lesson: VideoLesson,
   modelOverride?: string
 ): Promise<VocabExtractionResult> {
-  // Use first ~5000 chars to stay within token budget while capturing main content
-  const transcriptSample = lesson.rawTranscript.slice(0, 5000);
+  // Use the entire raw transcript to ensure context is fully captured
+  const transcriptSample = lesson.rawTranscript;
 
-  if (transcriptSample.trim().length < 50) {
-    throw new Error("Transcript quá ngắn, không thể extract vocab");
+  if (!transcriptSample || transcriptSample.trim().length < 50) {
+    throw new Error("Transcript quá ngắn hoặc không khả dụng, không thể extract vocab");
   }
 
   const messages: ChatMessage[] = [
     {
-      role: "system",
-      content: `You are an expert English teacher specialising in spoken English and vocabulary acquisition.
-Analyze the given YouTube transcript and extract the most useful vocabulary for a speaking learner.
-Focus on:
-- Naturally spoken phrases, collocations, and idioms
-- Words that appear in meaningful conversational contexts
-- Expressions the learner can immediately reuse in conversation
+      role: "user",
+      content: `You are an expert English teacher. Analyze this video transcript and extract exactly 6 useful vocabulary words or phrases for speaking practice.
 
-⚠️ CRITICAL: ALL vocabulary MUST come directly from the transcript below.
-Do NOT invent words. Do NOT use words not present in the transcript.
-If the transcript is about cooking, vocab must be about cooking.
+Transcript:
+"""
+${transcriptSample}
+"""
 
-Respond ONLY with valid JSON matching this exact schema:
+⚠️ CRITICAL CONSTRAINTS:
+1. ALL vocabulary words/phrases MUST come directly from the transcript above. Do NOT invent words.
+2. The topic must be the video's actual subject. If it is about money slang, do NOT extract haircut words.
+
+Respond ONLY with a valid JSON object matching this schema (no markdown, no extra text):
 {
-  "topic": "string — the video's main subject in 5 words or less",
-  "keyPhrases": ["array of 4-6 collocations or phrases from the video"],
+  "topic": "subject in 5 words or less",
+  "keyPhrases": ["4-6 collocations or phrases from the transcript"],
   "vocab": [
     {
-      "word": "the word or short phrase",
-      "ipa": "/IPA pronunciation/",
-      "partOfSpeech": "noun|verb|adjective|adverb|phrase",
-      "definition": "clear definition in simple English",
-      "example": "a natural example sentence using context from the video",
-      "contextTimestamp": null
+      "word": "the word or phrase",
+      "ipa": "/pronunciation/",
+      "partOfSpeech": "noun|verb|adjective|phrase",
+      "definition": "definition in simple English",
+      "example": "example sentence using the word"
     }
   ]
-}
-Extract exactly 6-8 vocab items. No markdown, no extra text.`,
-    },
-    {
-      role: "user",
-      content: `Transcript:\n"""\n${transcriptSample}\n"""`,
+}`,
     },
   ];
 
   return callAIJson<VocabExtractionResult>(messages, {
-    temperature: 0.3,
-    maxTokens: 1200,
+    temperature: 0.2,
+    maxTokens: 1000,
     model: modelOverride
   });
 }
@@ -70,30 +64,26 @@ Extract exactly 6-8 vocab items. No markdown, no extra text.`,
 // ─── 2. Session Opener ────────────────────────────────────────────────────────
 
 export async function openSession(ctx: SessionContext, modelOverride?: string): Promise<CoachResponse> {
-  const { vocab, lesson } = ctx;
+  const { vocab } = ctx;
   const vocabList = vocab.vocab.map((v) => `"${v.word}" — ${v.definition}`).join("\n");
 
   const messages: ChatMessage[] = [
     {
-      role: "system",
-      content: buildCoachSystemPrompt(ctx),
-    },
-    {
       role: "user",
-      content: `Start the speaking session for topic: "${vocab.topic}".
-Video URL: ${lesson.youtubeUrl}
-
-Today's vocabulary (weave these naturally into the conversation):
+      content: `You are a friendly English speaking coach.
+Start a speaking session for the topic: "${vocab.topic}".
+Today's vocabulary words:
 ${vocabList}
 
-Open with:
-1. A warm welcome and very brief topic intro (1-2 sentences)
-2. One shadow exercise: give the learner a sentence from the video to repeat
-3. After they shadow, you'll move to practice conversation`,
+Please do two things in your welcome response:
+1. Greet the student and briefly introduce the topic (1-2 sentences).
+2. Give them exactly one short sentence from the video to repeat (Shadowing exercise).
+
+Write ONLY your spoken greeting. No metadata, no extra text.`,
     },
   ];
 
-  const reply = await callAI(messages, { temperature: 0.8, maxTokens: 350, model: modelOverride });
+  const reply = await callAI(messages, { temperature: 0.7, maxTokens: 200, model: modelOverride });
   return buildCoachResponse(reply, vocab.vocab.map((v) => v.word).slice(0, 2));
 }
 
@@ -172,26 +162,26 @@ export async function generateWhatIfPrompt(ctx: SessionContext, modelOverride?: 
     .map((t) => t.text)
     .join(" | ");
 
+  const vocabWords = vocab.vocab.map((v) => v.word).slice(0, 3).join(", ");
+
   const messages: ChatMessage[] = [
     {
-      role: "system",
-      content: `You are a creative English speaking coach. Generate a single "What if..." scenario question
-that:
-- Is directly related to the video topic: "${vocab.topic}"
-- Uses 1-2 of these vocab words naturally: ${vocab.vocab.map((v) => v.word).join(", ")}
-- Builds on what the learner has been saying: "${recentTopics.slice(0, 200)}"
-- Is open-ended and encourages a 3-5 sentence spoken response
-- Feels like a real conversation, not a test
-
-Return ONLY the question. No preamble. No explanation.`,
-    },
-    {
       role: "user",
-      content: "Generate the what-if question now.",
+      content: `You are a friendly English speaking coach.
+Generate a single "What if..." scenario question for the student based on these details:
+- Video Topic: "${vocab.topic}"
+- Vocabulary to include (use 1 or 2 of these): ${vocabWords}
+- Student's recent conversation: "${recentTopics || "None yet"}"
+
+Example What-if questions:
+- Topic: Money -> "What if someone offered you a grand to stop using cash for a year—would you do it?"
+- Topic: Travel -> "What if you lost your passport in a foreign country—who would you call first?"
+
+Return ONLY the question. No intro, no chat prefix, no quotes. Just the question itself.`,
     },
   ];
 
-  return callAI(messages, { temperature: 0.9, maxTokens: 120, model: modelOverride });
+  return callAI(messages, { temperature: 0.8, maxTokens: 100, model: modelOverride });
 }
 
 // ─── 5. STT Feedback Evaluator ────────────────────────────────────────────────
@@ -202,35 +192,35 @@ export async function evaluateSpeechTranscript(
   ctx: SessionContext,
   modelOverride?: string
 ): Promise<FeedbackNote> {
-  const vocabWords = ctx.vocab.vocab.map((v) => v.word).join(", ");
+  const vocabWords = ctx.vocab.vocab.map((v) => v.word).slice(0, 4).join(", ");
 
   const messages: ChatMessage[] = [
     {
-      role: "system",
-      content: `You are a professional English speaking coach evaluating a learner's spoken response.
-Topic context: "${ctx.vocab.topic}"
-Key vocabulary to encourage: ${vocabWords}
-Expected conversational context: "${expectedContext}"
+      role: "user",
+      content: `You are a professional English speaking coach.
+Evaluate this student's spoken response.
 
-Evaluate the transcribed speech and respond with ONLY valid JSON:
+Details:
+- Video Topic: "${ctx.vocab.topic}"
+- Student spoke: "${transcribedText}"
+- Target vocabulary: ${vocabWords}
+- Expected context: "${expectedContext}"
+
+Respond ONLY with a valid JSON object matching this schema:
 {
-  "score": 1-5,
-  "strengths": ["up to 2 specific strengths"],
-  "improvements": ["1-2 concrete actionable suggestions"],
-  "naturalAlternative": "a more natural version of what they said, or null if already natural"
+  "score": 3,
+  "strengths": ["Good use of vocabulary.", "Grammatically correct."],
+  "improvements": ["Try to elaborate more on your reasons."],
+  "naturalAlternative": "A more natural way to say it"
 }
 
-Scoring guide: 1=very basic, 2=developing, 3=communicates well, 4=fluent and natural, 5=excellent`,
-    },
-    {
-      role: "user",
-      content: `Learner said: "${transcribedText}"`,
+Do NOT write any preamble, intro, or markdown. Just the JSON object.`,
     },
   ];
 
   return callAIJson<FeedbackNote>(messages, {
-    temperature: 0.3,
-    maxTokens: 400,
+    temperature: 0.2,
+    maxTokens: 300,
     model: modelOverride
   });
 }
@@ -247,20 +237,21 @@ export async function generateDebrief(ctx: SessionContext, modelOverride?: strin
 
   const messages: ChatMessage[] = [
     {
-      role: "system",
+      role: "user",
       content: `You are wrapping up an English speaking session on "${ctx.vocab.topic}".
 Average learner score this session: ${avgScore.toFixed(1)}/5
 Session had ${learnerTurns.length} learner turns.
+
+Learner's responses this session:
+"""
+${allLearnerText.slice(0, 1000)}
+"""
 
 Write a warm, encouraging debrief (3-4 sentences) that:
 - Celebrates specific progress
 - Names 1-2 vocab words they used well  
 - Gives ONE clear thing to practice before next session
 - Ends with motivation`,
-    },
-    {
-      role: "user",
-      content: `Learner's responses this session:\n${allLearnerText.slice(0, 1000)}`,
     },
   ];
 
