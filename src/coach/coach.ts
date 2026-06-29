@@ -48,6 +48,22 @@ Bad reply style:
 "That was a wonderful attempt! However, I noticed a small grammatical error. It is important to use the past tense here. Please try to say 'went' instead of 'go'. You're doing amazingly well!"
 `;
 
+const JSON_STYLE_EXAMPLE = `
+Good JSON output style (your entire response must be a single valid JSON block formatted like this):
+{
+  "reply": "You said 'I go to school yesterday.' Small fix: use 'went'. Try again — 'I went to school yesterday.' Your turn.",
+  "whatIfPrompt": null,
+  "usedVocab": [],
+  "feedback": {
+    "score": 3,
+    "strengths": ["Clear meaning."],
+    "improvements": ["Use past tense 'went' instead of 'go'."],
+    "naturalAlternative": "I went to school yesterday."
+  },
+  "suggestPhase": "practice"
+}
+`;
+
 // ─── 1. Vocabulary Extraction ─────────────────────────────────────────────────
 
 export async function extractVocabFromLesson(
@@ -423,7 +439,7 @@ ${VOICE_RULES}
 Vocab bank — use 1-2 of these naturally when they fit:
 ${vocabBank}
 
-${STYLE_EXAMPLE}
+${JSON_STYLE_EXAMPLE}
 
 Respond ONLY as JSON:
 {
