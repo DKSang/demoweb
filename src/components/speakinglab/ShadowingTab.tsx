@@ -77,6 +77,7 @@ export default function ShadowingTab({
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
   const [isPlayingSegment, setIsPlayingSegment] = useState(false);
   const [shadowScore, setShadowScore] = useState<number | null>(null);
+  const [voicePlayMode, setVoicePlayMode] = useState<"none" | "loud" | "quiet" | "fast" | "slow">("none");
   const [customVideoUrl, setCustomVideoUrl] = useState("");
   const [customTranscriptText, setCustomTranscriptText] = useState("");
   const [isCustomLoading, setIsCustomLoading] = useState(false);
@@ -406,6 +407,58 @@ export default function ShadowingTab({
             <p className="text-sm font-medium leading-relaxed italic text-white">
               "{effectiveLesson?.lines?.[currentLineIndex]?.text || "No active line selected."}"
             </p>
+          </div>
+
+          {/* Voice Play Modes (Piano Practice) */}
+          <div className="flex flex-col gap-3 border-t border-white/5 pt-4">
+            <span className="text-[9px] font-mono tracking-wider text-white/30 uppercase block">Voice Play Challenge (Piano Practice)</span>
+            <div className="grid grid-cols-4 gap-2">
+              {[
+                { mode: "loud", label: "Loud", icon: "🔊" },
+                { mode: "quiet", label: "Quiet", icon: "🤫" },
+                { mode: "fast", label: "Fast", icon: "⚡" },
+                { mode: "slow", label: "Slow", icon: "🐌" }
+              ].map((item) => {
+                const isSelected = voicePlayMode === item.mode;
+                return (
+                  <button
+                    key={item.mode}
+                    onClick={() => setVoicePlayMode(voicePlayMode === item.mode ? "none" : (item.mode as any))}
+                    className={`py-2 rounded-xl text-xs font-semibold border flex flex-col items-center gap-1 transition-all cursor-pointer ${
+                      isSelected
+                        ? "bg-white text-black border-white scale-[1.03]"
+                        : "bg-black/20 border-white/5 text-white/70 hover:text-white"
+                    }`}
+                  >
+                    <span className="text-sm">{item.icon}</span>
+                    <span className="text-[9px] font-mono">{item.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {voicePlayMode !== "none" && (
+              <motion.div
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`p-3 rounded-2xl border text-left text-xs leading-relaxed ${
+                  voicePlayMode === "loud" ? "bg-red-950/20 border-red-500/10 text-red-300" :
+                  voicePlayMode === "quiet" ? "bg-blue-950/20 border-blue-500/10 text-blue-300" :
+                  voicePlayMode === "fast" ? "bg-yellow-950/20 border-yellow-500/10 text-yellow-300" :
+                  "bg-green-950/20 border-green-500/10 text-green-300"
+                }`}
+              >
+                <div className="font-semibold uppercase tracking-wider text-[9px] font-mono mb-1">
+                  Active Exercise: Play with your {voicePlayMode === "loud" || voicePlayMode === "quiet" ? "Volume" : "Speed"}!
+                </div>
+                <p className="text-[10px] opacity-95">
+                  {voicePlayMode === "loud" && "Speak at maximum volume. Open your mouth wide, project from your diaphragm, and exaggerate articulation. This builds mouth muscle memory and confidence."}
+                  {voicePlayMode === "quiet" && "Speak in a quiet whisper or soft tone. Slow down your rate of speech and pay extreme attention to the precise placement of your tongue and lips. Perfect for high-detail accuracy."}
+                  {voicePlayMode === "fast" && "Speak as fast as you can while trying to keep up. This challenges your tongue, lips, and jaw to coordinate quickly under speed pressure. Repeat multiple times."}
+                  {voicePlayMode === "slow" && "Speak at a very slow, deliberate pace. Focus on complete clarity, making sure to fully enunciate every single syllable and vowel length. Builds baseline precision."}
+                </p>
+              </motion.div>
+            )}
           </div>
 
           {/* Micro scoring circular gauge */}

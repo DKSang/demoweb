@@ -1,12 +1,5 @@
 [
   {
-    "word": "quid",
-    "ipa": "",
-    "definition": "a unit of currency equal to £1",
-    "example": "One quid equals £1.",
-    "dateSaved": "27/6/2026"
-  },
-  {
     "word": "Dizzy",
     "ipa": "/ˈdɪzi/",
     "definition": "Feeling or showing a sense of giddiness or lightheadedness, often due to a sudden change in position or a medical condition.",
@@ -84,10 +77,11 @@
     "dateSaved": "2026-06-28"
   },
   {
-    "word": "teaspon",
+    "word": "teaspoon",
     "ipa": "/tɛsˈpɒn/",
-    "definition": "A small, round container used for holding or serving tea.",
-    "example": "She carefully placed the tiny teapot on the table to brew a cup of chamomile tea.",
+    "definition": "A teaspoon is a small, measuring spoon used for serving or cooking.",
+    "example": "She used a teaspoon to measure the sugar for her tea.",
+    "day": 2,
     "dateSaved": "2026-06-29"
   }
 ]

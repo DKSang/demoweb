@@ -8,16 +8,18 @@ import {
   BookOpen,
   ArrowRight,
   Settings,
-  Volume2
+  Volume2,
+  Gamepad2
 } from "lucide-react";
 import type { Lesson, VocabWord, SavedWord, UserProgress } from "./speakinglab/types";
 import ProgressionBar from "./speakinglab/ProgressionBar";
 import ShadowingTab from "./speakinglab/ShadowingTab";
 import AICoachTab from "./speakinglab/AICoachTab";
 import VocabNotebookTab from "./speakinglab/VocabNotebookTab";
+import WordGamesTab from "./speakinglab/WordGamesTab";
 
 export default function AISpeakingLab() {
-  const [activeTab, setActiveTab] = useState<"shadow" | "coach" | "vocab">("shadow");
+  const [activeTab, setActiveTab] = useState<"shadow" | "coach" | "vocab" | "games">("shadow");
 
   // Ollama Health via custom hook
   const { isOllamaOnline } = useOllamaHealth(10000);
@@ -85,6 +87,8 @@ export default function AISpeakingLab() {
         setActiveTab("coach");
       } else if (hash === "#vocab-notebook") {
         setActiveTab("vocab");
+      } else if (hash === "#word-games") {
+        setActiveTab("games");
       }
     };
 
@@ -93,7 +97,7 @@ export default function AISpeakingLab() {
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
-  const changeTab = (tabId: "shadow" | "coach" | "vocab") => {
+  const changeTab = (tabId: "shadow" | "coach" | "vocab" | "games") => {
     setActiveTab(tabId);
     if (tabId === "shadow") {
       window.location.hash = "#shadowing-lab";
@@ -101,6 +105,8 @@ export default function AISpeakingLab() {
       window.location.hash = "#ai-coach";
     } else if (tabId === "vocab") {
       window.location.hash = "#vocab-notebook";
+    } else if (tabId === "games") {
+      window.location.hash = "#word-games";
     }
   };
 
@@ -433,6 +439,7 @@ export default function AISpeakingLab() {
           {[
             { id: "shadow", label: "YouTube Shadowing", icon: Video },
             { id: "coach", label: "Ollama AI Coach", icon: Sparkles },
+            { id: "games", label: "Word Games", icon: Gamepad2 },
             { id: "vocab", label: "Vocabulary & Streak", icon: BookOpen }
           ].map((tab) => {
             const Icon = tab.icon;
@@ -501,6 +508,18 @@ export default function AISpeakingLab() {
               setChatInput={setChatInput}
               setRecognitionText={setRecognitionText}
             />
+          )}
+
+          {/* TAB 4: WORD GAMES */}
+          {activeTab === "games" && (
+            <div className="lg:col-span-12">
+              <WordGamesTab
+                selectedLesson={selectedLesson}
+                savedVocab={savedVocab}
+                ollamaModel={ollamaModel}
+                userProgress={userProgress}
+              />
+            </div>
           )}
 
           {/* TAB 3: VOCABULARY & STREAK NOTEBOOK */}

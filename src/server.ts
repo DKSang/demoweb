@@ -676,6 +676,97 @@ app.post("/api/progress/reset", rateLimiter(3, 60000), async (req: Request, res:
   }
 });
 
+app.post("/api/games/validate", async (req: Request, res: Response) => {
+  try {
+    const { gameType, trunk, previousWord, word, model } = req.body;
+    if (!gameType || !word) {
+      res.status(400).json({ error: "Missing gameType or word parameter" });
+      return;
+    }
+
+    const clientModel = model || "llama3";
+    let systemPrompt = "";
+
+    if (gameType === "tree") {
+      if (!trunk) {
+        res.status(400).json({ error: "Missing trunk word parameter for Word Tree validation" });
+        return;
+      }
+      systemPrompt = `You are a semantic validator. Determine if the English word "${word}" is directly or closely related to the central category/word "${trunk}" (for example: if trunk is "book", related words could be "page", "author", "read", "library", "words", etc.).
+Your response must be a valid JSON object.
+Rules:
+- Respond ONLY with a raw JSON object and nothing else.
+- Do NOT wrap in markdown blocks like \`\`\`json.
+- JSON structure:
+{
+  "valid": true/false,
+  "explanation": "a short 1-sentence explanation of why it is or is not related"
+}`;
+    } else if (gameType === "association") {
+      if (!previousWord) {
+        res.status(400).json({ error: "Missing previousWord parameter for Word Association validation" });
+        return;
+      }
+      systemPrompt = `You are a semantic validator. Determine if the English word "${word}" is a valid, logical association or next link from the word "${previousWord}" (for example: "traffic light" -> "red" -> "stop" -> "police" -> "car"). The connection can be descriptive, thematic, or a common phrase link.
+Your response must be a valid JSON object.
+Rules:
+- Respond ONLY with a raw JSON object and nothing else.
+- Do NOT wrap in markdown blocks like \`\`\`json.
+- JSON structure:
+{
+  "valid": true/false,
+  "explanation": "a short 1-sentence explanation of the association link"
+}`;
+    } else {
+      res.status(400).json({ error: "Invalid gameType. Must be 'tree' or 'association'" });
+      return;
+    }
+
+    // Call local Ollama
+    try {
+      const ollamaResponse = await fetch(`${OLLAMA_URL}/api/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: clientModel,
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: `Validate: "${word}"` }
+          ],
+          stream: false,
+          options: { temperature: 0.2 }
+        })
+      });
+
+      if (ollamaResponse.ok) {
+        const ollamaData = await ollamaResponse.json();
+        let content = ollamaData.message?.content || "";
+        content = content.trim();
+
+        // Extract JSON
+        const jsonStart = content.indexOf("{");
+        const jsonEnd = content.lastIndexOf("}");
+        if (jsonStart !== -1 && jsonEnd !== -1) {
+          content = content.substring(jsonStart, jsonEnd + 1);
+          const result = JSON.parse(content);
+          res.json(result);
+          return;
+        }
+      }
+      throw new Error("Failed to get valid response from Ollama");
+    } catch (ollamaErr) {
+      console.warn("Ollama validation failed, using fallback heuristic:", ollamaErr);
+      res.json({
+        valid: true,
+        explanation: `Accepted (Ollama offline/fallback). connection accepted between "${word}" and "${trunk || previousWord}".`
+      });
+    }
+  } catch (err: any) {
+    console.error("Failed to validate game word:", err);
+    res.status(500).json({ error: "Failed to validate game word", details: err.message });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`[Bloom Server] Backend initialized and running on http://localhost:${PORT}`);
 });

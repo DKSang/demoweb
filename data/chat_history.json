@@ -467,5 +467,22 @@
       "role": "assistant",
       "content": "```json\n{\n  \"ipa\": \"/tɛsˈpɔn/\",\n  \"definition\": \"A small, light-weight spoon used for serving tea or other beverages.\",\n  \"example\": \"She carefully picked up the teaspoons to serve her guests a cup of hot chamomile tea.\"\n}\n```"
     }
+  },
+  {
+    "timestamp": "2026-06-29T04:09:36.156Z",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are an expert lexicographer. For the given English word, generate the IPA pronunciation (enclosed in slashes, e.g., /ˈhɛəkʌt/), a clear, simple, and concise definition in English, and one natural example sentence.\nReturn the result EXACTLY in the following JSON format, and nothing else (do not wrap in markdown block, do not add any explanation):\n{\n  \"ipa\": \"...\",\n  \"definition\": \"...\",\n  \"example\": \"...\"\n}"
+      },
+      {
+        "role": "user",
+        "content": "Word: teaspon"
+      }
+    ],
+    "assistantResponse": {
+      "role": "assistant",
+      "content": "```json\n{\n  \"ipa\": \"/tɛsˈpɒn/\",\n  \"definition\": \"A teaspoon is a small, measuring spoon used for serving or cooking.\",\n  \"example\": \"She used a teaspoon to measure the sugar for her tea.\" \n}\n```"
+    }
   }
 ]
