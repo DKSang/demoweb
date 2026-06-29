@@ -21,9 +21,8 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const OLLAMA_URL = process.env.VITE_OLLAMA_URL || "http://127.0.0.1:11434";
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || "";
-const OPENROUTER_MODEL = process.env.OPENROUTER_MODEL || "google/gemini-3.1-flash-lite";
+const OPENROUTER_MODEL = process.env.OPENROUTER_MODEL || "qwen/qwen3-next-80b-a3b-instruct";
 
 // Ensure data folder exists
 const DATA_DIR = path.resolve(__dirname, "../data");
@@ -564,7 +563,7 @@ const rateLimiter = (limit: number, windowMs: number) => {
   };
 };
 
-// Ollama Options Sanitizer & Clamping Utility
+// OpenRouter Options Sanitizer & Clamping Utility
 const sanitizeChatOptions = (clientOptions: any) => {
   const options: any = {};
   if (clientOptions) {
@@ -583,7 +582,7 @@ const sanitizeChatOptions = (clientOptions: any) => {
 
 // OpenRouter Helper function
 async function callOpenRouter(messages: any[], temperature = 0.3, maxTokens = 1000, modelOverride?: string) {
-  const model = modelOverride || OPENROUTER_MODEL || "google/gemini-3.1-flash-lite";
+  const model = modelOverride || OPENROUTER_MODEL || "qwen/qwen3-next-80b-a3b-instruct";
   const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
     headers: {
@@ -615,7 +614,7 @@ app.post("/api/chat", rateLimiter(15, 60000), async (req: Request, res: Response
   try {
     const { model, messages, options, stream } = req.body;
     const sanitizedOptions = sanitizeChatOptions(options);
-    const targetModel = model || OPENROUTER_MODEL || "google/gemini-3.1-flash-lite";
+    const targetModel = model || OPENROUTER_MODEL || "qwen/qwen3-next-80b-a3b-instruct";
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
@@ -803,7 +802,7 @@ app.post("/api/coach/open-session", rateLimiter(10, 60000), async (req: Request,
       return res.status(404).json({ error: "Lesson not found" });
     }
 
-    const clientModel = model || OPENROUTER_MODEL || "google/gemini-3.1-flash-lite";
+    const clientModel = model || OPENROUTER_MODEL || "qwen/qwen3-next-80b-a3b-instruct";
     const ctx = buildSessionContext(lessonRow, [], "shadow");
 
     const coachResp = await openSession(ctx, clientModel);
@@ -847,7 +846,7 @@ app.post("/api/coach/process-turn", rateLimiter(15, 60000), async (req: Request,
     const row = stmtHistory.get(historyKey) as { value: string } | undefined;
     const existingMessages = row ? JSON.parse(row.value) : [];
 
-    const clientModel = model || OPENROUTER_MODEL || "google/gemini-3.1-flash-lite";
+    const clientModel = model || OPENROUTER_MODEL || "qwen/qwen3-next-80b-a3b-instruct";
     const ctx = buildSessionContext(lessonRow, existingMessages, phase);
 
     const coachResp = await processTurn(message, ctx, clientModel);
@@ -912,7 +911,7 @@ app.post("/api/coach/debrief", rateLimiter(10, 60000), async (req: Request, res:
     const row = stmtHistory.get(historyKey) as { value: string } | undefined;
     const existingMessages = row ? JSON.parse(row.value) : [];
 
-    const clientModel = model || OPENROUTER_MODEL || "google/gemini-3.1-flash-lite";
+    const clientModel = model || OPENROUTER_MODEL || "qwen/qwen3-next-80b-a3b-instruct";
     const ctx = buildSessionContext(lessonRow, existingMessages, "debrief");
 
     const debriefText = await generateDebrief(ctx, clientModel);
@@ -937,7 +936,7 @@ app.post("/api/coach/debrief", rateLimiter(10, 60000), async (req: Request, res:
 });
 
 // 1b. OpenRouter connection health check endpoint
-app.get("/api/ollama/health", async (req: Request, res: Response) => {
+app.get("/api/openrouter/health", async (req: Request, res: Response) => {
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 second timeout
@@ -1105,7 +1104,7 @@ app.post("/api/lessons/:id/initialize", rateLimiter(5, 60000), async (req: Reque
     const transcriptLines = await reconstructTranscriptIntoSentences(rawLines);
 
     // 2. Call extractVocabFromLesson from coach.ts
-    const clientModel = req.body?.model || OPENROUTER_MODEL || "google/gemini-3.1-flash-lite";
+    const clientModel = req.body?.model || OPENROUTER_MODEL || "qwen/qwen3-next-80b-a3b-instruct";
     console.log(`[Bloom Server] Asking extractVocabFromLesson to extract vocabulary...`);
 
     const videoLessonData = {

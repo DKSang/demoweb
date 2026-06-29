@@ -325,7 +325,7 @@ export default function ShadowingTab({
                   <div className="max-w-md">
                     <h4 className="text-xs font-semibold text-white tracking-wide uppercase mb-1">Lesson Captions Not Loaded</h4>
                     <p className="text-[11px] text-white/50 leading-relaxed">
-                      This lesson hasn't been initialized yet. We need to fetch real English subtitles from YouTube and run Llama-3 locally to extract key vocabulary.
+                      This lesson hasn't been initialized yet. We need to fetch real English subtitles from YouTube and run Qwen3 locally to extract key vocabulary.
                     </p>
                   </div>
                   <button
@@ -336,7 +336,7 @@ export default function ShadowingTab({
                     {isInitializingLesson ? (
                       <>
                         <span className="w-3 h-3 rounded-full border border-black border-t-transparent animate-spin inline-block mr-1" />
-                        Running Llama-3 Lexicographer...
+                        Running Qwen3 Lexicographer...
                       </>
                     ) : (
                       "Load Captions & Vocabulary"

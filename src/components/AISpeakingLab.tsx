@@ -21,7 +21,7 @@ import WordGamesTab from "./speakinglab/WordGamesTab";
 export default function AISpeakingLab() {
   const [activeTab, setActiveTab] = useState<"shadow" | "coach" | "vocab" | "games">("shadow");
 
-  // Ollama Health via custom hook
+  // OpenRouter Health via custom hook
   const { isOllamaOnline } = useOllamaHealth(10000);
 
   // Custom Hook for Speech Recognition & Silence Auto-Stop with Enhanced Features
@@ -130,7 +130,7 @@ export default function AISpeakingLab() {
   const [ttsSpeed, setTtsSpeed] = useState(0.95);
   const [selectedVoice, setSelectedVoice] = useState<string>("");
   const [voicesList, setVoicesList] = useState<SpeechSynthesisVoice[]>([]);
-  const [ollamaModel, setOllamaModel] = useState<string>("openrouter/free");
+  const [openRouterModel, setOpenRouterModel] = useState<string>("openrouter/free");
 
   // Daily Progression State
   const [userProgress, setUserProgress] = useState<UserProgress>({
@@ -323,7 +323,7 @@ export default function AISpeakingLab() {
       const res = await fetch(`/api/lessons/${selectedLesson.id}/initialize`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ model: ollamaModel })
+        body: JSON.stringify({ model: openRouterModel })
       });
       if (res.ok) {
         const updatedLesson = await res.json();
@@ -412,15 +412,13 @@ export default function AISpeakingLab() {
             <div className="px-4 py-2 rounded-xl bg-white/5 flex items-center gap-3 text-xs font-mono">
               <Sparkles className="w-3.5 h-3.5 text-white/50" />
               <select 
-                value={ollamaModel} 
-                onChange={(e) => setOllamaModel(e.target.value)}
+                value={openRouterModel} 
+                onChange={(e) => setOpenRouterModel(e.target.value)}
                 className="bg-transparent border-none text-white focus:outline-none cursor-pointer max-w-[135px]"
                 title="Select AI Model"
               >
                 <option value="openrouter/free" className="bg-zinc-950 text-white">Auto Free Model</option>
-                <option value="meta-llama/llama-3.2-3b-instruct:free" className="bg-zinc-950 text-white">Llama 3.2 3B (Free)</option>
-                <option value="meta-llama/llama-3.3-70b-instruct:free" className="bg-zinc-950 text-white">Llama 3.3 70B (Free)</option>
-                <option value="google/gemini-3.1-flash-lite" className="bg-zinc-950 text-white">Gemini 3.1 Lite</option>
+                <option value="qwen/qwen3-next-80b-a3b-instruct" className="bg-zinc-950 text-white">Qwen3 Next 80B A3B Instruct</option>
               </select>
             </div>
           </div>
@@ -441,7 +439,7 @@ export default function AISpeakingLab() {
         <div className="flex gap-2">
           {[
             { id: "shadow", label: "YouTube Shadowing", icon: Video },
-            { id: "coach", label: "Ollama AI Coach", icon: Sparkles },
+            { id: "coach", label: "AI Coach", icon: Sparkles },
             { id: "games", label: "Word Games", icon: Gamepad2 },
             { id: "vocab", label: "Vocabulary & Streak", icon: BookOpen }
           ].map((tab) => {
@@ -496,7 +494,7 @@ export default function AISpeakingLab() {
               userProgress={userProgress}
               selectedProgressDay={selectedProgressDay}
               isOllamaOnline={isOllamaOnline}
-              ollamaModel={ollamaModel}
+              openRouterModel={openRouterModel}
               ttsSpeed={ttsSpeed}
               selectedVoice={selectedVoice}
               voicesList={voicesList}
@@ -522,7 +520,7 @@ export default function AISpeakingLab() {
               <WordGamesTab
                 selectedLesson={selectedLesson}
                 savedVocab={savedVocab}
-                ollamaModel={ollamaModel}
+                openRouterModel={openRouterModel}
                 userProgress={userProgress}
                 updateProgressTask={updateProgressTask}
               />
@@ -542,7 +540,7 @@ export default function AISpeakingLab() {
               lessonsList={lessonsList}
               hasShadowedToday={hasShadowedToday}
               hasChattedToday={hasChattedToday}
-              ollamaModel={ollamaModel}
+              openRouterModel={openRouterModel}
               handleSaveWord={handleSaveWord}
               handleDeleteWord={handleDeleteWord}
               updateProgressTask={updateProgressTask}

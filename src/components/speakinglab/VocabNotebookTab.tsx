@@ -71,7 +71,7 @@ interface VocabNotebookTabProps {
   lessonsList: Lesson[];
   hasShadowedToday: boolean;
   hasChattedToday: boolean;
-  ollamaModel: string;
+  openRouterModel: string;
   handleSaveWord: (word: VocabWord) => void;
   handleDeleteWord: (word: string) => void;
   updateProgressTask: (task: "listen" | "shadow" | "speak" | "game", completed: boolean) => void;
@@ -136,7 +136,7 @@ export default function VocabNotebookTab({
   lessonsList,
   hasShadowedToday,
   hasChattedToday,
-  ollamaModel,
+  openRouterModel,
   handleSaveWord,
   handleDeleteWord,
   updateProgressTask,
@@ -205,7 +205,7 @@ export default function VocabNotebookTab({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: ollamaModel,
+          model: openRouterModel,
           messages: [
             {
               role: "system",
@@ -250,7 +250,7 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
       }
     } catch (err) {
       console.error("Failed to infer word details:", err);
-      alert("Could not connect to Ollama. Make sure Ollama is active locally.");
+      alert("Could not connect to OpenRouter. Make sure your API key is configured.");
     } finally {
       setIsInferring(false);
     }
@@ -348,7 +348,7 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
               <span className="font-mono text-white">{hasShadowedToday ? "✓ Done" : "○ Pending"}</span>
             </div>
             <div className="flex items-center justify-between text-xs">
-              <span className="text-white/60">2. Message Ollama AI Coach</span>
+              <span className="text-white/60">2. Message AI Coach</span>
               <span className="font-mono text-white">{hasChattedToday ? "✓ Done" : "○ Pending"}</span>
             </div>
           </div>
