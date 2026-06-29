@@ -6,6 +6,7 @@ import type { Lesson, ChatMessage, UserProgress } from "./types";
 interface AICoachTabProps {
   selectedLesson: Lesson | null;
   userProgress: UserProgress;
+  selectedProgressDay: number;
   isOllamaOnline: boolean | null;
   ollamaModel: string;
   ttsSpeed: number;
@@ -30,6 +31,7 @@ interface AICoachTabProps {
 export default function AICoachTab({
   selectedLesson,
   userProgress,
+  selectedProgressDay,
   isOllamaOnline,
   ollamaModel,
   ttsSpeed,
@@ -54,14 +56,14 @@ export default function AICoachTab({
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const lastLoadedDayRef = useRef<number | null>(null);
 
-  // Auto-calculate week from current day (1-7 -> W1, 8-14 -> W2, etc.)
-  const currentWeek = Math.min(4, Math.ceil((userProgress.currentDay || 1) / 7)) as 1 | 2 | 3 | 4;
+  // Auto-calculate week from selected progress day (1-7 -> W1, 8-14 -> W2, etc.)
+  const currentWeek = Math.min(4, Math.ceil((selectedProgressDay || 1) / 7)) as 1 | 2 | 3 | 4;
 
   // Load chat history when day or lesson changes
   useEffect(() => {
     if (!selectedLesson) return;
 
-    const day = userProgress.currentDay;
+    const day = selectedProgressDay;
     if (lastLoadedDayRef.current === day) return;
     lastLoadedDayRef.current = day;
 
@@ -85,11 +87,11 @@ export default function AICoachTab({
       }
     };
     loadChatHistory();
-  }, [selectedLesson?.id, userProgress.currentDay]);
+  }, [selectedLesson?.id, selectedProgressDay]);
 
   // Save chat history when it changes
   useEffect(() => {
-    if (chatHistory.length > 0 && selectedLesson && lastLoadedDayRef.current === userProgress.currentDay) {
+    if (chatHistory.length > 0 && selectedLesson && lastLoadedDayRef.current === selectedProgressDay) {
       const saveChatHistory = async () => {
         try {
           await fetch("/api/chat-history", {
@@ -97,7 +99,7 @@ export default function AICoachTab({
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               lessonId: selectedLesson.id,
-              day: userProgress.currentDay,
+              day: selectedProgressDay,
               messages: chatHistory
             })
           });
@@ -109,7 +111,7 @@ export default function AICoachTab({
       const timeoutId = setTimeout(saveChatHistory, 1000);
       return () => clearTimeout(timeoutId);
     }
-  }, [chatHistory, selectedLesson, userProgress.currentDay]);
+  }, [chatHistory, selectedLesson, selectedProgressDay]);
 
   // Auto-scroll chat container
   useEffect(() => {
@@ -358,7 +360,7 @@ export default function AICoachTab({
       {/* Top settings row */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-4 mb-4">
         <div className="flex items-center gap-3">
-          <span className="text-xs font-mono tracking-wider text-white/40 uppercase">Day {userProgress.currentDay} Coach</span>
+          <span className="text-xs font-mono tracking-wider text-white/40 uppercase">Day {selectedProgressDay} Coach</span>
           <div className="flex gap-1.5">
             {([1, 2, 3, 4] as const).map(w => (
               <div
@@ -392,7 +394,7 @@ export default function AICoachTab({
           <div className="flex-1 flex flex-col items-center justify-center text-center p-8 gap-3">
             <Sparkles className="w-8 h-8 text-white/20 animate-pulse" />
             <p className="text-xs text-white/50 max-w-sm">
-              Make sure your local Ollama is active, then type a message or use voice input to start practicing for Day {userProgress.currentDay}.
+              Make sure your local Ollama is active, then type a message or use voice input to start practicing for Day {selectedProgressDay}.
             </p>
           </div>
         ) : (

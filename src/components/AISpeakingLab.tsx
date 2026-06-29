@@ -495,6 +495,7 @@ export default function AISpeakingLab() {
             <AICoachTab
               selectedLesson={selectedLesson}
               userProgress={userProgress}
+              selectedProgressDay={selectedProgressDay}
               isOllamaOnline={isOllamaOnline}
               ollamaModel={ollamaModel}
               ttsSpeed={ttsSpeed}
