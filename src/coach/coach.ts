@@ -404,7 +404,9 @@ function buildTurnSystemPrompt(
     shadow: `Phase: SHADOW
 - Give one sentence from the video. Ask them to repeat it.
 - If they repeat correctly: say "Good." then give the next sentence.
-- If they make a mistake: say the correct version. Ask them to try again.
+- If they ask a question or do not repeat:
+  * If they asked a question (starts with "why", "how", "what", "can", "is" or ends with "?"): answer it in 1 short sentence. Then ask them to repeat the shadow sentence again.
+  * Otherwise, say the correct version. Ask them to try again.
 - Keep replies under 3 sentences.`,
 
     practice: `Phase: PRACTICE

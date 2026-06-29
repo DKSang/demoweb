@@ -397,16 +397,17 @@ export default function AICoachTab({
             {(["shadow", "practice", "whatif", "debrief"] as const).map((p, idx) => (
               <React.Fragment key={p}>
                 {idx > 0 && <span className="text-[10px] text-white/20">&rarr;</span>}
-                <div
-                  className={`px-2 py-0.5 rounded text-[9px] font-mono border uppercase tracking-wider ${
+                <button
+                  onClick={() => setPhase(p)}
+                  className={`px-2 py-0.5 rounded text-[9px] font-mono border uppercase tracking-wider transition-all duration-200 ${
                     phase === p
-                      ? "bg-white/10 border-white/20 text-white font-semibold"
-                      : "bg-transparent border-white/5 text-white/30"
+                      ? "bg-white/10 border-white/20 text-white font-semibold cursor-default"
+                      : "bg-transparent border-white/5 text-white/30 hover:text-white/60 hover:border-white/15 cursor-pointer"
                   }`}
-                  title={`Phase: ${p}`}
+                  title={`Switch to Phase: ${p}`}
                 >
                   {p}
-                </div>
+                </button>
               </React.Fragment>
             ))}
           </div>
