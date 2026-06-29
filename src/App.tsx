@@ -45,7 +45,7 @@ export default function App() {
   useEffect(() => {
     const handleRoute = () => {
       const hash = window.location.hash;
-      const appHashes = ["#shadowing-lab", "#ai-coach", "#vocab-notebook"];
+      const appHashes = ["#shadowing-lab", "#ai-coach", "#vocab-notebook", "#word-games"];
       if (appHashes.includes(hash)) {
         setCurrentPage("app");
       } else {
