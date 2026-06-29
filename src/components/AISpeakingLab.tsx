@@ -130,7 +130,7 @@ export default function AISpeakingLab() {
   const [ttsSpeed, setTtsSpeed] = useState(0.95);
   const [selectedVoice, setSelectedVoice] = useState<string>("");
   const [voicesList, setVoicesList] = useState<SpeechSynthesisVoice[]>([]);
-  const [ollamaModel, setOllamaModel] = useState<string>("gemma2:2b");
+  const [ollamaModel, setOllamaModel] = useState<string>("openrouter/free");
 
   // Daily Progression State
   const [userProgress, setUserProgress] = useState<UserProgress>({
@@ -414,14 +414,13 @@ export default function AISpeakingLab() {
               <select 
                 value={ollamaModel} 
                 onChange={(e) => setOllamaModel(e.target.value)}
-                className="bg-transparent border-none text-white focus:outline-none cursor-pointer max-w-[120px]"
-                title="Select Ollama Model"
+                className="bg-transparent border-none text-white focus:outline-none cursor-pointer max-w-[135px]"
+                title="Select AI Model"
               >
-                <option value="llama3" className="bg-zinc-950 text-white">llama3</option>
-                <option value="llama3.2" className="bg-zinc-950 text-white">llama3.2</option>
-                <option value="llama3.2:3b" className="bg-zinc-950 text-white">llama3.2:3b</option>
-                <option value="llama3.2:1b" className="bg-zinc-950 text-white">llama3.2:1b</option>
-                <option value="gemma2:2b" className="bg-zinc-950 text-white">gemma2:2b</option>
+                <option value="openrouter/free" className="bg-zinc-950 text-white">Auto Free Model</option>
+                <option value="meta-llama/llama-3.2-3b-instruct:free" className="bg-zinc-950 text-white">Llama 3.2 3B (Free)</option>
+                <option value="meta-llama/llama-3.3-70b-instruct:free" className="bg-zinc-950 text-white">Llama 3.3 70B (Free)</option>
+                <option value="google/gemini-3.1-flash-lite" className="bg-zinc-950 text-white">Gemini 3.1 Lite</option>
               </select>
             </div>
           </div>

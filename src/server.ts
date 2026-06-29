@@ -15,6 +15,8 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3001;
 const OLLAMA_URL = process.env.VITE_OLLAMA_URL || "http://127.0.0.1:11434";
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || "";
+const OPENROUTER_MODEL = process.env.OPENROUTER_MODEL || "google/gemini-3.1-flash-lite";
 
 // Ensure data folder exists
 const DATA_DIR = path.resolve(__dirname, "../data");
@@ -572,26 +574,62 @@ const sanitizeChatOptions = (clientOptions: any) => {
   return options;
 };
 
-// 1. Ollama Chat Gateway Proxy Route with rate limiting and options sanitization
+// OpenRouter Helper function
+async function callOpenRouter(messages: any[], temperature = 0.3, maxTokens = 1000, modelOverride?: string) {
+  const model = modelOverride || OPENROUTER_MODEL || "google/gemini-3.1-flash-lite";
+  const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+      "Content-Type": "application/json",
+      "HTTP-Referer": "http://localhost:3000",
+      "X-Title": "Bloom English Lab"
+    },
+    body: JSON.stringify({
+      model: model,
+      messages: messages,
+      temperature: temperature,
+      max_tokens: maxTokens
+    })
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`OpenRouter API error: ${response.status} - ${errorText}`);
+  }
+
+  const data = await response.json();
+  return data.choices?.[0]?.message?.content || "";
+}
+
+
+// 1. OpenRouter Chat Gateway Proxy Route with rate limiting and options sanitization
 app.post("/api/chat", rateLimiter(15, 60000), async (req: Request, res: Response) => {
   try {
     const { model, messages, options, stream } = req.body;
     const sanitizedOptions = sanitizeChatOptions(options);
+    const targetModel = model || OPENROUTER_MODEL || "google/gemini-3.1-flash-lite";
 
-    const response = await fetch(`${OLLAMA_URL}/api/chat`, {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": "http://localhost:3000",
+        "X-Title": "Bloom English Lab"
+      },
       body: JSON.stringify({
-        model: model || "gemma2:2b",
+        model: targetModel,
         messages: messages || [],
         stream: stream === true,
-        options: sanitizedOptions
+        temperature: sanitizedOptions.temperature ?? 0.7,
+        max_tokens: sanitizedOptions.num_predict ?? 150 // Map num_predict to max_tokens
       })
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      res.status(response.status).json({ error: `Ollama error: ${errorText}` });
+      res.status(response.status).json({ error: `OpenRouter error: ${errorText}` });
       return;
     }
 
@@ -602,25 +640,73 @@ app.post("/api/chat", rateLimiter(15, 60000), async (req: Request, res: Response
 
       const bodyStream = response.body;
       if (!bodyStream) {
-        res.status(500).json({ error: "Ollama returned an empty response body stream" });
+        res.status(500).json({ error: "OpenRouter returned an empty response body stream" });
         return;
       }
 
       // @ts-ignore
       const reader = bodyStream.getReader();
+      const decoder = new TextDecoder();
       let done = false;
+      let buffer = "";
+
       while (!done) {
         const { value, done: doneReading } = await reader.read();
         done = doneReading;
         if (value) {
-          res.write(value);
+          buffer += decoder.decode(value, { stream: true });
+          let lines = buffer.split("\n");
+          buffer = lines.pop() || "";
+
+          for (const line of lines) {
+            const cleanLine = line.trim();
+            if (cleanLine.startsWith("data: ")) {
+              const dataStr = cleanLine.substring(6).trim();
+              if (dataStr === "[DONE]") {
+                continue;
+              }
+              try {
+                const parsed = JSON.parse(dataStr);
+                const content = parsed.choices?.[0]?.delta?.content;
+                if (content) {
+                  res.write(JSON.stringify({ message: { content } }) + "\n");
+                }
+              } catch (e) {
+                // Ignore partial JSON parsing errors
+              }
+            }
+          }
         }
       }
+
+      if (buffer.trim().startsWith("data: ")) {
+        const dataStr = buffer.trim().substring(6).trim();
+        if (dataStr !== "[DONE]") {
+          try {
+            const parsed = JSON.parse(dataStr);
+            const content = parsed.choices?.[0]?.delta?.content;
+            if (content) {
+              res.write(JSON.stringify({ message: { content } }) + "\n");
+            }
+          } catch (e) {}
+        }
+      }
+
       res.end();
       return;
     }
 
-    const data = await response.json();
+    const openRouterData = await response.json();
+    const assistantContent = openRouterData.choices?.[0]?.message?.content || "";
+
+    const data = {
+      model: targetModel,
+      message: {
+        role: "assistant",
+        content: assistantContent
+      },
+      done: true
+    };
 
     // Log chat history in SQLite database
     try {
@@ -638,7 +724,7 @@ app.post("/api/chat", rateLimiter(15, 60000), async (req: Request, res: Response
         Math.random().toString(36).substring(7),
         data.message.role,
         data.message.content,
-        data.message.correction ? JSON.stringify(data.message.correction) : null
+        null
       );
     } catch (logErr) {
       console.error("Failed to log chat history:", logErr);
@@ -647,18 +733,23 @@ app.post("/api/chat", rateLimiter(15, 60000), async (req: Request, res: Response
     res.json(data);
   } catch (err: any) {
     console.error("Server API Chat Error:", err);
-    res.status(500).json({ error: "Failed to communicate with Ollama", details: err.message });
+    res.status(500).json({ error: "Failed to communicate with OpenRouter", details: err.message });
   }
 });
 
-// 1b. Ollama connection health check endpoint
+// 1b. OpenRouter connection health check endpoint
 app.get("/api/ollama/health", async (req: Request, res: Response) => {
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2000); // 2 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 second timeout
 
-    const response = await fetch(`${OLLAMA_URL}/api/tags`, {
+    const response = await fetch("https://openrouter.ai/api/v1/models", {
       method: "GET",
+      headers: {
+        "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+        "HTTP-Referer": "http://localhost:3000",
+        "X-Title": "Bloom English Lab"
+      },
       signal: controller.signal
     });
 
@@ -666,12 +757,12 @@ app.get("/api/ollama/health", async (req: Request, res: Response) => {
 
     if (response.ok) {
       const data = await response.json();
-      res.json({ status: "ok", models: data.models || [] });
+      res.json({ status: "ok", models: data.data || [] });
     } else {
-      res.json({ status: "error", message: `Ollama returned status ${response.status}` });
+      res.json({ status: "error", message: `OpenRouter returned status ${response.status}` });
     }
   } catch (err: any) {
-    res.json({ status: "error", message: "Failed to connect to local Ollama service" });
+    res.json({ status: "error", message: "Failed to connect to OpenRouter service" });
   }
 });
 
@@ -846,26 +937,19 @@ app.post("/api/lessons/:id/initialize", rateLimiter(5, 60000), async (req: Reque
     - Do NOT wrap in markdown code blocks like \`\`\`json.
     - Do NOT output any preamble, notes, or chat text.`;
 
-    const clientModel = req.body?.model || "llama3";
-
-    const ollamaResponse = await fetch(`${OLLAMA_URL}/api/chat`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: clientModel,
-        messages: [{ role: "system", content: systemPrompt }],
-        stream: false,
-        options: { temperature: 0.3 }
-      })
-    });
+    const clientModel = req.body?.model || OPENROUTER_MODEL || "google/gemini-3.1-flash-lite";
+    let responseText = "{}";
+    try {
+      responseText = await callOpenRouter([{ role: "system", content: systemPrompt }], 0.3, 1000, clientModel);
+    } catch (apiErr: any) {
+      console.error("OpenRouter vocabulary generation failed:", apiErr);
+    }
 
     let vocab: any[] = [];
     let theme = "Conversation";
     let gameStartWords: string[] = [];
 
-    if (ollamaResponse.ok) {
-      const ollamaData = await ollamaResponse.json();
-      let responseText = ollamaData.message?.content || "{}";
+    if (responseText !== "{}") {
 
       responseText = responseText.trim();
       const startIndex = responseText.indexOf("{");
@@ -1139,102 +1223,40 @@ Respond ONLY with a raw JSON object (no markdown, no explanation outside JSON):
       return;
     }
 
-    // SEMANTIC EMBEDDING FALLBACK (Optional Fast Path)
-    // If embedding service is available, check similarity first
+    // Embedding service bypassed as OpenRouter only handles text completions
     let embeddingValid: boolean | null = null;
-    const embeddingThreshold = 0.45;
 
+    // Call OpenRouter for LLM-based validation
     try {
-      const referenceWord = gameType === "tree" ? trunk : previousWord;
-      const embeddingResponse = await fetch(`${OLLAMA_URL}/api/embeddings`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "nomic-embed-text",
-          prompt: word
-        })
-      }).then(r => r.ok ? r.json() : null);
+      const responseText = await callOpenRouter([
+        { role: "system", content: systemPrompt },
+        { role: "user", content: `Validate: "${word}"` }
+      ], 0.2, 500, clientModel);
 
-      const referenceEmbedding = await fetch(`${OLLAMA_URL}/api/embeddings`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "nomic-embed-text",
-          prompt: referenceWord
-        })
-      }).then(r => r.ok ? r.json() : null);
+      let content = responseText.trim();
 
-      if (embeddingResponse && referenceEmbedding) {
-        const vec1 = embeddingResponse.embedding;
-        const vec2 = referenceEmbedding.embedding;
+      // Extract JSON
+      const jsonStart = content.indexOf("{");
+      const jsonEnd = content.lastIndexOf("}");
+      if (jsonStart !== -1 && jsonEnd !== -1) {
+        content = content.substring(jsonStart, jsonEnd + 1);
+        const result = JSON.parse(content);
 
-        // Cosine similarity
-        const dotProduct = vec1.reduce((sum: number, val: number, i: number) => sum + val * vec2[i], 0);
-        const norm1 = Math.sqrt(vec1.reduce((sum: number, val: number) => sum + val * val, 0));
-        const norm2 = Math.sqrt(vec2.reduce((sum: number, val: number) => sum + val * val, 0));
-        const similarity = dotProduct / (norm1 * norm2);
-
-        embeddingValid = similarity >= embeddingThreshold;
-
-        // If high similarity, skip LLM and accept directly
-        if (embeddingValid && similarity > 0.65) {
-          res.json({
-            valid: true,
-            explanation: `Strong semantic match (similarity: ${similarity.toFixed(2)}). "${word}" is closely related to "${referenceWord}".`,
-            similarityScore: similarity
-          });
-          return;
+        // Add embedding score if available
+        if (embeddingValid !== null) {
+          result.similarityScore = embeddingValid;
         }
+
+        res.json(result);
+        return;
       }
-    } catch (embedErr) {
-      // Embedding service unavailable, proceed with LLM
-      console.log("Embedding fallback not available, using LLM only");
-    }
-
-    // Call local Ollama for LLM-based validation
-    try {
-      const ollamaResponse = await fetch(`${OLLAMA_URL}/api/chat`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: clientModel,
-          messages: [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: `Validate: "${word}"` }
-          ],
-          stream: false,
-          options: { temperature: 0.2 }
-        })
-      });
-
-      if (ollamaResponse.ok) {
-        const ollamaData = await ollamaResponse.json();
-        let content = ollamaData.message?.content || "";
-        content = content.trim();
-
-        // Extract JSON
-        const jsonStart = content.indexOf("{");
-        const jsonEnd = content.lastIndexOf("}");
-        if (jsonStart !== -1 && jsonEnd !== -1) {
-          content = content.substring(jsonStart, jsonEnd + 1);
-          const result = JSON.parse(content);
-
-          // Add embedding score if available
-          if (embeddingValid !== null) {
-            result.similarityScore = embeddingValid;
-          }
-
-          res.json(result);
-          return;
-        }
-      }
-      throw new Error("Failed to get valid response from Ollama");
-    } catch (ollamaErr) {
-      console.warn("Ollama validation failed, using fallback heuristic:", ollamaErr);
+      throw new Error("Failed to get valid JSON response from OpenRouter");
+    } catch (apiErr) {
+      console.warn("OpenRouter validation failed, using fallback heuristic:", apiErr);
       const referenceWord = gameType === "tree" ? trunk : previousWord;
       res.json({
         valid: true,
-        explanation: `Accepted (LLM offline fallback). Connection between "${word}" and "${referenceWord}" is plausible.`,
+        explanation: `Accepted (AI offline fallback). Connection between "${word}" and "${referenceWord}" is plausible.`,
         fallback: true
       });
     }
