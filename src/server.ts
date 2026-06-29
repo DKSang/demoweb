@@ -1305,6 +1305,45 @@ app.post("/api/games/streak", (req: Request, res: Response) => {
   }
 });
 
+// NEW API: Save word tree state to SQLite
+app.post("/api/games/tree/save", (req: Request, res: Response) => {
+  try {
+    const { trunk, branches } = req.body;
+    
+    if (!trunk || !branches) {
+      return res.status(400).json({ error: "Missing trunk or branches" });
+    }
+    
+    const stmt = db.prepare("INSERT OR REPLACE INTO progress (key, value) VALUES (?, ?)");
+    stmt.run(`tree_${trunk}`, JSON.stringify({ trunk, branches, savedAt: new Date().toISOString() }));
+    
+    res.json({ success: true, message: "Tree saved successfully" });
+  } catch (err: any) {
+    console.error("Failed to save tree:", err);
+    res.status(500).json({ error: "Failed to save tree", details: err.message });
+  }
+});
+
+// NEW API: Load word tree state from SQLite
+app.get("/api/games/tree/load/:trunk", (req: Request, res: Response) => {
+  try {
+    const { trunk } = req.params;
+    
+    const stmt = db.prepare("SELECT value FROM progress WHERE key = ?");
+    const row = stmt.get(`tree_${trunk}`) as { value: string } | undefined;
+    
+    if (!row) {
+      return res.json({ trunk, branches: [] });
+    }
+    
+    const data = JSON.parse(row.value);
+    res.json(data);
+  } catch (err: any) {
+    console.error("Failed to load tree:", err);
+    res.status(500).json({ error: "Failed to load tree", details: err.message });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`[Bloom Server] Backend initialized and running on http://localhost:${PORT}`);
 });

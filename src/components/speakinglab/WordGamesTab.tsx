@@ -17,7 +17,11 @@ import {
   Plus,
   Lightbulb,
   Trophy,
-  Flame
+  Flame,
+  ZoomIn,
+  ZoomOut,
+  Move,
+  Save
 } from "lucide-react";
 import type { Lesson, SavedWord, UserProgress } from "./types";
 import { 
@@ -63,6 +67,13 @@ export default function WordGamesTab({
   const [treeConfidence, setTreeConfidence] = useState<number | null>(null);
   const [showTreeHint, setShowTreeHint] = useState(false);
   const [treeHints, setTreeHints] = useState<string[]>([]);
+  
+  // NEW: Pan & Zoom state for tree visualization
+  const [scale, setScale] = useState(1);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Initialize validator with vocabulary on mount and load user stats
   useEffect(() => {
@@ -77,6 +88,23 @@ export default function WordGamesTab({
     // Load user's game stats from SQLite
     loadGameStats();
   }, [selectedLesson, savedVocab]);
+  
+  // NEW: Load tree state when trunk changes
+  useEffect(() => {
+    if (treeTrunk) {
+      loadTreeState(treeTrunk);
+    }
+  }, [treeTrunk]);
+  
+  // Save tree state when branches change
+  useEffect(() => {
+    if (treeTrunk && treeBranches.length > 0) {
+      const timer = setTimeout(() => {
+        saveTreeState(treeTrunk, treeBranches);
+      }, 1000); // Debounce saves
+      return () => clearTimeout(timer);
+    }
+  }, [treeBranches, treeTrunk]);
   
   // Load game vocabulary from SQLite (user's personal words)
   const loadGameVocabulary = async () => {
@@ -130,6 +158,78 @@ export default function WordGamesTab({
       console.error("Failed to save game streak:", err);
     }
   };
+  
+  // NEW: Save tree state to SQLite
+  const saveTreeState = async (trunk: string, branches: string[]) => {
+    try {
+      await fetch("/api/games/tree/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ trunk, branches })
+      });
+      console.log(`[WordTree] Saved tree for trunk "${trunk}" with ${branches.length} branches`);
+    } catch (err) {
+      console.error("Failed to save tree state:", err);
+    }
+  };
+  
+  // NEW: Load tree state from SQLite
+  const loadTreeState = async (trunk: string) => {
+    try {
+      const response = await fetch(`/api/games/tree/load/${encodeURIComponent(trunk)}`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.branches && data.branches.length > 0) {
+          setTreeBranches(data.branches);
+          console.log(`[WordTree] Loaded tree for trunk "${trunk}" with ${data.branches.length} branches`);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load tree state:", err);
+    }
+  };
+  
+  // NEW: Pan & Zoom handlers
+  const handleZoomIn = () => setScale(prev => Math.min(prev + 0.25, 3));
+  const handleZoomOut = () => setScale(prev => Math.max(prev - 0.25, 0.5));
+  const handleResetView = () => {
+    setScale(1);
+    setPosition({ x: 0, y: 0 });
+  };
+  
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if ((e.target as HTMLElement).closest('.tree-node')) return; // Don't drag when clicking nodes
+    setIsDragging(true);
+    setDragStart({ x: e.clientX - position.x, y: e.clientY - position.y });
+  };
+  
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    setPosition({
+      x: e.clientX - dragStart.x,
+      y: e.clientY - dragStart.y
+    });
+  };
+  
+  const handleMouseUp = () => setIsDragging(false);
+  const handleMouseLeave = () => setIsDragging(false);
+  
+  // Handle wheel zoom
+  const handleWheel = useCallback((e: WheelEvent) => {
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? -0.1 : 0.1;
+      setScale(prev => Math.max(0.5, Math.min(3, prev + delta)));
+    }
+  }, []);
+  
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener('wheel', handleWheel, { passive: false });
+      return () => container.removeEventListener('wheel', handleWheel);
+    }
+  }, [handleWheel]);
 
   // Load contextual game data when lesson changes
   useEffect(() => {
@@ -665,53 +765,115 @@ export default function WordGamesTab({
               </button>
             </div>
 
-            {/* Tree Graphical Canvas Area */}
-            <div className="relative w-full h-[320px] rounded-3xl bg-black/40 border border-white/5 overflow-hidden flex items-center justify-center p-4">
-              {/* Backing tree trunk line SVG drawing */}
-              <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-25" viewBox="0 0 100 100" preserveAspectRatio="none">
-                <path d="M 50 90 L 50 55" stroke="white" strokeWidth="4" strokeLinecap="round" />
-                <path d="M 50 55 Q 35 45 20 30" stroke="white" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-                <path d="M 50 55 Q 65 45 80 30" stroke="white" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-                <path d="M 50 65 Q 40 60 30 50" stroke="white" strokeWidth="2" strokeLinecap="round" fill="none" />
-                <path d="M 50 65 Q 60 60 70 50" stroke="white" strokeWidth="2" strokeLinecap="round" fill="none" />
-                <path d="M 50 75 Q 45 70 38 65" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-                <path d="M 50 75 Q 55 70 62 65" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-              </svg>
-
-              {/* Central Trunk Word Node */}
-              <div className="absolute z-10 bottom-8 left-1/2 -translate-x-1/2 bg-white text-black rounded-2xl py-3 px-6 font-bold text-sm border-2 border-white/20 shadow-2xl shadow-white/5 animate-pulse text-center">
-                <span className="text-[8px] font-mono uppercase tracking-widest text-black/50 block mb-0.5">Trunk</span>
-                {treeTrunk}
+            {/* Tree Graphical Canvas Area with Pan & Zoom */}
+            <div 
+              ref={containerRef}
+              className="relative w-full h-[400px] rounded-3xl bg-black/40 border border-white/5 overflow-hidden flex items-center justify-center p-4 cursor-grab active:cursor-grabbing"
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseLeave}
+            >
+              {/* Pan & Zoom Controls */}
+              <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
+                <button
+                  onClick={handleZoomIn}
+                  className="p-2 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all"
+                  title="Zoom in (Ctrl + Scroll)"
+                >
+                  <ZoomIn className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={handleZoomOut}
+                  className="p-2 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all"
+                  title="Zoom out (Ctrl + Scroll)"
+                >
+                  <ZoomOut className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={handleResetView}
+                  className="p-2 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all"
+                  title="Reset view"
+                >
+                  <Move className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => saveTreeState(treeTrunk, treeBranches)}
+                  className="p-2 rounded-lg bg-green-500/20 hover:bg-green-500/30 border border-green-500/30 text-green-300 transition-all"
+                  title="Save tree"
+                >
+                  <Save className="w-4 h-4" />
+                </button>
               </div>
 
-              {/* Dynamic Branch Leaves */}
-              <AnimatePresence>
-                {treeBranches.map((word, idx) => {
-                  const coords = branchCoords[idx % branchCoords.length];
-                  return (
-                    <motion.div
-                      key={word}
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0, opacity: 0 }}
-                      className="absolute bg-white/10 hover:bg-white/15 border border-white/20 hover:border-white/30 rounded-xl px-3 py-1.5 text-xs text-white/95 cursor-default transition-all shadow"
-                      style={{
-                        top: coords.top,
-                        left: coords.left,
-                        right: coords.right,
-                        transform: coords.transform
-                      }}
-                    >
-                      <span className="inline-block mr-1">🍂</span>
-                      {word}
-                    </motion.div>
-                  );
-                })}
-              </AnimatePresence>
+              {/* Zoom level indicator */}
+              <div className="absolute top-4 left-4 z-20 px-3 py-1.5 rounded-lg bg-white/10 border border-white/20 text-[10px] font-mono text-white/70">
+                {Math.round(scale * 100)}%
+              </div>
+              
+              {/* Transformable container for pan & zoom */}
+              <div
+                className="relative w-full h-full"
+                style={{
+                  transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
+                  transformOrigin: 'center center',
+                  transition: isDragging ? 'none' : 'transform 0.1s ease-out'
+                }}
+              >
+                {/* Backing tree trunk line SVG drawing */}
+                <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-25" viewBox="0 0 100 100" preserveAspectRatio="none">
+                  <path d="M 50 90 L 50 55" stroke="white" strokeWidth="4" strokeLinecap="round" />
+                  <path d="M 50 55 Q 35 45 20 30" stroke="white" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+                  <path d="M 50 55 Q 65 45 80 30" stroke="white" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+                  <path d="M 50 65 Q 40 60 30 50" stroke="white" strokeWidth="2" strokeLinecap="round" fill="none" />
+                  <path d="M 50 65 Q 60 60 70 50" stroke="white" strokeWidth="2" strokeLinecap="round" fill="none" />
+                  <path d="M 50 75 Q 45 70 38 65" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+                  <path d="M 50 75 Q 55 70 62 65" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+                </svg>
 
-              {treeBranches.length === 0 && (
-                <div className="text-[10px] text-white/30 text-center max-w-[240px] absolute top-8">
-                  Type words related to <strong className="text-white">"{treeTrunk}"</strong> in the input below to sprout branches!
+                {/* Central Trunk Word Node */}
+                <div className="absolute z-10 bottom-8 left-1/2 -translate-x-1/2 bg-white text-black rounded-2xl py-3 px-6 font-bold text-sm border-2 border-white/20 shadow-2xl shadow-white/5 animate-pulse text-center tree-node">
+                  <span className="text-[8px] font-mono uppercase tracking-widest text-black/50 block mb-0.5">Trunk</span>
+                  {treeTrunk}
+                </div>
+
+                {/* Dynamic Branch Leaves */}
+                <AnimatePresence>
+                  {treeBranches.map((word, idx) => {
+                    const coords = branchCoords[idx % branchCoords.length];
+                    return (
+                      <motion.div
+                        key={word}
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0, opacity: 0 }}
+                        className="absolute tree-node bg-white/10 hover:bg-white/15 border border-white/20 hover:border-white/30 rounded-xl px-3 py-1.5 text-xs text-white/95 cursor-default transition-all shadow"
+                        style={{
+                          top: coords.top,
+                          left: coords.left,
+                          right: coords.right,
+                          transform: coords.transform
+                        }}
+                      >
+                        <span className="inline-block mr-1">🍂</span>
+                        {word}
+                      </motion.div>
+                    );
+                  })}
+                </AnimatePresence>
+
+                {treeBranches.length === 0 && (
+                  <div className="text-[10px] text-white/30 text-center max-w-[240px] absolute top-8">
+                    Type words related to <strong className="text-white">"{treeTrunk}"</strong> in the input below to sprout branches!
+                  </div>
+                )}
+              </div>
+              
+              {/* Drag hint overlay when no branches */}
+              {treeBranches.length === 0 && scale === 1 && position.x === 0 && position.y === 0 && (
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[9px] text-white/30 flex items-center gap-1 pointer-events-none">
+                  <Move className="w-3 h-3" />
+                  <span>Drag to pan • Ctrl+Scroll to zoom</span>
                 </div>
               )}
             </div>
