@@ -87,7 +87,11 @@ export async function callAI(
         throw new Error("Empty response: no choices returned from API");
       }
 
-      return data.choices[0].message.content as string;
+      const content = data.choices[0].message.content;
+      if (content === null || content === undefined) {
+        throw new Error("API returned empty or null content (possibly safety blocked)");
+      }
+      return content as string;
     } catch (err) {
       lastError = err instanceof Error ? err : new Error(String(err));
       if (attempt < MAX_RETRIES) {
@@ -111,6 +115,9 @@ export async function callAIJson<T>(
   options: { temperature?: number; maxTokens?: number; model?: string } = {}
 ): Promise<T> {
   const raw = await callAI(messages, { ...options, jsonMode: true });
+  if (!raw) {
+    throw new Error("Received empty content from callAI");
+  }
 
   // Strip markdown fences if model wrapped JSON anyway
   const cleaned = raw
