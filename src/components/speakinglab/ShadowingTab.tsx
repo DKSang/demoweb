@@ -55,6 +55,8 @@ interface ShadowingTabProps {
   startRecording: () => void;
   stopRecording: () => void;
   setRecognitionText: (text: string) => void;
+  audioQuality?: "poor" | "good" | "excellent";
+  backgroundNoise?: number;
 }
 
 export default function ShadowingTab({
@@ -72,7 +74,9 @@ export default function ShadowingTab({
   isSpeechSupported,
   startRecording,
   stopRecording,
-  setRecognitionText
+  setRecognitionText,
+  audioQuality = "good",
+  backgroundNoise = 0
 }: ShadowingTabProps) {
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
   const [isPlayingSegment, setIsPlayingSegment] = useState(false);
@@ -518,6 +522,23 @@ export default function ShadowingTab({
 
           {isRecording && (
             <div className="flex flex-col items-center gap-1.5 mt-2 bg-black/30 py-3 rounded-2xl border border-white/5">
+              {/* Enhanced Audio Quality Indicator */}
+              <div className="flex items-center gap-2 mb-2">
+                <div className={`px-2 py-0.5 rounded-full text-[9px] font-mono uppercase tracking-wider ${
+                  audioQuality === "excellent" ? "bg-green-500/20 text-green-400 border border-green-500/30" :
+                  audioQuality === "good" ? "bg-blue-500/20 text-blue-400 border border-blue-500/30" :
+                  "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30"
+                }`}>
+                  {audioQuality === "excellent" ? "✓ Excellent Mic" : audioQuality === "good" ? "✓ Good Mic" : "⚠ Adjust Mic"}
+                </div>
+                {backgroundNoise > 0 && (
+                  <span className="text-[9px] font-mono text-white/40">
+                    Noise: {backgroundNoise}%
+                  </span>
+                )}
+              </div>
+              
+              {/* Voice Level Meter */}
               <div className="flex items-center gap-0.5 h-6">
                 {Array.from({ length: 15 }).map((_, i) => {
                   const active = volumeLevel > (i * 6.5);
@@ -528,14 +549,30 @@ export default function ShadowingTab({
                     <div
                       key={i}
                       className={`w-1 rounded-full transition-all duration-75 ${
-                        active ? "bg-white" : "bg-white/10"
+                        active ? 
+                          audioQuality === "excellent" ? "bg-green-400" :
+                          audioQuality === "good" ? "bg-blue-400" : "bg-yellow-400"
+                          : "bg-white/10"
                       }`}
                       style={{ height: `${height}px` }}
                     />
                   );
                 })}
               </div>
-              <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest animate-pulse">Voice Level (Auto-stop on silence)</span>
+              <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest animate-pulse">
+                Voice Level (Auto-stop on silence)
+              </span>
+              
+              {/* Shadowing Tips based on quality */}
+              {audioQuality === "poor" && (
+                <motion.div
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-2 px-3 py-2 rounded-xl bg-yellow-500/10 border border-yellow-500/20 text-[9px] text-yellow-300 text-center"
+                >
+                  💡 Tip: Move closer to microphone or reduce background noise for better recognition
+                </motion.div>
+              )}
             </div>
           )}
 
