@@ -1,9 +1,16 @@
 {
-  "currentDay": 1,
-  "completedDays": {},
+  "currentDay": 2,
+  "completedDays": {
+    "1": {
+      "listen": true,
+      "shadow": true,
+      "speak": true,
+      "quiz": true
+    }
+  },
   "todayTasks": {
-    "listen": true,
-    "shadow": true,
+    "listen": false,
+    "shadow": false,
     "speak": true,
     "quiz": false
   }

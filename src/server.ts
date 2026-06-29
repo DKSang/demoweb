@@ -154,7 +154,7 @@ async function getYoutubeTranscript(videoId: string) {
 
 // Helper: Reconstruct raw transcript segments into clean sentences with timestamps using punctuation rules
 async function reconstructTranscriptIntoSentences(transcriptLines: any[]) {
-  const words: { word: string; start: number; end: number }[] = [];
+  const words: { word: string; start: number; end: number; isLineEnd?: boolean }[] = [];
 
   for (const line of transcriptLines) {
     const text = line.text.trim();
@@ -178,7 +178,8 @@ async function reconstructTranscriptIntoSentences(transcriptLines: any[]) {
       words.push({
         word: segmentWords[i],
         start: Number((line.start + i * wordDuration).toFixed(2)),
-        end: Number((line.start + (i + 1) * wordDuration).toFixed(2))
+        end: Number((line.start + (i + 1) * wordDuration).toFixed(2)),
+        isLineEnd: i === segmentWords.length - 1
       });
     }
   }
@@ -195,7 +196,17 @@ async function reconstructTranscriptIntoSentences(transcriptLines: any[]) {
     const cleanWord = wordText.toLowerCase().replace(/[^a-z]/g, "");
 
     const lastChar = wordText[wordText.length - 1];
-    const isSentenceEnd = (lastChar === '.' || lastChar === '?' || lastChar === '!') && !ABBREVIATIONS.has(cleanWord);
+    let isSentenceEnd = (lastChar === '.' || lastChar === '?' || lastChar === '!') && !ABBREVIATIONS.has(cleanWord);
+
+    // Safeguards for sentence splitting (applies to all transcripts)
+    const nextItem = words[i + 1];
+    const hasGap = nextItem && (nextItem.start - item.end) > 0.8;
+    const isTooLong = currentSentenceWords.length >= 16;
+    const isEndAndLongEnough = currentSentenceWords.length >= 10 && item.isLineEnd;
+
+    if (isSentenceEnd || isTooLong || isEndAndLongEnough || hasGap) {
+      isSentenceEnd = true;
+    }
 
     if (isSentenceEnd || i === words.length - 1) {
       const sentenceText = currentSentenceWords.map(w => w.word).join(" ");
@@ -410,6 +421,7 @@ app.post("/api/vocabulary", async (req: Request, res: Response) => {
       ipa: typeof body.ipa === "string" ? body.ipa.trim() : "",
       definition: typeof body.definition === "string" ? body.definition.trim() : "",
       example: typeof body.example === "string" ? body.example.trim() : "",
+      day: typeof body.day === "number" ? body.day : 1,
       dateSaved: typeof body.dateSaved === "string" ? body.dateSaved.trim() : (() => {
         const d = new Date();
         const offset = d.getTimezoneOffset();
@@ -534,11 +546,13 @@ app.post("/api/lessons/:id/initialize", rateLimiter(5, 60000), async (req: Reque
     - Do NOT wrap in markdown code blocks like \`\`\`json.
     - Do NOT output any preamble, notes, or chat text.`;
 
+    const clientModel = req.body?.model || "llama3";
+
     const ollamaResponse = await fetch(`${OLLAMA_URL}/api/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "llama3",
+        model: clientModel,
         messages: [{ role: "system", content: systemPrompt }],
         stream: false,
         options: { temperature: 0.3 }

@@ -433,5 +433,22 @@
       "role": "assistant",
       "content": "Okay!  So tell me - how would you describe your typical day at home when you're free? \n"
     }
+  },
+  {
+    "timestamp": "2026-06-29T03:44:44.884Z",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are an expert lexicographer. For the given English word, generate the IPA pronunciation (enclosed in slashes, e.g., /ˈhɛəkʌt/), a clear, simple, and concise definition in English, and one natural example sentence.\nReturn the result EXACTLY in the following JSON format, and nothing else (do not wrap in markdown block, do not add any explanation):\n{\n  \"ipa\": \"...\",\n  \"definition\": \"...\",\n  \"example\": \"...\"\n}"
+      },
+      {
+        "role": "user",
+        "content": "Word: teaspon"
+      }
+    ],
+    "assistantResponse": {
+      "role": "assistant",
+      "content": "```json\n{\n  \"ipa\": \"/tɛsˈpɒn/\",\n  \"definition\": \"A small, round container used for holding or serving tea.\",\n  \"example\": \"She carefully placed the tiny teapot on the table to brew a cup of chamomile tea.\" \n}\n```"
+    }
   }
 ]

@@ -97,7 +97,7 @@ export default function ShadowingTab({
 
   // YouTube API loading script
   useEffect(() => {
-    if (!effectiveLesson || !effectiveLesson.isInitialized || !effectiveLesson.videoId) return;
+    if (!effectiveLesson || !effectiveLesson.videoId) return;
 
     if (!(window as any).YT) {
       const tag = document.createElement("script");
@@ -117,7 +117,7 @@ export default function ShadowingTab({
     return () => {
       clearInterval(playCheckIntervalRef.current);
     };
-  }, [effectiveLesson]);
+  }, [effectiveLesson?.id]);
 
   const initPlayer = (videoId: string) => {
     const container = document.getElementById("youtube-player");
@@ -307,59 +307,61 @@ export default function ShadowingTab({
 
           {!effectiveLesson ? (
             <div className="py-20 text-center text-xs text-white/40">Loading playlist lessons...</div>
-          ) : !effectiveLesson.isInitialized ? (
-            <div className="py-12 px-6 rounded-2xl bg-black/40 border border-white/5 flex flex-col items-center text-center gap-4">
-              <Sparkles className="w-10 h-10 text-white/20 animate-pulse" />
-              <div className="max-w-md">
-                <h4 className="text-xs font-semibold text-white tracking-wide uppercase mb-1">Lesson Captions Not Loaded</h4>
-                <p className="text-[11px] text-white/50 leading-relaxed">
-                  This lesson hasn't been initialized yet. We need to fetch real English subtitles from YouTube and run Llama-3 locally to extract key vocabulary.
-                </p>
-              </div>
-              <button
-                onClick={handleInitializeLesson}
-                disabled={isInitializingLesson}
-                className="px-6 py-2.5 rounded-full bg-white text-black text-xs font-semibold hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50 disabled:scale-100"
-              >
-                {isInitializingLesson ? (
-                  <>
-                    <span className="w-3 h-3 rounded-full border border-black border-t-transparent animate-spin inline-block mr-1" />
-                    Running Llama-3 Lexicographer...
-                  </>
-                ) : (
-                  "Load Captions & Vocabulary"
-                )}
-              </button>
-            </div>
           ) : (
             <>
-              {/* YouTube Player Container */}
+              {/* YouTube Player Container - ALWAYS MOUNTED to prevent black screen issues */}
               <div className="relative aspect-video w-full bg-black rounded-2xl overflow-hidden border border-white/5">
                 <div id="youtube-player" className="absolute inset-0 w-full h-full" />
               </div>
 
-              {/* Subtitles & Timed Lines list */}
-              <div className="flex flex-col gap-2.5 max-h-[300px] overflow-y-auto pr-2">
-                {effectiveLesson.lines.map((line, idx) => (
+              {!effectiveLesson.isInitialized ? (
+                <div className="py-12 px-6 rounded-2xl bg-black/40 border border-white/5 flex flex-col items-center text-center gap-4">
+                  <Sparkles className="w-10 h-10 text-white/20 animate-pulse" />
+                  <div className="max-w-md">
+                    <h4 className="text-xs font-semibold text-white tracking-wide uppercase mb-1">Lesson Captions Not Loaded</h4>
+                    <p className="text-[11px] text-white/50 leading-relaxed">
+                      This lesson hasn't been initialized yet. We need to fetch real English subtitles from YouTube and run Llama-3 locally to extract key vocabulary.
+                    </p>
+                  </div>
                   <button
-                    key={idx}
-                    onClick={() => playSegment(idx)}
-                    className={`p-4 rounded-xl text-left transition-all flex justify-between items-center gap-4 ${
-                      currentLineIndex === idx 
-                        ? "bg-white/10 border border-white/20 text-white font-medium" 
-                        : "bg-transparent border border-white/5 text-white/50 hover:text-white/80"
-                    }`}
+                    onClick={handleInitializeLesson}
+                    disabled={isInitializingLesson}
+                    className="px-6 py-2.5 rounded-full bg-white text-black text-xs font-semibold hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50 disabled:scale-100"
                   >
-                    <div className="flex flex-col gap-0.5">
-                      <span className="text-xs">{line.text}</span>
-                      <span className="text-[9px] font-mono opacity-50">
-                        Time: {Math.floor(line.start / 60)}:{String(line.start % 60).padStart(2, "0")} - {Math.floor(line.end / 60)}:{String(line.end % 60).padStart(2, "0")}
-                      </span>
-                    </div>
-                    <Play className="w-3.5 h-3.5 opacity-60 shrink-0" />
+                    {isInitializingLesson ? (
+                      <>
+                        <span className="w-3 h-3 rounded-full border border-black border-t-transparent animate-spin inline-block mr-1" />
+                        Running Llama-3 Lexicographer...
+                      </>
+                    ) : (
+                      "Load Captions & Vocabulary"
+                    )}
                   </button>
-                ))}
-              </div>
+                </div>
+              ) : (
+                /* Subtitles & Timed Lines list */
+                <div className="flex flex-col gap-2.5 max-h-[300px] overflow-y-auto pr-2">
+                  {effectiveLesson.lines.map((line, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => playSegment(idx)}
+                      className={`p-4 rounded-xl text-left transition-all flex justify-between items-center gap-4 ${
+                        currentLineIndex === idx 
+                          ? "bg-white/10 border border-white/20 text-white font-medium" 
+                          : "bg-transparent border border-white/5 text-white/50 hover:text-white/80"
+                      }`}
+                    >
+                      <div className="flex flex-col gap-0.5">
+                        <span className="text-xs">{line.text}</span>
+                        <span className="text-[9px] font-mono opacity-50">
+                          Time: {Math.floor(line.start / 60)}:{String(line.start % 60).padStart(2, "0")} - {Math.floor(line.end / 60)}:{String(line.end % 60).padStart(2, "0")}
+                        </span>
+                      </div>
+                      <Play className="w-3.5 h-3.5 opacity-60 shrink-0" />
+                    </button>
+                  ))}
+                </div>
+              )}
             </>
           )}
         </div>

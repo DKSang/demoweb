@@ -311,7 +311,9 @@ export default function AISpeakingLab() {
     setIsInitializingLesson(true);
     try {
       const res = await fetch(`/api/lessons/${selectedLesson.id}/initialize`, {
-        method: "POST"
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ model: ollamaModel })
       });
       if (res.ok) {
         const updatedLesson = await res.json();
