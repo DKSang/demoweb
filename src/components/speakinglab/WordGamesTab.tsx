@@ -37,11 +37,43 @@ export default function WordGamesTab({
   // WORD TREE GAME STATE
   // ==========================================
   const [treeTrunk, setTreeTrunk] = useState("Book");
-  const [treeBranches, setTreeBranches] = useState<string[]>(["Author", "Page", "Words"]);
+  const [treeBranches, setTreeBranches] = useState<string[]>([]);
   const [treeInput, setTreeInput] = useState("");
   const [isTreeValidating, setIsTreeValidating] = useState(false);
   const [treeFeedback, setTreeFeedback] = useState<string | null>(null);
   const [treeError, setTreeError] = useState<string | null>(null);
+
+  // Load contextual game data when lesson changes
+  useEffect(() => {
+    if (selectedLesson) {
+      // 1. Initialize Word Tree Trunk
+      const themeWord = selectedLesson.theme || "Language";
+      setTreeTrunk(themeWord);
+      
+      // Seed with some starting branches from vocab or fallback
+      const initialBranches = selectedLesson.vocab && selectedLesson.vocab.length > 0
+        ? selectedLesson.vocab.slice(0, 3).map(v => v.word)
+        : ["Vocabulary", "Speaking", "Lesson"];
+      setTreeBranches(initialBranches);
+      setTreeFeedback(null);
+      setTreeError(null);
+      setTreeInput("");
+
+      // 2. Initialize Word Association Starting word
+      const startWord = selectedLesson.gameStartWords && selectedLesson.gameStartWords.length > 0
+        ? selectedLesson.gameStartWords[0]
+        : (selectedLesson.vocab && selectedLesson.vocab.length > 0 
+            ? selectedLesson.vocab[Math.floor(Math.random() * selectedLesson.vocab.length)].word 
+            : "Traffic Light");
+      setAssocStartWord(startWord);
+      setAssocChain([startWord]);
+      setIsAssocActive(false);
+      setShowSummary(false);
+      setAssocFeedback(null);
+      setAssocError(null);
+      setAssocInput("");
+    }
+  }, [selectedLesson]);
 
   // Helper branch coordinates for drawing tree
   const branchCoords = [
@@ -60,9 +92,9 @@ export default function WordGamesTab({
   ];
 
   const handleSelectRandomTrunk = () => {
-    // 1. Try from saved vocab
-    if (savedVocab.length > 0) {
-      const randWord = savedVocab[Math.floor(Math.random() * savedVocab.length)].word;
+    // 1. Try from current lesson gameStartWords
+    if (selectedLesson && selectedLesson.gameStartWords && selectedLesson.gameStartWords.length > 0) {
+      const randWord = selectedLesson.gameStartWords[Math.floor(Math.random() * selectedLesson.gameStartWords.length)];
       setTreeTrunk(randWord);
       setTreeBranches([]);
       setTreeFeedback(null);
@@ -78,7 +110,16 @@ export default function WordGamesTab({
       setTreeError(null);
       return;
     }
-    // 3. Fallbacks
+    // 3. Try from saved vocab
+    if (savedVocab.length > 0) {
+      const randWord = savedVocab[Math.floor(Math.random() * savedVocab.length)].word;
+      setTreeTrunk(randWord);
+      setTreeBranches([]);
+      setTreeFeedback(null);
+      setTreeError(null);
+      return;
+    }
+    // 4. Fallbacks
     const fallbacks = ["Time", "Money", "Conversation", "Friend", "Accurate", "Language", "Zebra", "Internet"];
     setTreeTrunk(fallbacks[Math.floor(Math.random() * fallbacks.length)]);
     setTreeBranches([]);
@@ -175,7 +216,9 @@ export default function WordGamesTab({
 
   const handleStartAssocGame = () => {
     let word = "Traffic Light";
-    if (selectedLesson && selectedLesson.vocab && selectedLesson.vocab.length > 0) {
+    if (selectedLesson && selectedLesson.gameStartWords && selectedLesson.gameStartWords.length > 0) {
+      word = selectedLesson.gameStartWords[Math.floor(Math.random() * selectedLesson.gameStartWords.length)];
+    } else if (selectedLesson && selectedLesson.vocab && selectedLesson.vocab.length > 0) {
       word = selectedLesson.vocab[Math.floor(Math.random() * selectedLesson.vocab.length)].word;
     } else if (savedVocab.length > 0) {
       word = savedVocab[Math.floor(Math.random() * savedVocab.length)].word;

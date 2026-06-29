@@ -472,7 +472,30 @@ app.post("/api/streaks", async (req: Request, res: Response) => {
 app.get("/api/lessons", async (req: Request, res: Response) => {
   try {
     const data = await fs.promises.readFile(LESSONS_FILE, "utf-8");
-    res.json(JSON.parse(data));
+    const lessons = JSON.parse(data);
+    
+    // Add fallbacks for theme and gameStartWords
+    const enriched = lessons.map((l: any) => {
+      if (!l.theme) {
+        if (l.title.toLowerCase().includes("haircut")) {
+          l.theme = "Haircut";
+        } else if (l.title.toLowerCase().includes("time")) {
+          l.theme = "Time Expressions";
+        } else if (l.title.toLowerCase().includes("money") || l.title.toLowerCase().includes("slang")) {
+          l.theme = "Money Slang";
+        } else {
+          l.theme = "Conversation";
+        }
+      }
+      if (!l.gameStartWords || l.gameStartWords.length === 0) {
+        l.gameStartWords = l.vocab && l.vocab.length > 0
+          ? l.vocab.map((v: any) => v.word)
+          : ["Conversation", "Language", "Vocabulary", "Speaking", "Practice"];
+      }
+      return l;
+    });
+
+    res.json(enriched);
   } catch (err: any) {
     res.status(500).json({ error: "Failed to read lessons data", details: err.message });
   }
@@ -507,19 +530,31 @@ app.post("/api/lessons/:id/initialize", rateLimiter(5, 60000), async (req: Reque
     const snippetText = transcriptLines.slice(0, 100).map(l => l.text).join(" ");
     console.log(`[Bloom Server] Asking Llama-3 to extract British vocabulary words...`);
     
-    const systemPrompt = `You are a professional British lexicographer. Extract exactly 5-6 interesting British vocabulary words, idioms, or slang phrases present or relevant to this lesson:
+    const systemPrompt = `You are a professional British lexicographer and course designer.
+    Analyze the following transcript snippet from an English learning video:
     "${snippetText}"
 
-    Output a valid JSON array matching this TypeScript structure:
-    interface VocabWord {
-      word: string;
-      ipa: string;
-      definition: string;
-      example: string;
+    Extract:
+    1. Exactly 5-6 interesting vocabulary words, idioms, or slang phrases present or relevant to the text.
+    2. A 1-2 word core "theme" or topic of the lesson (e.g. "Haircut", "Time Expressions", "Shopping", "Meeting friends").
+    3. A list of 5-8 interesting words from the transcript that are great starting words for word association or category games.
+
+    Output a valid JSON object matching this structure:
+    {
+      "vocab": [
+        {
+          "word": "...",
+          "ipa": "...",
+          "definition": "...",
+          "example": "..."
+        }
+      ],
+      "theme": "...",
+      "gameStartWords": ["...", "...", "...", "...", "...", "..."]
     }
 
     Rules:
-    - Respond ONLY with the raw JSON array.
+    - Respond ONLY with the raw JSON object and nothing else.
     - Do NOT wrap in markdown code blocks like \`\`\`json.
     - Do NOT output any preamble, notes, or chat text.`;
 
@@ -537,36 +572,45 @@ app.post("/api/lessons/:id/initialize", rateLimiter(5, 60000), async (req: Reque
     });
 
     let vocab: any[] = [];
+    let theme = "Conversation";
+    let gameStartWords: string[] = [];
+
     if (ollamaResponse.ok) {
       const ollamaData = await ollamaResponse.json();
-      let responseText = ollamaData.message?.content || "[]";
+      let responseText = ollamaData.message?.content || "{}";
       
       responseText = responseText.trim();
-      const startIndex = responseText.indexOf("[");
-      const endIndex = responseText.lastIndexOf("]");
+      const startIndex = responseText.indexOf("{");
+      const endIndex = responseText.lastIndexOf("}");
       if (startIndex !== -1 && endIndex !== -1) {
         responseText = responseText.substring(startIndex, endIndex + 1);
       }
       
       try {
-        vocab = JSON.parse(responseText);
+        const parsed = JSON.parse(responseText);
+        vocab = parsed.vocab || [];
+        theme = parsed.theme || "Conversation";
+        gameStartWords = parsed.gameStartWords || [];
       } catch (parseErr) {
         console.error("Failed to parse Llama-3 vocabulary response. Using defaults.", parseErr);
-        // Fallback vocabulary
         vocab = [
           { word: "fluent", ipa: "/ˈfluːənt/", definition: "able to speak or write a foreign language easily and accurately", example: "He is fluent in English." }
         ];
+        theme = "Speaking Practice";
+        gameStartWords = ["fluent", "speaking", "practice", "conversation", "language"];
       }
     }
 
     // 3. Update lesson in array
     lesson.vocab = vocab;
+    lesson.theme = theme;
+    lesson.gameStartWords = gameStartWords;
     lesson.lines = transcriptLines;
     lesson.isInitialized = true;
     
     lessons[lessonIndex] = lesson;
     await fileWriteQueue.enqueueWrite(LESSONS_FILE, JSON.stringify(lessons, null, 2));
-    console.log(`[Bloom Server] Lesson ${lessonId} initialized successfully with ${vocab.length} words and ${transcriptLines.length} lines.`);
+    console.log(`[Bloom Server] Lesson ${lessonId} initialized successfully with theme "${theme}", ${vocab.length} words and ${transcriptLines.length} lines.`);
     
     res.json(lesson);
   } catch (err: any) {

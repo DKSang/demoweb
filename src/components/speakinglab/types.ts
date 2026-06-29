@@ -23,6 +23,8 @@ export interface Lesson {
   isInitialized?: boolean;
   vocab: VocabWord[];
   lines: ShadowLine[];
+  theme?: string;
+  gameStartWords?: string[];
 }
 
 export interface SavedWord extends VocabWord {
