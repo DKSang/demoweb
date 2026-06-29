@@ -920,7 +920,7 @@ app.post("/api/progress/reset", rateLimiter(3, 60000), (req: Request, res: Respo
 
 app.post("/api/games/validate", async (req: Request, res: Response) => {
   try {
-    const { gameType, trunk, previousWord, word, model } = req.body;
+    const { gameType, trunk, previousWord, word, model, lessonContext } = req.body;
     if (!gameType || !word) {
       res.status(400).json({ error: "Missing gameType or word parameter" });
       return;
@@ -928,33 +928,95 @@ app.post("/api/games/validate", async (req: Request, res: Response) => {
 
     const clientModel = model || "llama3";
     let systemPrompt = "";
+    
+    // Extract lesson context if available
+    const theme = lessonContext?.theme || "General Conversation";
+    const relatedVocab = lessonContext?.relatedVocab || [];
+    const vocabListStr = relatedVocab.length > 0 ? relatedVocab.join(", ") : "none provided";
 
     if (gameType === "tree") {
       if (!trunk) {
         res.status(400).json({ error: "Missing trunk word parameter for Word Tree validation" });
         return;
       }
-      systemPrompt = `You are a semantic validator. Determine if the English word "${word}" is directly or closely related to the central category/word "${trunk}" (for example: if trunk is "book", related words could be "page", "author", "read", "library", "words", etc.).
-Your response must be a valid JSON object.
-Rules:
-- Respond ONLY with a raw JSON object and nothing else.
-- Do NOT wrap in markdown blocks like \`\`\`json.
-- JSON structure:
+      
+      // Context-Enhanced Prompt with Few-Shot and Chain-of-Thought
+      systemPrompt = `You are a semantic validator for an English learning game called "Word Tree".
+      
+LESSON CONTEXT:
+- Theme: ${theme}
+- Related vocabulary in this lesson: ${vocabListStr}
+- Central word (trunk): "${trunk}"
+
+TASK:
+Determine if the English word "${word}" is directly or indirectly related to the central word "${trunk}" within the context of this lesson.
+
+REASONING STEPS (Chain-of-Thought):
+1. Identify the semantic space or activity domain of "${trunk}".
+2. Check if "${word}" exists in, serves, or is commonly associated with that domain.
+3. Consider if "${word}" appears in the lesson vocabulary list (strong signal).
+4. Decide: Is this a reasonable connection for an English learner?
+
+FEW-SHOT EXAMPLES:
+- Trunk: "Haircut" → Input: "clipper" → VALID (tool used in haircut)
+- Trunk: "Haircut" → Input: "barber" → VALID (person who does haircut)
+- Trunk: "Book" → Input: "page" → VALID (part of a book)
+- Trunk: "Book" → Input: "library" → VALID (place related to books)
+- Trunk: "Time" → Input: "clock" → VALID (device showing time)
+- Trunk: "Time" → Input: "schedule" → VALID (concept related to time)
+
+RULES:
+- Be lenient for thematic or indirect connections (learners think creatively).
+- Accept tools, places, people, actions, or concepts related to the trunk.
+- Reject completely unrelated words (e.g., "banana" for "Haircut").
+
+RESPONSE FORMAT:
+Respond ONLY with a raw JSON object (no markdown, no explanation outside JSON):
 {
   "valid": true/false,
-  "explanation": "a short 1-sentence explanation of why it is or is not related"
+  "explanation": "a short 1-sentence explanation referencing the connection"
 }`;
     } else if (gameType === "association") {
       if (!previousWord) {
         res.status(400).json({ error: "Missing previousWord parameter for Word Association validation" });
         return;
       }
-      systemPrompt = `You are a semantic validator. Determine if the English word "${word}" is a valid, logical association or next link from the word "${previousWord}" (for example: "traffic light" -> "red" -> "stop" -> "police" -> "car"). The connection can be descriptive, thematic, or a common phrase link.
-Your response must be a valid JSON object.
-Rules:
-- Respond ONLY with a raw JSON object and nothing else.
-- Do NOT wrap in markdown blocks like \`\`\`json.
-- JSON structure:
+      
+      // Context-Enhanced Prompt for Association Game
+      systemPrompt = `You are a semantic validator for an English learning game called "Word Association".
+
+LESSON CONTEXT:
+- Theme: ${theme}
+- Related vocabulary in this lesson: ${vocabListStr}
+
+TASK:
+Determine if "${word}" is a valid, logical next link from "${previousWord}". The connection can be:
+- Descriptive (adjective/noun modifying previous)
+- Thematic (same topic/domain)
+- Functional (cause-effect, tool-purpose)
+- Common phrase/collocation
+
+REASONING STEPS (Chain-of-Thought):
+1. What is the meaning/domain of "${previousWord}"?
+2. Does "${word}" logically follow or connect to it?
+3. Is this a common association native speakers would make?
+4. Does "${word}" appear in the lesson vocabulary (boosts validity)?
+
+FEW-SHOT EXAMPLES:
+- "Traffic light" → "red" → VALID (color of traffic light)
+- "Red" → "stop" → VALID (red means stop)
+- "Stop" → "police" → VALID (police stop you)
+- "Police" → "car" → VALID (police car)
+- "Haircut" → "scissors" → VALID (tool for haircut)
+- "Scissors" → "cut" → VALID (action with scissors)
+- "Cut" → "hair" → VALID (what gets cut)
+
+RULES:
+- Accept creative but reasonable associations.
+- Reject random/unrelated jumps (e.g., "apple" → "airplane").
+
+RESPONSE FORMAT:
+Respond ONLY with a raw JSON object (no markdown, no explanation outside JSON):
 {
   "valid": true/false,
   "explanation": "a short 1-sentence explanation of the association link"
@@ -964,7 +1026,59 @@ Rules:
       return;
     }
 
-    // Call local Ollama
+    // SEMANTIC EMBEDDING FALLBACK (Optional Fast Path)
+    // If embedding service is available, check similarity first
+    let embeddingValid: boolean | null = null;
+    const embeddingThreshold = 0.45;
+    
+    try {
+      const referenceWord = gameType === "tree" ? trunk : previousWord;
+      const embeddingResponse = await fetch(`${OLLAMA_URL}/api/embeddings`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "nomic-embed-text",
+          prompt: word
+        })
+      }).then(r => r.ok ? r.json() : null);
+      
+      const referenceEmbedding = await fetch(`${OLLAMA_URL}/api/embeddings`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "nomic-embed-text",
+          prompt: referenceWord
+        })
+      }).then(r => r.ok ? r.json() : null);
+      
+      if (embeddingResponse && referenceEmbedding) {
+        const vec1 = embeddingResponse.embedding;
+        const vec2 = referenceEmbedding.embedding;
+        
+        // Cosine similarity
+        const dotProduct = vec1.reduce((sum: number, val: number, i: number) => sum + val * vec2[i], 0);
+        const norm1 = Math.sqrt(vec1.reduce((sum: number, val: number) => sum + val * val, 0));
+        const norm2 = Math.sqrt(vec2.reduce((sum: number, val: number) => sum + val * val, 0));
+        const similarity = dotProduct / (norm1 * norm2);
+        
+        embeddingValid = similarity >= embeddingThreshold;
+        
+        // If high similarity, skip LLM and accept directly
+        if (embeddingValid && similarity > 0.65) {
+          res.json({
+            valid: true,
+            explanation: `Strong semantic match (similarity: ${similarity.toFixed(2)}). "${word}" is closely related to "${referenceWord}".`,
+            similarityScore: similarity
+          });
+          return;
+        }
+      }
+    } catch (embedErr) {
+      // Embedding service unavailable, proceed with LLM
+      console.log("Embedding fallback not available, using LLM only");
+    }
+
+    // Call local Ollama for LLM-based validation
     try {
       const ollamaResponse = await fetch(`${OLLAMA_URL}/api/chat`, {
         method: "POST",
@@ -991,6 +1105,12 @@ Rules:
         if (jsonStart !== -1 && jsonEnd !== -1) {
           content = content.substring(jsonStart, jsonEnd + 1);
           const result = JSON.parse(content);
+          
+          // Add embedding score if available
+          if (embeddingValid !== null) {
+            result.similarityScore = embeddingValid;
+          }
+          
           res.json(result);
           return;
         }
@@ -998,9 +1118,11 @@ Rules:
       throw new Error("Failed to get valid response from Ollama");
     } catch (ollamaErr) {
       console.warn("Ollama validation failed, using fallback heuristic:", ollamaErr);
+      const referenceWord = gameType === "tree" ? trunk : previousWord;
       res.json({
         valid: true,
-        explanation: `Accepted (Ollama offline/fallback). connection accepted between "${word}" and "${trunk || previousWord}".`
+        explanation: `Accepted (LLM offline fallback). Connection between "${word}" and "${referenceWord}" is plausible.`,
+        fallback: true
       });
     }
   } catch (err: any) {

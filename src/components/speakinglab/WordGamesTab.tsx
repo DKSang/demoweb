@@ -149,6 +149,12 @@ export default function WordGamesTab({
     setTreeError(null);
 
     try {
+      // Prepare lesson context for better AI validation
+      const lessonContext = selectedLesson ? {
+        theme: selectedLesson.theme || "General Conversation",
+        relatedVocab: selectedLesson.vocab?.map(v => v.word) || []
+      } : undefined;
+
       const response = await fetch("/api/games/validate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -156,7 +162,8 @@ export default function WordGamesTab({
           gameType: "tree",
           trunk: treeTrunk,
           word: treeInput.trim(),
-          model: ollamaModel
+          model: ollamaModel,
+          lessonContext
         })
       });
 
@@ -254,6 +261,12 @@ export default function WordGamesTab({
     setAssocError(null);
 
     try {
+      // Prepare lesson context for better AI validation
+      const lessonContext = selectedLesson ? {
+        theme: selectedLesson.theme || "General Conversation",
+        relatedVocab: selectedLesson.vocab?.map(v => v.word) || []
+      } : undefined;
+
       const response = await fetch("/api/games/validate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -261,7 +274,8 @@ export default function WordGamesTab({
           gameType: "association",
           previousWord,
           word: assocInput.trim(),
-          model: ollamaModel
+          model: ollamaModel,
+          lessonContext
         })
       });
 
