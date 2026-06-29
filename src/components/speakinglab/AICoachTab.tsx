@@ -49,42 +49,47 @@ export default function AICoachTab({
   setChatInput,
   setRecognitionText
 }: AICoachTabProps) {
-  const [currentWeek, setCurrentWeek] = useState<1 | 2 | 3 | 4>(1);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [isLlamaLoading, setIsLlamaLoading] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
-  const [hasLoadedHistory, setHasLoadedHistory] = useState(false);
+  const lastLoadedDayRef = useRef<number | null>(null);
 
-  // Load chat history from database on mount for current day/lesson
+  // Auto-calculate week from current day (1-7 -> W1, 8-14 -> W2, etc.)
+  const currentWeek = Math.min(4, Math.ceil((userProgress.currentDay || 1) / 7)) as 1 | 2 | 3 | 4;
+
+  // Load chat history when day or lesson changes
   useEffect(() => {
-    if (selectedLesson && !hasLoadedHistory) {
-      const loadChatHistory = async () => {
-        try {
-          const response = await fetch(`/api/chat-history?lessonId=${selectedLesson.id}&day=${userProgress.currentDay}`);
-          if (response.ok) {
-            const history = await response.json();
-            if (history && history.length > 0) {
-              setChatHistory(history);
-            } else {
-              // No history, start fresh session
-              startNewCoachSession(false);
-            }
+    if (!selectedLesson) return;
+
+    const day = userProgress.currentDay;
+    if (lastLoadedDayRef.current === day) return;
+    lastLoadedDayRef.current = day;
+
+    const loadChatHistory = async () => {
+      try {
+        setChatHistory([]);
+        const response = await fetch(`/api/chat-history?lessonId=${selectedLesson.id}&day=${day}`);
+        if (response.ok) {
+          const history = await response.json();
+          if (history && history.length > 0) {
+            setChatHistory(history);
           } else {
             startNewCoachSession(false);
           }
-        } catch (err) {
-          console.error("Failed to load chat history:", err);
+        } else {
           startNewCoachSession(false);
         }
-        setHasLoadedHistory(true);
-      };
-      loadChatHistory();
-    }
+      } catch (err) {
+        console.error("Failed to load chat history:", err);
+        startNewCoachSession(false);
+      }
+    };
+    loadChatHistory();
   }, [selectedLesson?.id, userProgress.currentDay]);
 
   // Save chat history when it changes
   useEffect(() => {
-    if (chatHistory.length > 0 && selectedLesson && hasLoadedHistory) {
+    if (chatHistory.length > 0 && selectedLesson && lastLoadedDayRef.current === userProgress.currentDay) {
       const saveChatHistory = async () => {
         try {
           await fetch("/api/chat-history", {
@@ -104,7 +109,7 @@ export default function AICoachTab({
       const timeoutId = setTimeout(saveChatHistory, 1000);
       return () => clearTimeout(timeoutId);
     }
-  }, [chatHistory, selectedLesson, hasLoadedHistory]);
+  }, [chatHistory, selectedLesson, userProgress.currentDay]);
 
   // Auto-scroll chat container
   useEffect(() => {
@@ -305,7 +310,7 @@ export default function AICoachTab({
         prev.map(msg =>
           msg.id === botId
             ? {
-                id: `error-${Date.now()}`,
+                id: botId,
                 role: "assistant",
                 content: "Oops! I could not connect to your local Ollama. Please make sure Ollama is running (`ollama run llama3`) on port 11434, and that the Vite proxy is active."
               }
@@ -353,20 +358,19 @@ export default function AICoachTab({
       {/* Top settings row */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-4 mb-4">
         <div className="flex items-center gap-3">
-          <span className="text-xs font-mono tracking-wider text-white/40 uppercase">30-Day Coach Progression</span>
+          <span className="text-xs font-mono tracking-wider text-white/40 uppercase">Day {userProgress.currentDay} Coach</span>
           <div className="flex gap-1.5">
             {([1, 2, 3, 4] as const).map(w => (
-              <button
+              <div
                 key={w}
-                onClick={() => setCurrentWeek(w)}
-                className={`px-2.5 py-1 rounded-md text-[10px] font-mono transition-all border ${
+                className={`px-2.5 py-1 rounded-md text-[10px] font-mono border ${
                   currentWeek === w
                     ? "bg-white/10 border-white/20 text-white font-semibold"
-                    : "bg-transparent border-white/5 text-white/40 hover:text-white"
+                    : "bg-transparent border-white/5 text-white/30"
                 }`}
               >
                 W{w}
-              </button>
+              </div>
             ))}
           </div>
         </div>
@@ -388,7 +392,7 @@ export default function AICoachTab({
           <div className="flex-1 flex flex-col items-center justify-center text-center p-8 gap-3">
             <Sparkles className="w-8 h-8 text-white/20 animate-pulse" />
             <p className="text-xs text-white/50 max-w-sm">
-              Select your week above, make sure your local Ollama is active, and click 'Reset AI Chat Session' to start practicing.
+              Make sure your local Ollama is active, then type a message or use voice input to start practicing for Day {userProgress.currentDay}.
             </p>
           </div>
         ) : (
@@ -469,15 +473,14 @@ export default function AICoachTab({
           {isSpeechSupported ? (
             <button
               onClick={handleRecordChatInput}
-              disabled={isRecording}
               className={`px-5 py-3 rounded-full flex items-center justify-center gap-2 border transition-all hover:scale-105 active:scale-95 cursor-pointer ${
                 isRecording
-                  ? "bg-white text-black border-white opacity-70 cursor-not-allowed"
+                  ? "bg-white text-black border-white"
                   : "bg-white/5 text-white/80 hover:text-white border-white/10"
               }`}
             >
               {isRecording ? <MicOff className="w-4 h-4 text-black" /> : <Mic className="w-4 h-4" />}
-              <span className="text-xs font-semibold uppercase">{isRecording ? "Listening..." : "Speak Input"}</span>
+              <span className="text-xs font-semibold uppercase">{isRecording ? "Tap to Stop" : "Speak Input"}</span>
             </button>
           ) : (
             <div

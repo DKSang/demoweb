@@ -1,4 +1,4 @@
----
+!`---
 title: 'Accurate Script Sentence Splitting'
 type: 'refactor'
 created: '2026-06-28'
@@ -31,11 +31,11 @@ context: []
 
 ## I/O & Edge-Case Matrix
 
-| Scenario | Input / State | Expected Output / Behavior | Error Handling |
-|----------|--------------|---------------------------|----------------|
-| Sentence Splitting | "Good" (0-2), "morning. Whoa, dizzy. Dizzy. I feel" (2-8) | "Good morning." (0-5), "Whoa, dizzy." (5-12), "Dizzy." (12-15), "I feel..." | N/A |
-| Sound effects filter | "[Music] hello [Applause] world." | "hello world." (excluding tags) | N/A |
-| Common Abbreviations | "Dr. Smith went home." | "Dr. Smith went home." (No splitting at "Dr.") | N/A |
+| Scenario             | Input / State                                             | Expected Output / Behavior                                                  | Error Handling |
+| -------------------- | --------------------------------------------------------- | --------------------------------------------------------------------------- | -------------- |
+| Sentence Splitting   | "Good" (0-2), "morning. Whoa, dizzy. Dizzy. I feel" (2-8) | "Good morning." (0-5), "Whoa, dizzy." (5-12), "Dizzy." (12-15), "I feel..." | N/A            |
+| Sound effects filter | "[Music] hello [Applause] world."                         | "hello world." (excluding tags)                                             | N/A            |
+| Common Abbreviations | "Dr. Smith went home."                                    | "Dr. Smith went home." (No splitting at "Dr.")                              | N/A            |
 
 </frozen-after-approval>
 
