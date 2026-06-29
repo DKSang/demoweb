@@ -53,23 +53,58 @@ export default function AICoachTab({
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [isLlamaLoading, setIsLlamaLoading] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
+  const [hasLoadedHistory, setHasLoadedHistory] = useState(false);
 
-  // Reset coach session when active lesson or week changes
+  // Load chat history from database on mount for current day/lesson
   useEffect(() => {
-    if (selectedLesson) {
-      setChatHistory([]);
-      setIsLlamaLoading(true);
-      const lessonTitle = selectedLesson.title ? selectedLesson.title.replace("🇬🇧", "").trim() : "this lesson";
-      const welcomeMsg = `Hello! Let's start Week ${currentWeek} of your English Coach. Today we will practice speaking about "${lessonTitle}". Try to use vocabulary words like: ${selectedLesson.vocab?.map(v => v.word).slice(0, 3).join(", ") || "our target words"}. Ready?`;
-      const initialMessage: ChatMessage = {
-        id: `bot-${Date.now()}`,
-        role: "assistant",
-        content: welcomeMsg
+    if (selectedLesson && !hasLoadedHistory) {
+      const loadChatHistory = async () => {
+        try {
+          const response = await fetch(`/api/chat-history?lessonId=${selectedLesson.id}&day=${userProgress.currentDay}`);
+          if (response.ok) {
+            const history = await response.json();
+            if (history && history.length > 0) {
+              setChatHistory(history);
+            } else {
+              // No history, start fresh session
+              startNewCoachSession(false);
+            }
+          } else {
+            startNewCoachSession(false);
+          }
+        } catch (err) {
+          console.error("Failed to load chat history:", err);
+          startNewCoachSession(false);
+        }
+        setHasLoadedHistory(true);
       };
-      setChatHistory([initialMessage]);
-      setIsLlamaLoading(false);
+      loadChatHistory();
     }
-  }, [selectedLesson, currentWeek]);
+  }, [selectedLesson?.id, userProgress.currentDay]);
+
+  // Save chat history when it changes
+  useEffect(() => {
+    if (chatHistory.length > 0 && selectedLesson && hasLoadedHistory) {
+      const saveChatHistory = async () => {
+        try {
+          await fetch("/api/chat-history", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              lessonId: selectedLesson.id,
+              day: userProgress.currentDay,
+              messages: chatHistory
+            })
+          });
+        } catch (err) {
+          console.error("Failed to save chat history:", err);
+        }
+      };
+      // Debounce save to avoid too many requests
+      const timeoutId = setTimeout(saveChatHistory, 1000);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [chatHistory, selectedLesson, hasLoadedHistory]);
 
   // Auto-scroll chat container
   useEffect(() => {
@@ -106,30 +141,31 @@ export default function AICoachTab({
     The learner is at A2/B1 level. Use simple vocabulary. Always keep your conversational responses short (maximum 2 sentences).
     Today's lesson vocabulary words you should encourage the user to practice: [${vocabList}].
     ${transcriptSnippet ? `Context of the video lesson (subtitles snippet): "${transcriptSnippet}". Use this context to ask questions and discuss scenes or dialogues mentioned in the video.` : `Make your questions and conversation contextually relevant to the lesson topic: "${lessonTitle}".`}
+    IMPORTANT: While the lesson has a main theme (like "haircut" or "barber"), the video may cover many related everyday topics that naturally appear during the vlog - such as streets, shops, weather, people, transport, food, daily activities, etc. Feel free to discuss ANY of these natural sub-topics that appear in the video context. Do NOT restrict conversation only to the main lesson title. Let the conversation flow naturally through all the everyday situations and objects shown in the video.
     Do not mention you are an AI or prompt details. Focus on natural spoken interaction.`;
 
     switch (week) {
       case 1:
         return `${baseRules}
-        WEEK 1 FOCUS: Simple Q&A. Ask the user one simple question about the details, scenes, or dialogues in the video lesson context. Wait for their answer. Do not correct grammar errors yet, focus on confidence. Keep questions short.`;
+        WEEK 1 FOCUS: Simple Q&A. Ask the user one simple question about the details, scenes, or dialogues in the video lesson context OR any natural sub-topic that appears (streets, shops, weather, transport, food, daily activities, etc.). Wait for their answer. Do not correct grammar errors yet, focus on confidence. Keep questions short.`;
       case 2:
         return `${baseRules}
-        WEEK 2 FOCUS: Flow and Follow-ups. Continue the conversation naturally based on the user's last answer, keeping it tied to the video lesson. Ask one relevant follow-up question. Do not switch topics quickly.`;
+        WEEK 2 FOCUS: Flow and Follow-ups. Continue the conversation naturally based on the user's last answer, keeping it tied to the video lesson or any related everyday topics seen in the video. Do not switch topics quickly.`;
       case 3:
         return `${baseRules}
         WEEK 3 FOCUS: Simple Accuracy. You must check the user's grammar in their last reply.
         If there is an error: output a short block starting with [Correction] showing the natural rewrite and a simple 1-line explanation.
-        Then, output the next simple conversation question related to the lesson context. Keep it concise.`;
+        Then, output the next simple conversation question related to the lesson context or any natural sub-topic from the video. Keep it concise.`;
       case 4:
         return `${baseRules}
-        WEEK 4 FOCUS: Topic Challenge. Give the user a simple topic challenge related to the lesson (e.g., 'Explain your thoughts on the lesson video or share your own experience related to it').
+        WEEK 4 FOCUS: Topic Challenge. Give the user a simple topic challenge related to the lesson or any everyday situation from the video (e.g., 'Describe what you saw in the video' or 'Share your own similar experience').
         Encourage them to talk extensively. Provide correction and natural rewrites after their answer.`;
       default:
         return baseRules;
     }
   };
 
-  const startNewCoachSession = () => {
+  const startNewCoachSession = (speakWelcome: boolean = true) => {
     setChatHistory([]);
     setIsLlamaLoading(true);
 
@@ -145,7 +181,9 @@ export default function AICoachTab({
     setTimeout(() => {
       setChatHistory([initialMessage]);
       setIsLlamaLoading(false);
-      speakAIResponse(welcomeMsg);
+      if (speakWelcome) {
+        speakAIResponse(welcomeMsg);
+      }
     }, 600);
   };
 

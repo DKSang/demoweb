@@ -1344,6 +1344,55 @@ app.get("/api/games/tree/load/:trunk", (req: Request, res: Response) => {
   }
 });
 
+// NEW API: Get chat history for a specific lesson and day
+app.get("/api/chat-history", (req: Request, res: Response) => {
+  try {
+    const { lessonId, day } = req.query;
+    
+    if (!lessonId || !day) {
+      return res.status(400).json({ error: "Missing lessonId or day parameter" });
+    }
+
+    // Create a composite key for this lesson+day combination
+    const historyKey = `chat_${lessonId}_${day}`;
+    
+    const stmt = db.prepare("SELECT value FROM progress WHERE key = ?");
+    const row = stmt.get(historyKey) as { value: string } | undefined;
+
+    if (!row) {
+      return res.json([]);
+    }
+
+    const messages = JSON.parse(row.value);
+    res.json(messages);
+  } catch (err: any) {
+    console.error("Failed to load chat history:", err);
+    res.status(500).json({ error: "Failed to load chat history", details: err.message });
+  }
+});
+
+// NEW API: Save chat history for a specific lesson and day
+app.post("/api/chat-history", (req: Request, res: Response) => {
+  try {
+    const { lessonId, day, messages } = req.body;
+    
+    if (!lessonId || !day || !messages) {
+      return res.status(400).json({ error: "Missing lessonId, day, or messages" });
+    }
+
+    // Create a composite key for this lesson+day combination
+    const historyKey = `chat_${lessonId}_${day}`;
+    
+    const stmt = db.prepare("INSERT OR REPLACE INTO progress (key, value) VALUES (?, ?)");
+    stmt.run(historyKey, JSON.stringify(messages));
+
+    res.json({ success: true, message: "Chat history saved successfully" });
+  } catch (err: any) {
+    console.error("Failed to save chat history:", err);
+    res.status(500).json({ error: "Failed to save chat history", details: err.message });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`[Bloom Server] Backend initialized and running on http://localhost:${PORT}`);
 });
