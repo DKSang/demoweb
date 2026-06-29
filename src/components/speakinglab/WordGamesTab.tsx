@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   GitCommit, 
@@ -14,9 +14,19 @@ import {
   Compass, 
   AlertCircle, 
   CheckCircle2, 
-  Plus
+  Plus,
+  Lightbulb,
+  Trophy,
+  Flame
 } from "lucide-react";
 import type { Lesson, SavedWord, UserProgress } from "./types";
+import { 
+  initializeValidator, 
+  quickValidate, 
+  validationCache,
+  semanticChecker,
+  wordTrie 
+} from "../../utils/wordValidator";
 
 interface WordGamesTabProps {
   selectedLesson: Lesson | null;
@@ -34,6 +44,12 @@ export default function WordGamesTab({
   updateProgressTask
 }: WordGamesTabProps) {
   const [activeGame, setActiveGame] = useState<"tree" | "association">("tree");
+  
+  // NEW: Streak and achievement state for gamification
+  const [gameStreak, setGameStreak] = useState(0);
+  const [totalGamesPlayed, setTotalGamesPlayed] = useState(0);
+  const [showAchievement, setShowAchievement] = useState(false);
+  const [achievementMessage, setAchievementMessage] = useState("");
 
   // ==========================================
   // WORD TREE GAME STATE
@@ -44,6 +60,76 @@ export default function WordGamesTab({
   const [isTreeValidating, setIsTreeValidating] = useState(false);
   const [treeFeedback, setTreeFeedback] = useState<string | null>(null);
   const [treeError, setTreeError] = useState<string | null>(null);
+  const [treeConfidence, setTreeConfidence] = useState<number | null>(null);
+  const [showTreeHint, setShowTreeHint] = useState(false);
+  const [treeHints, setTreeHints] = useState<string[]>([]);
+
+  // Initialize validator with vocabulary on mount and load user stats
+  useEffect(() => {
+    const allVocabWords = [
+      ...(selectedLesson?.vocab?.map(v => v.word) || []),
+      ...savedVocab.map(v => v.word)
+    ];
+    if (allVocabWords.length > 0) {
+      initializeValidator(allVocabWords);
+    }
+    
+    // Load user's game stats from SQLite
+    loadGameStats();
+  }, [selectedLesson, savedVocab]);
+  
+  // Load game vocabulary from SQLite (user's personal words)
+  const loadGameVocabulary = async () => {
+    try {
+      const response = await fetch("/api/games/vocabulary?days=7");
+      if (response.ok) {
+        const data = await response.json();
+        
+        // Combine lesson vocab with user's personal vocab for better validation
+        const userWords = [...data.today.map((v: any) => v.word), ...data.recent.map((v: any) => v.word)];
+        if (userWords.length > 0) {
+          const allVocabWords = [
+            ...(selectedLesson?.vocab?.map(v => v.word) || []),
+            ...savedVocab.map(v => v.word),
+            ...userWords
+          ];
+          // Remove duplicates
+          const uniqueWords = [...new Set(allVocabWords)];
+          initializeValidator(uniqueWords);
+          console.log(`[WordGames] Loaded ${uniqueWords.length} words including ${userWords.length} from user's vocabulary`);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load game vocabulary:", err);
+    }
+  };
+  
+  // Load user's game stats (streak, achievements)
+  const loadGameStats = async () => {
+    try {
+      const response = await fetch("/api/games/stats");
+      if (response.ok) {
+        const data = await response.json();
+        setGameStreak(data.streak || 0);
+        setTotalGamesPlayed(data.totalAchievements * 5 + data.streak); // Approximate
+      }
+    } catch (err) {
+      console.error("Failed to load game stats:", err);
+    }
+  };
+  
+  // Save game streak to SQLite
+  const saveGameStreak = async (achievement?: string) => {
+    try {
+      await fetch("/api/games/streak", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ achievement })
+      });
+    } catch (err) {
+      console.error("Failed to save game streak:", err);
+    }
+  };
 
   // Load contextual game data when lesson changes
   useEffect(() => {
@@ -144,9 +230,39 @@ export default function WordGamesTab({
       return;
     }
 
+    // OPTIMIZATION #1: Quick client-side validation with Trie and semantic checker
+    const quickResult = quickValidate("tree", treeTrunk, word);
+    
+    // If high confidence from client-side, accept immediately without API call
+    if (!quickResult.shouldCallServer && quickResult.confidence && quickResult.confidence >= 0.75) {
+      setTreeBranches(prev => [...prev, treeInput.trim()]);
+      setTreeFeedback(quickResult.reason || "✓ Valid connection!");
+      setTreeConfidence(quickResult.confidence);
+      setTreeInput("");
+      updateProgressTask("game", true);
+      
+      // Update streak (client-side state)
+      const newStreak = gameStreak + 1;
+      setGameStreak(newStreak);
+      setTotalGamesPlayed(prev => prev + 1);
+      
+      // Save streak to SQLite database
+      if (newStreak % 5 === 0) {
+        const achievementMsg = `🔥 ${newStreak} streak! Keep going!`;
+        triggerAchievement(achievementMsg);
+        saveGameStreak(achievementMsg);
+      } else {
+        saveGameStreak();
+      }
+      
+      setIsTreeValidating(false);
+      return;
+    }
+
     setIsTreeValidating(true);
     setTreeFeedback(null);
     setTreeError(null);
+    setTreeConfidence(quickResult.confidence || null);
 
     try {
       // Prepare lesson context for better AI validation
@@ -175,20 +291,63 @@ export default function WordGamesTab({
         setTreeFeedback(`✓ Related! ${data.explanation || ""}`);
         setTreeInput("");
         updateProgressTask("game", true);
+        
+        // Cache the result for future use
+        validationCache.set("tree", treeTrunk, word, true, data.explanation || "");
+        
+        // Update streak (client-side state)
+        const newStreak = gameStreak + 1;
+        setGameStreak(newStreak);
+        setTotalGamesPlayed(prev => prev + 1);
+        
+        // Save streak to SQLite database
+        if (newStreak % 5 === 0) {
+          const achievementMsg = `🔥 ${newStreak} streak! Keep going!`;
+          triggerAchievement(achievementMsg);
+          saveGameStreak(achievementMsg);
+        } else {
+          saveGameStreak();
+        }
       } else {
         setTreeError(`✗ Rejected: ${data.explanation || "Not close enough to the central word."}`);
+        // Reset streak on wrong answer
+        setGameStreak(0);
       }
     } catch (err) {
       console.error("Tree word validation error:", err);
-      // Fallback
+      // Fallback - accept word when offline
       setTreeBranches(prev => [...prev, treeInput.trim()]);
-      setTreeFeedback(`✓ Added (offline fallback connection accepted)`);
+      setTreeFeedback(`✓ Added (offline mode)`);
       setTreeInput("");
       updateProgressTask("game", true);
+      
+      // Cache as valid for offline resilience
+      validationCache.set("tree", treeTrunk, word, true, "Offline fallback");
+      
+      // Update streak and save
+      const newStreak = gameStreak + 1;
+      setGameStreak(newStreak);
+      setTotalGamesPlayed(prev => prev + 1);
+      saveGameStreak();
     } finally {
       setIsTreeValidating(false);
     }
   };
+
+  // Helper function to trigger achievements
+  const triggerAchievement = (message: string) => {
+    setAchievementMessage(message);
+    setShowAchievement(true);
+    setTimeout(() => setShowAchievement(false), 3000);
+  };
+
+  // Show hints for Word Tree game
+  const handleShowHint = useCallback(() => {
+    const hints = semanticChecker.getHints(treeTrunk, 3);
+    setTreeHints(hints);
+    setShowTreeHint(true);
+    setTimeout(() => setShowTreeHint(false), 5000);
+  }, [treeTrunk]);
 
   // ==========================================
   // WORD ASSOCIATION GAME STATE
@@ -202,6 +361,9 @@ export default function WordGamesTab({
   const [assocError, setAssocError] = useState<string | null>(null);
   const [timerCount, setTimerCount] = useState(0);
   const [showSummary, setShowSummary] = useState(false);
+  const [assocConfidence, setAssocConfidence] = useState<number | null>(null);
+  const [showAssocHint, setShowAssocHint] = useState(false);
+  const [assocHints, setAssocHints] = useState<string[]>([]);
 
   const timerRef = useRef<any>(null);
   const chainEndRef = useRef<HTMLDivElement>(null);
@@ -256,9 +418,45 @@ export default function WordGamesTab({
       return;
     }
 
+    // OPTIMIZATION #2: Quick client-side validation for association game
+    const quickResult = quickValidate("association", previousWord, word);
+    
+    // If high confidence from client-side, accept immediately
+    if (!quickResult.shouldCallServer && quickResult.confidence && quickResult.confidence >= 0.75) {
+      const newChain = [...assocChain, assocInput.trim()];
+      setAssocChain(newChain);
+      setAssocInput("");
+      setAssocFeedback(quickResult.reason || "✓ Valid association!");
+      setAssocConfidence(quickResult.confidence);
+      updateProgressTask("game", true);
+      
+      // Update streak (client-side state)
+      const newStreak = gameStreak + 1;
+      setGameStreak(newStreak);
+      setTotalGamesPlayed(prev => prev + 1);
+      
+      // Save streak to SQLite database
+      if (newStreak % 5 === 0) {
+        const achievementMsg = `🔥 ${newStreak} streak!`;
+        triggerAchievement(achievementMsg);
+        saveGameStreak(achievementMsg);
+      } else {
+        saveGameStreak();
+      }
+      
+      if (newChain.length >= 10) {
+        setShowSummary(true);
+        setIsAssocActive(false);
+      }
+      
+      setIsAssocValidating(false);
+      return;
+    }
+
     setIsAssocValidating(true);
     setAssocFeedback(null);
     setAssocError(null);
+    setAssocConfidence(quickResult.confidence || null);
 
     try {
       // Prepare lesson context for better AI validation
@@ -289,21 +487,49 @@ export default function WordGamesTab({
         setAssocFeedback(`✓ Associated! ${data.explanation || ""}`);
         updateProgressTask("game", true);
         
+        // Cache the result
+        validationCache.set("association", previousWord, word, true, data.explanation || "");
+        
+        // Update streak (client-side state)
+        const newStreak = gameStreak + 1;
+        setGameStreak(newStreak);
+        setTotalGamesPlayed(prev => prev + 1);
+        
+        // Save streak to SQLite database
+        if (newStreak % 5 === 0) {
+          const achievementMsg = `🔥 ${newStreak} streak!`;
+          triggerAchievement(achievementMsg);
+          saveGameStreak(achievementMsg);
+        } else {
+          saveGameStreak();
+        }
+        
         if (newChain.length >= 10) {
           setShowSummary(true);
           setIsAssocActive(false);
         }
       } else {
         setAssocError(`✗ Rejected: ${data.explanation || "Not logically connected to the previous word."}`);
+        setGameStreak(0);
       }
     } catch (err) {
       console.error("Association validation error:", err);
-      // Fallback
+      // Fallback - accept when offline
       const newChain = [...assocChain, assocInput.trim()];
       setAssocChain(newChain);
       setAssocInput("");
-      setAssocFeedback(`✓ Added (offline fallback connection accepted)`);
+      setAssocFeedback(`✓ Added (offline mode)`);
       updateProgressTask("game", true);
+      
+      // Cache for offline resilience
+      validationCache.set("association", previousWord, word, true, "Offline fallback");
+      
+      // Update streak and save
+      const newStreak = gameStreak + 1;
+      setGameStreak(newStreak);
+      setTotalGamesPlayed(prev => prev + 1);
+      saveGameStreak();
+      
       if (newChain.length >= 10) {
         setShowSummary(true);
         setIsAssocActive(false);
@@ -312,6 +538,15 @@ export default function WordGamesTab({
       setIsAssocValidating(false);
     }
   };
+
+  // Show hints for Word Association game
+  const handleShowAssocHint = useCallback(() => {
+    const previousWord = assocChain[assocChain.length - 1];
+    const hints = semanticChecker.getHints(previousWord, 3);
+    setAssocHints(hints);
+    setShowAssocHint(true);
+    setTimeout(() => setShowAssocHint(false), 5000);
+  }, [assocChain]);
 
   const getWiFiScore = (seconds: number) => {
     if (seconds <= 20) return { speed: "5G Fiber Speed!", desc: "Hyper-fast connection! Your brain and mouth are perfectly connected.", color: "text-green-400" };
@@ -368,6 +603,32 @@ export default function WordGamesTab({
             </p>
           </button>
         </div>
+
+        {/* OPTIMIZATION #3: Gamification - Streak & Stats Display */}
+        {(gameStreak > 0 || totalGamesPlayed > 0) && (
+          <div className="p-4 rounded-2xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-white/10 flex flex-col gap-3">
+            <div className="flex items-center gap-2 border-b border-white/10 pb-2">
+              <Trophy className="w-4 h-4 text-yellow-400" />
+              <span className="text-[10px] font-mono text-white/80 uppercase font-bold">Your Progress</span>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="flex items-center gap-2">
+                <Flame className={`w-4 h-4 ${gameStreak > 0 ? 'text-orange-400 animate-pulse' : 'text-white/30'}`} />
+                <div>
+                  <div className="text-[9px] text-white/50 uppercase">Streak</div>
+                  <div className="text-sm font-bold text-white">{gameStreak}</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Award className="w-4 h-4 text-blue-400" />
+                <div>
+                  <div className="text-[9px] text-white/50 uppercase">Total</div>
+                  <div className="text-sm font-bold text-white">{totalGamesPlayed}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="p-4 rounded-2xl bg-black/45 border border-white/5 flex flex-col gap-3">
           <div className="flex items-center gap-2 border-b border-white/5 pb-2 text-[10px] font-mono text-white/40 uppercase">
@@ -457,28 +718,61 @@ export default function WordGamesTab({
 
             {/* User Input Form */}
             <div className="flex flex-col gap-3">
-              <form onSubmit={handleAddBranch} className="flex gap-2">
-                <input
-                  type="text"
-                  placeholder={`Sprout branch word related to "${treeTrunk}"...`}
-                  value={treeInput}
-                  onChange={(e) => setTreeInput(e.target.value)}
-                  disabled={isTreeValidating}
-                  className="flex-1 bg-black/60 border border-white/10 rounded-xl px-4 py-3 text-xs text-white placeholder-white/30 focus:outline-none focus:border-white/30"
-                />
+              <div className="flex gap-2">
+                <form onSubmit={handleAddBranch} className="flex-1 flex gap-2">
+                  <input
+                    type="text"
+                    placeholder={`Sprout branch word related to "${treeTrunk}"...`}
+                    value={treeInput}
+                    onChange={(e) => setTreeInput(e.target.value)}
+                    disabled={isTreeValidating}
+                    className="flex-1 bg-black/60 border border-white/10 rounded-xl px-4 py-3 text-xs text-white placeholder-white/30 focus:outline-none focus:border-white/30"
+                  />
+                  <button
+                    type="submit"
+                    disabled={isTreeValidating || !treeInput.trim()}
+                    className="px-6 rounded-xl bg-white text-black hover:bg-white/90 text-xs font-semibold hover:scale-[1.03] active:scale-95 disabled:scale-100 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center gap-1.5 cursor-pointer"
+                  >
+                    {isTreeValidating ? (
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    ) : (
+                      <Send className="w-3.5 h-3.5" />
+                    )}
+                    <span>Sprout</span>
+                  </button>
+                </form>
+                
+                {/* OPTIMIZATION #3: Hint button */}
                 <button
-                  type="submit"
-                  disabled={isTreeValidating || !treeInput.trim()}
-                  className="px-6 rounded-xl bg-white text-black hover:bg-white/90 text-xs font-semibold hover:scale-[1.03] active:scale-95 disabled:scale-100 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center gap-1.5 cursor-pointer"
+                  onClick={handleShowHint}
+                  disabled={isTreeValidating}
+                  className="px-4 rounded-xl bg-yellow-500/20 hover:bg-yellow-500/30 border border-yellow-500/30 text-yellow-300 text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-40"
+                  title="Get hints"
                 >
-                  {isTreeValidating ? (
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  ) : (
-                    <Send className="w-3.5 h-3.5" />
-                  )}
-                  <span>Sprout</span>
+                  <Lightbulb className="w-3.5 h-3.5" />
                 </button>
-              </form>
+              </div>
+
+              {/* Show hints if requested */}
+              {showTreeHint && treeHints.length > 0 && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }} 
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-3 rounded-xl bg-yellow-500/10 border border-yellow-500/20"
+                >
+                  <div className="text-[9px] text-yellow-300 uppercase font-bold mb-1 flex items-center gap-1">
+                    <Lightbulb className="w-3 h-3" />
+                    Suggestions for "{treeTrunk}":
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {treeHints.map((hint, idx) => (
+                      <span key={idx} className="text-[10px] text-yellow-200 bg-yellow-500/20 px-2 py-0.5 rounded">
+                        {hint}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
 
               {/* Status and Feedback messages */}
               <div className="h-6">
