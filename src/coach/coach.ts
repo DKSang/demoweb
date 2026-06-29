@@ -10,92 +10,180 @@ import {
   ChatMessage,
 } from "./types.js";
 
+// ─── Writing Style Guide (applied to ALL prompts) ────────────────────────────
+//
+//  TONE  : friendly, calm, direct — like a patient friend, not a teacher
+//  WORDS : A2–B1 level only. No academic vocabulary.
+//  SENTENCES: max 12 words each. One idea per sentence.
+//  STRUCTURE: statement → example → question (like the video)
+//  NEVER: "Furthermore", "It is important to note", "Excellent!", long praise
+//  ALWAYS: short, real, useful
+//
+// Reference style from transcript:
+//   "Your brain does not learn rules first. It learns through patterns."
+//   "Think of it like carrying bags. One bag is easy. Five bags — you drop them."
+//
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ─── VOICE CONSTANTS ─────────────────────────────────────────────────────────
+
+const VOICE_RULES = `
+VOICE RULES — follow these strictly:
+- Use simple words. A2-B1 level only.
+- Keep each sentence under 12 words.
+- One idea per sentence. Then stop.
+- Use real examples. Not abstract ideas.
+- Sound like a friend. Not a teacher.
+- Never say: "Excellent!", "Great job!", "That's wonderful!"
+- Never use: "Furthermore", "Additionally", "It is important to note"
+- If you praise: one word only. "Good." or "Nice." Then move on.
+- End every reply with one short question or one clear action.
+`;
+
+const STYLE_EXAMPLE = `
+Good reply style:
+"You said 'I go to school yesterday.' Small fix: use 'went'. Try again — 'I went to school yesterday.' Your turn."
+
+Bad reply style:
+"That was a wonderful attempt! However, I noticed a small grammatical error. It is important to use the past tense here. Please try to say 'went' instead of 'go'. You're doing amazingly well!"
+`;
+
 // ─── 1. Vocabulary Extraction ─────────────────────────────────────────────────
 
 export async function extractVocabFromLesson(
   lesson: VideoLesson,
   modelOverride?: string
 ): Promise<VocabExtractionResult> {
-  // Use the entire raw transcript to ensure context is fully captured
-  const transcriptSample = lesson.rawTranscript;
-
-  if (!transcriptSample || transcriptSample.trim().length < 50) {
-    throw new Error("Transcript quá ngắn hoặc không khả dụng, không thể extract vocab");
+  // Guard: transcript must have real content
+  if (lesson.rawTranscript.trim().length < 100) {
+    throw new Error("Transcript too short to extract vocabulary.");
   }
 
+  // Use up to 5000 chars — enough to get diverse vocab across the video
+  const transcriptSample = lesson.rawTranscript.slice(0, 5000);
+
   const messages: ChatMessage[] = [
     {
-      role: "user",
-      content: `You are an expert English teacher. Analyze this video transcript and extract exactly 6 useful vocabulary words or phrases for speaking practice.
+      role: "system",
+      content: `You extract vocabulary from a YouTube transcript.
 
-Transcript:
-"""
-${transcriptSample}
-"""
+STRICT RULES:
+1. Every word MUST appear in the transcript. Do not invent words.
+2. Pick words a beginner can use in daily conversation.
+3. Skip rare academic words. Skip jargon.
+4. The example sentence must show HOW to use the word in real life.
+5. Keep definitions short — under 10 words.
 
-⚠️ CRITICAL CONSTRAINTS:
-1. ALL vocabulary words/phrases MUST come directly from the transcript above. Do NOT invent words.
-2. The topic must be the video's actual subject. If it is about money slang, do NOT extract haircut words.
-
-Respond ONLY with a valid JSON object matching this schema. You may format your response as a json code block (no other text outside of the JSON):
+Return ONLY valid JSON. You may format your response as a json code block (no other text outside of the JSON):
 {
-  "topic": "subject in 5 words or less",
-  "keyPhrases": ["4-6 collocations or phrases from the transcript"],
+  "topic": "main subject of the video, 5 words max",
+  "keyPhrases": ["4-6 short phrases taken directly from the transcript"],
   "vocab": [
     {
-      "word": "the word or phrase",
+      "word": "word or short phrase from the transcript",
       "ipa": "/pronunciation/",
-      "partOfSpeech": "noun|verb|adjective|phrase",
-      "definition": "definition in simple English",
-      "example": "example sentence using the word"
+      "partOfSpeech": "noun|verb|adjective|adverb|phrase",
+      "definition": "simple meaning, under 10 words",
+      "example": "one natural sentence using this word",
+      "contextTimestamp": null
     }
   ]
-}`,
+}
+
+Extract exactly 8 vocab items.`,
+    },
+    {
+      role: "user",
+      content: `Transcript:\n"""\n${transcriptSample}\n"""`,
     },
   ];
 
-  return callAIJson<VocabExtractionResult>(messages, {
+  const result = await callAIJson<VocabExtractionResult>(messages, {
     temperature: 0.2,
-    maxTokens: 1000,
+    maxTokens: 1400,
     model: modelOverride
   });
+
+  // Validate: all vocab words must exist in transcript (basic check)
+  const transcriptLower = lesson.rawTranscript.toLowerCase();
+  result.vocab = result.vocab.filter((v) => {
+    const wordRoot = v.word.split(" ")[0].toLowerCase();
+    return transcriptLower.includes(wordRoot);
+  });
+
+  if (result.vocab.length < 3) {
+    throw new Error(
+      "AI returned vocab not found in transcript. Check transcript quality."
+    );
+  }
+
+  return result;
 }
 
-// ─── 2. Session Opener ────────────────────────────────────────────────────────
+// ─── 2. Vocab List Handler ────────────────────────────────────────────────────
+// Called when user asks "show me vocab" — returns from ctx, never calls AI
 
-export async function openSession(ctx: SessionContext, modelOverride?: string): Promise<CoachResponse> {
+export function formatVocabList(vocab: VocabExtractionResult): string {
+  const lines = vocab.vocab.map(
+    (v, i) =>
+      `${i + 1}. ${v.word} [${v.ipa}]\n   Meaning: ${v.definition}\n   Example: "${v.example}"`
+  );
+  return `Today's words:\n\n${lines.join("\n\n")}`;
+}
+
+// ─── 3. Session Opener ────────────────────────────────────────────────────────
+
+export async function openSession(
+  ctx: SessionContext,
+  modelOverride?: string
+): Promise<CoachResponse> {
   const { vocab } = ctx;
-  const vocabList = vocab.vocab.map((v) => `"${v.word}" — ${v.definition}`).join("\n");
+
+  // Pick the first shadow sentence from keyPhrases — short and speakable
+  const shadowSentence = vocab.keyPhrases[0] ?? vocab.vocab[0]?.example ?? "";
 
   const messages: ChatMessage[] = [
     {
+      role: "system",
+      content: `You are an English speaking coach. You start today's session.
+${VOICE_RULES}
+${STYLE_EXAMPLE}`,
+    },
+    {
       role: "user",
-      content: `You are a friendly English speaking coach.
-Start a speaking session for the topic: "${vocab.topic}".
-Today's vocabulary words:
-${vocabList}
+      content: `Topic: "${vocab.topic}"
+Shadow sentence for learner to repeat: "${shadowSentence}"
 
-Please do two things in your welcome response:
-1. Greet the student and briefly introduce the topic (1-2 sentences).
-2. Give them exactly one short sentence from the video to repeat (Shadowing exercise).
+Write the opening. Do this:
+1. One sentence: what we practice today.
+2. One sentence: why it helps them speak better.
+3. Say: "Let's start. Repeat after me:" then give the shadow sentence.
 
-Write ONLY your spoken greeting. No metadata, no extra text.`,
+Keep it under 5 sentences total.`,
     },
   ];
 
-  const reply = await callAI(messages, { temperature: 0.7, maxTokens: 200, model: modelOverride });
-  return buildCoachResponse(reply, vocab.vocab.map((v) => v.word).slice(0, 2));
+  const reply = await callAI(messages, { temperature: 0.6, maxTokens: 150, model: modelOverride });
+
+  return {
+    reply,
+    usedVocab: [],
+    whatIfPrompt: undefined,
+    feedbackOnLearner: undefined,
+    suggestedNextPhase: undefined,
+  };
 }
 
-// ─── 3. Conversation Turn ─────────────────────────────────────────────────────
+// ─── 4. Conversation Turn ─────────────────────────────────────────────────────
 
 export async function processTurn(
   learnerInput: string,
   ctx: SessionContext,
   modelOverride?: string
 ): Promise<CoachResponse> {
-  // Intercept user asking for vocab/vocabulary/từ vựng
-  if (/vocabulary|vocab|từ vựng/i.test(learnerInput)) {
+
+  // Intercept vocab requests — no AI call needed
+  if (/show.*vocab|vocabulary|từ vựng|list.*word/i.test(learnerInput)) {
     return {
       reply: formatVocabList(ctx.vocab),
       usedVocab: [],
@@ -105,12 +193,28 @@ export async function processTurn(
     };
   }
 
+  const vocabBank = ctx.vocab.vocab
+    .map((v) => `"${v.word}" — ${v.definition}`)
+    .join("\n");
+
+  const recentHistory = ctx.history.slice(-6);
+  const turnsSinceWhatIf = recentHistory.filter(
+    (t) => t.role === "coach" && t.text.toLowerCase().includes("what if")
+  ).length;
+
+  // Trigger what-if every 3 learner turns
+  const shouldAskWhatIf =
+    ctx.turnsCompleted > 0 &&
+    ctx.turnsCompleted % 3 === 0 &&
+    turnsSinceWhatIf === 0 &&
+    ctx.phase !== "shadow";
+
   const messages: ChatMessage[] = [
     {
       role: "system",
-      content: buildCoachSystemPrompt(ctx),
+      content: buildTurnSystemPrompt(ctx, vocabBank, shouldAskWhatIf),
     },
-    ...historyToMessages(ctx.history),
+    ...historyToMessages(recentHistory),
     {
       role: "user",
       content: learnerInput,
@@ -119,7 +223,7 @@ export async function processTurn(
 
   const raw = await callAIJson<{
     reply: string;
-    whatIfPrompt: string;
+    whatIfPrompt: string | null;
     usedVocab: string[];
     feedback: {
       score: number;
@@ -128,11 +232,11 @@ export async function processTurn(
       naturalAlternative: string | null;
     } | null;
     suggestPhase: SessionPhase | null;
-  }>(messages, { temperature: 0.75, maxTokens: 600, model: modelOverride });
+  }>(messages, { temperature: 0.65, maxTokens: 500, model: modelOverride });
 
   return {
     reply: raw.reply,
-    whatIfPrompt: raw.whatIfPrompt || undefined,
+    whatIfPrompt: raw.whatIfPrompt ?? undefined,
     usedVocab: raw.usedVocab ?? [],
     feedbackOnLearner: raw.feedback
       ? {
@@ -146,45 +250,51 @@ export async function processTurn(
   };
 }
 
-function formatVocabList(vocab: VocabExtractionResult): string {
-  return "Here is the vocabulary list for this lesson:\n\n" + vocab.vocab
-    .map((v, i) => `${i + 1}. **${v.word}** [${v.ipa}] — ${v.definition}\n   Example: "${v.example}"`)
-    .join("\n\n");
-}
+// ─── 5. What-If Generator ─────────────────────────────────────────────────────
 
-// ─── 4. What-If Generator ─────────────────────────────────────────────────────
-
-export async function generateWhatIfPrompt(ctx: SessionContext, modelOverride?: string): Promise<string> {
+export async function generateWhatIfPrompt(
+  ctx: SessionContext,
+  modelOverride?: string
+): Promise<string> {
   const { vocab, history } = ctx;
-  const recentTopics = history
+
+  const recentLearnerWords = history
     .filter((t) => t.role === "learner")
     .slice(-3)
     .map((t) => t.text)
-    .join(" | ");
+    .join(" ");
 
-  const vocabWords = vocab.vocab.map((v) => v.word).slice(0, 3).join(", ");
+  // Pick 1-2 vocab words to weave into the scenario
+  const targetWords = vocab.vocab
+    .slice(0, 2)
+    .map((v) => v.word)
+    .join(" and ");
 
   const messages: ChatMessage[] = [
     {
+      role: "system",
+      content: `You write "What if..." questions for English speaking practice.
+${VOICE_RULES}
+
+The question must:
+- Connect to the video topic: "${vocab.topic}"
+- Use these words naturally: ${targetWords}
+- Be something the learner can answer in 3-4 sentences
+- Feel like a real conversation, not a test
+
+Return ONLY the question. Nothing else.`,
+    },
+    {
       role: "user",
-      content: `You are a friendly English speaking coach.
-Generate a single "What if..." scenario question for the student based on these details:
-- Video Topic: "${vocab.topic}"
-- Vocabulary to include (use 1 or 2 of these): ${vocabWords}
-- Student's recent conversation: "${recentTopics || "None yet"}"
-
-Example What-if questions:
-- Topic: Money -> "What if someone offered you a grand to stop using cash for a year—would you do it?"
-- Topic: Travel -> "What if you lost your passport in a foreign country—who would you call first?"
-
-Return ONLY the question. No intro, no chat prefix, no quotes. Just the question itself.`,
+      content: `Learner has been saying: "${recentLearnerWords.slice(0, 150)}"
+Write one "What if..." question now.`,
     },
   ];
 
-  return callAI(messages, { temperature: 0.8, maxTokens: 100, model: modelOverride });
+  return callAI(messages, { temperature: 0.85, maxTokens: 80, model: modelOverride });
 }
 
-// ─── 5. STT Feedback Evaluator ────────────────────────────────────────────────
+// ─── 6. STT Feedback Evaluator ────────────────────────────────────────────────
 
 export async function evaluateSpeechTranscript(
   transcribedText: string,
@@ -192,111 +302,156 @@ export async function evaluateSpeechTranscript(
   ctx: SessionContext,
   modelOverride?: string
 ): Promise<FeedbackNote> {
-  const vocabWords = ctx.vocab.vocab.map((v) => v.word).slice(0, 4).join(", ");
+  const vocabWords = ctx.vocab.vocab.map((v) => v.word).join(", ");
 
   const messages: ChatMessage[] = [
     {
-      role: "user",
-      content: `You are a professional English speaking coach.
-Evaluate this student's spoken response.
+      role: "system",
+      content: `You evaluate spoken English from a learner.
 
-Details:
-- Video Topic: "${ctx.vocab.topic}"
-- Student spoke: "${transcribedText}"
-- Target vocabulary: ${vocabWords}
-- Expected context: "${expectedContext}"
+Topic: "${ctx.vocab.topic}"
+Words to look for: ${vocabWords}
+Expected context: "${expectedContext}"
 
-Respond ONLY with a valid JSON object matching this schema:
+Score 1-5:
+1 = hard to understand
+2 = understandable with effort
+3 = clear, some mistakes
+4 = natural, minor mistakes
+5 = fluent and natural
+
+Return ONLY a valid JSON object matching this schema. You may format your response as a json code block (no other text outside of the JSON):
 {
-  "score": 3,
-  "strengths": ["Good use of vocabulary.", "Grammatically correct."],
-  "improvements": ["Try to elaborate more on your reasons."],
-  "naturalAlternative": "A more natural way to say it"
+  "score": number,
+  "strengths": ["max 2 items — be specific, use simple words"],
+  "improvements": ["1-2 items — tell them exactly what to do, not just what went wrong"],
+  "naturalAlternative": "say it this way instead — or null if already good"
 }
 
-Do NOT write any preamble, intro, or markdown. Just the JSON object.`,
+Keep every string under 15 words.`,
+    },
+    {
+      role: "user",
+      content: `Learner said: "${transcribedText}"`,
     },
   ];
 
   return callAIJson<FeedbackNote>(messages, {
-    temperature: 0.2,
+    temperature: 0.25,
     maxTokens: 300,
     model: modelOverride
   });
 }
 
-// ─── 6. Session Debrief ───────────────────────────────────────────────────────
+// ─── 7. Session Debrief ───────────────────────────────────────────────────────
 
-export async function generateDebrief(ctx: SessionContext, modelOverride?: string): Promise<string> {
+export async function generateDebrief(
+  ctx: SessionContext,
+  modelOverride?: string
+): Promise<string> {
   const learnerTurns = ctx.history.filter((t) => t.role === "learner");
   const avgScore =
     learnerTurns.reduce((sum, t) => sum + (t.feedbackScore ?? 3), 0) /
     (learnerTurns.length || 1);
 
-  const allLearnerText = learnerTurns.map((t) => t.text).join("\n");
+  const allLearnerText = learnerTurns
+    .map((t) => t.text)
+    .join(" ")
+    .slice(0, 800);
 
   const messages: ChatMessage[] = [
     {
+      role: "system",
+      content: `You end an English speaking session. Write a short debrief.
+${VOICE_RULES}
+${STYLE_EXAMPLE}
+
+Keep it to 4 sentences max:
+1. One thing they did well — be specific.
+2. One thing to practice next — tell them exactly what.
+3. One sentence of encouragement — simple, real, not fake.
+4. One action: what to do before the next session.`,
+    },
+    {
       role: "user",
-      content: `You are wrapping up an English speaking session on "${ctx.vocab.topic}".
-Average learner score this session: ${avgScore.toFixed(1)}/5
-Session had ${learnerTurns.length} learner turns.
-
-Learner's responses this session:
-"""
-${allLearnerText.slice(0, 1000)}
-"""
-
-Write a warm, encouraging debrief (3-4 sentences) that:
-- Celebrates specific progress
-- Names 1-2 vocab words they used well  
-- Gives ONE clear thing to practice before next session
-- Ends with motivation`,
+      content: `Topic: "${ctx.vocab.topic}"
+Score this session: ${avgScore.toFixed(1)}/5
+Learner said: "${allLearnerText}"`,
     },
   ];
 
-  return callAI(messages, { temperature: 0.8, maxTokens: 250, model: modelOverride });
+  return callAI(messages, { temperature: 0.65, maxTokens: 180, model: modelOverride });
 }
 
-// ─── Private Helpers ──────────────────────────────────────────────────────────
+// ─── Private: Turn System Prompt ─────────────────────────────────────────────
 
-function buildCoachSystemPrompt(ctx: SessionContext): string {
+function buildTurnSystemPrompt(
+  ctx: SessionContext,
+  vocabBank: string,
+  shouldAskWhatIf: boolean
+): string {
   const { vocab, phase } = ctx;
-  const vocabList = vocab.vocab
-    .map((v) => `• ${v.word} [${v.ipa}] — ${v.definition}`)
-    .join("\n");
-  const keyPhrases = vocab.keyPhrases.join(", ");
 
-  return `You are an enthusiastic, patient AI English speaking coach.
-Today's topic: "${vocab.topic}"
-Current phase: ${phase}
+  const phaseInstructions: Record<SessionPhase, string> = {
+    shadow: `Phase: SHADOW
+- Give one sentence from the video. Ask them to repeat it.
+- If they repeat correctly: say "Good." then give the next sentence.
+- If they make a mistake: say the correct version. Ask them to try again.
+- Keep replies under 3 sentences.`,
 
-Your vocabulary bank for this session — weave these naturally into every response:
-${vocabList}
+    practice: `Phase: PRACTICE
+- Have a real conversation about the topic: "${vocab.topic}"
+- Use 1-2 vocab words naturally in your reply.
+- React to what they said. Then ask one question.
+- Max 3 sentences in your reply.`,
 
-Key phrases from the video: ${keyPhrases}
+    whatif: `Phase: WHAT-IF
+- You just gave them a "What if..." scenario.
+- Listen to their answer. React to the content, not just the grammar.
+- Ask one follow-up question using a vocab word.
+- Max 3 sentences.`,
 
-COACHING RULES:
-1. Always respond in conversational English (not formal/academic)
-2. Use "What if..." questions every 2-3 turns to deepen practice
-3. Gently correct pronunciation or grammar by modeling the right form (never just saying "that's wrong")
-4. Keep responses SHORT for shadow phase (1 sentence to repeat), MEDIUM for practice (2-3 sentences)
-5. Always end your turn with either a question or a clear invitation for the learner to speak
-6. When in 'whatif' phase: pose a scenario, then let learner respond fully before commenting
-7. ⚠️ CRITICAL: Only discuss topics related to the video topic ("${vocab.topic}"). Do NOT talk about unrelated topics (like haircuts, weather, etc.) unless they are part of the video context. Do NOT invent unrelated conversation.
+    debrief: `Phase: DEBRIEF
+- Session is ending. Be warm but short.
+- Name one thing they did well. Name one thing to practice.
+- Max 3 sentences.`,
+  };
 
-Respond as JSON:
+  const whatIfInstruction = shouldAskWhatIf
+    ? `\nIMPORTANT: This turn, include a "What if..." question in whatIfPrompt.`
+    : "";
+
+  return `You are an English speaking coach. Topic today: "${vocab.topic}"
+
+${phaseInstructions[phase]}
+${whatIfInstruction}
+
+${VOICE_RULES}
+
+Vocab bank — use 1-2 of these naturally when they fit:
+${vocabBank}
+
+${STYLE_EXAMPLE}
+
+Respond ONLY as JSON:
 {
-  "reply": "your spoken coach response",
-  "whatIfPrompt": "a What if... question (or null if not appropriate this turn)",
-  "usedVocab": ["vocab words you used in reply"],
-  "feedback": { "score": 1-5, "strengths": [], "improvements": [], "naturalAlternative": null } or null,
+  "reply": "your coach reply — short, simple, direct",
+  "whatIfPrompt": "What if... question (string) or null",
+  "usedVocab": ["vocab words you used"],
+  "feedback": {
+    "score": 1-5,
+    "strengths": ["max 2, specific, under 12 words each"],
+    "improvements": ["1-2, actionable, under 12 words each"],
+    "naturalAlternative": "better version of what they said, or null"
+  },
   "suggestPhase": "shadow|practice|whatif|debrief or null"
 }`;
 }
 
+// ─── Private Helpers ──────────────────────────────────────────────────────────
+
 function historyToMessages(history: ConversationTurn[]): ChatMessage[] {
-  return history.slice(-10).map((turn) => ({
+  return history.map((turn) => ({
     role: turn.role === "coach" ? ("assistant" as const) : ("user" as const),
     content: turn.text,
   }));

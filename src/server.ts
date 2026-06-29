@@ -805,7 +805,7 @@ app.post("/api/coach/open-session", rateLimiter(10, 60000), async (req: Request,
     const clientModel = model || OPENROUTER_MODEL || "qwen/qwen3-next-80b-a3b-instruct";
     const ctx = buildSessionContext(lessonRow, [], "shadow");
 
-    const coachResp = await openSession(ctx, clientModel);
+    const coachResp = await openSession(ctx);
 
     const welcomeMsg = {
       id: `bot-${Date.now()}`,
@@ -849,7 +849,7 @@ app.post("/api/coach/process-turn", rateLimiter(15, 60000), async (req: Request,
     const clientModel = model || OPENROUTER_MODEL || "qwen/qwen3-next-80b-a3b-instruct";
     const ctx = buildSessionContext(lessonRow, existingMessages, phase);
 
-    const coachResp = await processTurn(message, ctx, clientModel);
+    const coachResp = await processTurn(message, ctx);
 
     // Save learner message
     const userMsg = {
@@ -914,7 +914,7 @@ app.post("/api/coach/debrief", rateLimiter(10, 60000), async (req: Request, res:
     const clientModel = model || OPENROUTER_MODEL || "qwen/qwen3-next-80b-a3b-instruct";
     const ctx = buildSessionContext(lessonRow, existingMessages, "debrief");
 
-    const debriefText = await generateDebrief(ctx, clientModel);
+    const debriefText = await generateDebrief(ctx);
 
     const debriefMsg = {
       id: `bot-${Date.now()}`,
@@ -1120,7 +1120,7 @@ app.post("/api/lessons/:id/initialize", rateLimiter(5, 60000), async (req: Reque
     let gameStartWords: string[] = [];
 
     try {
-      const extraction = await extractVocabFromLesson(videoLessonData, clientModel);
+      const extraction = await extractVocabFromLesson(videoLessonData);
       vocab = extraction.vocab || [];
       theme = extraction.topic || "Conversation";
       gameStartWords = extraction.keyPhrases || [];
