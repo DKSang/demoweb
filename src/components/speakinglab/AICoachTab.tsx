@@ -1,4 +1,3 @@
---- src/components/speakinglab/AICoachTab.tsx (原始)
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { Mic, MicOff, Send, Sparkles, ArrowRight } from "lucide-react";
