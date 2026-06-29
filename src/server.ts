@@ -192,6 +192,104 @@ const saveProgress = (progress: any) => {
   stmt.run("todayTasks", JSON.stringify(progress.todayTasks));
 };
 
+// Get today's vocabulary for word games
+const getTodaysVocabulary = () => {
+  const today = new Date().toISOString().split("T")[0];
+  const currentDayStmt = db.prepare("SELECT value FROM progress WHERE key = 'currentDay'");
+  const currentDayRow = currentDayStmt.get() as { value: string } | undefined;
+  const currentDay = currentDayRow ? Number(currentDayRow.value) : 1;
+  
+  // Get vocabulary saved today or for current day
+  const stmt = db.prepare("SELECT word, ipa, definition, example, day FROM vocabulary WHERE dateSaved = ? OR day = ? ORDER BY word");
+  const rows = stmt.all(today, currentDay) as { word: string, ipa: string, definition: string, example: string, day: number }[];
+  
+  return rows.map(row => ({
+    word: row.word,
+    ipa: row.ipa,
+    definition: row.definition,
+    example: row.example,
+    day: row.day
+  }));
+};
+
+// Get recent vocabulary for word games (last 7 days)
+const getRecentVocabulary = (days: number = 7) => {
+  const stmt = db.prepare(`
+    SELECT word, ipa, definition, example, day, dateSaved 
+    FROM vocabulary 
+    WHERE dateSaved >= date('now', ?) 
+    ORDER BY dateSaved DESC, word
+  `);
+  const rows = stmt.all(`-${days} days`) as { word: string, ipa: string, definition: string, example: string, day: number, dateSaved: string }[];
+  
+  return rows.map(row => ({
+    word: row.word,
+    ipa: row.ipa,
+    definition: row.definition,
+    example: row.example,
+    day: row.day,
+    dateSaved: row.dateSaved
+  }));
+};
+
+// Get or create game streak
+const getGameStreak = (): { count: number; lastPlayed: string | null } => {
+  const stmt = db.prepare("SELECT value FROM progress WHERE key = 'gameStreak'");
+  const row = stmt.get() as { value: string } | undefined;
+  
+  if (!row) {
+    return { count: 0, lastPlayed: null };
+  }
+  
+  const data = JSON.parse(row.value);
+  return { count: data.count || 0, lastPlayed: data.lastPlayed || null };
+};
+
+const updateGameStreak = () => {
+  const today = new Date().toISOString().split("T")[0];
+  const current = getGameStreak();
+  
+  let newCount = current.count + 1;
+  
+  // Reset streak if last played was more than 1 day ago
+  if (current.lastPlayed) {
+    const lastDate = new Date(current.lastPlayed);
+    const todayDate = new Date(today);
+    const diffDays = Math.floor((todayDate.getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24));
+    
+    if (diffDays > 1) {
+      newCount = 1; // Reset streak
+    }
+  }
+  
+  const stmt = db.prepare("INSERT OR REPLACE INTO progress (key, value) VALUES (?, ?)");
+  stmt.run("gameStreak", JSON.stringify({ count: newCount, lastPlayed: today }));
+  
+  return { count: newCount, lastPlayed: today };
+};
+
+// Get user achievements
+const getUserAchievements = () => {
+  const stmt = db.prepare("SELECT value FROM progress WHERE key = 'achievements'");
+  const row = stmt.get() as { value: string } | undefined;
+  
+  if (!row) {
+    return [];
+  }
+  
+  return JSON.parse(row.value);
+};
+
+const addAchievement = (achievement: string) => {
+  const achievements = getUserAchievements();
+  if (!achievements.includes(achievement)) {
+    achievements.push(achievement);
+    const stmt = db.prepare("INSERT OR REPLACE INTO progress (key, value) VALUES (?, ?)");
+    stmt.run("achievements", JSON.stringify(achievements));
+  }
+  return achievements;
+};
+
 // 2. Initialize lessons table
 const rowLessons: any = db.prepare("SELECT COUNT(*) as count FROM lessons").get();
 if (rowLessons.count === 0) {
@@ -931,7 +1029,22 @@ app.post("/api/games/validate", async (req: Request, res: Response) => {
     
     // Extract lesson context if available
     const theme = lessonContext?.theme || "General Conversation";
-    const relatedVocab = lessonContext?.relatedVocab || [];
+    let relatedVocab = lessonContext?.relatedVocab || [];
+    
+    // OPTIMIZATION #3: Enhance with user's vocabulary from SQLite
+    // Prioritize today's vocab and recent vocab for personalized learning
+    const todaysVocab = getTodaysVocabulary();
+    const recentVocab = getRecentVocabulary(7);
+    
+    // Combine lesson vocab with user's personal vocab (prioritize user's new words)
+    if (todaysVocab.length > 0) {
+      const userWords = todaysVocab.map(v => v.word);
+      relatedVocab = [...new Set([...relatedVocab, ...userWords])];
+    } else if (recentVocab.length > 0) {
+      const userWords = recentVocab.map(v => v.word);
+      relatedVocab = [...new Set([...relatedVocab, ...userWords])];
+    }
+    
     const vocabListStr = relatedVocab.length > 0 ? relatedVocab.join(", ") : "none provided";
 
     if (gameType === "tree") {
@@ -1128,6 +1241,67 @@ Respond ONLY with a raw JSON object (no markdown, no explanation outside JSON):
   } catch (err: any) {
     console.error("Failed to validate game word:", err);
     res.status(500).json({ error: "Failed to validate game word", details: err.message });
+  }
+});
+
+// NEW API: Get user's vocabulary for games
+app.get("/api/games/vocabulary", (req: Request, res: Response) => {
+  try {
+    const { days } = req.query;
+    const daysNum = days ? parseInt(days as string) : 7;
+    
+    const todaysVocab = getTodaysVocabulary();
+    const recentVocab = getRecentVocabulary(daysNum);
+    
+    res.json({
+      today: todaysVocab,
+      recent: recentVocab,
+      total: new Set([...todaysVocab.map(v => v.word), ...recentVocab.map(v => v.word)]).size
+    });
+  } catch (err: any) {
+    console.error("Failed to fetch game vocabulary:", err);
+    res.status(500).json({ error: "Failed to fetch vocabulary", details: err.message });
+  }
+});
+
+// NEW API: Get user's game stats (streak, achievements)
+app.get("/api/games/stats", (req: Request, res: Response) => {
+  try {
+    const streak = getGameStreak();
+    const achievements = getUserAchievements();
+    
+    res.json({
+      streak: streak.count,
+      lastPlayed: streak.lastPlayed,
+      achievements,
+      totalAchievements: achievements.length
+    });
+  } catch (err: any) {
+    console.error("Failed to fetch game stats:", err);
+    res.status(500).json({ error: "Failed to fetch stats", details: err.message });
+  }
+});
+
+// NEW API: Update game streak and add achievement
+app.post("/api/games/streak", (req: Request, res: Response) => {
+  try {
+    const { achievement } = req.body;
+    
+    const updatedStreak = updateGameStreak();
+    
+    let newAchievements = [];
+    if (achievement) {
+      newAchievements = addAchievement(achievement);
+    }
+    
+    res.json({
+      streak: updatedStreak.count,
+      lastPlayed: updatedStreak.lastPlayed,
+      achievements: newAchievements
+    });
+  } catch (err: any) {
+    console.error("Failed to update game streak:", err);
+    res.status(500).json({ error: "Failed to update streak", details: err.message });
   }
 });
 
