@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 // @ts-ignore
 import { YoutubeTranscript } from "youtube-transcript";
 import dotenv from "dotenv";
+import { DatabaseSync } from "node:sqlite";
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const OLLAMA_URL = process.env.VITE_OLLAMA_URL || "http://127.0.0.1:11434";
 
-// Ensure data folder and database files exist
+// Ensure data folder exists
 const DATA_DIR = path.resolve(__dirname, "../data");
 const VOCAB_FILE = path.join(DATA_DIR, "vocabulary.json");
 const STREAKS_FILE = path.join(DATA_DIR, "streaks.json");
@@ -27,12 +28,6 @@ const PROGRESS_FILE = path.join(DATA_DIR, "user_progress.json");
 if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
 }
-
-const initializeFile = (filePath: string, defaultContent: string) => {
-  if (!fs.existsSync(filePath)) {
-    fs.writeFileSync(filePath, defaultContent, "utf-8");
-  }
-};
 
 // 36 Videos Pre-populated Metadata
 const DEFAULT_LESSONS = [
@@ -74,12 +69,50 @@ const DEFAULT_LESSONS = [
   { id: "RJbUtcaoNCY", title: "Learn English While Getting a Haircut in Vietnam 💇 | Barbershop Vocabulary | Comprehensible Input", videoId: "RJbUtcaoNCY", isInitialized: false, vocab: [], lines: [] }
 ];
 
-initializeFile(VOCAB_FILE, "[]");
-initializeFile(STREAKS_FILE, "[]");
-initializeFile(HISTORY_FILE, "[]");
-initializeFile(LESSONS_FILE, JSON.stringify(DEFAULT_LESSONS, null, 2));
-initializeFile(COMMON_VOCAB_FILE, "[]");
+// Initialize SQLite database connection
+const DB_FILE = path.join(DATA_DIR, "bloom.db");
+const db = new DatabaseSync(DB_FILE);
 
+// Setup database tables
+db.exec(`
+  CREATE TABLE IF NOT EXISTS vocabulary (
+    word TEXT PRIMARY KEY,
+    ipa TEXT,
+    definition TEXT,
+    example TEXT,
+    day INTEGER,
+    dateSaved TEXT
+  );
+
+  CREATE TABLE IF NOT EXISTS progress (
+    key TEXT PRIMARY KEY,
+    value TEXT
+  );
+
+  CREATE TABLE IF NOT EXISTS chat_history (
+    id TEXT PRIMARY KEY,
+    role TEXT,
+    content TEXT,
+    correction TEXT
+  );
+
+  CREATE TABLE IF NOT EXISTS lessons (
+    id TEXT PRIMARY KEY,
+    title TEXT,
+    videoId TEXT,
+    isInitialized INTEGER,
+    vocab TEXT,
+    lines TEXT,
+    theme TEXT,
+    gameStartWords TEXT
+  );
+
+  CREATE TABLE IF NOT EXISTS streaks (
+    date TEXT PRIMARY KEY
+  );
+`);
+
+// Database Migration and Seeding
 const defaultProgress = {
   currentDay: 1,
   completedDays: {},
@@ -90,35 +123,190 @@ const defaultProgress = {
     game: false
   }
 };
-initializeFile(PROGRESS_FILE, JSON.stringify(defaultProgress, null, 2));
 
-// Migrate existing progress file from quiz to game task
-try {
+// 1. Initialize progress table
+const stmtCheckProg = db.prepare("SELECT COUNT(*) as count FROM progress");
+const rowProg: any = stmtCheckProg.get();
+if (rowProg.count === 0) {
+  let initialProgress = defaultProgress;
   if (fs.existsSync(PROGRESS_FILE)) {
-    const dataRaw = fs.readFileSync(PROGRESS_FILE, "utf-8");
-    const progress = JSON.parse(dataRaw);
-    let modified = false;
-    if (progress.todayTasks && progress.todayTasks.hasOwnProperty("quiz")) {
-      progress.todayTasks.game = progress.todayTasks.quiz;
-      delete progress.todayTasks.quiz;
-      modified = true;
-    }
-    if (progress.completedDays) {
-      for (const day in progress.completedDays) {
-        if (progress.completedDays[day].hasOwnProperty("quiz")) {
-          progress.completedDays[day].game = progress.completedDays[day].quiz;
-          delete progress.completedDays[day].quiz;
-          modified = true;
+    try {
+      const dataRaw = fs.readFileSync(PROGRESS_FILE, "utf-8");
+      const progress = JSON.parse(dataRaw);
+      
+      let todayTasks = progress.todayTasks || { listen: false, shadow: false, speak: false, game: false };
+      if (todayTasks.hasOwnProperty("quiz")) {
+        todayTasks.game = todayTasks.quiz;
+        delete todayTasks.quiz;
+      }
+      let completedDays = progress.completedDays || {};
+      for (const d in completedDays) {
+        if (completedDays[d].hasOwnProperty("quiz")) {
+          completedDays[d].game = completedDays[d].quiz;
+          delete completedDays[d].quiz;
         }
       }
-    }
-    if (modified) {
-      fs.writeFileSync(PROGRESS_FILE, JSON.stringify(progress, null, 2));
-      console.log("[Bloom Server] Migrated progress.json from quiz to game tasks.");
+      initialProgress = {
+        currentDay: progress.currentDay || 1,
+        completedDays,
+        todayTasks
+      };
+    } catch (err) {
+      console.error("Failed to parse progress.json for SQLite database initialization:", err);
     }
   }
-} catch (migrationErr) {
-  console.error("Failed to run progress migration:", migrationErr);
+  const stmtInsert = db.prepare("INSERT OR REPLACE INTO progress (key, value) VALUES (?, ?)");
+  stmtInsert.run("currentDay", String(initialProgress.currentDay));
+  stmtInsert.run("completedDays", JSON.stringify(initialProgress.completedDays));
+  stmtInsert.run("todayTasks", JSON.stringify(initialProgress.todayTasks));
+  console.log("[Bloom Server] Initialized progress table in SQLite database.");
+}
+
+// Helper getter/setter functions for progress
+const getProgress = () => {
+  const stmt = db.prepare("SELECT key, value FROM progress");
+  const rows = stmt.all() as { key: string, value: string }[];
+  
+  const progress: any = {
+    currentDay: 1,
+    completedDays: {},
+    todayTasks: { listen: false, shadow: false, speak: false, game: false }
+  };
+  
+  for (const row of rows) {
+    if (row.key === "currentDay") {
+      progress.currentDay = Number(row.value);
+    } else if (row.key === "completedDays") {
+      progress.completedDays = JSON.parse(row.value);
+    } else if (row.key === "todayTasks") {
+      progress.todayTasks = JSON.parse(row.value);
+    }
+  }
+  return progress;
+};
+
+const saveProgress = (progress: any) => {
+  const stmt = db.prepare("INSERT OR REPLACE INTO progress (key, value) VALUES (?, ?)");
+  stmt.run("currentDay", String(progress.currentDay));
+  stmt.run("completedDays", JSON.stringify(progress.completedDays));
+  stmt.run("todayTasks", JSON.stringify(progress.todayTasks));
+};
+
+// 2. Initialize lessons table
+const rowLessons: any = db.prepare("SELECT COUNT(*) as count FROM lessons").get();
+if (rowLessons.count === 0) {
+  let initialLessons = DEFAULT_LESSONS;
+  if (fs.existsSync(LESSONS_FILE)) {
+    try {
+      const raw = fs.readFileSync(LESSONS_FILE, "utf-8");
+      initialLessons = JSON.parse(raw);
+    } catch (err) {
+      console.error("Failed to read lessons.json for SQLite database initialization:", err);
+    }
+  }
+  const stmtInsert = db.prepare(`
+    INSERT OR REPLACE INTO lessons (id, title, videoId, isInitialized, vocab, lines, theme, gameStartWords)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+  for (const l of initialLessons) {
+    // Add fallbacks for theme and gameStartWords in database migration
+    let theme = (l as any).theme;
+    if (!theme) {
+      if (l.title.toLowerCase().includes("haircut")) {
+        theme = "Haircut";
+      } else if (l.title.toLowerCase().includes("time")) {
+        theme = "Time Expressions";
+      } else if (l.title.toLowerCase().includes("money") || l.title.toLowerCase().includes("slang")) {
+        theme = "Money Slang";
+      } else {
+        theme = "Conversation";
+      }
+    }
+    let gameStartWords = (l as any).gameStartWords;
+    if (!gameStartWords || gameStartWords.length === 0) {
+      gameStartWords = l.vocab && l.vocab.length > 0
+        ? l.vocab.map((v: any) => v.word)
+        : ["Conversation", "Language", "Vocabulary", "Speaking", "Practice"];
+    }
+
+    stmtInsert.run(
+      l.id,
+      l.title,
+      l.videoId,
+      l.isInitialized ? 1 : 0,
+      JSON.stringify(l.vocab || []),
+      JSON.stringify(l.lines || []),
+      theme,
+      JSON.stringify(gameStartWords)
+    );
+  }
+  console.log("[Bloom Server] Populated lessons table in SQLite database.");
+}
+
+// 3. Initialize vocabulary table
+const rowVocab: any = db.prepare("SELECT COUNT(*) as count FROM vocabulary").get();
+if (rowVocab.count === 0 && fs.existsSync(VOCAB_FILE)) {
+  try {
+    const dataRaw = fs.readFileSync(VOCAB_FILE, "utf-8");
+    const vocab = JSON.parse(dataRaw);
+    if (Array.isArray(vocab)) {
+      const stmtInsert = db.prepare("INSERT OR REPLACE INTO vocabulary (word, ipa, definition, example, day, dateSaved) VALUES (?, ?, ?, ?, ?, ?)");
+      for (const item of vocab) {
+        stmtInsert.run(
+          item.word,
+          item.ipa || "",
+          item.definition || "",
+          item.example || "",
+          item.day || 1,
+          item.dateSaved || new Date().toISOString().split("T")[0]
+        );
+      }
+      console.log("[Bloom Server] Migrated vocabulary.json to SQLite database.");
+    }
+  } catch (err) {
+    console.error("Failed to migrate vocabulary to SQLite:", err);
+  }
+}
+
+// 4. Initialize streaks table
+const rowStreaks: any = db.prepare("SELECT COUNT(*) as count FROM streaks").get();
+if (rowStreaks.count === 0 && fs.existsSync(STREAKS_FILE)) {
+  try {
+    const raw = fs.readFileSync(STREAKS_FILE, "utf-8");
+    const list = JSON.parse(raw);
+    if (Array.isArray(list)) {
+      const stmtInsert = db.prepare("INSERT OR IGNORE INTO streaks (date) VALUES (?)");
+      for (const d of list) {
+        stmtInsert.run(d);
+      }
+      console.log("[Bloom Server] Migrated streaks.json to SQLite database.");
+    }
+  } catch (err) {
+    console.error("Failed to migrate streaks to SQLite:", err);
+  }
+}
+
+// 5. Initialize chat history table
+const rowHistory: any = db.prepare("SELECT COUNT(*) as count FROM chat_history").get();
+if (rowHistory.count === 0 && fs.existsSync(HISTORY_FILE)) {
+  try {
+    const dataRaw = fs.readFileSync(HISTORY_FILE, "utf-8");
+    const history = JSON.parse(dataRaw);
+    if (Array.isArray(history)) {
+      const stmtInsert = db.prepare("INSERT OR REPLACE INTO chat_history (id, role, content, correction) VALUES (?, ?, ?, ?)");
+      for (const msg of history) {
+        stmtInsert.run(
+          msg.id || Math.random().toString(36).substring(7),
+          msg.role || "user",
+          msg.content || "",
+          msg.correction ? JSON.stringify(msg.correction) : null
+        );
+      }
+      console.log("[Bloom Server] Migrated chat_history.json to SQLite database.");
+    }
+  } catch (err) {
+    console.error("Failed to migrate chat history to SQLite:", err);
+  }
 }
 
 app.use(express.json({ limit: '100kb' }));
@@ -238,20 +426,7 @@ async function reconstructTranscriptIntoSentences(transcriptLines: any[]) {
 
   // --- Robustness Utilities ---
 
-// Sequential Asynchronous File Write Queue to prevent race conditions
-class FileWriteQueue {
-  private queue: Promise<void> = Promise.resolve();
-
-  async enqueueWrite(filePath: string, data: string): Promise<void> {
-    const next = () => fs.promises.writeFile(filePath, data, "utf-8");
-    this.queue = this.queue.then(next).catch((err) => {
-      console.error(`[Bloom Queue] Failed writing to: ${filePath}`, err);
-      throw err;
-    });
-    return this.queue;
-  }
-}
-const fileWriteQueue = new FileWriteQueue();
+// SQLite handles synchronization and write transactions natively. FileWriteQueue is deprecated.
 
 // Simple In-Memory Rate Limiter Middleware
 interface RateLimitInfo {
@@ -349,16 +524,24 @@ app.post("/api/chat", rateLimiter(15, 60000), async (req: Request, res: Response
 
     const data = await response.json();
 
-    // Log chat history asynchronously
+    // Log chat history in SQLite database
     try {
-      const historyRaw = await fs.promises.readFile(HISTORY_FILE, "utf-8");
-      const history = JSON.parse(historyRaw);
-      history.push({
-        timestamp: new Date().toISOString(),
-        messages: messages,
-        assistantResponse: data.message
-      });
-      await fileWriteQueue.enqueueWrite(HISTORY_FILE, JSON.stringify(history, null, 2));
+      const stmtInsert = db.prepare("INSERT OR REPLACE INTO chat_history (id, role, content, correction) VALUES (?, ?, ?, ?)");
+      const userMsg = messages[messages.length - 1];
+      if (userMsg) {
+        stmtInsert.run(
+          Math.random().toString(36).substring(7),
+          userMsg.role,
+          userMsg.content,
+          userMsg.correction ? JSON.stringify(userMsg.correction) : null
+        );
+      }
+      stmtInsert.run(
+        Math.random().toString(36).substring(7),
+        data.message.role,
+        data.message.content,
+        data.message.correction ? JSON.stringify(data.message.correction) : null
+      );
     } catch (logErr) {
       console.error("Failed to log chat history:", logErr);
     }
@@ -394,11 +577,12 @@ app.get("/api/ollama/health", async (req: Request, res: Response) => {
   }
 });
 
-// 2. Vocabulary API Routes (Asynchronous & Sanitized)
-app.get("/api/vocabulary", async (req: Request, res: Response) => {
+// 2. Vocabulary API Routes (SQLite)
+app.get("/api/vocabulary", (req: Request, res: Response) => {
   try {
-    const data = await fs.promises.readFile(VOCAB_FILE, "utf-8");
-    res.json(JSON.parse(data));
+    const stmt = db.prepare("SELECT * FROM vocabulary");
+    const rows = stmt.all();
+    res.json(rows);
   } catch (err: any) {
     res.status(500).json({ error: "Failed to read vocabulary data", details: err.message });
   }
@@ -406,6 +590,7 @@ app.get("/api/vocabulary", async (req: Request, res: Response) => {
 
 app.get("/api/common-vocabulary", async (req: Request, res: Response) => {
   try {
+    // Read-only static asset is still read from filesystem safely
     const data = await fs.promises.readFile(COMMON_VOCAB_FILE, "utf-8");
     res.json(JSON.parse(data));
   } catch (err: any) {
@@ -413,7 +598,7 @@ app.get("/api/common-vocabulary", async (req: Request, res: Response) => {
   }
 });
 
-app.post("/api/vocabulary", async (req: Request, res: Response) => {
+app.post("/api/vocabulary", (req: Request, res: Response) => {
   try {
     const body = req.body;
     if (!body || typeof body.word !== "string" || !body.word.trim()) {
@@ -421,110 +606,83 @@ app.post("/api/vocabulary", async (req: Request, res: Response) => {
       return;
     }
 
-    // Input Sanitization to only permitted keys
-    const newWord = {
-      word: body.word.trim(),
-      ipa: typeof body.ipa === "string" ? body.ipa.trim() : "",
-      definition: typeof body.definition === "string" ? body.definition.trim() : "",
-      example: typeof body.example === "string" ? body.example.trim() : "",
-      day: typeof body.day === "number" ? body.day : 1,
-      dateSaved: typeof body.dateSaved === "string" ? body.dateSaved.trim() : (() => {
-        const d = new Date();
-        const offset = d.getTimezoneOffset();
-        const localDate = new Date(d.getTime() - offset * 60 * 1000);
-        return localDate.toISOString().split("T")[0];
-      })()
-    };
+    const word = body.word.trim();
+    const ipa = typeof body.ipa === "string" ? body.ipa.trim() : "";
+    const definition = typeof body.definition === "string" ? body.definition.trim() : "";
+    const example = typeof body.example === "string" ? body.example.trim() : "";
+    const day = typeof body.day === "number" ? body.day : 1;
+    const dateSaved = typeof body.dateSaved === "string" ? body.dateSaved.trim() : (() => {
+      const d = new Date();
+      const offset = d.getTimezoneOffset();
+      const localDate = new Date(d.getTime() - offset * 60 * 1000);
+      return localDate.toISOString().split("T")[0];
+    })();
 
-    const dataRaw = await fs.promises.readFile(VOCAB_FILE, "utf-8");
-    const vocab = JSON.parse(dataRaw);
+    const stmtInsert = db.prepare(`
+      INSERT OR REPLACE INTO vocabulary (word, ipa, definition, example, day, dateSaved)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `);
+    stmtInsert.run(word, ipa, definition, example, day, dateSaved);
 
-    const exists = vocab.some((w: any) => w.word.toLowerCase() === newWord.word.toLowerCase());
-    if (!exists) {
-      vocab.push(newWord);
-      await fileWriteQueue.enqueueWrite(VOCAB_FILE, JSON.stringify(vocab, null, 2));
-    }
-
-    res.json(vocab);
+    const rows = db.prepare("SELECT * FROM vocabulary").all();
+    res.json(rows);
   } catch (err: any) {
     res.status(500).json({ error: "Failed to save vocabulary word", details: err.message });
   }
 });
 
-app.delete("/api/vocabulary/:word", async (req: Request, res: Response) => {
+app.delete("/api/vocabulary/:word", (req: Request, res: Response) => {
   try {
-    const targetWord = req.params.word.toLowerCase();
-    const dataRaw = await fs.promises.readFile(VOCAB_FILE, "utf-8");
-    const vocab = JSON.parse(dataRaw);
+    const targetWord = req.params.word;
+    const stmtDelete = db.prepare("DELETE FROM vocabulary WHERE LOWER(word) = LOWER(?)");
+    stmtDelete.run(targetWord);
 
-    const filtered = vocab.filter((w: any) => w.word.toLowerCase() !== targetWord);
-    await fileWriteQueue.enqueueWrite(VOCAB_FILE, JSON.stringify(filtered, null, 2));
-
-    res.json(filtered);
+    const rows = db.prepare("SELECT * FROM vocabulary").all();
+    res.json(rows);
   } catch (err: any) {
     res.status(500).json({ error: "Failed to delete vocabulary word", details: err.message });
   }
 });
 
-// 3. Streaks API Routes (Asynchronous)
-app.get("/api/streaks", async (req: Request, res: Response) => {
+// 3. Streaks API Routes (SQLite)
+app.get("/api/streaks", (req: Request, res: Response) => {
   try {
-    const data = await fs.promises.readFile(STREAKS_FILE, "utf-8");
-    res.json(JSON.parse(data));
+    const rows = db.prepare("SELECT date FROM streaks ORDER BY date ASC").all() as { date: string }[];
+    res.json(rows.map(r => r.date));
   } catch (err: any) {
     res.status(500).json({ error: "Failed to read streak data", details: err.message });
   }
 });
 
-app.post("/api/streaks", async (req: Request, res: Response) => {
+app.post("/api/streaks", (req: Request, res: Response) => {
   try {
     const d = new Date();
     const offset = d.getTimezoneOffset();
     const localDate = new Date(d.getTime() - offset * 60 * 1000);
     const todayStr = localDate.toISOString().split("T")[0];
     
-    const dataRaw = await fs.promises.readFile(STREAKS_FILE, "utf-8");
-    const streaks = JSON.parse(dataRaw);
+    const stmtInsert = db.prepare("INSERT OR IGNORE INTO streaks (date) VALUES (?)");
+    stmtInsert.run(todayStr);
 
-    if (!streaks.includes(todayStr)) {
-      streaks.push(todayStr);
-      await fileWriteQueue.enqueueWrite(STREAKS_FILE, JSON.stringify(streaks, null, 2));
-    }
-
-    res.json(streaks);
+    const rows = db.prepare("SELECT date FROM streaks ORDER BY date ASC").all() as { date: string }[];
+    res.json(rows.map(r => r.date));
   } catch (err: any) {
     res.status(500).json({ error: "Failed to save streak date", details: err.message });
   }
 });
 
-// 4. Dynamic Lessons Playlist Routes (Asynchronous)
-app.get("/api/lessons", async (req: Request, res: Response) => {
+// 4. Dynamic Lessons Playlist Routes (SQLite)
+app.get("/api/lessons", (req: Request, res: Response) => {
   try {
-    const data = await fs.promises.readFile(LESSONS_FILE, "utf-8");
-    const lessons = JSON.parse(data);
-    
-    // Add fallbacks for theme and gameStartWords
-    const enriched = lessons.map((l: any) => {
-      if (!l.theme) {
-        if (l.title.toLowerCase().includes("haircut")) {
-          l.theme = "Haircut";
-        } else if (l.title.toLowerCase().includes("time")) {
-          l.theme = "Time Expressions";
-        } else if (l.title.toLowerCase().includes("money") || l.title.toLowerCase().includes("slang")) {
-          l.theme = "Money Slang";
-        } else {
-          l.theme = "Conversation";
-        }
-      }
-      if (!l.gameStartWords || l.gameStartWords.length === 0) {
-        l.gameStartWords = l.vocab && l.vocab.length > 0
-          ? l.vocab.map((v: any) => v.word)
-          : ["Conversation", "Language", "Vocabulary", "Speaking", "Practice"];
-      }
-      return l;
-    });
-
-    res.json(enriched);
+    const rows = db.prepare("SELECT * FROM lessons").all() as any[];
+    const parsed = rows.map(row => ({
+      ...row,
+      isInitialized: row.isInitialized === 1,
+      vocab: JSON.parse(row.vocab || "[]"),
+      lines: JSON.parse(row.lines || "[]"),
+      gameStartWords: JSON.parse(row.gameStartWords || "[]")
+    }));
+    res.json(parsed);
   } catch (err: any) {
     res.status(500).json({ error: "Failed to read lessons data", details: err.message });
   }
@@ -533,16 +691,19 @@ app.get("/api/lessons", async (req: Request, res: Response) => {
 app.post("/api/lessons/:id/initialize", rateLimiter(5, 60000), async (req: Request, res: Response) => {
   try {
     const lessonId = req.params.id;
-    const lessonsRaw = await fs.promises.readFile(LESSONS_FILE, "utf-8");
-    const lessons = JSON.parse(lessonsRaw);
-    
-    const lessonIndex = lessons.findIndex((l: any) => l.id === lessonId);
-    if (lessonIndex === -1) {
+    const stmtFind = db.prepare("SELECT * FROM lessons WHERE id = ?");
+    const lessonRow: any = stmtFind.get(lessonId);
+    if (!lessonRow) {
       res.status(404).json({ error: "Lesson not found." });
       return;
     }
-    
-    const lesson = lessons[lessonIndex];
+    const lesson = {
+      ...lessonRow,
+      isInitialized: lessonRow.isInitialized === 1,
+      vocab: JSON.parse(lessonRow.vocab || "[]"),
+      lines: JSON.parse(lessonRow.lines || "[]"),
+      gameStartWords: JSON.parse(lessonRow.gameStartWords || "[]")
+    };
     
     // 1. Fetch transcript lines directly from YouTube video
     console.log(`[Bloom Server] Fetching subtitles for video: ${lesson.videoId}...`);
@@ -630,35 +791,49 @@ app.post("/api/lessons/:id/initialize", rateLimiter(5, 60000), async (req: Reque
       }
     }
 
-    // 3. Update lesson in array
-    lesson.vocab = vocab;
-    lesson.theme = theme;
-    lesson.gameStartWords = gameStartWords;
-    lesson.lines = transcriptLines;
-    lesson.isInitialized = true;
+    // 3. Update lesson in SQLite database
+    const stmtUpdate = db.prepare(`
+      UPDATE lessons 
+      SET isInitialized = 1, vocab = ?, lines = ?, theme = ?, gameStartWords = ?
+      WHERE id = ?
+    `);
+    stmtUpdate.run(
+      JSON.stringify(vocab),
+      JSON.stringify(transcriptLines),
+      theme,
+      JSON.stringify(gameStartWords),
+      lessonId
+    );
     
-    lessons[lessonIndex] = lesson;
-    await fileWriteQueue.enqueueWrite(LESSONS_FILE, JSON.stringify(lessons, null, 2));
-    console.log(`[Bloom Server] Lesson ${lessonId} initialized successfully with theme "${theme}", ${vocab.length} words and ${transcriptLines.length} lines.`);
+    // Fetch updated lesson from DB
+    const stmtSelect = db.prepare("SELECT * FROM lessons WHERE id = ?");
+    const updatedLessonRow: any = stmtSelect.get(lessonId);
+    const updatedLesson = {
+      ...updatedLessonRow,
+      isInitialized: updatedLessonRow.isInitialized === 1,
+      vocab: JSON.parse(updatedLessonRow.vocab || "[]"),
+      lines: JSON.parse(updatedLessonRow.lines || "[]"),
+      gameStartWords: JSON.parse(updatedLessonRow.gameStartWords || "[]")
+    };
     
-    res.json(lesson);
+    console.log(`[Bloom Server] Lesson ${lessonId} initialized successfully in SQLite with theme "${theme}", ${vocab.length} words and ${transcriptLines.length} lines.`);
+    res.json(updatedLesson);
   } catch (err: any) {
     console.error(`Failed to initialize lesson:`, err);
     res.status(500).json({ error: "Failed to initialize lesson captions & vocabulary", details: err.message });
   }
 });
 
-// 5. User Progress Daily Progression API Routes (Asynchronous)
-app.get("/api/progress", async (req: Request, res: Response) => {
+// 5. User Progress Daily Progression API Routes (SQLite)
+app.get("/api/progress", (req: Request, res: Response) => {
   try {
-    const data = await fs.promises.readFile(PROGRESS_FILE, "utf-8");
-    res.json(JSON.parse(data));
+    res.json(getProgress());
   } catch (err: any) {
     res.status(500).json({ error: "Failed to read progress data", details: err.message });
   }
 });
 
-app.post("/api/progress/task", async (req: Request, res: Response) => {
+app.post("/api/progress/task", (req: Request, res: Response) => {
   try {
     const { taskName, completed } = req.body;
     if (!taskName || typeof completed !== "boolean") {
@@ -666,12 +841,11 @@ app.post("/api/progress/task", async (req: Request, res: Response) => {
       return;
     }
 
-    const dataRaw = await fs.promises.readFile(PROGRESS_FILE, "utf-8");
-    const progress = JSON.parse(dataRaw);
+    const progress = getProgress();
 
     if (progress.todayTasks.hasOwnProperty(taskName)) {
       progress.todayTasks[taskName] = completed;
-      await fileWriteQueue.enqueueWrite(PROGRESS_FILE, JSON.stringify(progress, null, 2));
+      saveProgress(progress);
     }
 
     res.json(progress);
@@ -680,10 +854,9 @@ app.post("/api/progress/task", async (req: Request, res: Response) => {
   }
 });
 
-app.post("/api/progress/next-day", async (req: Request, res: Response) => {
+app.post("/api/progress/next-day", (req: Request, res: Response) => {
   try {
-    const dataRaw = await fs.promises.readFile(PROGRESS_FILE, "utf-8");
-    const progress = JSON.parse(dataRaw);
+    const progress = getProgress();
 
     const tasks = progress.todayTasks;
     const allCompleted = tasks.listen && tasks.shadow && tasks.speak && tasks.game;
@@ -706,17 +879,13 @@ app.post("/api/progress/next-day", async (req: Request, res: Response) => {
       const todayStr = localDate.toISOString().split("T")[0];
 
       try {
-        const streaksRaw = await fs.promises.readFile(STREAKS_FILE, "utf-8");
-        const streaks = JSON.parse(streaksRaw);
-        if (!streaks.includes(todayStr)) {
-          streaks.push(todayStr);
-          await fileWriteQueue.enqueueWrite(STREAKS_FILE, JSON.stringify(streaks, null, 2));
-        }
+        const stmtInsert = db.prepare("INSERT OR IGNORE INTO streaks (date) VALUES (?)");
+        stmtInsert.run(todayStr);
       } catch (streakErr) {
         console.error("Failed to automatically record streak on day complete:", streakErr);
       }
 
-      await fileWriteQueue.enqueueWrite(PROGRESS_FILE, JSON.stringify(progress, null, 2));
+      saveProgress(progress);
     }
 
     res.json(progress);
@@ -725,14 +894,14 @@ app.post("/api/progress/next-day", async (req: Request, res: Response) => {
   }
 });
 
-app.post("/api/progress/reset", rateLimiter(3, 60000), async (req: Request, res: Response) => {
+app.post("/api/progress/reset", rateLimiter(3, 60000), (req: Request, res: Response) => {
   try {
     // Require explicit confirmation token to prevent accidental/malicious resets
     if (req.body?.confirm !== true) {
       res.status(400).json({ error: "Missing confirm token. Send { confirm: true } to reset progress." });
       return;
     }
-    const defaultProgress = {
+    const defaultProg = {
       currentDay: 1,
       completedDays: {},
       todayTasks: {
@@ -742,8 +911,8 @@ app.post("/api/progress/reset", rateLimiter(3, 60000), async (req: Request, res:
         game: false
       }
     };
-    await fileWriteQueue.enqueueWrite(PROGRESS_FILE, JSON.stringify(defaultProgress, null, 2));
-    res.json(defaultProgress);
+    saveProgress(defaultProg);
+    res.json(defaultProg);
   } catch (err: any) {
     res.status(500).json({ error: "Failed to reset progress", details: err.message });
   }
