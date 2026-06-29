@@ -306,33 +306,25 @@ export async function evaluateSpeechTranscript(
 
   const messages: ChatMessage[] = [
     {
-      role: "system",
-      content: `You evaluate spoken English from a learner.
+      role: "user",
+      content: `You are a professional English speaking coach.
+Evaluate this student's spoken response.
 
-Topic: "${ctx.vocab.topic}"
-Words to look for: ${vocabWords}
-Expected context: "${expectedContext}"
+Details:
+- Video Topic: "${ctx.vocab.topic}"
+- Student spoke: "${transcribedText}"
+- Target vocabulary: ${vocabWords}
+- Expected context: "${expectedContext}"
 
-Score 1-5:
-1 = hard to understand
-2 = understandable with effort
-3 = clear, some mistakes
-4 = natural, minor mistakes
-5 = fluent and natural
-
-Return ONLY a valid JSON object matching this schema. You may format your response as a json code block (no other text outside of the JSON):
+Respond ONLY with a valid JSON object matching this schema. You may format your response as a json code block (no other text outside of the JSON):
 {
-  "score": number,
-  "strengths": ["max 2 items — be specific, use simple words"],
-  "improvements": ["1-2 items — tell them exactly what to do, not just what went wrong"],
-  "naturalAlternative": "say it this way instead — or null if already good"
+  "score": 3,
+  "strengths": ["Good use of vocabulary.", "Grammatically correct."],
+  "improvements": ["Try to elaborate more on your reasons."],
+  "naturalAlternative": "A more natural way to say it"
 }
 
 Keep every string under 15 words.`,
-    },
-    {
-      role: "user",
-      content: `Learner said: "${transcribedText}"`,
     },
   ];
 
