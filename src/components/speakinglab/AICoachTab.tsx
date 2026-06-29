@@ -389,28 +389,9 @@ export default function AICoachTab({
         </div>
       )}
 
-      {/* Top settings row */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-4 mb-4">
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <span className="text-xs font-mono tracking-wider text-white/40 uppercase">Day {selectedProgressDay} Coach</span>
-          <div className="flex items-center gap-1.5">
-            {(["shadow", "practice", "whatif", "debrief"] as const).map((p, idx) => (
-              <React.Fragment key={p}>
-                {idx > 0 && <span className="text-[10px] text-white/20">&rarr;</span>}
-                <button
-                  onClick={() => setPhase(p)}
-                  className={`px-2 py-0.5 rounded text-[9px] font-mono border uppercase tracking-wider transition-all duration-200 ${
-                    phase === p
-                      ? "bg-white/10 border-white/20 text-white font-semibold cursor-default"
-                      : "bg-transparent border-white/5 text-white/30 hover:text-white/60 hover:border-white/15 cursor-pointer"
-                  }`}
-                  title={`Switch to Phase: ${p}`}
-                >
-                  {p}
-                </button>
-              </React.Fragment>
-            ))}
-          </div>
         </div>
 
         <div className="flex items-center gap-2">

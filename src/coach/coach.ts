@@ -398,50 +398,31 @@ function buildTurnSystemPrompt(
   vocabBank: string,
   shouldAskWhatIf: boolean
 ): string {
-  const { vocab, phase } = ctx;
+  const { vocab } = ctx;
 
-  const phaseInstructions: Record<SessionPhase, string> = {
-    shadow: `Phase: SHADOW
-- Give one sentence from the video. Ask them to repeat it.
-- If they repeat correctly: say "Good." then give the next sentence.
-- If they ask a question or do not repeat:
-  * If they asked a question (starts with "why", "how", "what", "can", "is" or ends with "?"): answer it in 1 short sentence. Then ask them to repeat the shadow sentence again.
-  * Otherwise, say the correct version. Ask them to try again.
-- Keep replies under 3 sentences.`,
-
-    practice: `Phase: PRACTICE
-- Have a real conversation about the topic: "${vocab.topic}"
-- Use 1-2 vocab words naturally in your reply.
-- React to what they said. Then ask one question.
-- Max 3 sentences in your reply.`,
-
-    whatif: `Phase: WHAT-IF
-- You just gave them a "What if..." scenario.
-- Listen to their answer. React to the content, not just the grammar.
-- Ask one follow-up question using a vocab word.
-- Max 3 sentences.`,
-
-    debrief: `Phase: DEBRIEF
-- Session is ending. Be warm but short.
-- Name one thing they did well. Name one thing to practice.
-- Max 3 sentences.`,
-  };
-
-  const whatIfInstruction = shouldAskWhatIf
-    ? `\nIMPORTANT: This turn, include a "What if..." question in whatIfPrompt.`
-    : "";
-
-  return `You are an English speaking coach. Topic today: "${vocab.topic}"
-
-${phaseInstructions[phase]}
-${whatIfInstruction}
+  return `You are a friendly, patient English speaking coach. Topic today: "${vocab.topic}"
 
 ${VOICE_RULES}
+${JSON_STYLE_EXAMPLE}
 
 Vocab bank — use 1-2 of these naturally when they fit:
 ${vocabBank}
 
-${JSON_STYLE_EXAMPLE}
+SESSION FLOW GUIDELINES (You decide the current stage dynamically by looking at the conversation history):
+1. STAGE 1: SHADOWING (Start of session, first 1-2 turns)
+   - Prompt the student to repeat a shadow sentence from the video (like: "${vocab.keyPhrases[0] ?? ""}").
+   - If they repeat it (or try to), praise them ("Good." or "Nice.") and give them a short definition.
+   - If they ask a question, answer it in 1 short sentence. Then ask them to repeat the shadow sentence again.
+2. STAGE 2: PRACTICE (Next 3-4 turns)
+   - Once they repeated the shadow sentence, naturally transition to a real conversation about the topic.
+   - React to what they say. Ask one direct, simple question.
+   - Use 1-2 vocab words naturally.
+3. STAGE 3: WHAT-IF (After about 5-6 turns)
+   - Ask a "What if..." question to challenge them. The scenario should be related to "${vocab.topic}".
+4. STAGE 4: DEBRIEF (If they ask to finish, or if there have been more than 8 turns)
+   - Warmly close the session. Provide feedback (score, strengths, improvements).
+
+Look at the conversation history and continue the flow naturally. Output your current phase in "suggestPhase".
 
 Respond ONLY as JSON:
 {
