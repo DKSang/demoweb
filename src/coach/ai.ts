@@ -48,10 +48,9 @@ export async function callAI(
         max_tokens: maxTokens,
       };
 
-      // JSON mode: instruct model to return only valid JSON
-      if (jsonMode) {
-        body.response_format = { type: "json_object" };
-      }
+      // API-level JSON mode is bypassed because many free models on OpenRouter
+      // do not support response_format and crash/loop. We rely on prompt constraints
+      // and robust regex JSON extraction instead.
 
       const response = await fetch(OPENROUTER_URL, {
         method: "POST",
