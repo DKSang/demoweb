@@ -5,13 +5,13 @@
       "listen": true,
       "shadow": true,
       "speak": true,
-      "quiz": true
+      "game": true
     }
   },
   "todayTasks": {
     "listen": true,
     "shadow": true,
     "speak": true,
-    "quiz": false
+    "game": false
   }
 }

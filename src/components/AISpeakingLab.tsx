@@ -257,7 +257,7 @@ export default function AISpeakingLab() {
     }
   };
 
-  const updateProgressTask = async (taskName: "listen" | "shadow" | "speak" | "quiz", completed: boolean) => {
+  const updateProgressTask = async (taskName: "listen" | "shadow" | "speak" | "game", completed: boolean) => {
     try {
       const res = await fetch("/api/progress/task", {
         method: "POST",
@@ -352,7 +352,7 @@ export default function AISpeakingLab() {
     }
   };
 
-  const isDayComplete = !!(userProgress?.todayTasks?.listen && userProgress?.todayTasks?.shadow && userProgress?.todayTasks?.speak && userProgress?.todayTasks?.quiz);
+  const isDayComplete = !!(userProgress?.todayTasks?.listen && userProgress?.todayTasks?.shadow && userProgress?.todayTasks?.speak && userProgress?.todayTasks?.game);
 
   return (
     <section id="ai-speaking-lab" className="py-24 px-4 lg:px-8 relative z-10 max-w-7xl mx-auto border-t border-white/5">
@@ -518,6 +518,7 @@ export default function AISpeakingLab() {
                 savedVocab={savedVocab}
                 ollamaModel={ollamaModel}
                 userProgress={userProgress}
+                updateProgressTask={updateProgressTask}
               />
             </div>
           )}
@@ -570,7 +571,7 @@ export default function AISpeakingLab() {
                 <span className="text-[10px] font-mono text-white/50 uppercase tracking-widest">Day Completed</span>
                 <h3 className="text-xl font-semibold text-white">Day {userProgress.currentDay} Accomplished!</h3>
                 <p className="text-xs text-white/60 mt-1">
-                  Congratulations! You completed all daily tasks (Listen, Shadow, Speak with AI, and Quiz) for the lesson:
+                  Congratulations! You completed all daily tasks (Listen, Shadow, Speak with AI, and Word Games) for the lesson:
                   <br />
                   <span className="font-serif italic text-white/95 mt-2 block font-medium">"{selectedLesson?.title.replace("🇬🇧", "").trim()}"</span>
                 </p>

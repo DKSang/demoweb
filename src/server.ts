@@ -87,10 +87,39 @@ const defaultProgress = {
     listen: false,
     shadow: false,
     speak: false,
-    quiz: false
+    game: false
   }
 };
 initializeFile(PROGRESS_FILE, JSON.stringify(defaultProgress, null, 2));
+
+// Migrate existing progress file from quiz to game task
+try {
+  if (fs.existsSync(PROGRESS_FILE)) {
+    const dataRaw = fs.readFileSync(PROGRESS_FILE, "utf-8");
+    const progress = JSON.parse(dataRaw);
+    let modified = false;
+    if (progress.todayTasks && progress.todayTasks.hasOwnProperty("quiz")) {
+      progress.todayTasks.game = progress.todayTasks.quiz;
+      delete progress.todayTasks.quiz;
+      modified = true;
+    }
+    if (progress.completedDays) {
+      for (const day in progress.completedDays) {
+        if (progress.completedDays[day].hasOwnProperty("quiz")) {
+          progress.completedDays[day].game = progress.completedDays[day].quiz;
+          delete progress.completedDays[day].quiz;
+          modified = true;
+        }
+      }
+    }
+    if (modified) {
+      fs.writeFileSync(PROGRESS_FILE, JSON.stringify(progress, null, 2));
+      console.log("[Bloom Server] Migrated progress.json from quiz to game tasks.");
+    }
+  }
+} catch (migrationErr) {
+  console.error("Failed to run progress migration:", migrationErr);
+}
 
 app.use(express.json({ limit: '100kb' }));
 
@@ -657,7 +686,7 @@ app.post("/api/progress/next-day", async (req: Request, res: Response) => {
     const progress = JSON.parse(dataRaw);
 
     const tasks = progress.todayTasks;
-    const allCompleted = tasks.listen && tasks.shadow && tasks.speak && tasks.quiz;
+    const allCompleted = tasks.listen && tasks.shadow && tasks.speak && tasks.game;
 
     if (allCompleted) {
       const finishedDay = progress.currentDay;
@@ -667,7 +696,7 @@ app.post("/api/progress/next-day", async (req: Request, res: Response) => {
         listen: false,
         shadow: false,
         speak: false,
-        quiz: false
+        game: false
       };
 
       // Record streak date for today
@@ -710,7 +739,7 @@ app.post("/api/progress/reset", rateLimiter(3, 60000), async (req: Request, res:
         listen: false,
         shadow: false,
         speak: false,
-        quiz: false
+        game: false
       }
     };
     await fileWriteQueue.enqueueWrite(PROGRESS_FILE, JSON.stringify(defaultProgress, null, 2));

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import type { Lesson, VocabWord, SavedWord, UserProgress } from "./types";
 import { BookOpen, Plus, Trash2, Sparkles, Calendar, Check } from "lucide-react";
-import type { Lesson, VocabWord, SavedWord, UserProgress, QuizState } from "./types";
 
 // Streak Sprout Visualization Component
 const StreakSprout = ({ streak }: { streak: number }) => {
@@ -73,9 +74,9 @@ interface VocabNotebookTabProps {
   ollamaModel: string;
   handleSaveWord: (word: VocabWord) => void;
   handleDeleteWord: (word: string) => void;
-  updateProgressTask: (task: "listen" | "shadow" | "speak" | "quiz", completed: boolean) => void;
-  vocabSubTab: "saved" | "foundational" | "review" | "add" | "quiz";
-  setVocabSubTab: (sub: "saved" | "foundational" | "review" | "add" | "quiz") => void;
+  updateProgressTask: (task: "listen" | "shadow" | "speak" | "game", completed: boolean) => void;
+  vocabSubTab: "saved" | "foundational" | "review" | "add";
+  setVocabSubTab: (sub: "saved" | "foundational" | "review" | "add") => void;
 }
 
 // Timezone-safe local date string generator (YYYY-MM-DD)
@@ -159,78 +160,11 @@ export default function VocabNotebookTab({
   });
   const [isInferring, setIsInferring] = useState(false);
 
-  // Quiz state
-  const [quizState, setQuizState] = useState<QuizState>({
-    questions: [],
-    currentQuestionIndex: 0,
-    selectedAnswers: {},
-    isFinished: false,
-    score: 0
-  });
-
   const toggleFlippedWord = (word: string) => {
     setFlippedWords(prev => 
       prev.includes(word) ? prev.filter(w => w !== word) : [...prev, word]
     );
   };
-
-  const generateQuiz = () => {
-    if (!selectedLesson || !selectedLesson.vocab || selectedLesson.vocab.length === 0) {
-      setQuizState({
-        questions: [],
-        currentQuestionIndex: 0,
-        selectedAnswers: {},
-        isFinished: false,
-        score: 0
-      });
-      return;
-    }
-
-    const vocabList = selectedLesson.vocab;
-    const questions = vocabList.map(item => {
-      const correctAnswer = item.definition;
-      const distractors: string[] = [];
-      const allPossibleDistractors = [
-        ...commonVocab.map((w: any) => w.definition),
-        ...(lessonsList.flatMap(l => l.vocab || []).map(w => w.definition))
-      ].filter(def => def && def.toLowerCase() !== correctAnswer.toLowerCase());
-
-      const shuffledDistractors = allPossibleDistractors.sort(() => 0.5 - Math.random());
-      for (const def of shuffledDistractors) {
-        if (distractors.length < 3 && !distractors.includes(def)) {
-          distractors.push(def);
-        }
-      }
-
-      while (distractors.length < 3) {
-        distractors.push(`Definition placeholder ${distractors.length + 1}`);
-      }
-
-      const options = [correctAnswer, ...distractors].sort(() => 0.5 - Math.random());
-
-      return {
-        word: item.word,
-        question: `What does the word "${item.word}" mean?`,
-        correctAnswer,
-        options
-      };
-    });
-
-    setQuizState({
-      questions,
-      currentQuestionIndex: 0,
-      selectedAnswers: {},
-      isFinished: false,
-      score: 0
-    });
-  };
-
-  // Auto-generate quiz when switching to quiz sub-tab
-  React.useEffect(() => {
-    if (vocabSubTab === "quiz") {
-      generateQuiz();
-    }
-  }, [vocabSubTab, selectedLesson]);
 
   const handleAddCustomWord = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -461,23 +395,6 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
               }`}
             >
               Foundational 521
-            </button>
-            <button
-              onClick={() => {
-                setVocabSubTab("quiz");
-                setQuizState({
-                  questions: [],
-                  currentQuestionIndex: 0,
-                  selectedAnswers: {},
-                  isFinished: false,
-                  score: 0
-                });
-              }}
-              className={`text-xs font-semibold tracking-wide uppercase pb-2 border-b-2 transition-all cursor-pointer ${
-                vocabSubTab === "quiz" ? "text-white border-white" : "text-white/40 border-transparent hover:text-white/70"
-              }`}
-            >
-              Daily Quiz
             </button>
             <button
               onClick={() => {
@@ -726,104 +643,6 @@ Return the result EXACTLY in the following JSON format, and nothing else (do not
               <span>Save to Vocabulary Store</span>
             </button>
           </form>
-        ) : vocabSubTab === "quiz" ? (
-          quizState.questions.length === 0 ? (
-            <div className="py-20 text-center flex flex-col items-center gap-3 bg-black/45 rounded-2xl border border-white/5 p-6">
-              <Sparkles className="w-8 h-8 text-white/10" />
-              <p className="text-xs text-white/40">No vocabulary words available for this lesson. Please initialize the lesson to start the quiz.</p>
-            </div>
-          ) : quizState.isFinished ? (
-            <div className="py-16 text-center flex flex-col items-center gap-6 bg-black/45 rounded-2xl border border-white/5 p-6">
-              <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center animate-bounce">
-                <Sparkles className="w-8 h-8 text-white" />
-              </div>
-              <div className="flex flex-col gap-2">
-                <h4 className="text-base font-semibold text-white uppercase tracking-wider">Quiz Completed!</h4>
-                <p className="text-xs text-white/60">
-                  {quizState.score === quizState.questions.length
-                    ? "Perfect! You got all definitions correct and finished the quiz!"
-                    : `You scored ${quizState.score} out of ${quizState.questions.length}. You need 100% correct to complete this task.`}
-                </p>
-              </div>
-              <div className="flex gap-4">
-                <button
-                  onClick={generateQuiz}
-                  className="px-6 py-3 rounded-full bg-white text-black text-xs font-semibold hover:scale-105 active:scale-95 transition-all cursor-pointer"
-                >
-                  Retry Quiz
-                </button>
-                {quizState.score === quizState.questions.length && (
-                  <button
-                    onClick={() => setVocabSubTab("saved")}
-                    className="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 text-white text-xs font-semibold hover:scale-105 active:scale-95 transition-all cursor-pointer"
-                  >
-                    Back to Saved
-                  </button>
-                )}
-              </div>
-            </div>
-          ) : (
-            <div className="bg-black/45 p-6 rounded-2xl border border-white/5 flex flex-col gap-5">
-              <div className="flex justify-between items-center border-b border-white/5 pb-3">
-                <span className="text-[10px] font-mono text-white/40 uppercase tracking-wider">
-                  Question {quizState.currentQuestionIndex + 1} of {quizState.questions.length}
-                </span>
-                <span className="text-[10px] font-mono text-white/50 bg-white/5 px-2 py-0.5 rounded">
-                  Word: {quizState.questions[quizState.currentQuestionIndex].word}
-                </span>
-              </div>
-              <p className="text-xs text-white font-medium">
-                {quizState.questions[quizState.currentQuestionIndex].question}
-              </p>
-              <div className="flex flex-col gap-3 mt-2">
-                {quizState.questions[quizState.currentQuestionIndex].options.map((option, idx) => {
-                  const isSelected = quizState.selectedAnswers[quizState.currentQuestionIndex] === option;
-                  return (
-                    <button
-                      key={idx}
-                      onClick={() => {
-                        setQuizState(prev => {
-                          const answers = { ...prev.selectedAnswers, [prev.currentQuestionIndex]: option };
-                          const isLast = prev.currentQuestionIndex === prev.questions.length - 1;
-                          if (isLast) {
-                            let score = 0;
-                            prev.questions.forEach((q, qidx) => {
-                              if (answers[qidx] === q.correctAnswer) {
-                                score++;
-                              }
-                            });
-                            if (score === prev.questions.length) {
-                              updateProgressTask("quiz", true);
-                            }
-                            return {
-                              ...prev,
-                              selectedAnswers: answers,
-                              isFinished: true,
-                              score
-                            };
-                          } else {
-                            return {
-                              ...prev,
-                              selectedAnswers: answers,
-                              currentQuestionIndex: prev.currentQuestionIndex + 1
-                            };
-                          }
-                        });
-                      }}
-                      className={`w-full text-left p-3.5 rounded-xl text-xs leading-relaxed border transition-all duration-200 hover:scale-[1.01] active:scale-95 cursor-pointer ${
-                        isSelected
-                          ? "bg-white text-black border-white font-medium"
-                          : "bg-black/60 text-white/80 border-white/5 hover:border-white/10 hover:bg-black/85"
-                      }`}
-                    >
-                      <span className="font-mono text-white/40 mr-2">{String.fromCharCode(65 + idx)}.</span>
-                      {option}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )
         ) : (
           // Review flashcard game mode
           savedVocab.length === 0 ? (

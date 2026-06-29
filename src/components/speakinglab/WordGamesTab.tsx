@@ -23,13 +23,15 @@ interface WordGamesTabProps {
   savedVocab: SavedWord[];
   ollamaModel: string;
   userProgress: UserProgress;
+  updateProgressTask: (task: "listen" | "shadow" | "speak" | "game", completed: boolean) => void;
 }
 
 export default function WordGamesTab({
   selectedLesson,
   savedVocab,
   ollamaModel,
-  userProgress
+  userProgress,
+  updateProgressTask
 }: WordGamesTabProps) {
   const [activeGame, setActiveGame] = useState<"tree" | "association">("tree");
 
@@ -165,6 +167,7 @@ export default function WordGamesTab({
         setTreeBranches(prev => [...prev, treeInput.trim()]);
         setTreeFeedback(`✓ Related! ${data.explanation || ""}`);
         setTreeInput("");
+        updateProgressTask("game", true);
       } else {
         setTreeError(`✗ Rejected: ${data.explanation || "Not close enough to the central word."}`);
       }
@@ -174,6 +177,7 @@ export default function WordGamesTab({
       setTreeBranches(prev => [...prev, treeInput.trim()]);
       setTreeFeedback(`✓ Added (offline fallback connection accepted)`);
       setTreeInput("");
+      updateProgressTask("game", true);
     } finally {
       setIsTreeValidating(false);
     }
@@ -269,6 +273,7 @@ export default function WordGamesTab({
         setAssocChain(newChain);
         setAssocInput("");
         setAssocFeedback(`✓ Associated! ${data.explanation || ""}`);
+        updateProgressTask("game", true);
         
         if (newChain.length >= 10) {
           setShowSummary(true);
@@ -284,6 +289,7 @@ export default function WordGamesTab({
       setAssocChain(newChain);
       setAssocInput("");
       setAssocFeedback(`✓ Added (offline fallback connection accepted)`);
+      updateProgressTask("game", true);
       if (newChain.length >= 10) {
         setShowSummary(true);
         setIsAssocActive(false);

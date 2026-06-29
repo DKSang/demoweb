@@ -44,19 +44,11 @@ export interface ChatMessage {
 
 export interface UserProgress {
   currentDay: number;
-  completedDays: Record<number, { listen: boolean; shadow: boolean; speak: boolean; quiz: boolean }>;
+  completedDays: Record<number, { listen: boolean; shadow: boolean; speak: boolean; game: boolean }>;
   todayTasks: {
     listen: boolean;
     shadow: boolean;
     speak: boolean;
-    quiz: boolean;
+    game: boolean;
   };
-}
-
-export interface QuizState {
-  questions: { word: string; question: string; correctAnswer: string; options: string[] }[];
-  currentQuestionIndex: number;
-  selectedAnswers: Record<number, string>;
-  isFinished: boolean;
-  score: number;
 }

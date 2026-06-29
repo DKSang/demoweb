@@ -44,9 +44,9 @@ interface ShadowingTabProps {
   handleInitializeLesson: () => void;
   handleSaveWord: (word: VocabWord) => void;
   userProgress: UserProgress;
-  updateProgressTask: (task: "listen" | "shadow" | "speak" | "quiz", completed: boolean) => void;
+  updateProgressTask: (task: "listen" | "shadow" | "speak" | "game", completed: boolean) => void;
   setHasShadowedToday: (v: boolean) => void;
-  changeTab: (tab: "shadow" | "coach" | "vocab") => void;
+  changeTab: (tab: "shadow" | "coach" | "vocab" | "games") => void;
   // Speech recognition props passed from parent
   isRecording: boolean;
   volumeLevel: number;

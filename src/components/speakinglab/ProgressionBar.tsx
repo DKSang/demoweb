@@ -8,8 +8,8 @@ interface ProgressionBarProps {
   selectedProgressDay: number;
   setSelectedProgressDay: (day: number) => void;
   selectedLesson: Lesson | null;
-  changeTab: (tab: "shadow" | "coach" | "vocab") => void;
-  setVocabSubTab: (sub: "saved" | "foundational" | "review" | "add" | "quiz") => void;
+  changeTab: (tab: "shadow" | "coach" | "vocab" | "games") => void;
+  setVocabSubTab: (sub: "saved" | "foundational" | "review" | "add") => void;
   handleResetProgress: () => void;
 }
 
@@ -23,10 +23,14 @@ export default function ProgressionBar({
   handleResetProgress
 }: ProgressionBarProps) {
 
-  const getTaskCompleted = (taskName: "listen" | "shadow" | "speak" | "quiz") => {
+  const getTaskCompleted = (taskName: "listen" | "shadow" | "speak" | "game") => {
     if (!userProgress) return false;
     if (selectedProgressDay < userProgress.currentDay) {
-      return userProgress.completedDays?.[selectedProgressDay]?.[taskName] ?? true;
+      const completed = userProgress.completedDays?.[selectedProgressDay];
+      if (completed) {
+        return completed[taskName] ?? (completed as any)["quiz"] ?? true;
+      }
+      return true;
     }
     return userProgress.todayTasks?.[taskName] ?? false;
   };
@@ -111,26 +115,25 @@ export default function ProgressionBar({
             </div>
           </button>
 
-          {/* Task 4: Quiz */}
+          {/* Task 4: Word Game */}
           <button
             onClick={() => {
-              changeTab("vocab");
-              setVocabSubTab("quiz");
+              changeTab("games");
             }}
             className="group relative flex items-center gap-2 px-4 py-2 rounded-xl bg-black/40 hover:bg-black/60 border border-white/5 hover:border-white/10 transition-all cursor-pointer text-left"
           >
             <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center border ${
-              getTaskCompleted("quiz") 
+              getTaskCompleted("game") 
                 ? "bg-green-500 border-green-500 text-black" 
                 : "border-white/20 text-transparent"
             }`}>
-              {getTaskCompleted("quiz") && <Check className="w-2.5 h-2.5" />}
+              {getTaskCompleted("game") && <Check className="w-2.5 h-2.5" />}
             </div>
-            <span className={`text-xs ${getTaskCompleted("quiz") ? "text-green-300 font-semibold" : "text-white/70"}`}>4. Quiz</span>
+            <span className={`text-xs ${getTaskCompleted("game") ? "text-green-300 font-semibold" : "text-white/70"}`}>4. Word Game</span>
             
             {/* Tooltip */}
             <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-52 p-2.5 rounded-xl bg-zinc-950/95 border border-white/10 text-[10px] leading-relaxed text-white/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 shadow-2xl z-30 text-center font-sans font-normal">
-              Pass the daily vocabulary quiz with <strong className="text-white">100%</strong> correct answers.
+              Play Word Tree or Word Association games to connect your brain and mouth.
             </div>
           </button>
 

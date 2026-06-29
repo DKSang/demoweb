@@ -11,11 +11,11 @@ interface AICoachTabProps {
   ttsSpeed: number;
   selectedVoice: string;
   voicesList: SpeechSynthesisVoice[];
-  updateProgressTask: (task: "listen" | "shadow" | "speak" | "quiz", completed: boolean) => void;
+  updateProgressTask: (task: "listen" | "shadow" | "speak" | "game", completed: boolean) => void;
   markDayPracticed: () => void;
   setHasChattedToday: (v: boolean) => void;
-  changeTab: (tab: "shadow" | "coach" | "vocab") => void;
-  setVocabSubTab: (sub: "saved" | "foundational" | "review" | "add" | "quiz") => void;
+  changeTab: (tab: "shadow" | "coach" | "vocab" | "games") => void;
+  setVocabSubTab: (sub: "saved" | "foundational" | "review" | "add") => void;
   // Speech recognition props
   isRecording: boolean;
   volumeLevel: number;
@@ -482,12 +482,11 @@ export default function AICoachTab({
           </p>
           <button
             onClick={() => {
-              changeTab("vocab");
-              setVocabSubTab("quiz");
+              changeTab("games");
             }}
             className="py-2.5 rounded-xl bg-white text-black hover:bg-white/90 text-xs font-semibold hover:scale-102 active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow"
           >
-            <span>Take Vocabulary Quiz</span>
+            <span>Play Word Games</span>
             <ArrowRight className="w-3.5 h-3.5 text-black" />
           </button>
         </motion.div>
