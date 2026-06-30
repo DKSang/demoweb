@@ -9,7 +9,8 @@ import {
   ArrowRight,
   Settings,
   Volume2,
-  Gamepad2
+  Gamepad2,
+  Activity
 } from "lucide-react";
 import type { Lesson, VocabWord, SavedWord, UserProgress } from "./speakinglab/types";
 import ProgressionBar from "./speakinglab/ProgressionBar";
@@ -40,10 +41,9 @@ export default function AISpeakingLab() {
     enableNoiseCancellation: true,
     enableEnhancedProcessing: true,
     onTextUpdate: (text) => {
+      setRecognitionText(text);
       if (activeTab === "coach") {
         setChatInput(text);
-      } else {
-        setRecognitionText(text);
       }
     },
     onSpeechEnd: (finalText) => {
@@ -55,7 +55,6 @@ export default function AISpeakingLab() {
           // We need to trigger send - set a flag
           setPendingSpeechSend(finalVal);
         }
-        setChatInput("");
       }
     }
   });
@@ -65,6 +64,45 @@ export default function AISpeakingLab() {
 
   // Chat input shared between parent and AICoachTab
   const [chatInput, setChatInput] = useState("");
+
+  // AI Router Monitor states
+  const [isMonitorOpen, setIsMonitorOpen] = useState(false);
+  const [usageStats, setUsageStats] = useState<any[]>([]);
+
+  // Fetch AI Router usage stats periodically when monitor is open
+  useEffect(() => {
+    if (!isMonitorOpen) return;
+
+    const fetchStats = () => {
+      fetch("/api/usage-stats")
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data)) {
+            setUsageStats(data);
+          }
+        })
+        .catch(err => console.error("Failed to fetch usage stats:", err));
+    };
+
+    fetchStats();
+    const interval = setInterval(fetchStats, 3000);
+    return () => clearInterval(interval);
+  }, [isMonitorOpen]);
+
+  const handleResetCooldowns = async () => {
+    try {
+      const res = await fetch("/api/usage-stats/reset-cooldown", { method: "POST" });
+      if (res.ok) {
+        const statsRes = await fetch("/api/usage-stats");
+        const data = await statsRes.json();
+        if (Array.isArray(data)) {
+          setUsageStats(data);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to reset cooldowns:", err);
+    }
+  };
 
   // Stop recording when switching tabs
   useEffect(() => {
@@ -130,7 +168,7 @@ export default function AISpeakingLab() {
   const [ttsSpeed, setTtsSpeed] = useState(0.95);
   const [selectedVoice, setSelectedVoice] = useState<string>("");
   const [voicesList, setVoicesList] = useState<SpeechSynthesisVoice[]>([]);
-  const [openRouterModel, setOpenRouterModel] = useState<string>("qwen/qwen3-next-80b-a3b-instruct");
+  const [openRouterModel, setOpenRouterModel] = useState<string>("qwen/qwen-2.5-72b-instruct");
 
   // Daily Progression State
   const [userProgress, setUserProgress] = useState<UserProgress>({
@@ -418,9 +456,20 @@ export default function AISpeakingLab() {
                 title="Select AI Model"
               >
                 <option value="openrouter/free" className="bg-zinc-950 text-white">Auto Free Model</option>
-                <option value="qwen/qwen3-next-80b-a3b-instruct" className="bg-zinc-950 text-white">Qwen3 Next 80B A3B Instruct</option>
+                <option value="qwen/qwen-2.5-72b-instruct" className="bg-zinc-950 text-white">Qwen 2.5 72B Instruct</option>
+                <option value="meta-llama/llama-3-8b-instruct:free" className="bg-zinc-950 text-white">Llama 3 8B Free</option>
+                <option value="google/gemini-2.5-flash" className="bg-zinc-950 text-white">Gemini 2.5 Flash</option>
               </select>
             </div>
+
+            <button 
+              onClick={() => setIsMonitorOpen(true)}
+              className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 active:scale-95 flex items-center gap-2.5 text-xs font-mono text-white/80 hover:text-white transition-all cursor-pointer"
+              title="Show AI Monitor Dashboard"
+            >
+              <Activity className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
+              <span>AI Monitor</span>
+            </button>
           </div>
         </div>
 
@@ -513,6 +562,7 @@ export default function AISpeakingLab() {
               setRecognitionText={setRecognitionText}
               pendingSpeechSend={pendingSpeechSend}
               clearPendingSpeechSend={() => setPendingSpeechSend(null)}
+              recognitionText={recognitionText}
             />
           )}
 
@@ -606,6 +656,116 @@ export default function AISpeakingLab() {
               </button>
             </motion.div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* AI Router Monitor Dashboard Modal */}
+      <AnimatePresence>
+        {isMonitorOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="w-full max-w-2xl liquid-glass border border-white/10 rounded-3xl p-6 relative overflow-hidden shadow-2xl"
+            >
+              {/* Background gradient flare */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-[80px] pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] pointer-events-none" />
+
+              <div className="flex justify-between items-center mb-6 relative z-10">
+                <div className="flex items-center gap-2">
+                  <Activity className="w-5 h-5 text-emerald-400 animate-pulse" />
+                  <h3 className="text-xl font-medium tracking-tight text-white font-serif italic">AI Router Monitor Dashboard</h3>
+                </div>
+                <button 
+                  onClick={() => setIsMonitorOpen(false)}
+                  className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 active:scale-90 flex items-center justify-center text-white/50 hover:text-white transition-all cursor-pointer text-lg font-bold"
+                >
+                  &times;
+                </button>
+              </div>
+
+              <div className="space-y-4 max-h-[380px] overflow-y-auto pr-1 relative z-10">
+                {usageStats.length === 0 ? (
+                  <p className="text-xs text-white/40 text-center py-8">No usage stats available yet. Start chatting to trigger AI calls!</p>
+                ) : (
+                  usageStats.map((prov) => (
+                    <div 
+                      key={prov.name} 
+                      className={`p-4 rounded-2xl border transition-all ${
+                        prov.status === "cooldown" 
+                          ? "bg-red-500/5 border-red-500/20" 
+                          : prov.status === "missing_key"
+                          ? "bg-white/2 border-white/5 opacity-50"
+                          : "bg-white/5 border-white/5"
+                      }`}
+                    >
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="font-semibold text-sm capitalize text-white">{prov.name}</span>
+                            <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-white/40 font-mono">
+                              Priority {prov.priority}
+                            </span>
+                            {prov.status === "cooldown" && (
+                              <span className="text-[10px] px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 font-mono animate-pulse">
+                                Cooldown {prov.cooldownRemainingSeconds}s
+                              </span>
+                            )}
+                            {prov.status === "active" && (
+                              <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-mono">
+                                Active
+                              </span>
+                            )}
+                            {prov.status === "missing_key" && (
+                              <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-white/30 font-mono">
+                                Inactive
+                              </span>
+                            )}
+                          </div>
+                          <span className="text-xs text-white/50 block mt-0.5 font-mono">{prov.model}</span>
+                        </div>
+
+                        <div className="text-right">
+                          <span className="text-xs font-mono text-white/70 block">
+                            Min: {prov.requestsThisMinute} / {prov.rpmLimit} RPM
+                          </span>
+                          <span className="text-[10px] font-mono text-white/40 block mt-0.5">
+                            Today: {prov.dailyRequests} / {prov.dailyLimit} RPD
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Progress bar visual for RPM */}
+                      <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden mt-3">
+                        <div 
+                          className={`h-full transition-all duration-500 ${
+                            prov.status === "cooldown" 
+                              ? "bg-red-500" 
+                              : prov.requestsThisMinute / prov.rpmLimit > 0.8 
+                              ? "bg-yellow-500" 
+                              : "bg-emerald-500"
+                          }`}
+                          style={{ width: `${Math.min(100, (prov.requestsThisMinute / prov.rpmLimit) * 100)}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              <div className="flex justify-between items-center mt-6 pt-4 border-t border-white/5 relative z-10">
+                <span className="text-[10px] text-white/40 font-mono">Auto-refreshes every 3 seconds</span>
+                <button 
+                  onClick={handleResetCooldowns}
+                  className="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 active:scale-95 text-black font-semibold text-xs transition-all cursor-pointer"
+                >
+                  Reset Cooldowns
+                </button>
+              </div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </section>

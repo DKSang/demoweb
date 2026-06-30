@@ -13,6 +13,7 @@ import {
   generateDebrief
 } from "./coach/coach.js";
 import { SessionContext, ConversationTurn, SessionPhase } from "./coach/types.js";
+import { getProviderUsageStats, resetProviderCooldowns } from "./coach/ai.js";
 
 dotenv.config();
 
@@ -22,7 +23,8 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3001;
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || "";
-const OPENROUTER_MODEL = process.env.OPENROUTER_MODEL || "qwen/qwen3-next-80b-a3b-instruct";
+const OPENROUTER_MODEL = process.env.OPENROUTER_MODEL || "qwen/qwen-2.5-72b-instruct";
+const OPENROUTER_BASE_URL = process.env.OPENROUTER_BASE_URL || "https://openrouter.ai/api/v1";
 
 // Ensure data folder exists
 const DATA_DIR = path.resolve(__dirname, "../data");
@@ -822,8 +824,26 @@ app.post("/api/coach/open-session", rateLimiter(10, 60000), async (req: Request,
 
     res.json(welcomeMsg);
   } catch (err: any) {
-    console.error("Failed to open AI Coach session:", err);
-    res.status(500).json({ error: "Failed to open AI Coach session", details: err.message });
+    console.error("Failed to open AI Coach session, returning graceful fail-safe:", err);
+    const welcomeMsg = {
+      id: `bot-fallback-${Date.now()}`,
+      role: "assistant",
+      content: "Hello! Welcome back to our speaking lab. I'm a bit sleepy today, but I'm ready to practice with you! Shall we start?",
+      phase: "shadow",
+      usedVocab: []
+    };
+    
+    const { lessonId, day } = req.body;
+    if (lessonId && day) {
+      try {
+        const historyKey = `chat_${lessonId}_${day}`;
+        const stmtInsert = db.prepare("INSERT OR REPLACE INTO progress (key, value) VALUES (?, ?)");
+        stmtInsert.run(historyKey, JSON.stringify([welcomeMsg]));
+      } catch (saveErr) {
+        console.error("Failed to save fallback open-session history:", saveErr);
+      }
+    }
+    res.json(welcomeMsg);
   }
 });
 
@@ -862,10 +882,13 @@ app.post("/api/coach/process-turn", rateLimiter(15, 60000), async (req: Request,
     // Backwards compatible correction format if AI provided feedback
     let correction = undefined;
     if (coachResp.feedbackOnLearner?.naturalAlternative) {
+      const improvements = Array.isArray(coachResp.feedbackOnLearner.improvements)
+        ? coachResp.feedbackOnLearner.improvements
+        : [];
       correction = {
         original: message,
         corrected: coachResp.feedbackOnLearner.naturalAlternative,
-        explanation: coachResp.feedbackOnLearner.improvements.join(" ")
+        explanation: improvements.join(" ")
       };
     }
 
@@ -887,8 +910,40 @@ app.post("/api/coach/process-turn", rateLimiter(15, 60000), async (req: Request,
 
     res.json(botMsg);
   } catch (err: any) {
-    console.error("Failed to process AI Coach turn:", err);
-    res.status(500).json({ error: "Failed to process AI Coach turn", details: err.message });
+    console.error("Failed to process AI Coach turn, returning graceful fail-safe:", err);
+    const fallbackMsg = {
+      id: `bot-fallback-${Date.now()}`,
+      role: "assistant",
+      content: "Sorry, my brain feels a bit dizzy right now. 😵 Can you please try sending that again? I want to practice speaking with you!",
+      phase: req.body.phase || "practice",
+      usedVocab: [],
+      feedback: null,
+      correction: null
+    };
+
+    try {
+      const { lessonId, day, message, phase } = req.body;
+      if (lessonId && day) {
+        const historyKey = `chat_${lessonId}_${day}`;
+        const stmtHistory = db.prepare("SELECT value FROM progress WHERE key = ?");
+        const row = stmtHistory.get(historyKey) as { value: string } | undefined;
+        const existingMessages = row ? JSON.parse(row.value) : [];
+
+        const userMsg = {
+          id: `user-${Date.now()}`,
+          role: "user",
+          content: message || "",
+          phase: phase || "practice"
+        };
+
+        const updatedMessages = [...existingMessages, userMsg, fallbackMsg];
+        const stmtInsert = db.prepare("INSERT OR REPLACE INTO progress (key, value) VALUES (?, ?)");
+        stmtInsert.run(historyKey, JSON.stringify(updatedMessages));
+      }
+    } catch (saveErr) {
+      console.error("Failed to save fallback chat history:", saveErr);
+    }
+    res.json(fallbackMsg);
   }
 });
 
@@ -930,8 +985,49 @@ app.post("/api/coach/debrief", rateLimiter(10, 60000), async (req: Request, res:
 
     res.json(debriefMsg);
   } catch (err: any) {
-    console.error("Failed to generate AI Coach debrief:", err);
-    res.status(500).json({ error: "Failed to generate AI Coach debrief", details: err.message });
+    console.error("Failed to generate AI Coach debrief, returning graceful fail-safe:", err);
+    const debriefMsg = {
+      id: `bot-fallback-${Date.now()}`,
+      role: "assistant",
+      content: "Great job today! You practiced speaking and worked hard. Keep up the good work and see you in the next lesson!",
+      phase: "debrief",
+      usedVocab: []
+    };
+
+    try {
+      const { lessonId, day } = req.body;
+      if (lessonId && day) {
+        const historyKey = `chat_${lessonId}_${day}`;
+        const stmtHistory = db.prepare("SELECT value FROM progress WHERE key = ?");
+        const row = stmtHistory.get(historyKey) as { value: string } | undefined;
+        const existingMessages = row ? JSON.parse(row.value) : [];
+
+        const updatedMessages = [...existingMessages, debriefMsg];
+        const stmtInsert = db.prepare("INSERT OR REPLACE INTO progress (key, value) VALUES (?, ?)");
+        stmtInsert.run(historyKey, JSON.stringify(updatedMessages));
+      }
+    } catch (saveErr) {
+      console.error("Failed to save fallback debrief history:", saveErr);
+    }
+    res.json(debriefMsg);
+  }
+});
+
+// 1a. AI Coach Failover Router Usage Statistics
+app.get("/api/usage-stats", (req: Request, res: Response) => {
+  try {
+    res.json(getProviderUsageStats());
+  } catch (err: any) {
+    res.status(500).json({ error: "Failed to get AI router stats", details: err.message });
+  }
+});
+
+app.post("/api/usage-stats/reset-cooldown", (req: Request, res: Response) => {
+  try {
+    resetProviderCooldowns();
+    res.json({ status: "success", message: "All provider cooldowns and rate limits reset successfully." });
+  } catch (err: any) {
+    res.status(500).json({ error: "Failed to reset AI router cooldowns", details: err.message });
   }
 });
 
@@ -941,7 +1037,7 @@ app.get("/api/openrouter/health", async (req: Request, res: Response) => {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 second timeout
 
-    const response = await fetch("https://openrouter.ai/api/v1/models", {
+    const response = await fetch(`${OPENROUTER_BASE_URL}/models`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${OPENROUTER_API_KEY}`,

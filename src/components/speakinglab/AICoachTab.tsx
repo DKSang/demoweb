@@ -28,6 +28,7 @@ interface AICoachTabProps {
   setRecognitionText: (v: string) => void;
   pendingSpeechSend?: string | null;
   clearPendingSpeechSend?: () => void;
+  recognitionText: string;
 }
 
 export default function AICoachTab({
@@ -53,7 +54,8 @@ export default function AICoachTab({
   setChatInput,
   setRecognitionText,
   pendingSpeechSend,
-  clearPendingSpeechSend
+  clearPendingSpeechSend,
+  recognitionText
 }: AICoachTabProps) {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [phase, setPhase] = useState<"shadow" | "practice" | "whatif" | "debrief">("shadow");
@@ -128,6 +130,8 @@ export default function AICoachTab({
   const lastSaveTimeRef = useRef(0);
   useEffect(() => {
     if (chatHistory.length > 0 && lastLoadedDayRef.current === selectedProgressDay) {
+      const lastMsg = chatHistory[chatHistory.length - 1];
+      if (lastMsg.role === "assistant" && !lastMsg.content) return;
       const now = Date.now();
       const isNewMessage = chatHistory.length !== prevChatLenRef.current;
       if (isNewMessage) {
@@ -150,13 +154,13 @@ export default function AICoachTab({
 
   // Listen to pending speech sends from parent
   useEffect(() => {
-    if (pendingSpeechSend) {
+    if (pendingSpeechSend && !isQwenLoading) {
       handleSendChat(pendingSpeechSend);
       if (clearPendingSpeechSend) {
         clearPendingSpeechSend();
       }
     }
-  }, [pendingSpeechSend]);
+  }, [pendingSpeechSend, isQwenLoading]);
 
   // TTS Output speak helper
   const speakAIResponse = (text: string) => {
@@ -283,18 +287,20 @@ export default function AICoachTab({
       updateProgressTask("speak", true);
     } catch (err) {
       console.error(err);
-      setChatHistory(prev =>
-        prev.map(msg =>
+      setChatHistory(prev => {
+        const newHistory = prev.map(msg =>
           msg.id === botId
             ? {
                 id: botId,
                 role: "assistant",
-                content: "Oops! I encountered an error communicating with the AI Coach on OpenRouter. Please try again.",
+                content: "Sorry, my brain feels a bit dizzy right now. 😵 Can you please try sending that again? I want to practice speaking with you!",
                 phase: phase
               }
             : msg
-        )
-      );
+        );
+        persistChatHistory(newHistory);
+        return newHistory;
+      });
     } finally {
       setIsQwenLoading(false);
     }
@@ -509,25 +515,38 @@ export default function AICoachTab({
       {/* Speaking Coach Chat Inputs Row */}
       <div className="flex flex-col gap-3 mt-6 border-t border-white/5 pt-4">
         {isRecording && (
-          <div className="flex items-center justify-center gap-3 py-1 bg-black/20 rounded-2xl border border-white/5 max-w-xs mx-auto px-4">
-            <div className="flex items-center gap-0.5 h-6">
-              {Array.from({ length: 15 }).map((_, i) => {
-                const active = volumeLevel > (i * 6.5);
-                const distanceFromCenter = Math.abs(i - 7);
-                const maxHeight = 24 - distanceFromCenter * 2;
-                const height = active ? Math.max(4, Math.round((volumeLevel / 100) * maxHeight)) : 4;
-                return (
-                  <div
-                    key={i}
-                    className={`w-1 rounded-full transition-all duration-75 ${
-                      active ? "bg-white" : "bg-white/10"
-                    }`}
-                    style={{ height: `${height}px` }}
-                  />
-                );
-              })}
+          <div className="flex flex-col gap-3 max-w-md mx-auto w-full">
+            {/* Volume Meter */}
+            <div className="flex items-center justify-center gap-3 py-1 bg-black/20 rounded-2xl border border-white/5 max-w-xs mx-auto px-4 w-full">
+              <div className="flex items-center gap-0.5 h-6">
+                {Array.from({ length: 15 }).map((_, i) => {
+                  const active = volumeLevel > (i * 6.5);
+                  const distanceFromCenter = Math.abs(i - 7);
+                  const maxHeight = 24 - distanceFromCenter * 2;
+                  const height = active ? Math.max(4, Math.round((volumeLevel / 100) * maxHeight)) : 4;
+                  return (
+                    <div
+                      key={i}
+                      className={`w-1 rounded-full transition-all duration-75 ${
+                        active ? "bg-white" : "bg-white/10"
+                      }`}
+                      style={{ height: `${height}px` }}
+                    />
+                  );
+                })}
+              </div>
+              <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest animate-pulse">Voice Level</span>
             </div>
-            <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest animate-pulse">Voice Level</span>
+
+            {/* Realtime Speech Text */}
+            {recognitionText && (
+              <div className="text-left bg-black/45 p-4 rounded-2xl border border-white/5 w-full">
+                <span className="text-[9px] font-mono text-white/40 block mb-1">Your Speech:</span>
+                <p className="text-xs text-white/90 font-mono leading-relaxed">
+                  {recognitionText}
+                </p>
+              </div>
+            )}
           </div>
         )}
 

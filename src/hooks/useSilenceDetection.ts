@@ -29,6 +29,7 @@ export function useSilenceDetection({
   });
 
   const recognitionRef = useRef<any>(null);
+  const latestTextRef = useRef("");
   const audioStreamRef = useRef<MediaStream | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
@@ -107,7 +108,12 @@ export function useSilenceDetection({
     }
 
     setRecognitionText("");
+    latestTextRef.current = "";
     setIsRecording(true);
+
+    if (typeof window !== "undefined" && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
 
     try {
       // 1. Web Audio API setup for volume meter, noise cancellation and auto-silence
@@ -183,6 +189,9 @@ export function useSilenceDetection({
         if (averageVolume > currentThreshold) {
           hasSpoken = true;
           silenceStart = now;
+          if (typeof window !== "undefined" && window.speechSynthesis && window.speechSynthesis.speaking) {
+            window.speechSynthesis.cancel();
+          }
         } else {
           const silenceElapsed = now - silenceStart;
           if (hasSpoken && silenceElapsed > MAX_SILENCE_DURATION) {
@@ -235,13 +244,20 @@ export function useSilenceDetection({
 
         if (finalTranscript) {
           accumulatedText += finalTranscript;
-          setRecognitionText(accumulatedText.trim());
+          const cleanText = accumulatedText.trim();
+          latestTextRef.current = cleanText;
+          setRecognitionText(cleanText);
           if (propsRef.current.onTextUpdate) {
-            propsRef.current.onTextUpdate(accumulatedText.trim());
+            propsRef.current.onTextUpdate(cleanText);
           }
         } else if (interimTranscript && enableEnhancedProcessing) {
           // Show interim results with visual indicator
-          setRecognitionText(accumulatedText + interimTranscript + "…");
+          const currentText = (accumulatedText + interimTranscript).trim();
+          latestTextRef.current = currentText;
+          setRecognitionText(currentText + "…");
+          if (propsRef.current.onTextUpdate) {
+            propsRef.current.onTextUpdate(currentText);
+          }
         }
       };
 
@@ -254,8 +270,9 @@ export function useSilenceDetection({
       rec.onend = () => {
         setIsRecording(false);
         stopSilenceDetection();
+        const finalTextVal = latestTextRef.current || accumulatedText.trim();
         if (propsRef.current.onSpeechEnd) {
-          propsRef.current.onSpeechEnd(accumulatedText.trim());
+          propsRef.current.onSpeechEnd(finalTextVal);
         }
       };
 

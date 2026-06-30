@@ -52,6 +52,7 @@ const JSON_STYLE_EXAMPLE = `
 Good JSON output style (your entire response must be a single valid JSON block formatted like this):
 {
   "reply": "You said 'I go to school yesterday.' Small fix: use 'went'. Try again — 'I went to school yesterday.' Your turn.",
+  "classifiedIntent": "practice",
   "whatIfPrompt": null,
   "usedVocab": [],
   "feedback": {
@@ -122,15 +123,39 @@ Extract exactly 8 vocab items.`,
 
   // Validate: all vocab words must exist in transcript (basic check)
   const transcriptLower = lesson.rawTranscript.toLowerCase();
+  if (!Array.isArray(result.vocab)) result.vocab = [];
+  if (!Array.isArray(result.keyPhrases)) result.keyPhrases = [];
   result.vocab = result.vocab.filter((v) => {
     const wordRoot = v.word.split(" ")[0].toLowerCase();
     return transcriptLower.includes(wordRoot);
   });
 
   if (result.vocab.length < 3) {
-    throw new Error(
-      "AI returned vocab not found in transcript. Check transcript quality."
-    );
+    console.warn("[Coach] Vocab validation failed (< 3 words found). Retrying with higher temperature...");
+    const retried = await callAIJson<VocabExtractionResult>(messages, {
+      temperature: 0.5,
+      maxTokens: 1400,
+      model: modelOverride
+    });
+    if (!Array.isArray(retried.vocab)) retried.vocab = [];
+    if (!Array.isArray(retried.keyPhrases)) retried.keyPhrases = [];
+    retried.vocab = retried.vocab.filter((v) => {
+      const wordRoot = v.word.split(" ")[0].toLowerCase();
+      return transcriptLower.includes(wordRoot);
+    });
+    if (retried.vocab.length >= 3) return retried;
+
+    // If still failing, use a minimal safe fallback so the session can start
+    console.warn("[Coach] Vocab retry also failed. Using safe minimal fallback vocab.");
+    return {
+      topic: "Everyday English",
+      keyPhrases: ["practice English", "use it naturally"],
+      vocab: [
+        { word: "practice", ipa: "/ˈpræktɪs/", partOfSpeech: "verb", definition: "repeat to improve", example: "I practice English every day.", contextTimestamp: null },
+        { word: "natural", ipa: "/ˈnætʃərəl/", partOfSpeech: "adjective", definition: "not forced, real", example: "Speak in a natural way.", contextTimestamp: null },
+        { word: "learn", ipa: "/lɜːrn/", partOfSpeech: "verb", definition: "gain knowledge or skill", example: "I learn new words every week.", contextTimestamp: null },
+      ]
+    };
   }
 
   return result;
@@ -156,7 +181,7 @@ export async function openSession(
   const { vocab } = ctx;
 
   // Pick the first shadow sentence from keyPhrases — short and speakable
-  const shadowSentence = vocab.keyPhrases[0] ?? vocab.vocab[0]?.example ?? "";
+  const shadowSentence = vocab.keyPhrases?.[0] ?? vocab.vocab?.[0]?.example ?? "";
 
   const messages: ChatMessage[] = [
     {
@@ -190,14 +215,137 @@ Keep it under 5 sentences total.`,
   };
 }
 
-// ─── 4. Conversation Turn ─────────────────────────────────────────────────────
+// ─── 4. Dynamic System Prompt Selection ──────────────────────────────────────
+
+function buildTurnSystemPrompt(
+  ctx: SessionContext,
+  vocabBank: string
+): string {
+  const { vocab } = ctx;
+  
+  return `You are a friendly, patient English practice partner. Topic today: "${vocab.topic}"
+
+${VOICE_RULES}
+
+Vocab available (use naturally if fits):
+${vocabBank}
+
+YOUR ROLE & INTENT-BASED RESPONDING:
+As a companion, you must dynamically classify the user's message and follow these rules:
+1. "question" (User asks why/how/what about a word, phrase, or grammar rule):
+   - Answer their question FIRST.
+   - Explain simply, use a real life example. Keep under 3 sentences.
+   - Then ask if they want to try using it in a sentence.
+   - Set "classifiedIntent" to "question". Do NOT fill in feedback scores unless they made a mistake in their question itself.
+2. "practice" (User makes an English sentence trying to practice or talk about the topic):
+   - React to the content like a friend.
+   - If they made a small mistake, suggest ONE quick correction.
+   - Ask a follow-up question.
+   - Set "classifiedIntent" to "practice". Fill in the feedback score (1-5), strengths, improvements, and naturalAlternative.
+3. "chat" (User makes a casual comment, opinion, greeting or small talk like "this is hard", "good morning", "yes"):
+   - Chat naturally, show empathy or share your experience.
+   - Keep it short, friendly and supportive.
+   - Set "classifiedIntent" to "chat". Do NOT provide score/feedback.
+
+JSON OUTPUT FORMAT:
+You must return ONLY a valid JSON block matching this structure (no other text outside JSON):
+{
+  "reply": "your response following the rules above",
+  "classifiedIntent": "question|practice|chat|command",
+  "whatIfPrompt": "a 'What if...' challenge question (string) related to the topic if the learner has spoken 3-4 turns and you want to challenge them, otherwise null",
+  "usedVocab": ["vocab words you used in the reply"],
+  "feedback": {
+    "score": 1-5,
+    "strengths": ["max 2, specific, under 12 words each"],
+    "improvements": ["1-2, actionable, under 12 words each"],
+    "naturalAlternative": "better version of what they said, or null"
+  },
+  "suggestPhase": "shadow|practice|whatif|debrief or null"
+}`;
+}
+
+// ─── 5. History Context Optimization ─────────────────────────────────────────
+
+function buildContextualHistory(
+  history: ConversationTurn[]
+): ChatMessage[] {
+  // Keep 5 recent turns for stable contextual understanding without overloading
+  const recent = history.slice(-5);
+  return recent.map(turn => ({
+    role: turn.role === "coach" ? ("assistant" as const) : ("user" as const),
+    content: turn.text,
+  }));
+}
+
+// ─── 6. Response Validation & Retry ─────────────────────────────────────────
+
+function validateResponse(response: any): boolean {
+  if (!response || !response.reply) return false;
+  
+  // Check if response is too long/lecture-like
+  const sentences = response.reply.split('.').filter((s: string) => s.trim().length > 0);
+  if (sentences.length > 5) return false;
+  
+  const intent = response.classifiedIntent || "practice";
+  
+  // For questions, check if it actually answers and doesn't tell them to practice
+  if (intent === "question") {
+    const forbidden = ["stage", "phase", "exercise", "practice this"];
+    const hasForbidden = forbidden.some(word => 
+      response.reply.toLowerCase().includes(word)
+    );
+    if (hasForbidden) return false;
+  }
+  
+  return true;
+}
+
+async function validateAndRetry(
+  messages: ChatMessage[],
+  modelOverride?: string,
+  maxRetries = 2
+): Promise<any> {
+  const localMessages = [...messages];
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      const raw = await callAIJson<any>(localMessages, {
+        temperature: 0.7,
+        maxTokens: 500,
+        model: modelOverride,
+      });
+
+      const isValid = validateResponse(raw);
+      if (isValid) return raw;
+      
+      console.warn(`[Coach] Validation failed on attempt ${i + 1}. Retrying...`);
+      
+      localMessages.push({
+        role: "system",
+        content: "Your previous response was too mechanical or too long. Be more natural, simple and conversational like a friend. Keep it under 4 sentences.",
+      });
+    } catch (err) {
+      console.error(`[Coach] Error in validateAndRetry attempt ${i + 1}:`, err);
+    }
+  }
+  
+  console.warn(`[Coach] All retries failed. Returning safe fallback response.`);
+  return {
+    reply: "Can you tell me more about that? Keep going, you are doing great!",
+    classifiedIntent: "chat",
+    whatIfPrompt: null,
+    usedVocab: [],
+    feedback: null,
+    suggestPhase: null
+  };
+}
+
+// ─── 7. Conversation Turn ─────────────────────────────────────────────────────
 
 export async function processTurn(
   learnerInput: string,
   ctx: SessionContext,
   modelOverride?: string
 ): Promise<CoachResponse> {
-
   // Intercept vocab requests — no AI call needed
   if (/show.*vocab|vocabulary|từ vựng|list.*word/i.test(learnerInput)) {
     return {
@@ -209,64 +357,84 @@ export async function processTurn(
     };
   }
 
+  // Local Rule-Based Responses for Greetings, Thanks, and Goodbyes (Latency: 0ms)
+  const cleanInput = learnerInput.trim().toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "");
+
+  if (/^(hello|hi|hey|good\s*morning|good\s*afternoon|good\s*evening)$/i.test(cleanInput)) {
+    return {
+      reply: `Hey! Good to chat with you. How are you feeling today? Ready to practice speaking?`,
+      usedVocab: [],
+      whatIfPrompt: undefined,
+      feedbackOnLearner: undefined,
+      suggestedNextPhase: "practice",
+    };
+  }
+
+  if (/^(thank\s*you|thanks|cám\s*ơn|cảm\s*ơn)$/i.test(cleanInput)) {
+    return {
+      reply: `You're welcome! We are in this together. Ready to practice some more?`,
+      usedVocab: [],
+      whatIfPrompt: undefined,
+      feedbackOnLearner: undefined,
+      suggestedNextPhase: "practice",
+    };
+  }
+
+  if (/^(bye|goodbye|tạm\s*biệt)$/i.test(cleanInput)) {
+    return {
+      reply: `Goodbye! You did a good job today. Click the 'Wrap-up & Debrief' button above to end our session.`,
+      usedVocab: [],
+      whatIfPrompt: undefined,
+      feedbackOnLearner: undefined,
+      suggestedNextPhase: "debrief",
+    };
+  }
+
   const vocabBank = ctx.vocab.vocab
     .map((v) => `"${v.word}" — ${v.definition}`)
     .join("\n");
 
-  const recentHistory = ctx.history.slice(-6);
-  const turnsSinceWhatIf = recentHistory.filter(
-    (t) => t.role === "coach" && t.text.toLowerCase().includes("what if")
-  ).length;
-
-  // Trigger what-if every 3 learner turns
-  const shouldAskWhatIf =
-    ctx.turnsCompleted > 0 &&
-    ctx.turnsCompleted % 3 === 0 &&
-    turnsSinceWhatIf === 0 &&
-    ctx.phase !== "shadow";
+  const recentHistory = buildContextualHistory(ctx.history);
 
   const messages: ChatMessage[] = [
     {
       role: "system",
-      content: buildTurnSystemPrompt(ctx, vocabBank, shouldAskWhatIf),
+      content: buildTurnSystemPrompt(ctx, vocabBank),
     },
-    ...historyToMessages(recentHistory),
+    ...recentHistory,
     {
       role: "user",
       content: learnerInput,
     },
   ];
 
-  const raw = await callAIJson<{
-    reply: string;
-    whatIfPrompt: string | null;
-    usedVocab: string[];
-    feedback: {
-      score: number;
-      strengths: string[];
-      improvements: string[];
-      naturalAlternative: string | null;
-    } | null;
-    suggestPhase: SessionPhase | null;
-  }>(messages, { temperature: 0.65, maxTokens: 500, model: modelOverride });
+  // Call AI only ONCE!
+  const raw = await validateAndRetry(messages, modelOverride);
+  
+  const intent = raw.classifiedIntent || "practice";
+  console.log(`[Coach] AI classified user intent as: "${intent}"`);
 
-  return {
-    reply: raw.reply,
-    whatIfPrompt: raw.whatIfPrompt ?? undefined,
-    usedVocab: raw.usedVocab ?? [],
-    feedbackOnLearner: raw.feedback
+  // Conditional Feedback: only show feedback if classifiedIntent is "practice"
+  const feedbackOnLearner =
+    intent === "practice" && raw.feedback
       ? {
           score: raw.feedback.score,
           strengths: raw.feedback.strengths,
           improvements: raw.feedback.improvements,
           naturalAlternative: raw.feedback.naturalAlternative ?? undefined,
         }
-      : undefined,
+      : undefined;
+
+  return {
+    reply: raw.reply,
+    whatIfPrompt: raw.whatIfPrompt ?? undefined,
+    usedVocab: raw.usedVocab ?? [],
+    feedbackOnLearner,
     suggestedNextPhase: raw.suggestPhase ?? undefined,
   };
 }
 
-// ─── 5. What-If Generator ─────────────────────────────────────────────────────
+// ─── 8. What-If Generator ─────────────────────────────────────────────────────
 
 export async function generateWhatIfPrompt(
   ctx: SessionContext,
@@ -310,7 +478,7 @@ Write one "What if..." question now.`,
   return callAI(messages, { temperature: 0.85, maxTokens: 80, model: modelOverride });
 }
 
-// ─── 6. STT Feedback Evaluator ────────────────────────────────────────────────
+// ─── 9. STT Feedback Evaluator ────────────────────────────────────────────────
 
 export async function evaluateSpeechTranscript(
   transcribedText: string,
@@ -351,7 +519,7 @@ Keep every string under 15 words.`,
   });
 }
 
-// ─── 7. Session Debrief ───────────────────────────────────────────────────────
+// ─── 10. Session Debrief ───────────────────────────────────────────────────────
 
 export async function generateDebrief(
   ctx: SessionContext,
@@ -391,54 +559,6 @@ Learner said: "${allLearnerText}"`,
   return callAI(messages, { temperature: 0.65, maxTokens: 180, model: modelOverride });
 }
 
-// ─── Private: Turn System Prompt ─────────────────────────────────────────────
-
-function buildTurnSystemPrompt(
-  ctx: SessionContext,
-  vocabBank: string,
-  shouldAskWhatIf: boolean
-): string {
-  const { vocab } = ctx;
-
-  return `You are a friendly, patient English speaking coach. Topic today: "${vocab.topic}"
-
-${VOICE_RULES}
-${JSON_STYLE_EXAMPLE}
-
-Vocab bank — use 1-2 of these naturally when they fit:
-${vocabBank}
-
-SESSION FLOW GUIDELINES (You decide the current stage dynamically by looking at the conversation history):
-1. STAGE 1: SHADOWING (Start of session, first 1-2 turns)
-   - Prompt the student to repeat a shadow sentence from the video (like: "${vocab.keyPhrases[0] ?? ""}").
-   - If they repeat it (or try to), praise them ("Good." or "Nice.") and give them a short definition.
-   - If they ask a question, answer it in 1 short sentence. Then ask them to repeat the shadow sentence again.
-2. STAGE 2: PRACTICE (Next 3-4 turns)
-   - Once they repeated the shadow sentence, naturally transition to a real conversation about the topic.
-   - React to what they say. Ask one direct, simple question.
-   - Use 1-2 vocab words naturally.
-3. STAGE 3: WHAT-IF (After about 5-6 turns)
-   - Ask a "What if..." question to challenge them. The scenario should be related to "${vocab.topic}".
-4. STAGE 4: DEBRIEF (If they ask to finish, or if there have been more than 8 turns)
-   - Warmly close the session. Provide feedback (score, strengths, improvements).
-
-Look at the conversation history and continue the flow naturally. Output your current phase in "suggestPhase".
-
-Respond ONLY as JSON:
-{
-  "reply": "your coach reply — short, simple, direct",
-  "whatIfPrompt": "What if... question (string) or null",
-  "usedVocab": ["vocab words you used"],
-  "feedback": {
-    "score": 1-5,
-    "strengths": ["max 2, specific, under 12 words each"],
-    "improvements": ["1-2, actionable, under 12 words each"],
-    "naturalAlternative": "better version of what they said, or null"
-  },
-  "suggestPhase": "shadow|practice|whatif|debrief or null"
-}`;
-}
-
 // ─── Private Helpers ──────────────────────────────────────────────────────────
 
 function historyToMessages(history: ConversationTurn[]): ChatMessage[] {
@@ -446,14 +566,4 @@ function historyToMessages(history: ConversationTurn[]): ChatMessage[] {
     role: turn.role === "coach" ? ("assistant" as const) : ("user" as const),
     content: turn.text,
   }));
-}
-
-function buildCoachResponse(reply: string, usedVocab: string[]): CoachResponse {
-  return {
-    reply,
-    usedVocab,
-    whatIfPrompt: undefined,
-    feedbackOnLearner: undefined,
-    suggestedNextPhase: undefined,
-  };
 }

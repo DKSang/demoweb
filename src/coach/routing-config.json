@@ -1,0 +1,70 @@
+{
+  "providers": [
+    {
+      "name": "gemini",
+      "priority": 1,
+      "baseUrl": "https://generativelanguage.googleapis.com/v1beta/openai",
+      "model": "gemini-2.5-flash",
+      "envKey": "GEMINI_API_KEY",
+      "rateLimits": {
+        "rpm": 15,
+        "dailyLimit": 1500
+      }
+    },
+    {
+      "name": "groq",
+      "priority": 2,
+      "baseUrl": "https://api.groq.com/openai/v1",
+      "model": "llama-3.1-8b-instant",
+      "envKey": "GROQ_API_KEY",
+      "rateLimits": {
+        "rpm": 30,
+        "dailyLimit": 14400
+      }
+    },
+    {
+      "name": "cerebras",
+      "priority": 3,
+      "baseUrl": "https://api.cerebras.ai/v1",
+      "model": "llama3.1-8b",
+      "envKey": "CEREBRAS_API_KEY",
+      "rateLimits": {
+        "rpm": 20,
+        "dailyLimit": 2000
+      }
+    },
+    {
+      "name": "openrouter",
+      "priority": 4,
+      "baseUrl": "https://openrouter.ai/api/v1",
+      "model": "qwen/qwen-2.5-72b-instruct",
+      "envKey": "OPENROUTER_API_KEY",
+      "rateLimits": {
+        "rpm": 10,
+        "dailyLimit": 1000
+      }
+    },
+    {
+      "name": "openai",
+      "priority": 5,
+      "baseUrl": "https://api.openai.com/v1",
+      "model": "gpt-4o-mini",
+      "envKey": "OPENAI_API_KEY",
+      "rateLimits": {
+        "rpm": 100,
+        "dailyLimit": 10000
+      }
+    },
+    {
+      "name": "deepseek",
+      "priority": 6,
+      "baseUrl": "https://api.deepseek.com/v1",
+      "model": "deepseek-chat",
+      "envKey": "DEEPSEEK_API_KEY",
+      "rateLimits": {
+        "rpm": 20,
+        "dailyLimit": 5000
+      }
+    }
+  ]
+}
